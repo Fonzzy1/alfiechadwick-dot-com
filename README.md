@@ -1,2 +1,2 @@
 # Spotify Macros
- Python Tools to enhace spotify user experience
+A place that I store and share my stuff
