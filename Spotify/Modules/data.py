@@ -1,10 +1,6 @@
 import pandas as pd
 import spotipy
-
-track_df = pd.DataFrame(
-    columns=['track', 'artist', 'song', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness',
-             'acousticness',
-             'instrumentalness', 'liveness', 'valence', 'tempo'])
+from Spotify.Modules import send_to_sql
 
 
 def get_track_data_single(track, token):
@@ -29,11 +25,22 @@ def get_track_data_single(track, token):
     return track_row
 
 
-def get_track_data_all(track_list, token):
-    sp = spotipy.Spotify(auth=token)
-    track_array = track_list['track']
-    for track in track_array:
-        track_row = get_track_data_single(track, token)
+def get_track_data(track_list, token):
+    track_df = pd.DataFrame(
+        columns=['track', 'artist', 'song', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness',
+                 'acousticness',
+                 'instrumentalness', 'liveness', 'valence', 'tempo'])
+    for track in track_list:
+        query = "Select * from Track_data where track = \'" + track + "\'"
+        print(query)
+        response = send_to_sql.recive(query)
+        if response:
+            query = "Select * from Track_data where track = \'" + track + "\'"
+            track_row = send_to_sql.recive(query)
+        else:
+            track_row = get_track_data_single(track, token)
+            query = "insert into Track_data values " + str(tuple(track_row))
+            send_to_sql.send(query)
         track_df.loc[len(track_df)] = track_row
 
     return track_df

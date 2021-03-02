@@ -1,22 +1,21 @@
 import pandas as pd
 import spotipy
 
-track_list = pd.DataFrame(columns=['track'])
-
-
+track_list = []
 def get_liked_tracks_subset(response):
     for item in response['items']:
         track = item['track']['id']
-        track_list.loc[len(track_list)] = track
+        track_list.append(track)
 
 
 def get_liked_tracks(token):
+
     sp = spotipy.Spotify(auth=token)
     response = sp.current_user_saved_tracks()
     get_liked_tracks_subset(response)
-    while response['next']:
-        response = sp.next(response)
-        get_liked_tracks_subset(response)
+   # while response['next']:
+   #     response = sp.next(response)
+    #    get_liked_tracks_subset(response)
 
     return track_list
 

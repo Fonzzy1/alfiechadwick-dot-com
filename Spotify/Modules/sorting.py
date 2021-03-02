@@ -11,9 +11,9 @@ def find_distance(track_df, track1, track2, cols):
     return dist
 
 
-def find_furthest_tracks(track_df, cols):
+def find_furthest_tracks(track_list, track_df, cols):
     start_sort_df = pd.DataFrame(columns=['Track_1', 'Track_2', 'Diff'])
-    tracks_to_sort = np.array(track_df['track'])
+    tracks_to_sort = track_list.copy
     while len(tracks_to_sort) > 0:
         t1 = tracks_to_sort[0]
         tracks_to_sort = np.delete(tracks_to_sort, 0)
@@ -27,18 +27,19 @@ def find_furthest_tracks(track_df, cols):
     return furthest_track
 
 
-def sort_tracks(track_df, start_track, cols):
+def sort_tracks(list, track_df, start_track, cols):
     sorted_list = []
-    track_list = np.array(track_df['track']).tolist()
+
     current_track = start_track
-    while len(track_list) > 1:
+    while len(list) > 1:
         sorted_list.append(current_track)
-        track_list.remove(current_track)
+        list.remove(current_track)
         holding_df = pd.DataFrame(columns=['Track', 'Diff'])
-        for track in track_list:
+        for track in list:
             new_row = [track, find_distance(track_df, current_track, track, cols)]
             holding_df.loc[len(holding_df)] = new_row
         holding_df.sort_values(by=['Diff'], ascending=True, inplace=True, ignore_index=True)
         holding_df.reset_index(drop=True)
         current_track = holding_df.iloc[0]['Track']
+    sorted_list.append(list[0])
     return sorted_list
