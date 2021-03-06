@@ -1,6 +1,6 @@
 from datetime import date
 import pandas as pd
-from Spotify.Modules import authentication, data, tracks, sorting, send_to_spotify, send_to_sql
+from Modules import tracks, send_to_sql, data, sorting, authentication, send_to_spotify
 
 print('Retrieving Token')
 token = authentication.get_token()
