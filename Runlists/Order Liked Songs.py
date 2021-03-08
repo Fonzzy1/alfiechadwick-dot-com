@@ -1,42 +1,46 @@
 from datetime import date
-import pandas as pd
-from Modules import tracks, send_to_sql, data, sorting, authentication, send_to_spotify
+from Modules import Get, Insert, Calculate, Sort, Create, Send, Reshape, Save
+
+
 
 print('Retrieving Token')
-token = authentication.get_token()
+token = Get.sp_token()
 
 ## Get set of liked tracks from spotify API
 print('Retrieving Track List')
-track_list = tracks.get_liked_tracks(token)
+track_list = Get.sp_liked_tracks(token)
 
 print('Retrieving Track Data')
-track_df = data.get_track_data(track_list, token)
+track_df = Get.sp_track_data(track_list, token)
 
-print('Updating Z-Score')
-data.update_to_zscore(track_df)
+print('Storing track data')
+Insert.dataframe_to_sql(track_df,'ref_track_data','Spotify','76692623Snow!SQL')
+
+
+print('Calculating Z-Score')
+columns = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo']
+Calculate.df_zscore(track_df,columns)
 
 print('Retrieving Start Track')
-start_track = '0eOfyH8KGgKJncEFu8peDj'
-#tracks.get_top_song_short(token)
+start_track = Get.sp_top_song_short(token)
 
 print('Sorting Tracks')
-sorting_cols = ['danceability_zscore', 'energy_zscore', 'loudness_zscore', 'mode_zscore', 'speechiness_zscore',
-                'acousticness_zscore', 'instrumentalness_zscore', 'liveness_zscore', 'valence_zscore', 'tempo_zscore']
-sorted_list = sorting.sort_tracks(track_list, track_df, start_track, sorting_cols)
+sorting_colums = ['danceability_zscore', 'energy_zscore', 'speechiness_zscore', 'acousticness_zscore', 'instrumentalness_zscore', 'liveness_zscore', 'valence_zscore', 'tempo_zscore']
+sorted_list = Sort.by_distace(track_df,start_track,sorting_colums)
 
+
+
+print('Storing to SQL')
+table_name = 'Sorted ' + str(date.today())
+Create.list_to_sql(sorted_list, 'track',  table_name,'Spotify','76692623Snow!SQL')
 
 print('Retrieving Token')
-token = authentication.get_token()
-
-print('Uploading to SQL')
-track_list_df = pd.DataFrame({'id':sorted_list})
-table_name = 'Sorted ' + str(date.today())
-send_to_sql.send_pandas_to_sql(track_list_df, table_name)
+token = Get.sp_token()
 
 
 print('Uploading to spotify')
-playlist_name = 'test'
-send_to_spotify.create_playlist('', sorted_list, token)
+playlist_name = 'Sorted ' + str(date.today())
+Send.create_playlist(playlist_name, sorted_list, token)
 
 print('Done')
 exit(0)
