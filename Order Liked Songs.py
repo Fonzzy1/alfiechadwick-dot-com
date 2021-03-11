@@ -1,6 +1,7 @@
 from datetime import date
 from Modules import Get, Insert, Calculate, Sort, Create, Send, Reshape, Save
 
+import pandas
 
 
 print('Retrieving Token')
@@ -13,10 +14,14 @@ track_list = Get.sp_liked_tracks(token)
 print('Retrieving Track Data')
 track_df = Get.sp_track_data(track_list, token)
 
+genre_df = Reshape.sp_genres(track_df)
+
+exit(0)
+
 print('Storing track data')
 Insert.dataframe_to_sql(track_df,'ref_track_data','Spotify','76692623Snow!SQL')
 
-
+exit(0)
 print('Calculating Z-Score')
 columns = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo']
 Calculate.df_zscore(track_df,columns)
