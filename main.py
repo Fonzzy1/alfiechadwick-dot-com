@@ -1,10 +1,11 @@
-from runlist import timetable, order_liked_songs
+from runlist import timetable
 import pyfiglet
 import os
 import time
 
 
 def main_page():
+    os.chdir("/home/fonzzy/Documents/Fonzzys-Projects")
     os.system('clear')
 
     ascii_art = pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
@@ -22,7 +23,7 @@ def main_page():
         '\n\n'
         'Quit - q'
         '\n'
-        )
+    )
     response = input('>> ')
 
     if response == 'r':
@@ -40,10 +41,9 @@ def main_page():
             main_page()
 
     elif response == 'p':
-        project_list = os.listdir('./runlist')
-        for project in project_list:
-            if project.endswith('.py') and project!= '__init__.py':
-                print(project)
+        os.chdir('./runlist')
+        initial_head = 'Fonzzy\'s Projects'
+        project_page(initial_head)
 
     elif response == 'q':
         os.system('clear')
@@ -51,6 +51,32 @@ def main_page():
 
     else:
         main_page()
+
+
+def project_page(response):
+    project_list = os.listdir()
+    os.system('clear')
+    ascii_art = pyfiglet.print_figlet(response, colors='MAGENTA')
+    unwanted = ['__init__.py', '__pycache__', 'timetable.py']
+    for item in unwanted:
+        try:
+            project_list.remove(item)
+        except:
+            break
+    for project in project_list:
+        if project not in ['__init__.py', '__pycache__', 'timetable.py']:
+            print(str(project_list.index(project))+ ': ' +project )
+    response = input('Go to file or Q to quit: ')
+    if response == 'Q':
+        main_page()
+    elif project_list[int(response)].endswith('.py'):
+        os.system('python3 ./' + project_list[int(response)])
+    else:
+        try:
+            os.chdir('./' + project_list[int(response)])
+            project_page(project_list[int(response)])
+        except:
+            project_page('Oops, Try Again')
 
 
 main_page()

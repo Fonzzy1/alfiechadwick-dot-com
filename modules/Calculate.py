@@ -8,12 +8,12 @@ def df_zscore(df, columns):
         df[col_zscore] = (df[col] - df[col].mean()) / df[col].std(ddof=0)
 
 
-
 def df_distance(df, index_1, index_2, columns):
     data1 = df.loc[index_1, columns].values[0]
     data2 = df.iloc[index_2, columns].values[0]
     dist = np.linalg.norm(data1 - data2)
     return dist
+
 
 def furthest_points(df, cols):
     start_sort_df = pd.DataFrame(columns=['Track_1', 'Track_2', 'Diff'])

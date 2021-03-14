@@ -8,6 +8,7 @@ def sql_to_dataframe(table_name, database, password):
     df = pandas.read_sql_table(table_name, con=connection)
     return df
 
+
 def csv_to_dataframe(path):
     readcsv = pandas.read_csv(path, index_col=[0])
     return readcsv

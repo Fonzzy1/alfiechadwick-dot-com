@@ -58,3 +58,5 @@ def run():
     print('Done')
     exit(0)
 
+run()
+
