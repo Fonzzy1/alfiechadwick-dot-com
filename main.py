@@ -7,6 +7,7 @@ import time
 def main_page():
     os.chdir("/home/fonzzy/Documents/Fonzzys-Projects")
     os.system('clear')
+    return_ind = 0
 
     pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
 
@@ -68,12 +69,15 @@ def project_page(response):
             project_list.remove(item)
         except:
             break
+    for item in project_list:
+        if item.startswith('.'):
+            project_list.remove(item)
     for project in project_list:
-        print(str(project_list.index(project))+ ': ' +project )
-    response = input('Go to file, Q to quit, N for new file: ')
-    if response == 'Q':
+        print(str(project_list.index(project)) + ': ' + project)
+    response = input('Go to file, q to quit, n for new file: ')
+    if response == 'q':
         main_page()
-    elif response == 'N':
+    elif response == 'n':
         file_name = input("File Name: ")
         os.system("touch " + file_name)
         main_page('New File Added')
@@ -83,7 +87,15 @@ def project_page(response):
         os.system('jetbrains-pycharm ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page()
-    elif project_list[int(response)].endswith('.txt') or project_list[int(response)].endswith('.csv'):
+    elif project_list[int(response)].endswith('.pdf'):
+        os.system('evince ./' + project_list[int(response)] + ' &')
+        os.system('clear')
+        main_page()
+    elif project_list[int(response)].endswith('.png') + project_list[int(response)].endswith('.jpg'):
+        os.system('eog ./' + project_list[int(response)] + ' &')
+        os.system('clear')
+        main_page()
+    elif project_list[int(response)].endswith('.txt') or project_list[int(response)].endswith('.csv')  or project_list[int(response)].endswith('.md'):
         os.system('gedit ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page()
@@ -91,6 +103,7 @@ def project_page(response):
         os.system('jetbrains-datagrip ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page()
+        #TODO: do some form of associative sctructure - file type to program
 
     else:
         try:
@@ -99,15 +112,17 @@ def project_page(response):
         except:
             project_page('Oops, Try Again')
 
+
 def programs_page():
     os.system('clear')
     pyfiglet.print_figlet('Programs', colors='MAGENTA')
     program_list = ['Reaper', 'Datagrip', 'Github', 'Pycharm', 'Chrome', 'Gedit', 'Terminal']
-    call_list = ['/opt/REAPER/reaper', 'jetbrains-datagrip', 'github', 'jetbrains-pycharm', 'google-chrome', 'gedit', 'gnome-terminal']
+    call_list = ['/opt/REAPER/reaper', 'jetbrains-datagrip', 'github', 'jetbrains-pycharm', 'google-chrome', 'gedit',
+                 'gnome-terminal']
     for program in program_list:
         print(str(program_list.index(program)) + ': ' + program)
     response = int(input('>>'))
-    os.system(call_list[response] +' &')
+    os.system(call_list[response] + ' &')
     os.system('clear')
     main_page()
 

@@ -15,19 +15,19 @@ def refresh(offset, password):
         print('Jobs to do: ' + str(len(tasks)))
         print('Current Task: ' + current_task['task_name'])
         print('Due: ' + str(current_task['task_date']))
-        response = input('Y for done\nS for Skip\nR for Refresh\nQ for exit\nL for list all: ')
+        response = input('y for done\ns for Skip\nr for Refresh\nq for exit\nl for list all: ')
 
-        if response == 'Q':
+        if response == 'q':
             response = 1
             if response:
                 return_ind = 1
-        elif response == 'R':
+        elif response == 'r':
             offset = 0
             refresh(offset ,password)
-        elif response == 'S':
+        elif response == 's':
             offset += 1
             refresh(offset, password)
-        elif response == 'L':
+        elif response == 'l':
             os.system('clear')
             pyfiglet.print_figlet('Timetable', colors='MAGENTA')
             print('Jobs to do: ' + str(len(tasks)))
@@ -70,7 +70,7 @@ def run():
             password = input('Password: ')
             Load.sql_to_dataframe('task_list', 'School', password)
             break
-        except RuntimeError:
+        except:
             print("Oops!  That not the password.  Try again...")
 
     offset = 0
