@@ -1,13 +1,16 @@
 from runlist import timetable
-import pyfiglet
-import os
+
 import time
+import pyfiglet
+
+from modules import Load, Update
+import os
+import time as t
 
 
 def main_page():
     os.chdir("/home/fonzzy/Documents/Fonzzys-Projects")
     os.system('clear')
-    return_ind = 0
 
     pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
 
@@ -39,9 +42,7 @@ def main_page():
             main_page()
 
     elif response == 't':
-        return_ind = timetable.run()
-        if return_ind == 1:
-            main_page()
+        timetable()
 
     elif response == 'o':
         programs_page()
@@ -80,7 +81,7 @@ def project_page(response):
     elif response == 'n':
         file_name = input("File Name: ")
         os.system("touch " + file_name)
-        main_page('New File Added')
+        project_page('New File Added')
     elif project_list[int(response)].endswith('.py'):
         os.system('python3 ./' + project_list[int(response)])
     elif project_list[int(response)].endswith('.R'):
@@ -95,7 +96,8 @@ def project_page(response):
         os.system('eog ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page()
-    elif project_list[int(response)].endswith('.txt') or project_list[int(response)].endswith('.csv')  or project_list[int(response)].endswith('.md'):
+    elif project_list[int(response)].endswith('.txt') or project_list[int(response)].endswith('.csv') or project_list[
+        int(response)].endswith('.md'):
         os.system('gedit ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page()
@@ -103,7 +105,7 @@ def project_page(response):
         os.system('jetbrains-datagrip ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page()
-        #TODO: do some form of associative sctructure - file type to program
+        # TODO: do some form of associative sctructure - file type to program
 
     else:
         try:
@@ -125,6 +127,77 @@ def programs_page():
     os.system(call_list[response] + ' &')
     os.system('clear')
     main_page()
+
+
+def refresh(offset, password):
+    os.system('clear')
+    pyfiglet.print_figlet('Timetable', colors='MAGENTA')
+    tasks = Load.sql_to_dataframe('task_list', 'School', password)
+    if len(tasks) > 0:
+        current_task = tasks.iloc[offset]
+        print(t.strftime("%Y-%m-%d %H:%M:%S", t.localtime()))
+        print('Jobs to do: ' + str(len(tasks)))
+        print('Current Task: ' + current_task['task_name'])
+        print('Due: ' + str(current_task['task_date']))
+        response = input('y for done\ns for Skip\nr for Refresh\nq for exit\nl for list all: ')
+
+        if response == 'q':
+            response = 1
+            if response == 1:
+                main_page()
+        elif response == 'r':
+            offset = 0
+            refresh(offset, password)
+        elif response == 's':
+            offset += 1
+            refresh(offset, password)
+        elif response == 'l':
+            os.system('clear')
+            pyfiglet.print_figlet('Timetable', colors='MAGENTA')
+            print('Jobs to do: ' + str(len(tasks)))
+            for row in tasks['id']:
+                print(tasks.loc[tasks['id'] == row]['task_name'].values[0])
+            exe = input('Press Y to set all to done or press any key to return to main: ')
+            if exe == 'Y':
+                for row in tasks.index:
+                    current_task = tasks.loc[row]
+                    if current_task['id'][0] == 't':
+                        Update.sm_done_class(current_task['id'], password)
+                    elif current_task['id'][0] == 'a':
+                        Update.sm_done_assessment(current_task['id'], password)
+                refresh(offset, password)
+            else:
+                refresh(offset, password)
+        elif response == 'y':
+            offset = 0
+            if current_task['id'][0] == 't':
+                Update.sm_done_class(current_task['id'], password)
+                refresh(offset, password)
+            elif current_task['id'][0] == 'a':
+                Update.sm_done_assessment(current_task['id'], password)
+                refresh(offset, password)
+        else:
+            refresh(offset, password)
+    else:
+        print('No Jobs')
+        response = input('return to main')
+        if response:
+            main_page()
+
+
+def timetable():
+    os.system('clear')
+    pyfiglet.print_figlet('Timetable', colors='MAGENTA')
+    while True:
+        try:
+            password = input('Password: ')
+            Load.sql_to_dataframe('task_list', 'School', password)
+            break
+        except:
+            print("Oops!  That not the password.  Try again...")
+
+    refresh(0,password)
+
 
 
 main_page()
