@@ -1,5 +1,3 @@
-from runlist import timetable
-
 import time
 import pyfiglet
 
@@ -73,6 +71,7 @@ def project_page(response):
     for item in project_list:
         if item.startswith('.'):
             project_list.remove(item)
+    project_list = sorted(project_list)
     for project in project_list:
         print(str(project_list.index(project)) + ': ' + project)
     response = input('Go to file, q to quit, n for new file: ')
