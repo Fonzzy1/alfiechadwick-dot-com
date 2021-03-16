@@ -6,9 +6,11 @@ import os
 import time as t
 
 
-def main_page():
+def main_page(password):
     os.chdir("/home/fonzzy/Documents/Fonzzys-Projects")
     os.system('clear')
+    current_task = Load.sql_to_dataframe('task_list', 'School', password).iloc[0]
+
 
     pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
 
@@ -17,9 +19,13 @@ def main_page():
         'can easily run my work\n\n' +
         time.strftime("%Y-%m-%d %H:%M", time.localtime()) +
         '\n\n'
+        'Current Job: ' + current_task[1] +
+        '\n\n'
         'Show info - r'
         '\n\n'
         'Time Table - t'
+        '\n\n'
+        'Finished Current Job - y'       
         '\n\n'
         'Other Projects - p'
         '\n\n'
@@ -37,13 +43,23 @@ def main_page():
         print(f.read())
         response = input('Enter any key to return: ')
         if response:
-            main_page()
+            main_page(password)
 
     elif response == 't':
-        timetable()
+        refresh(0,password)
+
+    elif response == 'y':
+        if current_task['id'][0] == 't':
+            Update.sm_done_class(current_task['id'], password)
+            main_page(password)
+        elif current_task['id'][0] == 'a':
+            Update.sm_done_assessment(current_task['id'], password)
+            main_page(password)
+
 
     elif response == 'o':
-        programs_page()
+        programs_page(password)
+
 
     elif response == 'p':
         os.chdir('./runlist')
@@ -55,10 +71,10 @@ def main_page():
         quit(1)
 
     else:
-        main_page()
+        main_page(password)
 
 
-def project_page(response):
+def project_page(response, password):
     project_list = os.listdir()
     os.system('clear')
     ascii_art = pyfiglet.print_figlet(response, colors='MAGENTA')
@@ -76,7 +92,7 @@ def project_page(response):
         print(str(project_list.index(project)) + ': ' + project)
     response = input('Go to file, q to quit, n for new file: ')
     if response == 'q':
-        main_page()
+        main_page(password)
     elif response == 'n':
         file_name = input("File Name: ")
         os.system("touch " + file_name)
@@ -86,24 +102,24 @@ def project_page(response):
     elif project_list[int(response)].endswith('.R'):
         os.system('jetbrains-pycharm ./' + project_list[int(response)] + ' &')
         os.system('clear')
-        main_page()
+        main_page(password)
     elif project_list[int(response)].endswith('.pdf'):
         os.system('evince ./' + project_list[int(response)] + ' &')
         os.system('clear')
-        main_page()
+        main_page(password)
     elif project_list[int(response)].endswith('.png') + project_list[int(response)].endswith('.jpg'):
         os.system('eog ./' + project_list[int(response)] + ' &')
         os.system('clear')
-        main_page()
+        main_page(password)
     elif project_list[int(response)].endswith('.txt') or project_list[int(response)].endswith('.csv') or project_list[
         int(response)].endswith('.md'):
         os.system('gedit ./' + project_list[int(response)] + ' &')
         os.system('clear')
-        main_page()
+        main_page(password)
     elif project_list[int(response)].endswith('.SQL'):
         os.system('jetbrains-datagrip ./' + project_list[int(response)] + ' &')
         os.system('clear')
-        main_page()
+        main_page(password)
         # TODO: do some form of associative sctructure - file type to program
 
     else:
@@ -114,7 +130,7 @@ def project_page(response):
             project_page('Oops, Try Again')
 
 
-def programs_page():
+def programs_page(password):
     os.system('clear')
     pyfiglet.print_figlet('Programs', colors='MAGENTA')
     program_list = ['Reaper', 'Datagrip', 'Github', 'Pycharm', 'Chrome', 'Gedit', 'Terminal']
@@ -125,7 +141,7 @@ def programs_page():
     response = int(input('>>'))
     os.system(call_list[response] + ' &')
     os.system('clear')
-    main_page()
+    main_page(password)
 
 
 def refresh(offset, password):
@@ -134,28 +150,30 @@ def refresh(offset, password):
     tasks = Load.sql_to_dataframe('task_list', 'School', password)
     if len(tasks) > 0:
         current_task = tasks.iloc[offset]
-        print(t.strftime("%Y-%m-%d %H:%M:%S", t.localtime()))
+        print(t.strftime("%Y-%m-%d", t.localtime()))
         print('Jobs to do: ' + str(len(tasks)))
         print('Current Task: ' + current_task['task_name'])
-        print('Due: ' + str(current_task['task_date']))
+        print('Due: ' + str(current_task['task_date'])[0:10])
         response = input('y for done\ns for Skip\nr for Refresh\nq for exit\nl for list all: ')
 
         if response == 'q':
             response = 1
             if response == 1:
-                main_page()
+                main_page(password)
         elif response == 'r':
             offset = 0
             refresh(offset, password)
         elif response == 's':
-            offset += 1
+            if offset < len(tasks)-1:
+                offset += 1
             refresh(offset, password)
         elif response == 'l':
             os.system('clear')
             pyfiglet.print_figlet('Timetable', colors='MAGENTA')
             print('Jobs to do: ' + str(len(tasks)))
-            for row in tasks['id']:
-                print(tasks.loc[tasks['id'] == row]['task_name'].values[0])
+
+            for row in sorted(tasks['task_name']):
+                print(tasks.loc[tasks['task_name'] == row]['task_name'].values[0] + ' : '+ str(tasks.loc[tasks['task_name'] == row]['task_date'].values[0])[0:10])
             exe = input('Press Y to set all to done or press any key to return to main: ')
             if exe == 'Y':
                 for row in tasks.index:
@@ -181,12 +199,15 @@ def refresh(offset, password):
         print('No Jobs')
         response = input('return to main')
         if response:
-            main_page()
+            main_page(password)
 
 
-def timetable():
+
+
+
+def start():
     os.system('clear')
-    pyfiglet.print_figlet('Timetable', colors='MAGENTA')
+    pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
     while True:
         try:
             password = input('Password: ')
@@ -195,8 +216,6 @@ def timetable():
         except:
             print("Oops!  That not the password.  Try again...")
 
-    refresh(0,password)
+    main_page(password)
 
-
-
-main_page()
+start()
