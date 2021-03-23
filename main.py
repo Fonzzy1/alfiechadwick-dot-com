@@ -1,12 +1,13 @@
 import time
 import pyfiglet
-
+import readchar
 from modules import Load, Update
 import os
 import time as t
 
 
 def main_page(password):
+    response = ''
     os.chdir("/home/fonzzy/Documents/Fonzzys-Projects")
     os.system('clear')
     current_task = Load.sql_to_dataframe('task_list', 'School', password).iloc[0]
@@ -34,14 +35,16 @@ def main_page(password):
         'Quit - q'
         '\n'
     )
-    response = input('>> ')
+    print('>> ')
+    response = readchar.readkey()
 
     if response == 'r':
 
         f = open("README.md", "r")
         os.system('clear')
         print(f.read())
-        response = input('Enter any key to return: ')
+        print('Enter any key to return: ')
+        response = readchar.readkey()
         if response:
             main_page(password)
 
@@ -64,7 +67,7 @@ def main_page(password):
     elif response == 'p':
         os.chdir('./runlist')
         initial_head = 'Fonzzy\'s Projects'
-        project_page(initial_head)
+        project_page(initial_head,password)
 
     elif response == 'q':
         os.system('clear')
@@ -90,13 +93,14 @@ def project_page(response, password):
     project_list = sorted(project_list)
     for project in project_list:
         print(str(project_list.index(project)) + ': ' + project)
-    response = input('Go to file, q to quit, n for new file: ')
+    print('Go to file, q to quit, n for new file: ')
+    response = readchar.readkey()
     if response == 'q':
         main_page(password)
     elif response == 'n':
         file_name = input("File Name: ")
         os.system("touch " + file_name)
-        project_page('New File Added')
+        project_page('New File Added',password)
     elif project_list[int(response)].endswith('.py'):
         os.system('python3 ./' + project_list[int(response)])
     elif project_list[int(response)].endswith('.R'):
@@ -125,20 +129,25 @@ def project_page(response, password):
     else:
         try:
             os.chdir('./' + project_list[int(response)])
-            project_page(project_list[int(response)])
+            project_page(project_list[int(response)],password)
         except:
-            project_page('Oops, Try Again')
+            project_page('Oops, Try Again',password)
 
 
 def programs_page(password):
     os.system('clear')
     pyfiglet.print_figlet('Programs', colors='MAGENTA')
-    program_list = ['Reaper', 'Datagrip', 'Github', 'Pycharm', 'Chrome', 'Gedit', 'Terminal']
+    program_list = ['Reaper', 'Datagrip', 'Github', 'Pycharm', 'Chrome', 'Gedit', 'Terminal', 'Reddit']
     call_list = ['/opt/REAPER/reaper', 'jetbrains-datagrip', 'github', 'jetbrains-pycharm', 'google-chrome', 'gedit',
-                 'gnome-terminal']
+                 'gnome-terminal', 'gnome-terminal -e "bash -c \"rtv; exec bash\""'
+]
     for program in program_list:
         print(str(program_list.index(program)) + ': ' + program)
-    response = int(input('>>'))
+    response = readchar.readkey()
+    try:
+        response = int(response)
+    except:
+        main_page(password)
     os.system(call_list[response] + ' &')
     os.system('clear')
     main_page(password)
@@ -154,7 +163,8 @@ def refresh(offset, password):
         print('Jobs to do: ' + str(len(tasks)))
         print('Current Task: ' + current_task['task_name'])
         print('Due: ' + str(current_task['task_date'])[0:10])
-        response = input('y for done\ns for Skip\nr for Refresh\nq for exit\nl for list all: ')
+        print('y for done\ns for Skip\nr for Refresh\nq for exit\nl for list all: ')
+        response = readchar.readkey()
 
         if response == 'q':
             response = 1
@@ -174,7 +184,8 @@ def refresh(offset, password):
 
             for row in sorted(tasks['task_name']):
                 print(tasks.loc[tasks['task_name'] == row]['task_name'].values[0] + ' : '+ str(tasks.loc[tasks['task_name'] == row]['task_date'].values[0])[0:10])
-            exe = input('Press Y to set all to done or press any key to return to main: ')
+            print('Press Y to set all to done or press any key to return to main: ')
+            exe = readchar.readkey()
             if exe == 'Y':
                 for row in tasks.index:
                     current_task = tasks.loc[row]
@@ -197,7 +208,8 @@ def refresh(offset, password):
             refresh(offset, password)
     else:
         print('No Jobs')
-        response = input('return to main')
+        print('return to main')
+        response = readchar.readkey()
         if response:
             main_page(password)
 
