@@ -41,8 +41,8 @@ CREATE TABLE `classes`
     PRIMARY KEY (`task_id`)
 );
 
-create view task_list as
-select `a`.`id` AS `id`, `a`.`task_name` AS `task_name`, `a`.`task_date` AS `task_date`
+create definer = fonzzy@localhost view task_list as
+select `a`.`id` AS `id`, `a`.`task_name` AS `task_name`, `a`.`task_date` AS `task_date`, `a`.`priority` AS `priority`
 from (select concat('t_', `School`.`classes`.`task_id`)                                                           AS `id`,
              concat(left(`School`.`classes`.`Subject_Code`, 7), ' Week ', `School`.`classes`.`week`, ' ',
                     `School`.`classes`.`Group`, ' Rev ',
@@ -51,25 +51,30 @@ from (select concat('t_', `School`.`classes`.`task_id`)                         
                                                         when (`School`.`classes`.`revision` = 0) then 0
                                                         when (`School`.`classes`.`revision` = 1) then 3
                                                         when (`School`.`classes`.`revision` = 2) then 7
-                                                        else ((`School`.`classes`.`revision` - 2) * 14) end) day) AS `task_date`
+                                                        else ((`School`.`classes`.`revision` - 2) * 14) end) day) AS `task_date`,
+             (case when (`School`.`classes`.`revision` = 0) then 0.1 else 1 end)                                  AS `priority`
       from `School`.`classes`
-      where ((`School`.`classes`.`Date` <= now()) and ((`School`.`classes`.`Date` + interval (case
-                                                                                                  when (`School`.`classes`.`revision` = 0)
-                                                                                                      then 0
-                                                                                                  when (`School`.`classes`.`revision` = 1)
-                                                                                                      then 3
-                                                                                                  when (`School`.`classes`.`revision` = 2)
-                                                                                                      then 7
-                                                                                                  else ((`School`.`classes`.`revision` - 2) * 14) end) day) <=
-                                                       now()))
+      where ((`School`.`classes`.`Date` <= now()) and ((`School`.`classes`.`done` <> 1) or
+                                                       ((`School`.`classes`.`done` = 1) and
+                                                        (`School`.`classes`.`revision` = 0))) and
+             ((`School`.`classes`.`Date` + interval (case
+                                                         when (`School`.`classes`.`revision` = 0) then 0
+                                                         when (`School`.`classes`.`revision` = 1) then 3
+                                                         when (`School`.`classes`.`revision` = 2) then 7
+                                                         else ((`School`.`classes`.`revision` - 2) * 14) end) day) <=
+              now()))
       union all
       select concat('a', `School`.`assessments`.`id`)                                   AS `id`,
              concat(`School`.`assessments`.`class`, ' ', `School`.`assessments`.`name`) AS `task_name`,
-             `School`.`assessments`.`due_date`                                          AS `task_date`
+             `School`.`assessments`.`due_date`                                          AS `task_date`,
+             ((to_days(`School`.`assessments`.`due_date`) - to_days(now())) /
+              (1 + `School`.`assessments`.`days_to_do`))                                AS `priority`
       from `School`.`assessments`
       where (((`School`.`assessments`.`due_date` + interval (-(1) * `School`.`assessments`.`days_to_do`) day) <=
               now()) and (`School`.`assessments`.`done` is null))) `a`
-order by `a`.`task_date`;
+order by `a`.`priority`, `a`.`task_date`;
+
+
 
 
 CREATE DATABASE  IF NOT EXISTS `Spotify`

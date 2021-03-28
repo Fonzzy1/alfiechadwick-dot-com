@@ -8,7 +8,7 @@ import time as t
 
 def main_page(password):
     response = ''
-    os.chdir("/home/fonzzy/Documents/Fonzzys-Projects")
+    os.chdir("/home/fonzzy/Documents")
     os.system('clear')
     current_task = Load.sql_to_dataframe('task_list', 'School', password).iloc[0]
 
@@ -65,7 +65,6 @@ def main_page(password):
 
 
     elif response == 'p':
-        os.chdir('./runlist')
         initial_head = 'Fonzzy\'s Projects'
         project_page(initial_head,password)
 
