@@ -70,6 +70,7 @@ def main_page(password):
 
     elif response == 'q':
         os.system('clear')
+        os.system('exit')
         quit(1)
 
     else:
