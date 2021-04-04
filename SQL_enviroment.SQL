@@ -73,8 +73,3 @@ from (select concat('t_', `School`.`classes`.`task_id`)                         
       where (((`School`.`assessments`.`due_date` + interval (-(1) * `School`.`assessments`.`days_to_do`) day) <=
               now()) and (`School`.`assessments`.`done` is null))) `a`
 order by `a`.`priority`, `a`.`task_date`;
-
-
-
-
-CREATE DATABASE  IF NOT EXISTS `Spotify`

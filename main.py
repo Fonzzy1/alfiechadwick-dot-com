@@ -1,17 +1,49 @@
 import time
+
+import pandas
 import pyfiglet
 import readchar
-from modules import Load, Update
+import sqlalchemy
 import os
 import time as t
+import sys
+
+
+def sm_done_class(task_id, password,config):
+    SQL_Username = config[1][1]
+    db_connection_str = 'mysql+pymysql://' + SQL_Username + ':' + password + '@localhost/School'
+    connection = sqlalchemy.create_engine(db_connection_str)
+    id = int("".join(filter(str.isdigit, task_id)))
+    query = 'Update classes set revision = revision + 1, last_date = now() where task_id = ' + str(id)
+    connection.execute(query)
+
+
+def sm_done_assessment(task_id, password,config):
+    SQL_Username = config[1][1]
+    db_connection_str = 'mysql+pymysql://' + SQL_Username + ':' + password + '@localhost/School'
+    connection = sqlalchemy.create_engine(db_connection_str)
+    id = int("".join(filter(str.isdigit, task_id)))
+    query = 'Update assessments set done = 1 where id = ' + str(id)
+    connection.execute(query)
+
+
+def sql_to_dataframe(table_name, database, password,config):
+    SQL_Username = config[1][1]
+    db_connection_str = 'mysql+pymysql://' + SQL_Username + ':' + password + '@localhost/' + database
+    connection = sqlalchemy.create_engine(db_connection_str)
+    df = pandas.read_sql_table(table_name, con=connection)
+    return df
 
 
 def main_page(password):
     response = ''
-    os.chdir("/home/fonzzy/Documents")
+    os.chdir(os.path.dirname(sys.argv[0]))
     os.system('clear')
-    current_task = Load.sql_to_dataframe('task_list', 'School', password).iloc[0]
-
+    file_types = pandas.read_csv('./config/file_types.csv', header=None).values
+    programs = pandas.read_csv('./config/programs.csv', header=None).values
+    config = pandas.read_csv('./config/config.csv').values
+    os.chdir(config[2][1])
+    current_task = sql_to_dataframe('task_list', 'School', password).iloc[0]
 
     pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
 
@@ -26,7 +58,7 @@ def main_page(password):
         '\n\n'
         'Time Table - t'
         '\n\n'
-        'Finished Current Job - y'       
+        'Finished Current Job - y'
         '\n\n'
         'Other Projects - p'
         '\n\n'
@@ -36,6 +68,7 @@ def main_page(password):
         '\n'
     )
     print('>> ')
+
     response = readchar.readkey()
 
     if response == 'r':
@@ -49,24 +82,24 @@ def main_page(password):
             main_page(password)
 
     elif response == 't':
-        refresh(0,password)
+        refresh(0, password,config)
 
     elif response == 'y':
         if current_task['id'][0] == 't':
-            Update.sm_done_class(current_task['id'], password)
+            sm_done_class(current_task['id'], password,config)
             main_page(password)
         elif current_task['id'][0] == 'a':
-            Update.sm_done_assessment(current_task['id'], password)
+            sm_done_assessment(current_task['id'], password,config)
             main_page(password)
 
 
     elif response == 'o':
-        programs_page(password)
+        programs_page(password, programs)
 
 
     elif response == 'p':
         initial_head = 'Fonzzy\'s Projects'
-        project_page(initial_head,password)
+        project_page(initial_head, password, config, file_types)
 
     elif response == 'q':
         os.system('clear')
@@ -77,11 +110,11 @@ def main_page(password):
         main_page(password)
 
 
-def project_page(response, password):
+def project_page(response, password, config, file_types):
     project_list = os.listdir()
     os.system('clear')
     ascii_art = pyfiglet.print_figlet(response, colors='MAGENTA')
-    unwanted = ['__init__.py', '__pycache__', 'timetable.py']
+    unwanted = ['__init__.py', '__pycache__']
     for item in unwanted:
         try:
             project_list.remove(item)
@@ -96,51 +129,36 @@ def project_page(response, password):
     print('Go to file, q to quit, n for new file: ')
     response = readchar.readkey()
     if response == 'q':
+        os.chdir(os.path.dirname(sys.argv[0]))
         main_page(password)
     elif response == 'n':
         file_name = input("File Name: ")
         os.system("touch " + file_name)
-        project_page('New File Added',password)
-    elif project_list[int(response)].endswith('.py'):
-        os.system('python3 ./' + project_list[int(response)])
-    elif project_list[int(response)].endswith('.R'):
-        os.system('jetbrains-pycharm ./' + project_list[int(response)] + ' &')
+        project_page('New File Added', password, config, file_types)
+
+
+
+
+    elif '.' in project_list[int(response)]:
+        for row in file_types:
+            if project_list[int(response)].endswith(row[0]):
+                os.system(row[1] + ' ./' + project_list[int(response)] + ' &')
         os.system('clear')
         main_page(password)
-    elif project_list[int(response)].endswith('.pdf'):
-        os.system('evince ./' + project_list[int(response)] + ' &')
-        os.system('clear')
-        main_page(password)
-    elif project_list[int(response)].endswith('.png') + project_list[int(response)].endswith('.jpg'):
-        os.system('eog ./' + project_list[int(response)] + ' &')
-        os.system('clear')
-        main_page(password)
-    elif project_list[int(response)].endswith('.txt') or project_list[int(response)].endswith('.csv') or project_list[
-        int(response)].endswith('.md'):
-        os.system('gedit ./' + project_list[int(response)] + ' &')
-        os.system('clear')
-        main_page(password)
-    elif project_list[int(response)].endswith('.SQL'):
-        os.system('jetbrains-datagrip ./' + project_list[int(response)] + ' &')
-        os.system('clear')
-        main_page(password)
-        # TODO: do some form of associative sctructure - file type to program
 
     else:
         try:
             os.chdir('./' + project_list[int(response)])
-            project_page(project_list[int(response)],password)
+            project_page(project_list[int(response)], password, config, file_types)
         except:
-            project_page('Oops, Try Again',password)
+            project_page('Oops, Try Again', password, config, file_types)
 
 
-def programs_page(password):
+def programs_page(password, programs):
     os.system('clear')
     pyfiglet.print_figlet('Programs', colors='MAGENTA')
-    program_list = ['Reaper', 'Datagrip', 'Github', 'Pycharm', 'Chrome', 'Gedit', 'Terminal', 'Reddit']
-    call_list = ['/opt/REAPER/reaper', 'jetbrains-datagrip', 'github', 'jetbrains-pycharm', 'google-chrome', 'gedit',
-                 'gnome-terminal', 'gnome-terminal -e "bash -c \"rtv; exec bash\""'
-]
+    program_list = programs[0].tolist()
+    call_list = programs[1].tolist()
     for program in program_list:
         print(str(program_list.index(program)) + ': ' + program)
     response = readchar.readkey()
@@ -153,10 +171,10 @@ def programs_page(password):
     main_page(password)
 
 
-def refresh(offset, password):
+def refresh(offset, password,config):
     os.system('clear')
     pyfiglet.print_figlet('Timetable', colors='MAGENTA')
-    tasks = Load.sql_to_dataframe('task_list', 'School', password)
+    tasks = sql_to_dataframe('task_list', 'School', password)
     if len(tasks) > 0:
         current_task = tasks.iloc[offset]
         print(t.strftime("%Y-%m-%d", t.localtime()))
@@ -174,7 +192,7 @@ def refresh(offset, password):
             offset = 0
             refresh(offset, password)
         elif response == 's':
-            if offset < len(tasks)-1:
+            if offset < len(tasks) - 1:
                 offset += 1
             refresh(offset, password)
         elif response == 'l':
@@ -183,26 +201,27 @@ def refresh(offset, password):
             print('Jobs to do: ' + str(len(tasks)))
 
             for row in sorted(tasks['task_name']):
-                print(tasks.loc[tasks['task_name'] == row]['task_name'].values[0] + ' : '+ str(tasks.loc[tasks['task_name'] == row]['task_date'].values[0])[0:10])
+                print(tasks.loc[tasks['task_name'] == row]['task_name'].values[0] + ' : ' + str(
+                    tasks.loc[tasks['task_name'] == row]['task_date'].values[0])[0:10])
             print('Press Y to set all to done or press any key to return to main: ')
             exe = readchar.readkey()
             if exe == 'Y':
                 for row in tasks.index:
                     current_task = tasks.loc[row]
                     if current_task['id'][0] == 't':
-                        Update.sm_done_class(current_task['id'], password)
+                        sm_done_class(current_task['id'], password,config)
                     elif current_task['id'][0] == 'a':
-                        Update.sm_done_assessment(current_task['id'], password)
+                        sm_done_assessment(current_task['id'], password,config)
                 refresh(offset, password)
             else:
                 refresh(offset, password)
         elif response == 'y':
             offset = 0
             if current_task['id'][0] == 't':
-                Update.sm_done_class(current_task['id'], password)
+                sm_done_class(current_task['id'], password,config)
                 refresh(offset, password)
             elif current_task['id'][0] == 'a':
-                Update.sm_done_assessment(current_task['id'], password)
+                sm_done_assessment(current_task['id'], password,config)
                 refresh(offset, password)
         else:
             refresh(offset, password)
@@ -214,20 +233,19 @@ def refresh(offset, password):
             main_page(password)
 
 
-
-
-
 def start():
     os.system('clear')
+    os.chdir(os.path.dirname(sys.argv[0]))
     pyfiglet.print_figlet('Fonzzy\'s Dashboard', colors='MAGENTA')
     while True:
         try:
             password = input('Password: ')
-            Load.sql_to_dataframe('task_list', 'School', password)
+            sql_to_dataframe('task_list', 'School', password)
             break
         except:
             print("Oops!  That not the password.  Try again...")
 
     main_page(password)
+
 
 start()
