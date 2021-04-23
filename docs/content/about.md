@@ -1,6 +1,7 @@
 ---
 title: "About"
-date: "2016-05-05T21:48:51-07:00"
+date: "2021-04-23T21:48:51-07:00"
 ---
 
-This is a "hello world" example website for the [**blogdown**](https://github.com/rstudio/blogdown) package. The theme was forked from [@jrutheiser/hugo-lithium-theme](https://github.com/jrutheiser/hugo-lithium-theme) and modified by [Yihui Xie](https://github.com/yihui/hugo-lithium).
+This is a place that I use to show off the projects that I work on. There's going to be a lot of weird thing's that come out of problems that I come up with in my every day life, and the solutions are fun optimisation issues that are sometimes pretty cool.  
+If you ever want to talk to me my email is alfoechadwick@hotmail.com or shoot me a message on linkedin.
