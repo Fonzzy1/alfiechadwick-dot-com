@@ -6,5 +6,15 @@
     <description>Recent content on Fonzzy&#39;s Projects</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Fri, 23 Apr 2021 21:48:51 -0700</pubDate>
+      
+      <guid>/about/</guid>
+      <description>This is a place that I use to show off the projects that I work on. There&amp;rsquo;s going to be a lot of weird thing&amp;rsquo;s that come out of problems that I come up with in my every day life, and the solutions are fun optimisation issues that are sometimes pretty cool.
+If you ever want to talk to me my email is alfiechadwick@hotmail.com or shoot me a message on linkedin.</description>
+    </item>
+    
   </channel>
 </rss>
