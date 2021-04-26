@@ -423,20 +423,19 @@ Therefore, using this, we can make a generic method to solve a ODE:
 
 In code;
 ```{python}
-#1
-def c(a,
-      cond,
-      n
-      ):
 
-    return cond
-int_x = 0
-int_y = 2
+#1
+def c(vector, n ):
+
+
+    return vector[1]
+int_vector = [0,2]
+
 #2
-depth = 3
+depth = 10
 step = 0.01
-d_min = -3
-d_max = 3
+d_min = 0.01
+d_max = 10
 
 #2.1 Set up output space
 d_min_scale  = int(round(d_min / step))
@@ -452,45 +451,175 @@ df.set_index('Point', inplace=True)
 ls_n = list(range(0,depth))
 
 #3
-
-def point(step,
-          a,
-          cond,
-          ls_n
-          ):
+def point(step, vector, ls_n, derivative):
     ls_point_term = []
     for n in ls_n:
-        coefficient =  c(a,cond,n)
+        coefficient =  c(vector, n + derivative)
         point = coefficient / math.factorial(n) * step ** n
         ls_point_term.append(point)
     point_value = sum(ls_point_term)
     return point_value
 
 
-a = int_x
-cond = int_y
-while a <= d_max :
-    point_value = point(step, a, cond, ls_n)
-    location = df.index.get_loc(a, method= 'nearest')
-    df.iloc[location,0] = point_value
-    cond  = point_value
-    a += step
 
-a = int_x
-cond = int_y
+point_vector = int_vector.copy()
 
-while a >= d_min :
-    point_value = point(-step, a, cond, ls_n)
-    location = df.index.get_loc(a, method= 'nearest')
-    df.iloc[location,0] = point_value
-    cond  = point_value
-    a -= step
+while point_vector[0] <= d_max :
+        point_values = []
+        for d in range(0 , len(point_vector)- 1 ):
+            value = point(step, point_vector, ls_n, d)
+            point_values.append(value)
 
+        location = df.index.get_loc(point_vector[0], method= 'nearest')
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] += step
+        point_vector[1:len(point_vector)]  = point_values
+
+
+point_vector = int_vector.copy()
+
+while point_vector[0] > d_min - step :
+        point_values = []
+        for d in range(0 , len(point_vector) - 1):
+            value = point(-step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= 'nearest')
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] -= step
+        point_vector[1:len(point_vector)] = point_values
 df.plot()
 
 ```
 
+So yay, we now have a method to model first order ODEs, but how will this work for higher order ODES?
 
+The difference here is that for unique nth order ODES, a vector of n+1 values such that;
+
+$$ v = \langle x , f'(x) ,  ... , f^n(x) \rangle $$
+
+Therefore, when creating a taylor series approximation, one of these vectors must be part of the description of the series. That means that at each step, not only the point value must be found, but also multiple nth order derivatives at the point as well.
+
+Luckily, the taylor series has a simple derivative formula;
+
+$$ \mathbb F(x) = \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n}(a)}{n!}\cdot(x - a)^n $$
+$$ \mathbb F'(x)= \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n+1}(a)}{n!}\cdot(x - a)^n $$
+$$ \mathbb F^{m}(x)= \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n+m}(a)}{n!}\cdot(x - a)^n $$
+
+This means we can just expand the point function to return derivatives at points by offsetting n;
+
+```{python}
+def point(step, vector, ls_n, derivative):
+    ls_point_term = []
+    for n in ls_n:
+        coefficient =  c(vector, n + derivative)
+        point = coefficient / math.factorial(n) * step ** n
+        ls_point_term.append(point)
+    point_value = sum(ls_point_term)
+    return point_value
+```
+
+We also need to alter the calculation loop to calculate multiple values per point.
+
+```{python}
+while point_vector[0] <= d_max :
+        point_values = []
+        for d in range(0 , len(point_vector)- 1 ):
+            value = point(step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= 'nearest')
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] += step
+        point_vector[1:len(point_vector)]  = point_values
+```
+
+
+
+```{python, echo = FALSE}
+
+#1
+def c(vector, n ):
+    if n == 0:
+        return vector[1]
+    if n== 1:
+        return  vector[2]
+    if n == 2:
+        return -(vector[0] * vector[2] + vector[0]**2 * vector[1])/(vector[0]**2)
+
+
+    return vector[1]
+int_vector = [1,2,0]
+
+#2
+depth = 10
+step = 0.01
+d_min = 0.01
+d_max = 10
+
+#2.1 Set up output space
+d_min_scale  = int(round(d_min / step))
+d_max_scale = int(round(d_max / step))
+ls_points = list(range(d_min_scale, d_max_scale))
+ls_points = list(map(lambda x: x*step, ls_points))
+df = pd.DataFrame(ls_points, columns=['Point'])
+df['Value'] = 0
+df.set_index('Point', inplace=True)
+
+
+#2.2 Set up n list
+ls_n = list(range(0,depth))
+
+#3
+def point(step, vector, ls_n, derivative):
+    ls_point_term = []
+    for n in ls_n:
+        coefficient =  c(vector, n + derivative)
+        point = coefficient / math.factorial(n) * step ** n
+        ls_point_term.append(point)
+    point_value = sum(ls_point_term)
+    return point_value
+
+
+
+point_vector = int_vector.copy()
+
+while point_vector[0] <= d_max :
+    try:
+        point_values = []
+        for d in range(0 , len(point_vector)- 1 ):
+            value = point(step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= 'nearest')
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] += step
+        point_vector[1:len(point_vector)]  = point_values
+    except OverflowError:
+        break
+    except ZeroDivisionError:
+        point_vector[0] += step
+
+
+point_vector = int_vector.copy()
+
+while point_vector[0] > d_min - step :
+    try:
+        point_values = []
+        for d in range(0 , len(point_vector) - 1):
+            value = point(-step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= 'nearest')
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] -= step
+        point_vector[1:len(point_vector)] = point_values
+    except OverflowError:
+        break
+    except ZeroDivisionError:
+        point_vector[0] -= step
+df.plot()
+```
 
 
 
