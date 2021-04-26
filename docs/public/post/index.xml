@@ -5,7 +5,21 @@
     <link>/post/</link>
     <description>Recent content in Posts on Fonzzy&#39;s Projects</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Mon, 26 Apr 2021 00:00:00 +0200</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Taylor Series for approximating ODEs</title>
+      <link>/2021/04/26/taylor-series-for-approximating-odes/</link>
+      <pubDate>Mon, 26 Apr 2021 00:00:00 +0200</pubDate>
+      
+      <guid>/2021/04/26/taylor-series-for-approximating-odes/</guid>
+      <description>Taylor Series A taylor series is an infinite series that estimates any continuous function as a polynomial. Taylor Series defined at point x=a as :
+\[ \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n}(a)}{n!}\cdot(x - a)^n \]
+luckily, this sytem can be further defined to:
+\[\sum_{n = 0}^{\infty} = \frac{ C(n)}{n!}\cdot(x - a)^n \]
+with C(n) being defined as the function tht gives the value of \(\mathbb F^{n}(a)\) for each n. this definition is beneficial as computationally, it is difficult to define the derivative function, unlike a simple numeric funtion.</description>
+    </item>
+    
     <item>
       <title>Taylor Series for approximating ODEs</title>
       <link>/1/01/01/taylor-series-for-approximating-odes/</link>
