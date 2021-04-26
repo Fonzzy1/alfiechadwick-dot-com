@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.82.1" />
+
+
+<title>Taylor Series for approximating ODEs - Fonzzy&#39;s Projects</title>
+<meta property="og:title" content="Taylor Series for approximating ODEs - Fonzzy&#39;s Projects">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/Fonzzy1">GitHub</a></li>
+    
+    <li><a href="https://www.linkedin.com/in/alfie-chadwick-6a773a94/">Linkedin</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">9 min read</span>
+    
+
+    <h1 class="article-title">Taylor Series for approximating ODEs</h1>
+
+    
+    <span class="article-date">0001-01-01</span>
+    
+
+    <div class="article-content">
+      
+
+
+<div id="taylor-series" class="section level2">
+<h2>Taylor Series</h2>
+<p>A taylor series is an infinite series that estimates any continuous function as a polynomial.
+Taylor Series defined at point x=a as :</p>
+<p><span class="math display">\[ \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n}(a)}{n!}\cdot(x - a)^n \]</span></p>
+<p>luckily, this sytem can be further defined to:</p>
+<p><span class="math display">\[\sum_{n = 0}^{\infty} = \frac{ C(n)}{n!}\cdot(x - a)^n \]</span></p>
+<p>with C(n) being defined as the function tht gives the value of <span class="math inline">\(\mathbb F^{n}(a)\)</span> for each n. this definition is beneficial as computationally, it is difficult to define the derivative function, unlike a simple numeric funtion.</p>
+<p>For example, looking at the Taylor series of <span class="math inline">\(e^x\)</span> at the point a = 0</p>
+<p><span class="math display">\[f(x) = e^x \]</span>
+<span class="math display">\[f&#39;(x) = e^x \]</span></p>
+<p>And in general:
+<span class="math display">\[f^n{(x)} = e^x \quad  \forall  \quad  n\]</span></p>
+<p>For the point x = 0:</p>
+<p><span class="math display">\[ f^n{(0)} = 1 \]</span>
+<span class="math display">\[ C(n) = 1 \]</span></p>
+<p>Now coding this system:</p>
+<pre class="python"><code>import  math
+import numpy as np
+import  pandas as pd
+import matplotlib.pyplot as plt
+
+
+## Varibles to set to define simultaion
+def f(x):           ## Only for plotting against estimation
+    return np.exp(x)
+def c(n):           ## C vaules
+    return 1
+a = 0               ## Around what point is this estimation
+step = 0.001        ## step Size for points
+width = 2           ## Range of Estimation
+depth  = 3       ## Max size of n
+
+
+## Create List of points
+width_mult  = 1/step
+new_witdh = int(round(width*width_mult))
+ls_points = range(-new_witdh, new_witdh)
+ls_points = list(map(lambda x: x*step, ls_points))
+
+## Create List n
+ls_n = list(range(0,depth))
+
+## Create List of coefficients
+ls_c = list(map(lambda x: c(x), ls_n))
+
+def point_term (x, a , c , n):
+    point = c / math.factorial(n) * (x-a) ** n
+    return point
+
+df = pd.DataFrame(ls_points, columns=[&#39;Point&#39;])
+
+## Create A datframe with each collumn being the vaules for a single n
+for n in ls_n:
+    df[n] = df[&#39;Point&#39;].apply(lambda x: point_term(x,a,ls_c[n],n))
+
+df.set_index(&#39;Point&#39;, inplace= True)
+
+## Sum all the estimations
+df_estimation = df.sum(axis = 1)
+
+df_estimation.plot(label=&#39;Estimation&#39;)
+
+if f(a):
+    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)),label=&#39;Actual&#39;, linestyle=&#39;dashed&#39;,)
+plt.legend()
+</code></pre>
+<p><img src="/post/ODE-solve_files/figure-html/unnamed-chunk-1-1.png" /><!-- --></p>
+<p>Trying this again for a polynomial 7x^2 +x +2$:</p>
+<p><span class="math display">\[f&#39;(x) = 14x + 1 \]</span>
+<span class="math display">\[ f&#39;&#39;(x) = 14\]</span>
+<span class="math display">\[ f^n(x) = 0 \quad     \forall  \quad  n &gt; 2\]</span>
+Unlike the exponent, c(n) has no clear pattern as a function of only n, but if statements can be implemented to give the same behaviour.
+looking at the point x = 2</p>
+<pre class="python"><code>def f(x):
+    return 7*x**2 + x + 2
+def c(n):
+    if n == 0:
+        return  32
+    elif n == 1:
+        return 29
+    elif n == 2:
+        return 14
+    else:
+        return 0
+
+a = 2
+step = 0.1
+width = 5
+depth  = 3</code></pre>
+<p><img src="/post/ODE-solve_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<p>Since the derivative terms become 0, the estimation is perfect after only a few terms, and if you do the maths, you will see the polynomials are the same.</p>
+<div id="what-does-this-have-to-do-with-odes" class="section level3">
+<h3>What does this have to do with ODEs</h3>
+<p>If you aver spend enough time trying to solve ODEs, you will quickly realise polynomials are by far the easiest equations to work with since their derivatives and integrals are really easy to compute. From the taylor series we have a really nice way to define all continuous functions as a polynomial. Therefore, to estimate the solution to an ODE, it works to just assume that it takes the form of a polynomial of an arbitrary order and then find the coefficients, and then performing the process described above, but backwards.</p>
+<p>Lets start with the trivial ODE <span class="math inline">\(f&#39;(x) = f(x)\)</span> with the initial condition f(0) = 2. For this approximation, we will only use $ n 4 $. Using the initial condition, you can see:</p>
+<p><span class="math display">\[ f(0) = 2 \]</span>
+<span class="math display">\[ f&#39;(0) = f(0) = 2 \]</span></p>
+<p>By simply differentiaiting the ODE again, one can see that:</p>
+<p><span class="math display">\[ f&#39;&#39;(0) = f&#39;(0) = 2 \]</span>
+<span class="math display">\[ f&#39;&#39;&#39;(0) = f&#39;&#39;(0) = 2 \]</span></p>
+<p>Now knowing these values, one can use the taylor series to approximate the function’s value in other locations.</p>
+<pre class="python"><code>def f(x):
+    return 2*math.exp(x)
+
+def c(n):
+    return 2
+
+a = 0
+step = 0.001
+width = 4
+depth  = 3</code></pre>
+<p><img src="/post/ODE-solve_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
+<p>This can be taken one step further by asking more specific problems of an ODE. More specifically, what happens as a different point, say x = 3 given this ODE and initial condition.</p>
+<p>One way to do this is to simply take the taylor series approximation that we just found and then check the value at the point x = 3</p>
+<pre class="python"><code>location = df_estimation.index.get_loc(3, method= &#39;nearest&#39;)
+df_estimation.iloc[location]</code></pre>
+<pre><code>## 17.0</code></pre>
+<p>To see how good this estimation is, one can compare it to the solution of the ode;</p>
+<p><span class="math display">\[ f&#39;(x) = f(x) \]</span>
+<span class="math display">\[ \int \frac{1}{f(x)} df(x) = \int 1 dx \]</span>
+<span class="math display">\[ ln(|f(x)|) = x + c \]</span>
+<span class="math display">\[ f(x) = c \cdot e^x \]</span></p>
+<p>Fitting the point $ f(0) = 2$;</p>
+<p><span class="math display">\[ f(0) = c \cdot e^0 = 2 \]</span></p>
+<p>Therefore;</p>
+<p><span class="math display">\[ f(x) = 2 \cdot e^x \]</span></p>
+<p>Looking at x = 3;</p>
+<p><span class="math display">\[ f(3) = 2 \cdot e^3 = 40.17 \]</span></p>
+<p>This value is very different to the 17 given by the estimation, so it would be best to improve the approximation.</p>
+<p>One way to do this is to simply increase the n used for the approximation. This method is fairly computationally cheap, assuming that there is a nice formula for c(n). Furthermore, how much it improves the approximation varies depending on the specific function for c(n), specifically the rate of convergence towards 0.</p>
+<p>The rate of convergence has multiple formal definitions but in essence it shows how fast c(n) goes to 0 as n grows. For example the polynomial $ 7x^2 +x +2 $ shown above went to 0 after n = 2 terms, and similarly any xth order polynomial will go to 0 after n = x.</p>
+<p>In contrast, c(n) for the pde described above never goes to 0, meaning adding additional terms to the approximation probably won’t make it massively better.</p>
+<p>The problem then becomes how do we improve the approximation for these non-convergent c(n) or just ones with a low rate of convergence. A method for this can come from the ODE we just looked at.</p>
+<p>We first showed the general relationship between the derivatives and then fitted it to a given point to build the approximation, but since a taylor expansion is only good at approximating points around where approximation was built. Since the ODE is valid at all points, we simply need initial conditions closer to the point of interest to get the approximation to give a better result. The way to get better initial conditions is to generate them using previous approximations in a recursive algorithm.</p>
+<p>Doing this manually ;
+For the ODE <span class="math inline">\(f&#39;(x) = f(x)\)</span> with the initial condition f(0) = 2, c(n) has been worked out already for a = 0</p>
+<pre class="python"><code>
+## Varibles to set to define simultaion
+def c(n):
+    return 2
+a = 0               ## Around what point is this estimation
+</code></pre>
+<pre class="python"><code>location = df_estimation_0.index.get_loc(1, method= &#39;nearest&#39;)
+df_estimation_0 .iloc[location]</code></pre>
+<pre><code>## 5.416666666666666</code></pre>
+<p>Now we approximate <span class="math inline">\(f&#39;(x) = f(x)\)</span> with the initial condition f(1) = 4.99, therfore f’(1) = 4.99 and f’’(1) = 4.99.</p>
+<pre class="python"><code>
+## Varibles to set to define simultaion
+def c(n):
+    return 4.99
+a = 1               ## Around what point is this estimation
+</code></pre>
+<pre class="python"><code>location = df_estimation_1.index.get_loc(1, method= &#39;nearest&#39;)
+df_estimation_1 .iloc[location]</code></pre>
+<pre><code>## 4.99</code></pre>
+<p>Now we approximate <span class="math inline">\(f&#39;(x) = f(x)\)</span> with the initial condition f(2) = 12.47, therefore f’(1) = 12.47 and f’’(1) = 12.47.</p>
+<pre class="python"><code>
+## Varibles to set to define simultaion
+def c(n):
+    return 12.47
+a = 0               ## Around what point is this estimation
+</code></pre>
+<pre class="python"><code>location = df_estimation_2.index.get_loc(1, method= &#39;nearest&#39;)
+df_estimation_2.iloc[location]</code></pre>
+<pre><code>## 33.772916666666674</code></pre>
+<p>This approximation is much better than the one made by the single approximation.</p>
+<p>Therefore, using this, we can make a generic method to solve a ODE:</p>
+<ol style="list-style-type: decimal">
+<li>Using the ODE and the initial condition determine a suitable c(x,y,n) such that <span class="math inline">\(c(x,n) = \mathbb F^{n}(x)\)</span>, where x is where the initial condition is defined and y is the output value of the initial condition</li>
+<li>Determine a suitable depth, domain and step for the approximation, though this is personal preference</li>
+<li>Approximate the function using a taylor series expansion</li>
+<li>Take the value of the approximation at an arbitrary step length</li>
+<li>Create a new approximation with the initial condition from the previous approximation</li>
+<li>Repeat step 4 and 5 until the desired domain has been filled</li>
+</ol>
+<p>In code;</p>
+<pre class="python"><code>
+#1
+def c(vector, n ):
+
+    return vector[1]
+int_vector = [0,2]
+
+#2
+depth = 10
+step = 0.01
+d_min = 0.01
+d_max = 10
+
+#2.1 Set up output space
+d_min_scale  = int(round(d_min / step))
+d_max_scale = int(round(d_max / step))
+ls_points = list(range(d_min_scale, d_max_scale))
+ls_points = list(map(lambda x: x*step, ls_points))
+df = pd.DataFrame(ls_points, columns=[&#39;Point&#39;])
+df[&#39;Value&#39;] = 0
+df.set_index(&#39;Point&#39;, inplace=True)
+
+
+#2.2 Set up n list
+ls_n = list(range(0,depth))
+
+#3
+def point(step, vector, ls_n, derivative):
+    ls_point_term = []
+    for n in ls_n:
+        coefficient =  c(vector, n + derivative)
+        point = coefficient / math.factorial(n) * step ** n
+        ls_point_term.append(point)
+    point_value = sum(ls_point_term)
+    return point_value
+
+
+
+point_vector = int_vector.copy()
+
+while point_vector[0] &lt;= d_max :
+        point_values = []
+        for d in range(0 , len(point_vector)- 1 ):
+            value = point(step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= &#39;nearest&#39;)
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] += step
+        point_vector[1:len(point_vector)]  = point_values
+
+
+point_vector = int_vector.copy()
+
+while point_vector[0] &gt; d_min - step :
+        point_values = []
+        for d in range(0 , len(point_vector) - 1):
+            value = point(-step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= &#39;nearest&#39;)
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] -= step
+        point_vector[1:len(point_vector)] = point_values
+df.plot()</code></pre>
+<p><img src="/post/ODE-solve_files/figure-html/unnamed-chunk-16-1.png" /><!-- --></p>
+<p>So yay, we now have a method to model first order ODEs, but how will this work for higher order ODES?</p>
+<p>The difference here is that for unique nth order ODES, a vector of n+1 values such that;</p>
+<p><span class="math display">\[ v = \langle x , f&#39;(x) ,  ... , f^n(x) \rangle \]</span></p>
+<p>Therefore, when creating a taylor series approximation, one of these vectors must be part of the description of the series. That means that at each step, not only the point value must be found, but also multiple nth order derivatives at the point as well.</p>
+<p>Luckily, the taylor series has a simple derivative formula;</p>
+<p><span class="math display">\[ \mathbb F(x) = \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n}(a)}{n!}\cdot(x - a)^n \]</span>
+<span class="math display">\[ \mathbb F&#39;(x)= \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n+1}(a)}{n!}\cdot(x - a)^n \]</span>
+<span class="math display">\[ \mathbb F^{m}(x)= \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n+m}(a)}{n!}\cdot(x - a)^n \]</span></p>
+<p>This means we can just expand the point function to return derivatives at points by offsetting n;</p>
+<pre class="python"><code>def point(step, vector, ls_n, derivative):
+    ls_point_term = []
+    for n in ls_n:
+        coefficient =  c(vector, n + derivative)
+        point = coefficient / math.factorial(n) * step ** n
+        ls_point_term.append(point)
+    point_value = sum(ls_point_term)
+    return point_value</code></pre>
+<p>We also need to alter the calculation loop to calculate multiple values per point.</p>
+<pre class="python"><code>while point_vector[0] &lt;= d_max :
+        point_values = []
+        for d in range(0 , len(point_vector)- 1 ):
+            value = point(step, point_vector, ls_n, d)
+            point_values.append(value)
+
+        location = df.index.get_loc(point_vector[0], method= &#39;nearest&#39;)
+        df.iloc[location,0] = point_values[0]
+        point_vector[0] += step
+        point_vector[1:len(point_vector)]  = point_values</code></pre>
+<p><img src="/post/ODE-solve_files/figure-html/unnamed-chunk-19-1.png" /><!-- --></p>
+</div>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
