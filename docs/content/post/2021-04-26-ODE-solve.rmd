@@ -1,625 +1,138 @@
 ---
 title: "Taylor Series for approximating ODEs"
 author: Fonzzy
-date: 2021-04-26T00:00:00+02:00
+date: 2021-04-26T00:00:00+00:00
 output: html_document
 ---
 
+If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus. However, if you ever try and work with these problems in the real world, you will quickly realise that a lot of differential equations aren't solvable.
+
+This is where numerical methods become useful as they provide one the ability to approximate the solution of the differential equation without explicitly soliving it.
+
+## Euler's Method
+One of the first numerical methods that most people get taught is Euler's method. There are many [better writers](https://tutorial.math.lamar.edu/classes/de/eulersmethod.aspx) who can explain this method much better than me, so I won't go into too much detail. Essentially, this method uses the definition of the differential equation to calculate steps of a given length h. For an ODE (differential equation of one variable) of order n, the method can be described as:
+
+$$ \begin{bmatrix}
+y(x+h)\\
+y'(x+h)\\
+y''(x+h)\\
+...\\
+y^{n-1}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+y(x)\\
+y'(x)\\
+y''(x)\\
+...\\
+y^{n-1}(x)\\
+\end{bmatrix} + \begin{bmatrix}
+h & 0 & 0 &  ... & 0\\
+0 & h & 0 &  ... & 0\\
+0 & 0 & h &  ... & 0\\
+... & ... & ... &  ... & ...\\
+0 & 0 & 0 &  ... & h\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y'(x)\\
+y''(x)\\
+y'''(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}$$
+
+This can also be written as:
+
+$$ \begin{bmatrix}
+y(x+h)\\
+y'(x+h)\\
+y''(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 & h & 0 &  ... & 0\\
+0 & 1 & h &  ... & 0\\
+0 & 0 & 1 &  ... & 0\\
+... & ... & ... &  ... & ...\\
+0 & 0 & 0 &  ... & 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
+y'(x)\\
+y''(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}$$
+
+
+### How to expand the Euler method?
+The Euler Method approximates functions as straight lines at each point and then approximates the function again at the next point. However, if the function is not much like a straight line then this approximation will fail to produce accurate results. Therefore, the question becomes how could one take into account the curve of the function between steps.
+
 ## Taylor Series
-A taylor series is an infinite series that estimates any continuous function as a polynomial.
-Taylor Series defined at point x=a as :
-
-$$ \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n}(a)}{n!}\cdot(x - a)^n $$
-
-luckily, this sytem can be further defined to:
-
-$$\sum_{n = 0}^{\infty} = \frac{ C(n)}{n!}\cdot(x - a)^n $$
-
-with C(n) being defined as the function tht gives the value of $\mathbb F^{n}(a)$ for each n. this definition is beneficial as computationally, it is difficult to define the derivative function, unlike a simple numeric funtion.
-
-For example, looking at the Taylor series of $e^x$ at the point a = 0
-
-$$f(x) = e^x $$
-$$f'(x) = e^x $$
-
-And in general:
-$$f^n{(x)} = e^x \quad 	\forall  \quad  n$$
-
-For the point x = 0:
-
-$$ f^n{(0)} = 1 $$
-$$ C(n) = 1 $$
-
-Now coding this system:
-
-```{python}
-import  math
-import numpy as np
-import  pandas as pd
-import matplotlib.pyplot as plt
-
-
-## Varibles to set to define simultaion
-def f(x):           ## Only for plotting against estimation
-    return np.exp(x)
-def c(n):           ## C vaules
-    return 1
-a = 0               ## Around what point is this estimation
-step = 0.001        ## step Size for points
-width = 2           ## Range of Estimation
-depth  = 3       ## Max size of n
-
-
-## Create List of points
-width_mult  = 1/step
-new_witdh = int(round(width*width_mult))
-ls_points = range(-new_witdh, new_witdh)
-ls_points = list(map(lambda x: x*step, ls_points))
-
-## Create List n
-ls_n = list(range(0,depth))
-
-## Create List of coefficients
-ls_c = list(map(lambda x: c(x), ls_n))
-
-def point_term (x, a , c , n):
-    point = c / math.factorial(n) * (x-a) ** n
-    return point
-
-df = pd.DataFrame(ls_points, columns=['Point'])
-
-## Create A datframe with each collumn being the vaules for a single n
-for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x,a,ls_c[n],n))
-
-df.set_index('Point', inplace= True)
-
-## Sum all the estimations
-df_estimation = df.sum(axis = 1)
-
-df_estimation.plot(label='Estimation')
-
-if f(a):
-    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)),label='Actual', linestyle='dashed',)
-plt.legend()
-
-
-
-
-```
-
-
-Trying this again for a polynomial  7x^2 +x +2$:
-
-$$f'(x) = 14x + 1 $$
-$$ f''(x) = 14$$
-$$ f^n(x) = 0 \quad 	\forall  \quad  n > 2$$
-Unlike the exponent, c(n) has no clear pattern as a function of only n, but if statements can be implemented to give the same behaviour.
-looking at the point x = 2
-
-
-```{python}
-def f(x):
-    return 7*x**2 + x + 2
-def c(n):
-    if n == 0:
-        return  32
-    elif n == 1:
-        return 29
-    elif n == 2:
-        return 14
-    else:
-        return 0
-
-a = 2
-step = 0.1
-width = 5
-depth  = 3
-```
-
-```{python, echo = FALSE}
-## Create List of points
-width_mult  = 1/step
-new_witdh = int(round(width*width_mult))
-ls_points = range(-new_witdh, new_witdh)
-ls_points = list(map(lambda x: x*step, ls_points))
-
-## Create List n
-ls_n = list(range(0,depth))
-
-## Create List of coefficients
-ls_c = list(map(lambda x: c(x), ls_n))
-
-def point_term (x, a , c , n):
-    point = c / math.factorial(n) * (x-a) ** n
-    return point
-
-df = pd.DataFrame(ls_points, columns=['Point'])
-
-## Create A datframe with each collumn being the vaules for a single n
-for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x,a,ls_c[n],n))
-
-df.set_index('Point', inplace= True)
-
-## Sum all the estimations
-df_estimation = df.sum(axis = 1)
-
-df_estimation.plot(label='Estimation')
-
-if f(a):
-    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)),label='Actual', linestyle='dashed',)
-plt.legend()
-
-
-
-```
-
-Since the derivative terms become 0, the estimation is perfect after only a few terms, and if you do the maths, you will see the polynomials are the same.
-
-### What does this have to do with ODEs
-If you aver spend enough time trying to solve ODEs, you will quickly realise polynomials are by far the easiest equations to work with since their derivatives and integrals are really easy to compute. From the taylor series we have a really nice way to define all continuous functions as a polynomial. Therefore, to estimate the solution to an ODE, it works to just assume that it takes the form of a polynomial of an arbitrary order and then find the coefficients, and then performing the process described above, but backwards.
-
-Lets start with the trivial ODE $f'(x) = f(x)$ with the initial condition f(0) = 2. For this approximation, we will only use $ n \l 4 $. Using the initial condition, you can see:
-
-$$ f(0) = 2 $$
-$$ f'(0) = f(0) = 2 $$
-
-By simply   differentiaiting the ODE again, one can see that:
-
-$$ f''(0) = f'(0) = 2 $$
-$$ f'''(0) = f''(0) = 2 $$
-
-Now knowing these values, one can use the taylor series to approximate the function's value in other locations.
-
-```{python}
-def f(x):
-    return 2*math.exp(x)
-
-def c(n):
-    return 2
-
-a = 0
-step = 0.001
-width = 4
-depth  = 3
-```
-
-```{python, echo = FALSE}
-### Create List of points
-width_mult  = 1/step
-new_witdh = int(round(width*width_mult))
-ls_points = range(-new_witdh, new_witdh)
-ls_points = list(map(lambda x: x*step, ls_points))
-
-## Create List n
-ls_n = list(range(0,depth))
-
-## Create List of coefficients
-ls_c = list(map(lambda x: c(x), ls_n))
-
-def point_term (x, a , c , n):
-    point = c / math.factorial(n) * (x-a) ** n
-    return point
-
-df = pd.DataFrame(ls_points, columns=['Point'])
-
-## Create A datframe with each collumn being the vaules for a single n
-for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x,a,ls_c[n],n))
-
-df.set_index('Point', inplace= True)
-
-## Sum all the estimations
-df_estimation = df.sum(axis = 1)
-
-df_estimation.plot(label='Estimation')
-
-if f(a):
-    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)),label='Actual', linestyle='dashed',)
-plt.legend()
-
-
-
-```
-
-
-This can be taken one step further by asking more specific problems of an ODE. More specifically, what happens as a different point, say x = 3 given this ODE and initial condition.
-
-One way to do this is to simply take the taylor series approximation that we just found and then check the value at the point x = 3
-```{python}
-location = df_estimation.index.get_loc(3, method= 'nearest')
-df_estimation.iloc[location]
-```
-To see how good this estimation is, one can compare it to the solution of the ode;
-
-
-$$ f'(x) = f(x) $$
-$$ \int \frac{1}{f(x)} df(x) = \int 1 dx $$
-$$ ln(|f(x)|) = x + c $$
-$$ f(x) = c \cdot e^x $$
-
-Fitting the point $ f(0) = 2$;
-
-$$ f(0) = c \cdot e^0 = 2 $$
-
-Therefore;
-
-$$ f(x) = 2 \cdot e^x $$
-
-Looking at x = 3;
-
-$$ f(3) = 2 \cdot e^3 = 40.17 $$
-
-
-This value is very different to the 17 given by the estimation, so it would be best to improve the approximation.
-
-One way to do this is to simply increase the n used for the approximation. This method is fairly computationally cheap, assuming that there is a nice formula for c(n). Furthermore, how much it improves the approximation varies depending on the specific function for c(n), specifically the rate of convergence towards 0.
-
-The rate of convergence has multiple formal definitions but in essence it shows how fast c(n) goes to 0 as n grows. For example the polynomial $ 7x^2 +x +2 $ shown above went to 0 after n = 2 terms, and similarly any xth order polynomial will go to 0 after n = x.
-
-In contrast, c(n) for the pde  described above never goes to 0,  meaning adding additional terms to the approximation probably won't make it massively better.
-
-The problem then becomes how do we improve the approximation for these non-convergent c(n) or just ones with a low rate of convergence. A method for this can come from the ODE we just looked at.
-
-We first showed the general relationship between the derivatives and then fitted it to a given point to build the approximation, but since a taylor expansion is only good at approximating points around where approximation was built. Since the ODE is valid at all points, we simply need initial conditions closer to the point of interest to get the approximation to give a better result. The way to get better initial conditions is to generate them using previous approximations in a recursive algorithm.
-
-Doing this manually ;
-For the ODE $f'(x) = f(x)$ with the initial condition f(0) = 2, c(n) has been worked out already for a = 0
-```{python}
-
-## Varibles to set to define simultaion
-def c(n):
-    return 2
-a = 0               ## Around what point is this estimation
-
-
-
-```
-```{python, echo = FALSE}
-step = 0.001        ## step Size for points
-width = 3           ## Range of Estimation
-depth  = 5       ## Max size of n
-
-
-## Create List of points
-width_mult  = 1/step
-new_witdh = int(round(width*width_mult))
-ls_points = range(-new_witdh, new_witdh)
-ls_points = list(map(lambda x: x*step, ls_points))
-
-## Create List n
-ls_n = list(range(0,depth))
-
-## Create List of coefficients
-ls_c = list(map(lambda x: c(x), ls_n))
-
-def point_term (x, a , c , n):
-    point = c / math.factorial(n) * (x-a) ** n
-    return point
-
-df = pd.DataFrame(ls_points, columns=['Point'])
-
-## Create A datframe with each collumn being the vaules for a single n
-for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x,a,ls_c[n],n))
-
-df.set_index('Point', inplace= True)
-
-## Sum all the estimations
-df_estimation_0 = df.sum(axis = 1)
-```
-```{python}
-location = df_estimation_0.index.get_loc(1, method= 'nearest')
-df_estimation_0 .iloc[location]
-```
-Now we approximate $f'(x) = f(x)$ with the initial condition f(1) = 4.99, therfore f'(1) = 4.99 and f''(1) = 4.99.
-```{python}
-
-## Varibles to set to define simultaion
-def c(n):
-    return 4.99
-a = 1               ## Around what point is this estimation
-
-
-
-```
-```{python, echo = FALSE}
-step = 0.001        ## step Size for points
-width = 3          ## Range of Estimation
-depth  = 5       ## Max size of n
-
-
-## Create List of points
-width_mult  = 1/step
-new_witdh = int(round(width*width_mult))
-ls_points = range(-new_witdh, new_witdh)
-ls_points = list(map(lambda x: x*step, ls_points))
-
-## Create List n
-ls_n = list(range(0,depth))
-
-## Create List of coefficients
-ls_c = list(map(lambda x: c(x), ls_n))
-
-def point_term (x, a , c , n):
-    point = c / math.factorial(n) * (x-a) ** n
-    return point
-
-df = pd.DataFrame(ls_points, columns=['Point'])
-
-## Create A datframe with each collumn being the vaules for a single n
-for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x,a,ls_c[n],n))
-
-df.set_index('Point', inplace= True)
-
-## Sum all the estimations
-df_estimation_1 = df.sum(axis = 1)
-```
-```{python}
-location = df_estimation_1.index.get_loc(1, method= 'nearest')
-df_estimation_1 .iloc[location]
-```
-Now we approximate $f'(x) = f(x)$ with the initial condition f(2) = 12.47, therefore f'(1) = 12.47 and f''(1) = 12.47.
-```{python}
-
-## Varibles to set to define simultaion
-def c(n):
-    return 12.47
-a = 0               ## Around what point is this estimation
-
-
-
-```
-```{python, echo = FALSE}
-step = 0.001        ## step Size for points
-width = 3           ## Range of Estimation
-depth  = 5       ## Max size of n
-
-
-## Create List of points
-width_mult  = 1/step
-new_witdh = int(round(width*width_mult))
-ls_points = range(-new_witdh, new_witdh)
-ls_points = list(map(lambda x: x*step, ls_points))
-
-## Create List n
-ls_n = list(range(0,depth))
-
-## Create List of coefficients
-ls_c = list(map(lambda x: c(x), ls_n))
-
-def point_term (x, a , c , n):
-    point = c / math.factorial(n) * (x-a) ** n
-    return point
-
-df = pd.DataFrame(ls_points, columns=['Point'])
-
-## Create A datframe with each collumn being the vaules for a single n
-for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x,a,ls_c[n],n))
-
-df.set_index('Point', inplace= True)
-
-## Sum all the estimations
-df_estimation_2 = df.sum(axis = 1)
-```
-```{python}
-location = df_estimation_2.index.get_loc(1, method= 'nearest')
-df_estimation_2.iloc[location]
-```
-
-This approximation is much better than the one made by the single approximation.
-
-Therefore, using this, we can make a generic method to solve a ODE:
-
-1) Using the ODE and the initial condition determine a suitable c(x,y,n) such that $c(x,n) = \mathbb F^{n}(x)$, where x is where the initial condition is defined and  y is the output value of the initial condition
-2) Determine a suitable depth, domain  and step for the approximation, though this is personal preference
-3) Approximate the function using a taylor series expansion
-4) Take the value of the approximation at an arbitrary step length
-5) Create a new approximation with the initial condition from the previous approximation
-6) Repeat step 4 and 5 until the desired domain has been filled
-
-In code;
-```{python}
-
-#1
-def c(vector, n ):
-
-
-    return vector[1]
-int_vector = [0,2]
-
-#2
-depth = 10
-step = 0.01
-d_min = 0.01
-d_max = 10
-
-#2.1 Set up output space
-d_min_scale  = int(round(d_min / step))
-d_max_scale = int(round(d_max / step))
-ls_points = list(range(d_min_scale, d_max_scale))
-ls_points = list(map(lambda x: x*step, ls_points))
-df = pd.DataFrame(ls_points, columns=['Point'])
-df['Value'] = 0
-df.set_index('Point', inplace=True)
-
-
-#2.2 Set up n list
-ls_n = list(range(0,depth))
-
-#3
-def point(step, vector, ls_n, derivative):
-    ls_point_term = []
-    for n in ls_n:
-        coefficient =  c(vector, n + derivative)
-        point = coefficient / math.factorial(n) * step ** n
-        ls_point_term.append(point)
-    point_value = sum(ls_point_term)
-    return point_value
-
-
-
-point_vector = int_vector.copy()
-
-while point_vector[0] <= d_max :
-        point_values = []
-        for d in range(0 , len(point_vector)- 1 ):
-            value = point(step, point_vector, ls_n, d)
-            point_values.append(value)
-
-        location = df.index.get_loc(point_vector[0], method= 'nearest')
-        df.iloc[location,0] = point_values[0]
-        point_vector[0] += step
-        point_vector[1:len(point_vector)]  = point_values
-
-
-point_vector = int_vector.copy()
-
-while point_vector[0] > d_min - step :
-        point_values = []
-        for d in range(0 , len(point_vector) - 1):
-            value = point(-step, point_vector, ls_n, d)
-            point_values.append(value)
-
-        location = df.index.get_loc(point_vector[0], method= 'nearest')
-        df.iloc[location,0] = point_values[0]
-        point_vector[0] -= step
-        point_vector[1:len(point_vector)] = point_values
-df.plot()
-
-```
-
-So yay, we now have a method to model first order ODEs, but how will this work for higher order ODES?
-
-The difference here is that for unique nth order ODES, a vector of n+1 values such that;
-
-$$ v = \langle x , f'(x) ,  ... , f^n(x) \rangle $$
-
-Therefore, when creating a taylor series approximation, one of these vectors must be part of the description of the series. That means that at each step, not only the point value must be found, but also multiple nth order derivatives at the point as well.
-
-Luckily, the taylor series has a simple derivative formula;
-
-$$ \mathbb F(x) = \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n}(a)}{n!}\cdot(x - a)^n $$
-$$ \mathbb F'(x)= \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n+1}(a)}{n!}\cdot(x - a)^n $$
-$$ \mathbb F^{m}(x)= \sum_{n = 0}^{\infty} = \frac{\mathbb F^{n+m}(a)}{n!}\cdot(x - a)^n $$
-
-This means we can just expand the point function to return derivatives at points by offsetting n;
-
-```{python}
-def point(step, vector, ls_n, derivative):
-    ls_point_term = []
-    for n in ls_n:
-        coefficient =  c(vector, n + derivative)
-        point = coefficient / math.factorial(n) * step ** n
-        ls_point_term.append(point)
-    point_value = sum(ls_point_term)
-    return point_value
-```
-
-We also need to alter the calculation loop to calculate multiple values per point.
-
-```{python}
-while point_vector[0] <= d_max :
-        point_values = []
-        for d in range(0 , len(point_vector)- 1 ):
-            value = point(step, point_vector, ls_n, d)
-            point_values.append(value)
-
-        location = df.index.get_loc(point_vector[0], method= 'nearest')
-        df.iloc[location,0] = point_values[0]
-        point_vector[0] += step
-        point_vector[1:len(point_vector)]  = point_values
-```
-
-
-
-```{python, echo = FALSE}
-
-#1
-def c(vector, n ):
-    if n == 0:
-        return vector[1]
-    if n== 1:
-        return  vector[2]
-    if n == 2:
-        return -(vector[0] * vector[2] + vector[0]**2 * vector[1])/(vector[0]**2)
-
-
-    return vector[1]
-int_vector = [1,2,0]
-
-#2
-depth = 10
-step = 0.01
-d_min = 0.01
-d_max = 10
-
-#2.1 Set up output space
-d_min_scale  = int(round(d_min / step))
-d_max_scale = int(round(d_max / step))
-ls_points = list(range(d_min_scale, d_max_scale))
-ls_points = list(map(lambda x: x*step, ls_points))
-df = pd.DataFrame(ls_points, columns=['Point'])
-df['Value'] = 0
-df.set_index('Point', inplace=True)
-
-
-#2.2 Set up n list
-ls_n = list(range(0,depth))
-
-#3
-def point(step, vector, ls_n, derivative):
-    ls_point_term = []
-    for n in ls_n:
-        coefficient =  c(vector, n + derivative)
-        point = coefficient / math.factorial(n) * step ** n
-        ls_point_term.append(point)
-    point_value = sum(ls_point_term)
-    return point_value
-
-
-
-point_vector = int_vector.copy()
-
-while point_vector[0] <= d_max :
-    try:
-        point_values = []
-        for d in range(0 , len(point_vector)- 1 ):
-            value = point(step, point_vector, ls_n, d)
-            point_values.append(value)
-
-        location = df.index.get_loc(point_vector[0], method= 'nearest')
-        df.iloc[location,0] = point_values[0]
-        point_vector[0] += step
-        point_vector[1:len(point_vector)]  = point_values
-    except OverflowError:
-        break
-    except ZeroDivisionError:
-        point_vector[0] += step
-
-
-point_vector = int_vector.copy()
-
-while point_vector[0] > d_min - step :
-    try:
-        point_values = []
-        for d in range(0 , len(point_vector) - 1):
-            value = point(-step, point_vector, ls_n, d)
-            point_values.append(value)
-
-        location = df.index.get_loc(point_vector[0], method= 'nearest')
-        df.iloc[location,0] = point_values[0]
-        point_vector[0] -= step
-        point_vector[1:len(point_vector)] = point_values
-    except OverflowError:
-        break
-    except ZeroDivisionError:
-        point_vector[0] -= step
-df.plot()
-```
-
-
-
+A solution to the problem posed above is to use a taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :
+
+$$ y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n $$
+
+Where $a$ is the point where the approximation is built.
+
+
+When looking at the point $a + h$ exclusively, this formula transforms to:
+
+$$ y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n $$
+
+
+A nice property of the taylor series is that it has a really simple derivative function:
+
+$$ y'(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+1}(a)}{n!}\cdot(h)^n $$
+$$ y^m(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+m}(a)}{n!}\cdot(h)^n $$
+
+For a given h, this function describes a linear combination of the derivatives of a function, which can then be writen as a matrix multiplication
+
+$$ \begin{bmatrix}
+y(x+h)\\
+y'(x+h)\\
+y''(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 & \frac{h}{1!} & \frac{h^2}{2!} &  ... & \frac{h^n}{n!}\\
+0 & 1 & \frac{h}{1!} &  ... & \frac{h^{n-1}}{(n-1)!}\\
+0 & 0 & 1 &  ... & \frac{h^{n-2}}{(n-2)!}\\
+... & ... & ... &  ... & ...\\
+0 & 0 & 0 &  ... & 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y'(x)\\
+y''(x)\\
+y'''(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}$$
+
+One can see that this step matrix is similar to the matrix that defines the steps of the Euler method, however the Euler method doesn't take into account each of the higher derivatives, whereas this new step matrix does.
+
+Now expanding the input vector to contain x and h information;
+
+$$ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y'(x+h)\\
+y''(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 &  ... & 0\\
+1 & 1 & 0 & 0 & 0 &  ... & 0\\
+0 & 0 & 1 & \frac{h}{1!} & \frac{h^2}{2!} &  ... & \frac{h^n}{n!}\\
+0 & 0 & 0 & 1 & \frac{h}{1!} &  ... & \frac{h^{n-1}}{(n-1)!}\\
+0 & 0 & 0 & 0 & 1 &  ... & \frac{h^{n-2}}{(n-2)!}\\
+... & ... & ... & ... & ... &  ... & ...\\
+0 & 0 & 0 & 0 & 0 &  ... & 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y'(x)\\
+y''(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}$$
+
+## How to make the approximation fit the ODE
+This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.
