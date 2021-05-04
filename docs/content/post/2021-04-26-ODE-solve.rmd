@@ -134,5 +134,184 @@ y''(x)\\
 y^{n}(x)\\
 \end{bmatrix}$$
 
+For the sake of simplicity, this equation can referred to as $Y(x+h) = S \cdot Y(x)$
+
 ## How to make the approximation fit the ODE
 This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.
+
+#### Case 1 : Exclusively linear
+
+For an ODE that is a linear combination of x, y and y's derivatives, such as $y''=x+y$, on can simply change the stepping matrix to reflect this. This can be done by applying a transformation matrix $T$ to the stepping matrix. Knowing that each row of the stepping matrix represents  one of h, x, y or y's derivatives, creating a transformation matrix is fairly easy.
+
+Sticking with the same sample ODE $y''=x+y$, the transformation matrix can be defined as;
+
+$$
+T_1 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0\\
+0 & 1 & 1 & 0 & 0\\
+\end{bmatrix}
+$$
+
+However, thinking of this ODE as $x = y'' - y$  and $y = y'' - x$ is is just as reasonable to define T as:
+
+$$
+T_2 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 0 & -1 & 0 & 1\\
+0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+$$
+
+or
+
+$$
+T_3 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0\\
+0 & -1 & 0 & 0 & 1\\
+0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+$$
+
+So what is best option for the approximation. It's not yet obvious, so lets look at the resulting step matrices from these transformations $S^*$
+
+$$
+S^*_1 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+1 & 1 & 0 & 0 & 0\\
+0 & 0 & 1 & h & \frac{h^2}{2}\\
+0 & 0 & 0 & 1 & h\\
+1 & 1 & 1 & h & \frac{h^2}{2}\\
+\end{bmatrix}
+$$
+
+$$
+S^*_2 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 0 &  -1 & -h & 1-\frac{h^2}{2}\\
+0 & 0 & 1 & h & \frac{h^2}{2}\\
+0 & 0 & 0 & 1 & h\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+$$
+
+$$
+S^*_3 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+1 & 1 & 0 & 0 & 0\\
+-1 & -1 & 0 & 0 & 1\\
+0 & 0 & 0 & 1 & h\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+$$
+
+Now we have to look at an important part of approximations, truncation error, that is, as h gets smaller, how quickly does the approximation converge to the true function. Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an aproximation with the greatest term k, the truncation error is therefore:
+
+$$ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n$$
+
+Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R.
+
+For the standard stepping matrix for the order two ODE:
+
+$$\begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+1 & 1 & 0 & 0 & 0\\
+0 & 0 & 1 & h & \frac{h^2}{2}\\
+0 & 0 & 0 & 1 & h\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix} \rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+$$
+
+More generally for an ODE of order k;
+
+$$
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 &  ... & 0\\
+1 & 1 & 0 & 0 & 0 &  ... & 0\\
+0 & 0 & 1 & \frac{h}{1!} & \frac{h^2}{2!} &  ... & \frac{h^k}{k!}\\
+0 & 0 & 0 & 1 & \frac{h}{1!} &  ... & \frac{h^{k-1}}{(k-1)!}\\
+0 & 0 & 0 & 0 & 1 &  ... & \frac{h^{k-2}}{(k-2)!}\\
+... & ... & ... & ... & ... &  ... & ...\\
+0 & 0 & 0 & 0 & 0 &  ... & 1\\
+\end{bmatrix}
+\rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k-1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+...\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+$$
+
+
+
+
+Returning to the example ODE, applying the relevant transformation matrices to $R$ will provide the truncation error for each $T$:
+
+$$R_1 = \begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+ 0 + \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}$$
+
+$$R_2 = \begin{bmatrix}
+0\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n-\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+\mathbb y'(x)\cdot(h) + \frac{\mathbb y''(x)}{2!}\cdot(h)^2\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}$$
+
+
+$$R_3 = \begin{bmatrix}
+0\\
+0\\
+0-\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}$$
+
+Now we have these remainder vectors, we can look at what transformations provide the minimal truncation error, and therefore the best approximation of the ODE.
+
+
+

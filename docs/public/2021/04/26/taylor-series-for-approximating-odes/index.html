@@ -57,7 +57,7 @@
 
   <article class="article">
     
-    <span class="article-duration">4 min read</span>
+    <span class="article-duration">9 min read</span>
     
 
     <h1 class="article-title">Taylor Series for approximating ODEs</h1>
@@ -182,10 +182,159 @@ y&#39;&#39;(x)\\
 ...\\
 y^{n}(x)\\
 \end{bmatrix}\]</span></p>
+<p>For the sake of simplicity, this equation can referred to as <span class="math inline">\(Y(x+h) = S \cdot Y(x)\)</span></p>
 </div>
 <div id="how-to-make-the-approximation-fit-the-ode" class="section level2">
 <h2>How to make the approximation fit the ODE</h2>
 <p>This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.</p>
+<div id="case-1-exclusively-linear" class="section level4">
+<h4>Case 1 : Exclusively linear</h4>
+<p>For an ODE that is a linear combination of x, y and y’s derivatives, such as <span class="math inline">\(y&#39;&#39;=x+y\)</span>, on can simply change the stepping matrix to reflect this. This can be done by applying a transformation matrix <span class="math inline">\(T\)</span> to the stepping matrix. Knowing that each row of the stepping matrix represents one of h, x, y or y’s derivatives, creating a transformation matrix is fairly easy.</p>
+<p>Sticking with the same sample ODE <span class="math inline">\(y&#39;&#39;=x+y\)</span>, the transformation matrix can be defined as;</p>
+<p><span class="math display">\[
+T_1 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p>
+<p>However, thinking of this ODE as <span class="math inline">\(x = y&#39;&#39; - y\)</span> and <span class="math inline">\(y = y&#39;&#39; - x\)</span> is is just as reasonable to define T as:</p>
+<p><span class="math display">\[
+T_2 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; -1 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+T_3 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>So what is best option for the approximation. It’s not yet obvious, so lets look at the resulting step matrices from these transformations <span class="math inline">\(S^*\)</span></p>
+<p><span class="math display">\[
+S^*_1 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+1 &amp; 1 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+S^*_2 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp;  -1 &amp; -h &amp; 1-\frac{h^2}{2}\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+S^*_3 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+-1 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>Now we have to look at an important part of approximations, truncation error, that is, as h gets smaller, how quickly does the approximation converge to the true function. Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an aproximation with the greatest term k, the truncation error is therefore:</p>
+<p><span class="math display">\[ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
+<p>Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R.</p>
+<p>For the standard stepping matrix for the order two ODE:</p>
+<p><span class="math display">\[\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix} \rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p>More generally for an ODE of order k;</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^k}{k!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{k-1}}{(k-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{k-2}}{(k-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}
+\rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k-1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+...\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p>Returning to the example ODE, applying the relevant transformation matrices to <span class="math inline">\(R\)</span> will provide the truncation error for each <span class="math inline">\(T\)</span>:</p>
+<p><span class="math display">\[R_1 = \begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+ 0 + \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[R_2 = \begin{bmatrix}
+0\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n-\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+\mathbb y&#39;(x)\cdot(h) + \frac{\mathbb y&#39;&#39;(x)}{2!}\cdot(h)^2\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[R_3 = \begin{bmatrix}
+0\\
+0\\
+0-\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}\]</span></p>
+<p>Now we have these remainder vectors, we can look at what transformations provide the minimal truncation error, and therefore the best approximation of the ODE.</p>
+</div>
 </div>
 
     </div>
