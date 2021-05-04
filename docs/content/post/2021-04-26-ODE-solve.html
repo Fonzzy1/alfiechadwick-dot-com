@@ -185,9 +185,10 @@ S^*_3 = \begin{bmatrix}
 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
 \end{bmatrix}
 \]</span></p>
-<p>Now we have to look at an important part of approximations, truncation error, that is, as h gets smaller, how quickly does the approximation converge to the true function. Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an aproximation with the greatest term k, the truncation error is therefore:</p>
+<p>Now we have to look at an important part of approximations, truncation error, that is, assuming the function has a solution <span class="math inline">\(y^*\)</span>, what is the magnitude of the difference between this function anthe approximation. Formally, this is said to be <span class="math inline">\(r = y^* - y\)</span>. Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R with the definition:</p>
+<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot \ Y(x) \]</span></p>
+<p>Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:</p>
 <p><span class="math display">\[ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
-<p>Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R.</p>
 <p>For the standard stepping matrix for the order two ODE:</p>
 <p><span class="math display">\[\begin{bmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
@@ -203,28 +204,7 @@ S^*_3 = \begin{bmatrix}
 \sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \end{bmatrix}
 \]</span></p>
-<p>More generally for an ODE of order k;</p>
-<p><span class="math display">\[
-\begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
-1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
-0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^k}{k!}\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{k-1}}{(k-1)!}\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{k-2}}{(k-2)!}\\
-... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
-\end{bmatrix}
-\rightarrow R =  \begin{bmatrix}
-0\\
-0\\
-\sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
-\sum_{n = k}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
-\sum_{n = k-1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
-...\\
-\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
-\end{bmatrix}
-\]</span></p>
-<p>Returning to the example ODE, applying the relevant transformation matrices to <span class="math inline">\(R\)</span> will provide the truncation error for each <span class="math inline">\(T\)</span>:</p>
+<p>Applying the relevant transformation matrices to <span class="math inline">\(R\)</span> will provide the truncation error for each <span class="math inline">\(T\)</span>:</p>
 <p><span class="math display">\[R_1 = \begin{bmatrix}
 0\\
 0\\
@@ -250,7 +230,7 @@ S^*_3 = \begin{bmatrix}
 =
 \begin{bmatrix}
 0\\
-\mathbb y&#39;(x)\cdot(h) + \frac{\mathbb y&#39;&#39;(x)}{2!}\cdot(h)^2\\
+\mathbb y&#39;(x)\cdot(h) + \frac{\mathbb y&#39;&#39;(x)}{2}\cdot(h)^2\\
 \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
@@ -270,6 +250,82 @@ S^*_3 = \begin{bmatrix}
 \sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \end{bmatrix}\]</span></p>
-<p>Now we have these remainder vectors, we can look at what transformations provide the minimal truncation error, and therefore the best approximation of the ODE.</p>
+<p>Although the magnitude of these errors are theoretically possible to compute, it’s a lot of work considering that the question we are trying to answer is which one is the smallest. One tool we can employ to simplify this problem is big-O notation. Big-O notation is defined as <span class="math inline">\(f(x) = O(g(x))\)</span> as <span class="math inline">\(x \rightarrow a\)</span> if <span class="math inline">\(|f(x)| = M \cdot g(x)\)</span> . It describes the upper limit of a function as it’s variable approaches a. In this case, we are interested in the upper limit as h approaches 0.</p>
+<p>Applying this concept to the R vectors:</p>
+<p><span class="math display">\[R_1 = \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h^3)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[R_2 = \begin{bmatrix}
+0\\
+O(h)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[R_3 = \begin{bmatrix}
+0\\
+0\\
+O(h)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p>Now looking at the magnitude of these vectors:</p>
+<p><span class="math display">\[ |R_1| = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} \]</span>
+<span class="math display">\[ |R_2| = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2} \]</span>
+<span class="math display">\[ |R_3| = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} \]</span></p>
+<p>Since <span class="math inline">\(f_1 \cdot f_2 = O(g_1g_2)\)</span>;</p>
+<p><span class="math display">\[ |R_1| = \sqrt{O(h^6) + O(h^4) + O(h^6)} \]</span>
+<span class="math display">\[ |R_2| = \sqrt{O(h^2) + O(h^6) + O(h^4) + O(h^2)} \]</span>
+<span class="math display">\[ |R_3| = \sqrt{O(h^2) + O(h^4) + O(h^2)} \]</span></p>
+<p>Since <span class="math inline">\(f_1 + f_2 = O(max(g_1,g_2))\)</span>;</p>
+<p><span class="math display">\[ |R_1| = \sqrt{O(h^4)} \]</span>
+<span class="math display">\[ |R_2| = \sqrt{O(h^2)} \]</span>
+<span class="math display">\[ |R_3| = \sqrt{O(h^2)} \]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[ |R_1| = O(h^2) \]</span>
+<span class="math display">\[ |R_2| = O(h) \]</span>
+<span class="math display">\[ |R_1| = O(h) \]</span></p>
+<p>This shows that <span class="math inline">\(|R_1|\)</span> has the lowest upper limit of the 3 vectors, showing that <span class="math inline">\(R_1\)</span> is the smallest remainder matrix and therefore <span class="math inline">\(T_1\)</span> is the best transformation matrix for approximating the ODE.</p>
+<p>Now looking more generally for an ODE of order k, the stepping matrix, the remainder matrix and the big-O remainder matrix is ;</p>
+<p><span class="math display">\[
+S = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^k}{k!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{k-1}}{(k-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{k-2}}{(k-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}
+\]</span>
+<span class="math display">\[
+ R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k-1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+...\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+ =  \begin{bmatrix}
+0\\
+0\\
+O(h^{k+1})\\
+O(h^{k})\\
+O(h^{k-1})\\
+...\\
+O(h)
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[ |R| = O(h) \]</span></p>
+<p>Therefore, to determine the best transformation matrix for a given ODE, you want to define the element that gives the <span class="math inline">\(O(h)\)</span> remainder as a combination of smaller remainder terms. That is, to define the highest order derivatives as a function of the lower order derivatives, a and y to reduce the truncation error and improve the approximation.</p>
 </div>
 </div>
