@@ -10,9 +10,8 @@
 <title>{{ .Title }}{{ with .Params.subtitle }} - {{ . }} {{ end }} - {{ .Site.Title }}</title>
 <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}">
 {{ end }}
-<!-- {{ with .Site.Params.favicon }}
-  <link href='{{ . | absURL }}' rel='icon' type='image/x-icon'/> -->
-<link rel="shortcut icon" href="{{ "images/logo.png" | absURL }}" />
+{{ with .Site.Params.favicon }}
+  <link href='{{ . | absURL }}' rel='icon' type='image/x-icon'/>
 {{ end }}
 
 {{ if eq .RelPermalink "/" }}
