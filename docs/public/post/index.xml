@@ -6,13 +6,13 @@
     <description>Recent content in Posts on Fonzzy&#39;s Projects</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Taylor Series for approximating ODEs</title>
-      <link>/2021/04/26/taylor-series-for-approximating-odes/</link>
-      <pubDate>Mon, 26 Apr 2021 00:00:00 +0000</pubDate>
+      <title>Taylor Series approximations of ODEs: The Algorithm</title>
+      <link>/2021/05/05/taylor-series-approximations-of-odes-the-algorithm/</link>
+      <pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2021/04/26/taylor-series-for-approximating-odes/</guid>
+      <guid>/2021/05/05/taylor-series-approximations-of-odes-the-algorithm/</guid>
       <description>If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus. However, if you ever try and work with these problems in the real world, you will quickly realise that a lot of differential equations aren’t solvable.</description>
     </item>
     

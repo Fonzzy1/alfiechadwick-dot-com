@@ -1,7 +1,7 @@
 ---
-title: "Taylor Series for approximating ODEs"
+title: "Taylor Series approximations of ODEs: The Algorithm"
 author: Fonzzy
-date: 2021-04-26T00:00:00+00:00
+date: 2021-05-05T00:00:00+00:00
 output: html_document
 ---
 
@@ -123,10 +123,13 @@ y^{n}(x)\\
 </div>
 <div id="how-to-make-the-approximation-fit-the-ode" class="section level2">
 <h2>How to make the approximation fit the ODE</h2>
-<p>This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.</p>
+<p>The current <span class="math inline">\(Y(x+h) = S \cdot Y(x)\)</span> descirbes the path of a polynominal through space. To use it to approximate an ODE, it must be slightly modified such that for each step of the aproximation, the condition of the ODE is met.
+This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.</p>
 <div id="case-1-exclusively-linear" class="section level4">
 <h4>Case 1 : Exclusively linear</h4>
-<p>For an ODE that is a linear combination of x, y and y’s derivatives, such as <span class="math inline">\(y&#39;&#39;=x+y\)</span>, on can simply change the stepping matrix to reflect this. This can be done by applying a transformation matrix <span class="math inline">\(T\)</span> to the stepping matrix. Knowing that each row of the stepping matrix represents one of h, x, y or y’s derivatives, creating a transformation matrix is fairly easy.</p>
+<p>For an ODE that is a linear combination of x, y and y’s derivatives, such as <span class="math inline">\(y&#39;&#39;=x+y\)</span>, on can simply change multiply the function by a matrix representing this linear combination. This can be written as:</p>
+<p><span class="math display">\[T \cdot Y(x+h) = T \cdot S \cdot Y(x) \]</span></p>
+<p>Knowing that each row of the stepping matrix represents one of h, x, y or y’s derivatives, creating a transformation matrix is fairly easy.</p>
 <p>Sticking with the same sample ODE <span class="math inline">\(y&#39;&#39;=x+y\)</span>, the transformation matrix can be defined as;</p>
 <p><span class="math display">\[
 T_1 = \begin{bmatrix}
@@ -157,9 +160,9 @@ T_3 = \begin{bmatrix}
 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
 \end{bmatrix}
 \]</span></p>
-<p>So what is best option for the approximation. It’s not yet obvious, so lets look at the resulting step matrices from these transformations <span class="math inline">\(S^*\)</span></p>
+<p>So what is best option for the approximation. It’s not yet obvious, so lets look at the resulting step matrices from these transformations <span class="math inline">\(T \cdot S\)</span></p>
 <p><span class="math display">\[
-S^*_1 = \begin{bmatrix}
+T_1 \cdot S= \begin{bmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
 0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
@@ -168,7 +171,7 @@ S^*_1 = \begin{bmatrix}
 \end{bmatrix}
 \]</span></p>
 <p><span class="math display">\[
-S^*_2 = \begin{bmatrix}
+T_2 \cdot S= \begin{bmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
 0 &amp; 0 &amp;  -1 &amp; -h &amp; 1-\frac{h^2}{2}\\
 0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
@@ -177,7 +180,7 @@ S^*_2 = \begin{bmatrix}
 \end{bmatrix}
 \]</span></p>
 <p><span class="math display">\[
-S^*_3 = \begin{bmatrix}
+T_3 \cdot S= \begin{bmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
 -1 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
@@ -186,7 +189,7 @@ S^*_3 = \begin{bmatrix}
 \end{bmatrix}
 \]</span></p>
 <p>Now we have to look at an important part of approximations, truncation error, that is, assuming the function has a solution <span class="math inline">\(y^*\)</span>, what is the magnitude of the difference between this function anthe approximation. Formally, this is said to be <span class="math inline">\(r = y^* - y\)</span>. Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R with the definition:</p>
-<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot \ Y(x) \]</span></p>
+<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - S \cdot Y(x) \]</span></p>
 <p>Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:</p>
 <p><span class="math display">\[ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
 <p>For the standard stepping matrix for the order two ODE:</p>
@@ -204,8 +207,8 @@ S^*_3 = \begin{bmatrix}
 \sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \end{bmatrix}
 \]</span></p>
-<p>Applying the relevant transformation matrices to <span class="math inline">\(R\)</span> will provide the truncation error for each <span class="math inline">\(T\)</span>:</p>
-<p><span class="math display">\[R_1 = \begin{bmatrix}
+<p>Since this is the error for an un-transformed system, by simply applying the transformation matrix <span class="math inline">\(R\)</span> we can find the truncation error for the transformed system.</p>
+<p><span class="math display">\[T_1 \cdot R = \begin{bmatrix}
 0\\
 0\\
 \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
@@ -220,7 +223,7 @@ S^*_3 = \begin{bmatrix}
 \sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \end{bmatrix}\]</span></p>
-<p><span class="math display">\[R_2 = \begin{bmatrix}
+<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
 0\\
 \sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n-\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
@@ -235,7 +238,7 @@ S^*_3 = \begin{bmatrix}
 \sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
 \end{bmatrix}\]</span></p>
-<p><span class="math display">\[R_3 = \begin{bmatrix}
+<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
 0\\
 0\\
 0-\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
@@ -252,7 +255,7 @@ S^*_3 = \begin{bmatrix}
 \end{bmatrix}\]</span></p>
 <p>Although the magnitude of these errors are theoretically possible to compute, it’s a lot of work considering that the question we are trying to answer is which one is the smallest. One tool we can employ to simplify this problem is big-O notation. Big-O notation is defined as <span class="math inline">\(f(x) = O(g(x))\)</span> as <span class="math inline">\(x \rightarrow a\)</span> if <span class="math inline">\(|f(x)| = M \cdot g(x)\)</span> . It describes the upper limit of a function as it’s variable approaches a. In this case, we are interested in the upper limit as h approaches 0.</p>
 <p>Applying this concept to the R vectors:</p>
-<p><span class="math display">\[R_1 = \begin{bmatrix}
+<p><span class="math display">\[T_1 \cdot R  = \begin{bmatrix}
 0\\
 0\\
 O(h^3)\\
@@ -260,7 +263,7 @@ O(h^2)\\
 O(h^3)\\
 \end{bmatrix}
 \]</span></p>
-<p><span class="math display">\[R_2 = \begin{bmatrix}
+<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
 0\\
 O(h)\\
 O(h^3)\\
@@ -268,7 +271,7 @@ O(h^2)\\
 O(h)\\
 \end{bmatrix}
 \]</span></p>
-<p><span class="math display">\[R_3 = \begin{bmatrix}
+<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
 0\\
 0\\
 O(h)\\
@@ -277,21 +280,21 @@ O(h)\\
 \end{bmatrix}
 \]</span></p>
 <p>Now looking at the magnitude of these vectors:</p>
-<p><span class="math display">\[ |R_1| = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} \]</span>
-<span class="math display">\[ |R_2| = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2} \]</span>
-<span class="math display">\[ |R_3| = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} \]</span></p>
+<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} \]</span>
+<span class="math display">\[ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2} \]</span>
+<span class="math display">\[ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} \]</span></p>
 <p>Since <span class="math inline">\(f_1 \cdot f_2 = O(g_1g_2)\)</span>;</p>
-<p><span class="math display">\[ |R_1| = \sqrt{O(h^6) + O(h^4) + O(h^6)} \]</span>
-<span class="math display">\[ |R_2| = \sqrt{O(h^2) + O(h^6) + O(h^4) + O(h^2)} \]</span>
-<span class="math display">\[ |R_3| = \sqrt{O(h^2) + O(h^4) + O(h^2)} \]</span></p>
+<p><span class="math display">\[ |T_1 \cdot R |  = \sqrt{O(h^6) + O(h^4) + O(h^6)} \]</span>
+<span class="math display">\[ |T_2 \cdot R |  = \sqrt{O(h^2) + O(h^6) + O(h^4) + O(h^2)} \]</span>
+<span class="math display">\[ |T_3 \cdot R |  = \sqrt{O(h^2) + O(h^4) + O(h^2)} \]</span></p>
 <p>Since <span class="math inline">\(f_1 + f_2 = O(max(g_1,g_2))\)</span>;</p>
-<p><span class="math display">\[ |R_1| = \sqrt{O(h^4)} \]</span>
-<span class="math display">\[ |R_2| = \sqrt{O(h^2)} \]</span>
-<span class="math display">\[ |R_3| = \sqrt{O(h^2)} \]</span></p>
+<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{O(h^4)} \]</span>
+<span class="math display">\[ |T_2 \cdot R | = \sqrt{O(h^2)} \]</span>
+<span class="math display">\[ |T_3 \cdot R | = \sqrt{O(h^2)} \]</span></p>
 <p>Therefore:</p>
-<p><span class="math display">\[ |R_1| = O(h^2) \]</span>
-<span class="math display">\[ |R_2| = O(h) \]</span>
-<span class="math display">\[ |R_1| = O(h) \]</span></p>
+<p><span class="math display">\[ |T_1 \cdot R | = O(h^2) \]</span>
+<span class="math display">\[ |T_2 \cdot R | = O(h) \]</span>
+<span class="math display">\[ |T_3 \cdot R | = O(h) \]</span></p>
 <p>This shows that <span class="math inline">\(|R_1|\)</span> has the lowest upper limit of the 3 vectors, showing that <span class="math inline">\(R_1\)</span> is the smallest remainder matrix and therefore <span class="math inline">\(T_1\)</span> is the best transformation matrix for approximating the ODE.</p>
 <p>Now looking more generally for an ODE of order k, the stepping matrix, the remainder matrix and the big-O remainder matrix is ;</p>
 <p><span class="math display">\[
@@ -326,6 +329,236 @@ O(h)
 \end{bmatrix}
 \]</span></p>
 <p><span class="math display">\[ |R| = O(h) \]</span></p>
-<p>Therefore, to determine the best transformation matrix for a given ODE, you want to define the element that gives the <span class="math inline">\(O(h)\)</span> remainder as a combination of smaller remainder terms. That is, to define the highest order derivatives as a function of the lower order derivatives, a and y to reduce the truncation error and improve the approximation.</p>
+<p>Therefore, to determine the best transformation matrix for a given ODE, you want to define the element that gives the <span class="math inline">\(O(h)\)</span> remainder as a combination of smaller remainder terms as this will then convert the approximation to <span class="math inline">\(O(h^2)\)</span>. Therefore, to optimise the transformation matrix, wherever possible, define higher order derivatives as functions of lower order derivatives, x and y, and where this is not possible, leave it as is.</p>
+</div>
+<div id="case-2-everything-else" class="section level4">
+<h4>Case 2: Everything Else</h4>
+<p>For non-linear cases, no transformation matrix will match the conditions set out in the ODE. Therefore, an adjustment function , <span class="math inline">\(A(x)\)</span>has to be defined to match the conditions such that:</p>
+<p><span class="math display">\[Y(x+h) =  A(S \cdot Y(x))\]</span></p>
+<p>Taking the example ODE <span class="math inline">\(Y = xY&#39;&#39;\)</span>, we have a similar problem to before where three adjustment functions can be defined such that <span class="math display">\[Y \leftarrow xY&#39;&#39;\]</span> <span class="math display">\[Y&#39;&#39; \leftarrow \frac{Y}{x}\]</span> <span class="math display">\[x \leftarrow \frac{Y}{Y&#39;&#39;}\]</span></p>
+<p>To now look at which one gives the best approximation one can take a similar action to previously, by applying the adjustment function to the remainder function</p>
+<p><span class="math display">\[ A_1(\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix})
+=
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_2 \cdot x_5\\
+x_4\\
+x_5\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[ A_2(\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix})
+=
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_3 / x_2\\
+\end{bmatrix}
+\forall   x_2 \neq 0
+or
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+0\\
+\end{bmatrix}
+x_2 = 0
+\]</span></p>
+<p><span class="math display">\[ A_1(\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix})
+=
+\begin{bmatrix}
+x_1\\
+x_3/x_5\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix}
+\forall   x_5 \neq 0
+\]</span></p>
+<p>Now applying these functions to the remainder vector;</p>
+<p><span class="math display">\[A_1(R) = \begin{bmatrix}
+0\\
+0\\
+0\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_2(R) =
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+0\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_3(R) = \begin{bmatrix}
+0\\
+\frac{\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\}{\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\}\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p>Converting again to the big-O notation;</p>
+<p><span class="math display">\[A_1(R) = \begin{bmatrix}
+0\\
+0\\
+0\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_2(R) =
+\begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+0\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_3(R) = \begin{bmatrix}
+0\\
+O(h^2)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p>And then taking the magnitude:</p>
+<p><span class="math display">\[ |A_1(R)| = O(h) \]</span>
+<span class="math display">\[ |A_2(R)| = O(h^2) \]</span>
+<span class="math display">\[ |A_3(R)| = O(h) \]</span></p>
+<p>Therefore, <span class="math inline">\(A_2(x)\)</span> is the best adjustment function for this ODE. Unlike the exclusively linear case there is no hard and fast rule to get the best adjustment function, however similarly to the linear case you want to remove the highest order term, but the adjustment functions will need to be checked to determine the best one.</p>
+</div>
+</div>
+<div id="the-final-algorithm" class="section level2">
+<h2>The Final Algorithm</h2>
+<div id="linear-case" class="section level4">
+<h4>Linear Case</h4>
+<ol style="list-style-type: decimal">
+<li><p>For an ODE of order k, and a step size h convert the initial condition into a vector Y(x) such that:
+<span class="math display">\[Y(x) = \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{k}(x)\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Define an initial stepping function such that:
+<span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Define a transformation matrix to apply to Y(x) such that Y(x) always satisfies the conditions of the ODE, and that minimises truncation error.</p></li>
+<li><p>Define the new stepping function such that:
+<span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = T \cdot \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Iterate this stepping function over the desired domain.</p></li>
+</ol>
+</div>
+<div id="general-case" class="section level4">
+<h4>General case</h4>
+<ol style="list-style-type: decimal">
+<li><p>Same as the linear case</p></li>
+<li><p>Same as linear case</p></li>
+<li><p>Define a transformation <strong>function</strong> to apply to Y(x) such that Y(x) always satisfies the conditions of the ODE, and that minimises truncation error.</p></li>
+<li><p>Define a new stepping matrix such that:
+<span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = A(\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix})\]</span></p></li>
+<li><p>Iterate this stepping function over the desired domain.</p></li>
+</ol>
 </div>
 </div>
