@@ -1,14 +1,77 @@
----
-title: "Taylor Series approximations of ODEs: The Algorithm"
-author: Fonzzy
-date: 2021-05-05T00:00:00+00:00
-output: html_document
----
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.82.1" />
 
+
+<title>Taylor Series approximations of ODEs: The Algorithm - Fonzzy&#39;s Projects</title>
+<meta property="og:title" content="Taylor Series approximations of ODEs: The Algorithm - Fonzzy&#39;s Projects">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/Fonzzy1">GitHub</a></li>
+    
+    <li><a href="https://www.linkedin.com/in/alfie-chadwick-6a773a94/">Linkedin</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">15 min read</span>
+    
+
+    <h1 class="article-title">Taylor Series approximations of ODEs: The Algorithm</h1>
+
+    
+    <span class="article-date">2021-05-18</span>
+    
+
+    <div class="article-content">
+      
 
 
 <p>If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus. However, if you ever try and work with these problems in the real world, you will quickly realise that a lot of differential equations aren’t solvable.</p>
-<p>This is where numerical methods become useful as they provide one the ability to approximate the solution of the differential equation without explicitly soliving it.</p>
+<p>This is where numerical methods become useful as they provide one the ability to approximate the solution of the differential equation without explicitly solving it.</p>
 <div id="eulers-method" class="section level2">
 <h2>Euler’s Method</h2>
 <p>One of the first numerical methods that most people get taught is Euler’s method. There are many <a href="https://tutorial.math.lamar.edu/classes/de/eulersmethod.aspx">better writers</a> who can explain this method much better than me, so I won’t go into too much detail. Essentially, this method uses the definition of the differential equation to calculate steps of a given length h. For an ODE (differential equation of one variable) of order n, the method can be described as:</p>
@@ -59,7 +122,7 @@ y^{n}(x)\\
 \end{bmatrix}\]</span></p>
 <div id="how-to-expand-the-euler-method" class="section level3">
 <h3>How to expand the Euler method?</h3>
-<p>The Euler Method approximates functions as straight lines at each point and then approximates the function again at the next point. However, if the function is not much like a straight line then this approximation will fail to produce accurate results. Therefore, the question becomes how could one take into account the curve of the function between steps.</p>
+<p>The Euler Method approximates functions as straight lines at each point and to then evaluate the function at the next point. However, if the function is not much like a straight line then this approximation will fail to produce accurate results. Therefore, the question becomes how could one take into account the curve of the function between steps.</p>
 </div>
 </div>
 <div id="taylor-series" class="section level2">
@@ -140,7 +203,7 @@ T_1 = \begin{bmatrix}
 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
 \end{bmatrix}
 \]</span></p>
-<p>However, thinking of this ODE as <span class="math inline">\(x = y&#39;&#39; - y\)</span> and <span class="math inline">\(y = y&#39;&#39; - x\)</span> is is just as reasonable to define T as:</p>
+<p>However, thinking of this ODE as <span class="math inline">\(x = y&#39;&#39; - y\)</span> and <span class="math inline">\(y = y&#39;&#39; - x\)</span> it is just as reasonable to define T as:</p>
 <p><span class="math display">\[
 T_2 = \begin{bmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
@@ -188,7 +251,7 @@ T_3 \cdot S= \begin{bmatrix}
 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
 \end{bmatrix}
 \]</span></p>
-<p>Now we have to look at an important part of approximations, truncation error, that is, assuming the function has a solution <span class="math inline">\(y^*\)</span>, what is the magnitude of the difference between this function anthe approximation. Formally, this is said to be <span class="math inline">\(r = y^* - y\)</span>. Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R with the definition:</p>
+<p>Now we have to look at an important part of approximations, truncation error, that is, assuming the function has a solution <span class="math inline">\(y^*\)</span>, what is the magnitude of the difference between this function and the approximation. Formally, this is said to be <span class="math inline">\(r = y^* - y\)</span>. Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R with the definition:</p>
 <p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - S \cdot Y(x) \]</span></p>
 <p>Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:</p>
 <p><span class="math display">\[ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
@@ -562,3 +625,35 @@ y^{n}(x)\\
 </ol>
 </div>
 </div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
