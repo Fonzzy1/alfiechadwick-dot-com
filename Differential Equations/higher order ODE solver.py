@@ -5,20 +5,19 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 ## Set parameters for approximation
-h = 0.001
-xmin = -math.pi * 2
-xmax = math.pi * 2
+h = math.pi/256
+xmin = 0
+xmax = math.pi
 
 ## Int vector such that [h,x,f(x),f'(x) .... f^n(x)]
-int_list = np.array([h, math.pi / 2, -5 / 3, np.NAN, 15])
+int_list = np.array([h, math.pi , 0, np.NAN, np.NAN])
 int_vect = int_list.reshape(len(int_list), 1)
 
 ## Condition Vector
-condition_vect = np.array([[h, 0, np.NAN, 5, np.NAN],
-                          [h, 2, 0, np.NAN, np.NAN],
-                          [h, 0, np.NAN, 0, np.NAN]])
-search_min = 1.43
-search_max = 1.45
+condition_vect = np.array([[h, 0, 0, np.NAN, np.NAN],
+                          [h,math.pi/4,1,np.NAN, np.NAN]])
+search_min = -3.2
+search_max = -3.0
 search_step = 0.01
 
 ## Find Permutaions
@@ -51,7 +50,7 @@ for i in range(2, len(step_matrix_neg)):
 
 ## Swap rows of step_matrix to represent linear ODE
 def linear_step_converion(matrix):
-    matrix[4] = -9 * matrix[2]
+    matrix[4] = - matrix[2]
     return matrix
 
 
@@ -66,7 +65,6 @@ def adjustment(vector):
 
 
 ## Run Simulation for all permutations, returning the distance from the condition
-
 ls_distance = []
 for int_vect in poss_int_vect:
     ## Create Output Space
