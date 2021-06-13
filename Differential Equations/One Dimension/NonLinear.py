@@ -6,6 +6,8 @@ import pandas as pd
 
 ## Int vector such that [h,x,f(x),f'(x) .... f^n(x)] in a column matrix
 vect_initial = np.array([[0.01],[1],[np.NAN], [1], [np.NAN]])
+
+
 def adjustment_funtion(vector):
     vector[4] = -vector[2]
     return vector
@@ -41,37 +43,27 @@ def nonlin_IVP(xmin, xmax, vect_initial, print=True):
     matix_step_pos = build_matrix_step(h, vect_initial)
 
     ## Create df_output Space
-    x_list = np.arange(xmin, xmax, h)
 
-    df_output = np.zeros((len(x_list), len(vect_initial)))
-    df_output[0:len(df_output), 0] = h
-    df_output[0:len(df_output), 1] = x_list
+    df_output = pd.DataFrame(vect_initial.T)
 
     ## Do the positive steps first
     vect = vect_initial.copy()
     while vect[1][0] <= xmax + h:
-        index = int((vect[1][0] - xmin) / h)
-        # Index Error commonly caused float size limit for small step size
-        try:
-            df_output[index] = vect.T
-        except IndexError:
-            pass
-        vect =adjustment_funtion(np.matmul(matix_step_pos, vect))
+        vect = np.matmul(matrix_step_pos, vect)
+        df_output.loc[len(df_output)] = vect.T[0]
 
     ## Do the negative steps next
     vect = vect_initial.copy()
     while vect[1][0] > xmin:
-        index = int((vect[1][0] - xmin) / h)
-        # Index Error commonly caused float size limit for small step size
-        try:
-            df_output[index] = vect.T
-        except IndexError:
-            pass
-        vect = adjustment_funtion(np.matmul(matix_step_neg, vect))
+        vect = np.matmul(matrix_step_neg, vect)
+        df_output.loc[len(df_output)] = vect.T[0]
+
+    # Reprder
+    df_output.sort_values(1, inplace=True)
 
     if print == True:
         ## Plot df_output
-        plt.plot(df_output.T[1], df_output.T[2])
+        plt.plot(df_output[1], df_output[2])
         plt.title(str(vect_initial.T))
         plt.show()
 

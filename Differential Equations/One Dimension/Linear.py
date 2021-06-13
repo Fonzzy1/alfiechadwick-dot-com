@@ -20,7 +20,7 @@ search_min = -1
 search_max = 1
 search_step = 0.01
 
-def lin_IVP(xmin, xmax, vect_initial, matrix_transform):
+def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print = True):
     # Check for valid input information
     ## Column int Vect?
     if vect_initial.shape[1] != 1 or len(vect_initial.shape) != 2:
@@ -47,38 +47,31 @@ def lin_IVP(xmin, xmax, vect_initial, matrix_transform):
     matrix_step_pos = build_matrix_step(h, matrix_transform)
 
     ## Create df_output Space
-    x_list = np.arange(xmin, xmax, h)
 
-    df_output = np.zeros((len(x_list), len(vect_initial)))
-    df_output[0:len(df_output), 0] = h
-    df_output[0:len(df_output), 1] = x_list
+    df_output = pd.DataFrame(vect_initial.T)
+
 
     ## Do the positive steps first
     vect = vect_initial.copy()
     while vect[1][0] <= xmax + h:
-        index = int((vect[1][0] - xmin) / h)
-        # Index Error commonly caused float size limit for small step size
-        try:
-            df_output[index] = vect.T
-        except IndexError:
-            pass
         vect = np.matmul(matrix_step_pos, vect)
+        df_output.loc[len(df_output)] = vect.T[0]
+
 
     ## Do the negative steps next
     vect = vect_initial.copy()
     while vect[1][0] > xmin:
-        index = int((vect[1][0] - xmin) / h)
-        # Index Error commonly caused float size limit for small step size
-        try:
-            df_output[index] = vect.T
-        except IndexError:
-            pass
         vect = np.matmul(matrix_step_neg, vect)
+        df_output.loc[len(df_output)] = vect.T[0]
 
-    ## Plot df_output
-    plt.plot(df_output.T[1], df_output.T[2])
-    plt.title(str(vect_initial.T))
-    plt.show()
+    #Reprder
+    df_output.sort_values(1,inplace=True)
+
+    if print == True:
+        ## Plot df_output
+        plt.plot(df_output[1], df_output[2])
+        plt.title(str(vect_initial.T))
+        plt.show()
 
     return df_output
 def single_value_lin_IVP(x,vect_initial,matrix_transform):
@@ -159,6 +152,6 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, matrix_
     dist = df_results['dist'][best_index].values
     return (best_int_vect, dist, df_results)
 
-(vector_initial_best, dist, df_results) = find_best_initial(search_min, search_max, search_step, vect_initial, matrix_transform, condition_vect)
+(vector_initial_best, dist, df_possible_vectors) = find_best_initial(search_min, search_max, search_step, vect_initial, matrix_transform, condition_vect)
 
 df_output = lin_IVP(xmin, xmax, vector_initial_best, matrix_transform)
