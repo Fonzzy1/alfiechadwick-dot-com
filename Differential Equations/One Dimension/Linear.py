@@ -5,7 +5,7 @@ import itertools as it
 import pandas as pd
 
 ## Int vector such that [h,x,f(x),f'(x) .... f^n(x)] in a column matrix
-vect_initial = np.array([[0.01],[1],[np.NAN], [1], [np.NAN]])
+vect_initial = np.array([[0.01], [1], [np.NAN], [1], [np.NAN]])
 matrix_transform = np.array([[1, 0, 0, 0, 0],
                              [0, 1, 0, 0, 0],
                              [0, 0, 1, 0, 0],
@@ -14,13 +14,13 @@ matrix_transform = np.array([[1, 0, 0, 0, 0],
 xmin = 0
 xmax = 5
 ## Condition Vector
-condition_vect = np.array([[0.01,1,0,1,0],
-                           [0.01,2,1,np.NAN,np.NAN]])
-search_min = -1
-search_max = 1
-search_step = 0.01
+condition_vect = np.array([[0.01, 1.1, 1, np.NAN, np.NAN]])
+search_min = -100
+search_max = 100
+search_step = 10
 
-def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print = True):
+
+def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print=True):
     # Check for valid input information
     ## Column int Vect?
     if vect_initial.shape[1] != 1 or len(vect_initial.shape) != 2:
@@ -50,13 +50,11 @@ def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print = True):
 
     df_output = pd.DataFrame(vect_initial.T)
 
-
     ## Do the positive steps first
     vect = vect_initial.copy()
     while vect[1][0] <= xmax + h:
         vect = np.matmul(matrix_step_pos, vect)
         df_output.loc[len(df_output)] = vect.T[0]
-
 
     ## Do the negative steps next
     vect = vect_initial.copy()
@@ -64,8 +62,8 @@ def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print = True):
         vect = np.matmul(matrix_step_neg, vect)
         df_output.loc[len(df_output)] = vect.T[0]
 
-    #Reprder
-    df_output.sort_values(1,inplace=True)
+    # Reprder
+    df_output.sort_values(1, inplace=True)
 
     if print == True:
         ## Plot df_output
@@ -74,7 +72,9 @@ def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print = True):
         plt.show()
 
     return df_output
-def single_value_lin_IVP(x,vect_initial,matrix_transform):
+
+
+def single_value_lin_IVP(x, vect_initial, matrix_transform):
     # Check for valid input information
     ## Column int Vect?
     if vect_initial.shape[1] != 1 or len(vect_initial.shape) != 2:
@@ -100,18 +100,20 @@ def single_value_lin_IVP(x,vect_initial,matrix_transform):
     matrix_step_neg = build_matrix_step(-h, matrix_transform)
     matrix_step_pos = build_matrix_step(h, matrix_transform)
 
-    k = int((x - vect_initial[1])/h)
+    k = int((x - vect_initial[1]) / h)
 
     if k > 0:
-        step_matrix_k = np.linalg.matrix_power(matrix_step_pos,k)
-        vect_output =  np.matmul(step_matrix_k,vect_initial)
+        step_matrix_k = np.linalg.matrix_power(matrix_step_pos, k)
+        vect_output = np.matmul(step_matrix_k, vect_initial)
     if k < 0:
-        step_matrix_k = np.linalg.matrix_power(matrix_step_neg,-k)
-        vect_output =  np.matmul(step_matrix_k,vect_initial)
+        step_matrix_k = np.linalg.matrix_power(matrix_step_neg, -k)
+        vect_output = np.matmul(step_matrix_k, vect_initial)
     if k == 0:
         vect_output = vect_initial
 
     return vect_output
+
+
 def build_matrix_step(h, matrix_transform):
     matrix_base = np.identity(len(matrix_transform))
     matrix_base[1][0] = np.sign(h)
@@ -120,16 +122,21 @@ def build_matrix_step(h, matrix_transform):
             matrix_base[i][j] = h ** (j - i) / math.factorial(j - i)
     matrix_step = np.matmul(matrix_transform, matrix_base)
     return matrix_step
+
+
 def find_best_initial(search_min, search_max, search_step, vect_initial, matrix_transform, condition_vect):
     # Find All Possible initial vectors
-    search_permutations = [*it.combinations_with_replacement(np.arange(search_min, search_max + search_step, search_step),
-                                            np.count_nonzero(np.isnan(vect_initial)))]
+    search_permutations = [
+        *it.combinations_with_replacement(np.arange(search_min, search_max + search_step, search_step),
+                                          np.count_nonzero(np.isnan(vect_initial)))]
     nan_location = np.argwhere(np.isnan(vect_initial))
     nan_location = nan_location[nan_location != 0]
     vect_initial_poss = np.zeros((len(search_permutations), len(vect_initial)))
     for i in range(0, len(search_permutations)):
         vect_initial_poss[i] = vect_initial.T
         vect_initial_poss[i][nan_location] = search_permutations[i]
+        ## This ensures only valid input vectors are met
+        vect_initial_poss[i] = np.matmul(matrix_transform,vect_initial_poss[i].T)
 
     ## List of scores
     ls_distance = []
@@ -138,8 +145,8 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, matrix_
     for vect_initial in vect_initial_poss:
         ls_distance_single = []
         for vect in condition_vect:
-            output = single_value_lin_IVP(vect[1],np.reshape(vect_initial, (len(vect_initial),1)),matrix_transform)
-            dist = np.linalg.norm(np.nan_to_num(output - np.reshape(vect, (len(vect),1))))
+            output = single_value_lin_IVP(vect[1], np.reshape(vect_initial, (len(vect_initial), 1)), matrix_transform)
+            dist = np.linalg.norm(np.nan_to_num(output - np.reshape(vect, (len(vect), 1))))
             ls_distance_single.append(dist)
         ls_distance.append(sum(ls_distance_single))
 
@@ -152,6 +159,8 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, matrix_
     dist = df_results['dist'][best_index].values
     return (best_int_vect, dist, df_results)
 
-(vector_initial_best, dist, df_possible_vectors) = find_best_initial(search_min, search_max, search_step, vect_initial, matrix_transform, condition_vect)
+
+(vector_initial_best, dist, df_possible_vectors) = find_best_initial(search_min, search_max, search_step, vect_initial,
+                                                                     matrix_transform, condition_vect)
 
 df_output = lin_IVP(xmin, xmax, vector_initial_best, matrix_transform)

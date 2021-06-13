@@ -39,8 +39,8 @@ def nonlin_IVP(xmin, xmax, vect_initial, print=True):
     h = vect_initial[0][0]
 
     # Build the Stepping matrices
-    matix_step_neg = build_matrix_step(-h, vect_initial)
-    matix_step_pos = build_matrix_step(h, vect_initial)
+    matrix_step_neg = build_matrix_step(-h, vect_initial)
+    matrix_step_pos = build_matrix_step(h, vect_initial)
 
     ## Create df_output Space
 
@@ -86,6 +86,9 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, conditi
     for i in range(0, len(search_permutations)):
         vect_initial_poss[i] = vect_initial.T
         vect_initial_poss[i][nan_location] = search_permutations[i]
+        ## This ensures only valid input vectors are met
+        vect_initial_poss[i] = adjustment_funtion(vect_initial_poss[i].T)
+
 
     ## List of scores
     ls_distance = []
