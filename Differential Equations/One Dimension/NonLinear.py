@@ -5,21 +5,47 @@ import itertools as it
 import pandas as pd
 
 ## Int vector such that [h,x,f(x),f'(x) .... f^n(x)] in a column matrix
-vect_initial = np.array([[0.01],[1],[np.NAN], [1], [np.NAN]])
-
+condition_vect = np.array([[0.1,1,1,1,1]])
 
 def adjustment_funtion(vector):
-    vector[4] = -vector[2]
     return vector
 
 xmin = 0
 xmax = 5
-## Condition Vector
-condition_vect = np.array([[0.01,1,0,1,0],
-                           [0.01,2,1,np.NAN,np.NAN]])
-search_min = -1
-search_max = 1
+
+
+search_min = -0.4
+search_max = 0.4
 search_step = 0.1
+
+
+def check_well_posedness(condition_vect):
+    known_conditions = []
+    ## Seperate each peice of info into a row
+    for vect in condition_vect:
+        ## See additional information defined by definition of ODE
+        vect_transformed = adjustment_funtion(vect.T).T
+        k = 0
+        for value in vect_transformed[2:len(vect)]:
+            if not np.isnan(value):
+                ## [x, order of derivative, value], each row is a piece of information
+                known_conditions.append([vect[1], k, value])
+            k += 1
+
+    ## Remove Duplicates
+    known_conditions = np.unique(known_conditions,axis=0)
+
+    ##Find if value is defined twice differently
+    range_of_def = []
+    for i in known_conditions:
+        range_of_def.append(i[0:2])
+    if len(range_of_def) != len(np.unique(range_of_def,axis=0)):
+        return False, known_conditions, 'No Solution, contradictory conditions'
+    elif len(known_conditions) == len(condition_vect[0]) - 2:
+        return True, known_conditions,''
+    else:
+        return False, known_conditions, 'Non unique solution, wrong number of few conditions'
+
 def nonlin_IVP(xmin, xmax, vect_initial, print=True):
 
     #Check for valid input information
@@ -39,8 +65,8 @@ def nonlin_IVP(xmin, xmax, vect_initial, print=True):
     h = vect_initial[0][0]
 
     # Build the Stepping matrices
-    matrix_step_neg = build_matrix_step(-h, vect_initial)
-    matrix_step_pos = build_matrix_step(h, vect_initial)
+    matrix_step_neg = build_matrix_step_nonlin(-h, vect_initial)
+    matrix_step_pos = build_matrix_step_nonlin(h, vect_initial)
 
     ## Create df_output Space
 
@@ -68,7 +94,7 @@ def nonlin_IVP(xmin, xmax, vect_initial, print=True):
         plt.show()
 
     return df_output
-def build_matrix_step(h, vect_initial):
+def build_matrix_step_nonlin(h, vect_initial):
     base_matrix = np.identity(len(vect_initial))
     base_matrix[1][0] = np.sign(h)
     for i in range(2, len(base_matrix)):
@@ -76,7 +102,7 @@ def build_matrix_step(h, vect_initial):
             base_matrix[i][j] = h ** (j - i) / math.factorial(j - i)
     matix_step = base_matrix
     return matix_step
-def find_best_initial(search_min, search_max, search_step, vect_initial, condition_vect):
+def find_best_initial_nonlin(search_min, search_max, search_step, vect_initial, condition_vect):
     # Find All Possible initial vectors
     search_permutations = [*it.combinations_with_replacement(np.arange(search_min, search_max + search_step, search_step),
                                             np.count_nonzero(np.isnan(vect_initial)))]
@@ -100,7 +126,7 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, conditi
         h = vect_initial[0]
         for vect in condition_vect:
             index = int(math.floor((vect[1] - xmin) / h))
-            dist = np.linalg.norm(np.nan_to_num(output[index] - vect))
+            dist = np.linalg.norm(np.nan_to_num(output.T[index] - vect))
             ls_distance_single.append(dist)
             ls_distance_single.append(dist)
         ls_distance.append(sum(ls_distance_single))
@@ -114,6 +140,13 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, conditi
     dist = df_results['dist'][best_index].values
     return (best_int_vect, dist, df_results)
 
-(vector_initial_best, dist, df_results) = find_best_initial(search_min, search_max, search_step, vect_initial, condition_vect)
 
-df_output = nonlin_IVP(xmin, xmax, vector_initial_best)
+if check_well_posedness(condition_vect)[0]:
+    conditions = check_well_posedness(condition_vect)[1]
+    (vector_initial_best, dist, df_results) = find_best_initial_nonlin(search_min, search_max, search_step, condition_vect[0].T, condition_vect)
+
+    df_output = nonlin_IVP(xmin, xmax, vector_initial_best)
+
+else:
+    (bool, conditions, message)  = check_well_posedness(condition_vect)
+    print(message)

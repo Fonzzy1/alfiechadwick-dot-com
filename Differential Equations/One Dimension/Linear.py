@@ -4,20 +4,53 @@ import matplotlib.pyplot as plt
 import itertools as it
 import pandas as pd
 
-## Int vector such that [h,x,f(x),f'(x) .... f^n(x)] in a column matrix
-vect_initial = np.array([[0.01], [1], [np.NAN], [1], [np.NAN]])
+## Condition such that [h,x,f(x),f'(x) .... f^n(x)] in a row
+condition_vect = np.array([ [0.0005, 0, 0, 0, np.NAN]])
+
 matrix_transform = np.array([[1, 0, 0, 0, 0],
                              [0, 1, 0, 0, 0],
                              [0, 0, 1, 0, 0],
                              [0, 0, 0, 1, 0],
-                             [0, 0, -1, 0, 0]])
+                             [0, 1, -1, 0, 0]])
 xmin = 0
-xmax = 5
+xmax = 1
 ## Condition Vector
-condition_vect = np.array([[0.01, 1.1, 1, np.NAN, np.NAN]])
-search_min = -100
-search_max = 100
-search_step = 10
+
+search_min = -0.4
+search_max = 0.4
+search_step = 0.01
+
+
+def check_well_posedness(condition_vect, transformation_matrix):
+    known_conditions = []
+    for vect in condition_vect:
+        i=0
+        vect_transformed  =  np.full((len(vect),1),np.nan)
+        for i in range(0, len(vect_transformed)):
+            mults = []
+            for j in range(0, len(vect_transformed)):
+                if transformation_matrix[i][j] != 0:
+                    mults.append(transformation_matrix[i][j] * vect[j])
+            vect_transformed[i] = sum(mults)
+        k = 0
+        for value in vect_transformed[2:len(vect)]:
+            if not np.isnan(value):
+                known_conditions.append([vect[1], k, value[0]])
+            k += 1
+
+    ## Remove Duplicates
+    known_conditions = np.unique(known_conditions,axis=0)
+
+    ##Find if value is defined twice differently
+    range_of_def = []
+    for i in known_conditions:
+        range_of_def.append(i[0:2])
+    if len(range_of_def) != len(np.unique(range_of_def,axis=0)):
+        return False, known_conditions, 'No Solution, contradictory conditions'
+    elif len(known_conditions) == len(condition_vect[0]) - 2:
+        return True, known_conditions,''
+    else:
+        return False, known_conditions, 'Non unique solution, too few conditions'
 
 
 def lin_IVP(xmin, xmax, vect_initial, matrix_transform, print=True):
@@ -160,7 +193,16 @@ def find_best_initial(search_min, search_max, search_step, vect_initial, matrix_
     return (best_int_vect, dist, df_results)
 
 
-(vector_initial_best, dist, df_possible_vectors) = find_best_initial(search_min, search_max, search_step, vect_initial,
-                                                                     matrix_transform, condition_vect)
 
-df_output = lin_IVP(xmin, xmax, vector_initial_best, matrix_transform)
+if check_well_posedness(condition_vect,matrix_transform)[0]:
+    conditions = check_well_posedness(condition_vect,matrix_transform)[1]
+    (vector_initial_best, dist, df_possible_vectors) = find_best_initial(search_min, search_max, search_step,
+                                                                         condition_vect[0].T,
+                                                                         matrix_transform, condition_vect)
+
+    df_output = lin_IVP(xmin, xmax, vector_initial_best, matrix_transform)
+
+else:
+    (bool, conditions, message)  = check_well_posedness(condition_vect,matrix_transform)
+    print(message)
+
