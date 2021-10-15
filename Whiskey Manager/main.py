@@ -6,7 +6,7 @@ import numpy as np
 from scipy import optimize
 n = 3
 spend_per_fortnight = 70
-drinks_per_fortnight = 24
+drinks_per_fortnight = 24 
 
 def probability(dice_number, sides, target):
     rollAmount = sides**dice_number
@@ -48,22 +48,23 @@ whiskeys['drinks'] = sol.x
 whiskeys['probability'] = whiskeys['drinks'].apply(lambda x:x/drinks_per_fortnight)
 whiskeys['Rolls'] = ''
 whiskeys['roll_prob'] = 0.0
-whiskeys.sort_values(by = ['probability'], inplace= True)
+whiskeys.sort_values(by = ['probability'], inplace= True, ascending=False)
 
 dice_rolls = pd.DataFrame(np.array([outcomes, pr]).T)
 
 
-
-for (ind, whiskey) in whiskeys.iterrows():
-    probs = whiskey['probability']
-    while probs >= min(whiskeys['probability']) and len(dice_rolls) > 0:
-        closest_ind = (np.abs(dice_rolls[1] - probs)).argmin()
-        val = np.array(dice_rolls[0])[closest_ind]
-        dice_prob = np.array(dice_rolls[1])[closest_ind]
-        probs -= dice_prob
-        whiskeys['roll_prob'][ind] += dice_prob
-        whiskeys['Rolls'][ind] = str(whiskeys['Rolls'][ind]) + str(int(val)) + ','
-        dice_rolls = dice_rolls[dice_rolls[0] != val].reset_index(drop=True)
-
+while len(dice_rolls) > 0:
+    for (ind, whiskey) in whiskeys.iterrows():
+        try:
+            probs = whiskey['probability']
+            closest_ind = (np.abs(dice_rolls[1] - probs)).argmin()
+            val = np.array(dice_rolls[0])[closest_ind]
+            dice_prob = np.array(dice_rolls[1])[closest_ind]
+            if abs(probs - dice_prob) <  probs:
+                probs -= dice_prob
+                whiskeys['roll_prob'][ind] += dice_prob
+                whiskeys['Rolls'][ind] = str(whiskeys['Rolls'][ind]) + str(int(val)) + ','
+                dice_rolls = dice_rolls[dice_rolls[0] != val].reset_index(drop=True)
+        except:
+            pass
 print(whiskeys)
-input()
