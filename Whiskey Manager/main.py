@@ -1,12 +1,9 @@
 import itertools
 import pandas as pd
 import numpy as np
-
-
 from scipy import optimize
-n = 3
-spend_per_fortnight = 70
-drinks_per_fortnight = 24 
+
+n = 3 
 
 def probability(dice_number, sides, target):
     rollAmount = sides**dice_number
@@ -28,43 +25,21 @@ for value in outcomes:
 whiskeys = pd.read_csv('./current.csv')
 
 whiskeys['cpg'] = whiskeys.apply(lambda row: row['value']/row['vol'] * 40, axis=1)
+whiskeys['rel_cpg'] = whiskeys.apply(lambda row: 1/row['cpg']/sum(1/whiskeys['cpg']), axis=1) 
+whiskeys['rolls'] = '                '
+whiskeys['roll_prob'] = 0
 
+while len(pr) != 0:
+    whiskeys['rem'] = whiskeys.apply(lambda row: row['rel_cpg']-row['roll_prob'], axis=1)
+    whiskeys.sort_values('rem', ascending = False, inplace = True, ignore_index = True )
+    index = np.argmin(abs(whiskeys['rem'][0]-pr))
+    whiskeys.loc[0,'roll_prob']  += pr[index]
+    whiskeys.loc[0,'rolls'] += str(outcomes[index]) + ', '
+    pr =np.delete(pr,index)
+    outcomes =np.delete(outcomes,index)
 
-
-price = whiskeys['cpg']
-
-A = np.array([price.T, np.zeros(len(whiskeys))+1])
-
-b = np.array([[spend_per_fortnight],[drinks_per_fortnight]])
-
-
-def f(x):
-    return np.linalg.norm(np.matmul(A,x) - b.T)
-
-sol = optimize.least_squares(f, np.zeros(len(whiskeys))+1, bounds=[0,np.inf])
-
-whiskeys['drinks'] = sol.x
-
-whiskeys['probability'] = whiskeys['drinks'].apply(lambda x:x/drinks_per_fortnight)
-whiskeys['Rolls'] = ''
-whiskeys['roll_prob'] = 0.0
-whiskeys.sort_values(by = ['probability'], inplace= True, ascending=False)
-
-dice_rolls = pd.DataFrame(np.array([outcomes, pr]).T)
-
-
-while len(dice_rolls) > 0:
-    for (ind, whiskey) in whiskeys.iterrows():
-        try:
-            probs = whiskey['probability']
-            closest_ind = (np.abs(dice_rolls[1] - probs)).argmin()
-            val = np.array(dice_rolls[0])[closest_ind]
-            dice_prob = np.array(dice_rolls[1])[closest_ind]
-            if abs(probs - dice_prob) <  probs:
-                probs -= dice_prob
-                whiskeys['roll_prob'][ind] += dice_prob
-                whiskeys['Rolls'][ind] = str(whiskeys['Rolls'][ind]) + str(int(val)) + ','
-                dice_rolls = dice_rolls[dice_rolls[0] != val].reset_index(drop=True)
-        except:
-            pass
 print(whiskeys)
+    
+    
+
+

@@ -1,0 +1,92 @@
+2021-11-19T16:59:13,348 User install by explicit request
+2021-11-19T16:59:13,400 Created temporary directory: /tmp/pip-ephem-wheel-cache-vhttx7x0
+2021-11-19T16:59:13,400 Created temporary directory: /tmp/pip-req-tracker-f1gis3m4
+2021-11-19T16:59:13,400 Initialized build tracking at /tmp/pip-req-tracker-f1gis3m4
+2021-11-19T16:59:13,400 Created build tracker: /tmp/pip-req-tracker-f1gis3m4
+2021-11-19T16:59:13,400 Entered build tracker: /tmp/pip-req-tracker-f1gis3m4
+2021-11-19T16:59:13,400 Created temporary directory: /tmp/pip-install-yd7hdde7
+2021-11-19T16:59:13,423 1 location(s) to search for versions of multiprocessing:
+2021-11-19T16:59:13,423 * https://pypi.org/simple/multiprocessing/
+2021-11-19T16:59:13,423 Fetching project page and analyzing links: https://pypi.org/simple/multiprocessing/
+2021-11-19T16:59:13,423 Getting page https://pypi.org/simple/multiprocessing/
+2021-11-19T16:59:13,423 Found index url https://pypi.org/simple
+2021-11-19T16:59:13,423 Getting credentials from keyring for https://pypi.org/simple
+2021-11-19T16:59:13,423 Getting credentials from keyring for pypi.org
+2021-11-19T16:59:13,424 Looking up "https://pypi.org/simple/multiprocessing/" in the cache
+2021-11-19T16:59:13,424 Request header has "max_age" as 0, cache bypassed
+2021-11-19T16:59:13,424 Starting new HTTPS connection (1): pypi.org:443
+2021-11-19T16:59:13,461 https://pypi.org:443 "GET /simple/multiprocessing/ HTTP/1.1" 304 0
+2021-11-19T16:59:13,475   Found link https://files.pythonhosted.org/packages/1a/89/c1f22ef4ca6b82e204c672dc472b1ae4f83dad6643c3b57aeb1b9ef143e2/multiprocessing-2.6.0-0.1.tar.gz#sha256=fad7aa686a0d494fe513aed105fc8a83066dcb85d6df6c02f75d40ad158db22d (from https://pypi.org/simple/multiprocessing/), version: 2.6.0-0.1
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/b1/0e/00124febf2039b4ee0c888d8e11ea4e6ab0ac615c7212633a8e7b7cd8cb7/multiprocessing-2.6.0-0.1.win32-py2.4.exe#sha256=799142f646d30589bbb84502d9b4f387c473c8d873e0fa18718345ce53e9a907 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/9d/12/17445e4c8b3613981bcad878725fede3d06dc1d4eaf836b19ef9b98fad9c/multiprocessing-2.6.0-0.1.win32-py2.5.exe#sha256=9f5bab6d2200be7cedf7e104565c3259ca6dcf032f68e0567ec103c41da359ac (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/70/e8/251ee1fef3db915af3e9f0fa24bde9b95a89a3a22833ea4d0df87233e927/multiprocessing-2.6.0_0.1-py2.4-win32.egg#sha256=40f5a448eee145c50af49e14519fc7cf5094c4db9b2792f82c42ae6c0ae6a2a3 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/bf/66/1fb9a60874f371cd9833abc8416937c9832b9ea2a085e8072dec0d99fb54/multiprocessing-2.6.0_0.1-py2.5-win32.egg#sha256=d6adc75cdb44208fd8c2e3a475323d12489ea8d6aa7496f0e95e8890913c0246 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/a9/aa/bc10b6d320c86180a41bc8c65901fac5aa5b1af14c589d9848ee812cde08/multiprocessing-2.6.0.2-py2.4-win32.egg#sha256=6e210f9a4c69083e46b1d9fa533ee934576cb3a48490d563667049894b046c9e (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/73/e4/27c74828e6cd06f24e96669b32d152fa6d6434563e8ca8f531f8d2f9435c/multiprocessing-2.6.0.2-py2.5-win32.egg#sha256=a0d937e5257a76aa0c94a7e22b5fcee1df6ce007a4fc1778fa500b989f2f2659 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Found link https://files.pythonhosted.org/packages/71/63/591f4ae9ed88570b04b39d1fbd523a2bd88a1a38685927ff25df9af1b379/multiprocessing-2.6.0.2.tar.gz#sha256=461a1998428ac4335cc4141223e362295e1032a689faf04acd3375eea8c0b6bd (from https://pypi.org/simple/multiprocessing/), version: 2.6.0.2
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/66/ba/e5a7e87051d357d16b1bf7817b7000b325f643c3d6da64de61edd8f3e764/multiprocessing-2.6.0.2.win32-py2.4.exe#sha256=77c159ae647f893092d545da502b63ab0ad7a7b135dec716004556845acdb6cb (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/ed/fb/7e18ffdb4f4c8ea274aeaf580629d48fd17eec6efcbca2f96396bd1daa74/multiprocessing-2.6.0.2.win32-py2.5.exe#sha256=b33504684810b5ebb03c190dca27535135649518b45a343ce6e0e0c17dd714a1 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,475   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/8d/26/9476a91d1db0a2bad661c5b5f060303743cc9f59d95ed4d2549054452e35/multiprocessing-2.6.1.1-py2.4-win32.egg#sha256=4830ea6f61a21b8f3d9eebd2ee0a397d17340ba5c4e7731de4b7d4dca19d7c18 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/23/52/e1d44207512e06c5bc154f1ead49751ce2df37700687aadcd735f5930f26/multiprocessing-2.6.1.1-py2.5-win32.egg#sha256=7e7369ace706d980e218726556e8d3a93889b7a0fd672df13c343dc0b2f28077 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Found link https://files.pythonhosted.org/packages/68/08/b7c8b11f1265263e8bb525f0cd3c6747802bea087aac54469f0bef286524/multiprocessing-2.6.1.1.tar.gz#sha256=ad576359eda273ddbbbc0df9678df6ba653dee06dfe97839190826ec3f70c5ab (from https://pypi.org/simple/multiprocessing/), version: 2.6.1.1
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/44/97/77766ecd184b88cd9c903d362e65079d673b8794252671fda076cc1f5786/multiprocessing-2.6.1.1.win32-py2.4.exe#sha256=69940fbfeda9bc048bd6f0fa2685ee7ee67e79ad272f2394e8c91569ab6fe023 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/0e/e9/1a9a6fb04c8db9528505ab40668524963a90a98e707aa9c3ae2dc8a1068f/multiprocessing-2.6.1.1.win32-py2.5.exe#sha256=3a146e5658e0390f31e8f71347cbadcb125457f1d899d494f4147e6dd66becb0 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Found link https://files.pythonhosted.org/packages/98/7f/4967a994241802fcbb37204e424bd34fc4b239372dcea2f48cd2ffb0859f/multiprocessing-2.6.1.1.zip#sha256=c2f4b019ffcb72ea1a58c940f4500fba388d0a00d2b51bafc8fb11df5b85519c (from https://pypi.org/simple/multiprocessing/), version: 2.6.1.1
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/13/0e/1cd4f5ca4f038edd4d8f9aeacda1778629f11d4a92e7c73347c7ba32a080/multiprocessing-2.6.2.1-py2.4-win32.egg#sha256=d5f56e123606e8bc792164fe7bd12a5657533f1b936abb65b48385a8d8193176 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .egg: https://files.pythonhosted.org/packages/51/f5/760749dce243f2dcf2a5dc570ce56400c7ca3cef1652ae8d48113a38d042/multiprocessing-2.6.2.1-py2.5-win32.egg#sha256=109f4c89ea5c80814817d6636be5e1ec01f8567fdff84ea058ceeae46dbe4bd3 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Found link https://files.pythonhosted.org/packages/b8/8a/38187040f36cec8f98968502992dca9b00cc5e88553e01884ba29cbe6aac/multiprocessing-2.6.2.1.tar.gz#sha256=ef3b81ad85d7de252e5491b1daac028e17f9741cbe3625032e6eaa4ad4c79900 (from https://pypi.org/simple/multiprocessing/), version: 2.6.2.1
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/33/50/fad8a33705a9f5c12eff8c85e9f344a7c30963ee85f47e89cf337c9a5d6a/multiprocessing-2.6.2.1.win32-py2.4.exe#sha256=3e74e3d6a4df52299392498b85427f3eb6d3f93d249d8ba649fe6a2135b3a73d (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,476   Skipping link: unsupported archive format: .exe: https://files.pythonhosted.org/packages/fd/99/e018ae7be55200af6da73ca085e9b109bbf73ce1a9a6850e8c305c016143/multiprocessing-2.6.2.1.win32-py2.5.exe#sha256=b6369e44b62543b1be3afdbb4c1c2d9b1b290a7ed67c6a20f8fd014b5b727760 (from https://pypi.org/simple/multiprocessing/)
+2021-11-19T16:59:13,477 Given no hashes to check 4 links for project 'multiprocessing': discarding no candidates
+2021-11-19T16:59:13,477 Using version 2.6.2.1 (newest of versions: 2.6.0.2, 2.6.1.1, 2.6.2.1)
+2021-11-19T16:59:13,477 Collecting multiprocessing
+2021-11-19T16:59:13,478   Created temporary directory: /tmp/pip-unpack-1i98yhv_
+2021-11-19T16:59:13,478   Getting credentials from keyring for files.pythonhosted.org
+2021-11-19T16:59:13,478   Looking up "https://files.pythonhosted.org/packages/b8/8a/38187040f36cec8f98968502992dca9b00cc5e88553e01884ba29cbe6aac/multiprocessing-2.6.2.1.tar.gz" in the cache
+2021-11-19T16:59:13,479   Current age based on date: 298
+2021-11-19T16:59:13,479   Ignoring unknown cache-control directive: immutable
+2021-11-19T16:59:13,479   Freshness lifetime from max-age: 365000000
+2021-11-19T16:59:13,479   The response is "fresh", returning cached response
+2021-11-19T16:59:13,479   365000000 > 298
+2021-11-19T16:59:13,479   Using cached multiprocessing-2.6.2.1.tar.gz (108 kB)
+2021-11-19T16:59:13,488   Added multiprocessing from https://files.pythonhosted.org/packages/b8/8a/38187040f36cec8f98968502992dca9b00cc5e88553e01884ba29cbe6aac/multiprocessing-2.6.2.1.tar.gz#sha256=ef3b81ad85d7de252e5491b1daac028e17f9741cbe3625032e6eaa4ad4c79900 to build tracker '/tmp/pip-req-tracker-f1gis3m4'
+2021-11-19T16:59:13,488     Running setup.py (path:/tmp/pip-install-yd7hdde7/multiprocessing/setup.py) egg_info for package multiprocessing
+2021-11-19T16:59:13,488     Running command python setup.py egg_info
+2021-11-19T16:59:13,663     Traceback (most recent call last):
+2021-11-19T16:59:13,663       File "<string>", line 1, in <module>
+2021-11-19T16:59:13,663       File "/tmp/pip-install-yd7hdde7/multiprocessing/setup.py", line 94
+2021-11-19T16:59:13,663         print 'Macros:'
+2021-11-19T16:59:13,663               ^
+2021-11-19T16:59:13,663     SyntaxError: Missing parentheses in call to 'print'. Did you mean print('Macros:')?
+2021-11-19T16:59:13,679 Cleaning up...
+2021-11-19T16:59:13,679   Removing source in /tmp/pip-install-yd7hdde7/multiprocessing
+2021-11-19T16:59:13,680 Removed multiprocessing from https://files.pythonhosted.org/packages/b8/8a/38187040f36cec8f98968502992dca9b00cc5e88553e01884ba29cbe6aac/multiprocessing-2.6.2.1.tar.gz#sha256=ef3b81ad85d7de252e5491b1daac028e17f9741cbe3625032e6eaa4ad4c79900 from build tracker '/tmp/pip-req-tracker-f1gis3m4'
+2021-11-19T16:59:13,680 Removed build tracker: '/tmp/pip-req-tracker-f1gis3m4'
+2021-11-19T16:59:13,680 ERROR: Command errored out with exit status 1: python setup.py egg_info Check the logs for full command output.
+2021-11-19T16:59:13,680 Exception information:
+2021-11-19T16:59:13,680 Traceback (most recent call last):
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/cli/base_command.py", line 186, in _main
+2021-11-19T16:59:13,680     status = self.run(options, args)
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/commands/install.py", line 357, in run
+2021-11-19T16:59:13,680     resolver.resolve(requirement_set)
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/legacy_resolve.py", line 177, in resolve
+2021-11-19T16:59:13,680     discovered_reqs.extend(self._resolve_one(requirement_set, req))
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/legacy_resolve.py", line 333, in _resolve_one
+2021-11-19T16:59:13,680     abstract_dist = self._get_abstract_dist_for(req_to_install)
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/legacy_resolve.py", line 282, in _get_abstract_dist_for
+2021-11-19T16:59:13,680     abstract_dist = self.preparer.prepare_linked_requirement(req)
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/operations/prepare.py", line 515, in prepare_linked_requirement
+2021-11-19T16:59:13,680     abstract_dist = _get_prepared_distribution(
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/operations/prepare.py", line 95, in _get_prepared_distribution
+2021-11-19T16:59:13,680     abstract_dist.prepare_distribution_metadata(finder, build_isolation)
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/distributions/sdist.py", line 40, in prepare_distribution_metadata
+2021-11-19T16:59:13,680     self.req.prepare_metadata()
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/req/req_install.py", line 564, in prepare_metadata
+2021-11-19T16:59:13,680     self.metadata_directory = self._generate_metadata()
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/req/req_install.py", line 538, in _generate_metadata
+2021-11-19T16:59:13,680     return generate_metadata_legacy(
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/operations/build/metadata_legacy.py", line 115, in generate_metadata
+2021-11-19T16:59:13,680     call_subprocess(
+2021-11-19T16:59:13,680   File "/usr/lib/python3/dist-packages/pip/_internal/utils/subprocess.py", line 242, in call_subprocess
+2021-11-19T16:59:13,680     raise InstallationError(exc_msg)
+2021-11-19T16:59:13,680 pip._internal.exceptions.InstallationError: Command errored out with exit status 1: python setup.py egg_info Check the logs for full command output.
