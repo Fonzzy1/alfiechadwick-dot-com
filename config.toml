@@ -1,9 +1,8 @@
-baseurl = "/"
+baseurl      = "localhost"
+title        = "Alfie Chadwick"
 languageCode = "en-us"
-title = "Fonzzy's Projects"
-theme = "hugo-lithium"
-googleAnalytics = ""
-disqusShortname = ""
+theme        = "hello-friend-ng"
+paginate     = 10
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 
 [permalinks]
@@ -20,23 +19,33 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     url = "https://www.linkedin.com/in/alfie-chadwick-6a773a94/"
 
 [params]
-    description = "A website built through Hugo and blogdown."
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
 
-    # options for highlight.js (version, additional languages, and theme)
-    highlightjsVersion = "9.12.0"
-    highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    highlightjsLang = ["r", "yaml"]
-    highlightjsTheme = "github"
+  # Subtitle for home
+  homeSubtitle = "A simple and beautiful blog"
 
-    MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    MathJaxVersion = "2.7.5"
+  # Set disableReadOtherPosts to true in order to hide the links to other posts.
+  disableReadOtherPosts = false
 
-    # path to the favicon, under "static"
-    favicon = "favicon.ico"
+  # Enable sharing buttons, if you like
+  enableSharingButtons = true
 
-    [params.logo]
-    url = "logo.png"
-    width = 50
-    height = 50
-    alt = "Logo"
+  # Metadata mostly used in document's head
+  description = "My new homepage or blog"
+  keywords = "homepage, blog"
+
+[taxonomies]
+    category = "blog"
+    tag      = "tags"
+    series   = "series"
+
+[params.logo]
+url = "logo.png"
+width = 50
+height = 50
+alt = "Logo"
+
 
