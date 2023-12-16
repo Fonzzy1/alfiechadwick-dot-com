@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hello Friend NG</title>
-    <link>localhost/</link>
+    <link>/</link>
     <description>Recent content on Hello Friend NG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Fri, 22 Oct 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="localhost/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Modelling Drug Use in Communities</title>
-      <link>localhost/post/3-drug-use_models/final_report/</link>
+      <link>/post/3-drug-use_models/final_report/</link>
       <pubDate>Fri, 22 Oct 2021 00:00:00 +0000</pubDate>
-      <guid>localhost/post/3-drug-use_models/final_report/</guid>
+      <guid>/post/3-drug-use_models/final_report/</guid>
       <description>Preface Introduction Aim Method Initial Model: SIR SUAR Model SUAR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University.</description>
     </item>
     <item>
       <title>Taylor Series approximations of ODEs: The Algorithm</title>
-      <link>localhost/post/1-ode-solver/ode-solve/</link>
+      <link>/post/1-ode-solver/ode-solve/</link>
       <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
-      <guid>localhost/post/1-ode-solver/ode-solve/</guid>
+      <guid>/post/1-ode-solver/ode-solve/</guid>
       <description>Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus.</description>
     </item>
     <item>
       <title>About</title>
-      <link>localhost/about/</link>
+      <link>/about/</link>
       <pubDate>Fri, 23 Apr 2021 21:48:51 -0700</pubDate>
-      <guid>localhost/about/</guid>
+      <guid>/about/</guid>
       <description>This is a place that I use to show off the projects that I work on. There&amp;rsquo;s going to be a lot of weird thing&amp;rsquo;s that come out of problems that I come up with in my every day life, and the solutions are fun optimisation issues that are sometimes pretty cool.&#xA;If you ever want to talk to me my email is alfiechadwick@hotmail.com or shoot me a message on linkedin.</description>
     </item>
   </channel>

@@ -2,25 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>localhost/</loc>
+    <loc>/</loc>
     <lastmod>2021-10-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>localhost/post/3-drug-use_models/final_report/</loc>
+    <loc>/post/3-drug-use_models/final_report/</loc>
     <lastmod>2021-10-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>localhost/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2021-10-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>localhost/post/1-ode-solver/ode-solve/</loc>
+    <loc>/post/1-ode-solver/ode-solve/</loc>
     <lastmod>2021-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>localhost/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2021-04-23T21:48:51-07:00</lastmod>
   </url><url>
-    <loc>localhost/blog/</loc>
+    <loc>/blog/</loc>
   </url><url>
-    <loc>localhost/series/</loc>
+    <loc>/series/</loc>
   </url><url>
-    <loc>localhost/tags/</loc>
+    <loc>/tags/</loc>
   </url>
 </urlset>

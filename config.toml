@@ -1,4 +1,4 @@
-baseurl      = "localhost"
+baseurl      = ""
 title        = "My Blog"
 languageCode = "en-us"
 theme        = "hello-friend-ng"
@@ -19,6 +19,7 @@ paginate     = 10
   # Enable sharing buttons, if you like
   enableSharingButtons = true
   
+ 
   # Show a global language switcher in the navigation bar
   enableGlobalLanguageMenu = true
 
