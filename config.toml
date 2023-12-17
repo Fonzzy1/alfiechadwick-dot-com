@@ -14,12 +14,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     name = "About"
     url = "/about/"
 [[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/Fonzzy1"
-[[menu.main]]
-    name = "Linkedin"
-    url = "https://www.linkedin.com/in/alfie-chadwick-6a773a94/"
-[[menu.main]]
     name = "Posts"
     url = "/post/"
 
@@ -64,21 +58,20 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     logoMark = ">"
     logoText = "$ cd /home/"
     logoHomeLink = "/"
-    logoCursorColor = "#67a2c9"
+    logoCursorColor = "#A020F0"
     logoCursorAnimate = "2s"
 
 [[params.social]]
 name = "email"
-url  = "mailto:nobody@example.com"
+url  = "mailto:alfiechadwick@hotmail.com"
 
 [[params.social]]
 name = "github"
-url  = "https://github.com/"
+url = "https://github.com/Fonzzy1"
 
 [[params.social]]
 name = "linkedin"
-url  = "https://www.linkedin.com/"
-
+url = "https://www.linkedin.com/in/alfie-chadwick-6a773a94/"
 
 [taxonomies]
   tag      = "tags"
