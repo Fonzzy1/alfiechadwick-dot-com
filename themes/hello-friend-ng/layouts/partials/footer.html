@@ -1,7 +1,7 @@
 <footer class="footer">
     <div>
-    {{ partial "footer_highlightjs" . }}{{ end }}
-    {{ partial "footer_mathjax" . }}{{ end }}
+    {{ partial "footer_highlightjs" . }}
+    {{ partial "footer_mathjax" . }}
     </div>
     {{if or (.Site.Params.footer.trademark) (.Site.Params.footer.author) (.Site.Params.footer.copyright) (.Site.Params.footer.rss) (.Site.Params.footer.topText) }}
     <div class="footer__inner">
