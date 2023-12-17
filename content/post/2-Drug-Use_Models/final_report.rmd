@@ -56,7 +56,7 @@ The parameters $\pi_1$,$\pi_2$ and $\pi_3$ represent the 'infectiousness' of the
 
 We now look at some plots to see how this model behaves for various combinations of our parameters:
 
-```{python, echo=FALSE, SIRsims, fig.show='hold', out.width='50%'}
+```{python, echo=FALSE, SIRsims}
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -105,12 +105,31 @@ $$\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R $$
 
 With parameters  $\pi_1$, $\pi_2$,  $\pi_3$, $\pi_4$, and $\pi_5$ being the 'infectiveness' of the drug for susceptible people, the rate that people stop trying the drug, the rate in which people become addicted,the recovery rate for addicted people respectively and the 'infectiveness' for recovered people.
 
-```{python, echo = FALSE, SUARsims, fig.show="hold", out.width="50%" }
-   
+```{python, echo = FALSE, SUARsims}
+
+# Create a new figure with a specified size
+plt.figure(figsize=(12, 12))
+
+# Each subplot for SUAR function calls
+# First SUAR plot
+plt.subplot(2, 2, 1)
 SUAR(0.01,0.001,0.001, 0.001, 0.001 ,60,20,10,10,100)
+
+# Second SUAR plot
+plt.subplot(2, 2, 2)
 SUAR(0.001,0.01,0.001, 0.001, 0.001 ,60,20,10,10,100)
+
+# Third SUAR plot
+plt.subplot(2, 2, 3)
 SUAR(0.001,0.001,0.01, 0.001, 0.001 ,60,20,10,10,100)
+
+# Fourth SUAR plot
+plt.subplot(2, 2, 4)
 SUAR(0.001,0.001,0.001, 0.01, 0.001 ,60,20,10,10,100)
+
+# Improve spacing between plots and show them all
+plt.tight_layout()
+plt.show()
 
 
 ```
@@ -137,7 +156,7 @@ $$\frac{dR_i}{dt} = aA_{i-1}\pi_{i-1,4}P_{i-1} + aR_{i-1} - aR_i -R_i\pi_{i,5}N_
 With the parameters being sorted in matrices $\pi$, {d} and {i}, containing row-wise versions of the parameters for the SUAR model, the death rate for each compartment, and the influence that each age group has on the other, and scalars $a$ and $b$, which define the aging rate and the birth rate of the population.
 
 
-```{python, echo = FALSE, SUAR_20sims, fig.show="hold", out.width="50%"  }
+```{python, echo = FALSE, SUAR_20sims }
 aging_rate = 0.05
 birth_rate = 0.07
 death_rate = 0.1*np.array([[0.2, 0.2, 0.2, 0.2],
@@ -182,12 +201,30 @@ $$\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  $$
 $$\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA$$
 $$\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR $$
 
-```{python, echo = FALSE, SUAR_5Sims, fig.show="hold", out.width="50%" }
+```{python, echo = FALSE, SUAR_5Sims }
 
-SUAR_5(0.01,0.001,0.001, 0.001, 0.001,0.001,[0.0001,0.0005,0.001,0.0001] ,60,20,10,10,300)
-SUAR_5(0.001,0.01,0.001, 0.001, 0.001,0.001,[0.0001,0.0005,0.001,0.0001],60,20,10,10,300)
-SUAR_5(0.001,0.001,0.01, 0.001, 0.001,0.001,[0.0001,0.0005,0.001,0.0001],60,20,10,10,300)
-SUAR_5(0.001,0.001,0.001, 0.01, 0.001,0.001,[0.0001,0.0005,0.001,0.0001],60,20,10,10,300)
+plt.figure(figsize=(12, 12))
+
+# The grid of subplots for the SUAR_5 function calls
+# First SUAR_5 plot
+plt.subplot(2, 2, 1)
+SUAR_5(0.01, 0.001, 0.001, 0.001, 0.001, 0.001, [0.0001, 0.0005, 0.001, 0.0001], 60, 20, 10, 10, 300)
+
+# Second SUAR_5 plot
+plt.subplot(2, 2, 2)
+SUAR_5(0.001, 0.01, 0.001, 0.001, 0.001, 0.001, [0.0001, 0.0005, 0.001, 0.0001], 60, 20, 10, 10, 300)
+
+# Third SUAR_5 plot
+plt.subplot(2, 2, 3)
+SUAR_5(0.001, 0.001, 0.01, 0.001, 0.001, 0.001, [0.0001, 0.0005, 0.001, 0.0001], 60, 20, 10, 10, 300)
+
+# Fourth SUAR_5 plot
+plt.subplot(2, 2, 4)
+SUAR_5(0.001, 0.001, 0.001, 0.01, 0.001, 0.001, [0.0001, 0.0005, 0.001, 0.0001], 60, 20, 10, 10, 300)
+
+# Adjust layout to prevent overlapping of subplots and then display all the plots
+plt.tight_layout()
+plt.show()
 
 
 ```
@@ -212,12 +249,33 @@ $$ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa -
 
 
 
-```{python, echo = FALSE, SUARnormsims, fig.show="hold", out.width="50%" }
+```{python, echo = FALSE, SUARnormsims }
 
+# Initialize a new plot with a specific figure size
+plt.figure(figsize=(12, 12))
+
+# Arrange the SUAR_norm function calls in a 2x2 subplot grid
+# Plot 1 in the top-left position (1st row, 1st column)
+plt.subplot(2, 2, 1)
 SUAR_norm(10,1,1,1,1,[0.1,0.5,1,0.1],0.6,0.2,0.1,0.1,50,0.1)
+
+# Plot 2 in the top-right position (1st row, 2nd column)
+plt.subplot(2, 2, 2)
 SUAR_norm(1,10,1,1,1,[0.1,0.5,1,0.1],0.6,0.2,0.1,0.1,50,0.1)
+
+# Plot 3 in the bottom-left position (2nd row, 1st column)
+plt.subplot(2, 2, 3)
 SUAR_norm(1,1,10,1,1,[0.1,0.5,1,0.1],0.6,0.2,0.1,0.1,50,0.1)
+
+# Plot 4 in the bottom-right position (2nd row, 2nd column)
+plt.subplot(2, 2, 4)
 SUAR_norm(1,1,1,10,1,[0.1,0.5,1,0.1],0.6,0.2,0.1,0.1,50,0.1)
+
+# Improve the spacing between the plots
+plt.tight_layout()
+
+# Finally, show all the plots
+plt.show()
 
 
 ```
