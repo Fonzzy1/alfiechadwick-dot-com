@@ -12,7 +12,6 @@ if ! R -e 'blogdown::build_site(build_rmd = TRUE)'; then
     exit 1
 fi
 
-git add public
-git commit --amend --no-edit
-git push --force-with-lease
+if ! R -e 'blogdown::serve_site()'; then
+
 
