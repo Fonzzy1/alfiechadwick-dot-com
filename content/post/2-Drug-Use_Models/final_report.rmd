@@ -155,8 +155,8 @@ $$\frac{dR_i}{dt} = aA_{i-1}\pi_{i-1,4}P_{i-1} + aR_{i-1} - aR_i -R_i\pi_{i,5}N_
 
 With the parameters being sorted in matrices $\pi$, {d} and {i}, containing row-wise versions of the parameters for the SUAR model, the death rate for each compartment, and the influence that each age group has on the other, and scalars $a$ and $b$, which define the aging rate and the birth rate of the population.
 
-
-```{python, echo = FALSE, SUAR_20sims } aging_rate = 0.05
+```{python, echo = FALSE, SUAR_20sims }
+aging_rate = 0.05
 birth_rate = 0.07
 death_rate = 0.1*np.array([[0.2, 0.2, 0.2, 0.2],
                            [0.05, 0.05, 0.05, 0.05],
