@@ -15,7 +15,8 @@ This is where numerical methods become useful as they provide one the ability to
 ## Euler's Method
 One of the first numerical methods that most people get taught is Euler's method. There are many [better writers](https://tutorial.math.lamar.edu/classes/de/eulersmethod.aspx) who can explain this method much better than me, so I won't go into too much detail. Essentially, this method uses the definition of the differential equation to calculate steps of a given length h. For an ODE (differential equation of one variable) of order n, the method can be described as:
 
-$$ \begin{bmatrix}
+$$ 
+\begin{bmatrix}
 y(x+h)\\
 y'(x+h)\\
 y''(x+h)\\
@@ -39,11 +40,13 @@ y''(x)\\
 y'''(x)\\
 ...\\
 y^{n}(x)\\
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 This can also be written as:
 
-$$ \begin{bmatrix}
+$$
+\begin{bmatrix}
 y(x+h)\\
 y'(x+h)\\
 y''(x+h)\\
@@ -61,7 +64,8 @@ y'(x)\\
 y''(x)\\
 ...\\
 y^{n}(x)\\
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 
 ### How to expand the Euler method?
@@ -70,14 +74,18 @@ The Euler Method approximates functions as straight lines at each point and to t
 ## Taylor Series
 A solution to the problem posed above is to use a Taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :
 
-$$ y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n $$
+$$ 
+y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n 
+$$
 
 Where $a$ is the point where the approximation is built.
 
 
 When looking at the point $a + h$ exclusively, this formula transforms to:
 
-$$ y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n $$
+$$ 
+y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n 
+$$
 
 
 A nice property of the Taylor series is that it has a really simple derivative function:

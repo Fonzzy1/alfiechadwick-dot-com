@@ -81,7 +81,7 @@
  <meta itemprop="name" content="Taylor Series approximations of ODEs: The Algorithm">
 <meta itemprop="description" content="Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus."><meta itemprop="datePublished" content="2023-05-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-05-18T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3060">
+<meta itemprop="wordCount" content="3062">
 <meta itemprop="keywords" content="Maths,Differential Equations," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Taylor Series approximations of ODEs: The Algorithm"/>
 <meta name="twitter:description" content="Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus."/>
   <meta property="og:title" content="Taylor Series approximations of ODEs: The Algorithm" />
@@ -186,7 +186,8 @@
 <div id="eulers-method" class="section level2">
 <h2>Euler’s Method</h2>
 <p>One of the first numerical methods that most people get taught is Euler’s method. There are many <a href="https://tutorial.math.lamar.edu/classes/de/eulersmethod.aspx">better writers</a> who can explain this method much better than me, so I won’t go into too much detail. Essentially, this method uses the definition of the differential equation to calculate steps of a given length h. For an ODE (differential equation of one variable) of order n, the method can be described as:</p>
-<p><span class="math display">\[ \begin{bmatrix}
+<p><span class="math display">\[ 
+\begin{bmatrix}
 y(x+h)\\
 y&#39;(x+h)\\
 y&#39;&#39;(x+h)\\
@@ -210,9 +211,11 @@ y&#39;&#39;(x)\\
 y&#39;&#39;&#39;(x)\\
 ...\\
 y^{n}(x)\\
-\end{bmatrix}\]</span></p>
+\end{bmatrix}
+\]</span></p>
 <p>This can also be written as:</p>
-<p><span class="math display">\[ \begin{bmatrix}
+<p><span class="math display">\[
+\begin{bmatrix}
 y(x+h)\\
 y&#39;(x+h)\\
 y&#39;&#39;(x+h)\\
@@ -230,7 +233,8 @@ y&#39;(x)\\
 y&#39;&#39;(x)\\
 ...\\
 y^{n}(x)\\
-\end{bmatrix}\]</span></p>
+\end{bmatrix}
+\]</span></p>
 <div id="how-to-expand-the-euler-method" class="section level3">
 <h3>How to expand the Euler method?</h3>
 <p>The Euler Method approximates functions as straight lines at each point and to then evaluate the function at the next point. However, if the function is not much like a straight line then this approximation will fail to produce accurate results. Therefore, the question becomes how could one take into account the curve of the function between steps.</p>
@@ -239,10 +243,14 @@ y^{n}(x)\\
 <div id="taylor-series" class="section level2">
 <h2>Taylor Series</h2>
 <p>A solution to the problem posed above is to use a Taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :</p>
-<p><span class="math display">\[ y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n \]</span></p>
+<p><span class="math display">\[ 
+y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n 
+\]</span></p>
 <p>Where <span class="math inline">\(a\)</span> is the point where the approximation is built.</p>
 <p>When looking at the point <span class="math inline">\(a + h\)</span> exclusively, this formula transforms to:</p>
-<p><span class="math display">\[ y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n \]</span></p>
+<p><span class="math display">\[ 
+y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n 
+\]</span></p>
 <p>A nice property of the Taylor series is that it has a really simple derivative function:</p>
 <p><span class="math display">\[ y&#39;(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+1}(a)}{n!}\cdot(h)^n \]</span>
 <span class="math display">\[ y^m(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+m}(a)}{n!}\cdot(h)^n \]</span></p>
