@@ -1,23 +1,30 @@
-{{ define "body" }}
-    <body class="{{ if .Site.Params.backgroundImage }} background-image" style="background-image: url('{{ .Site.Params.backgroundImage }}');" {{ else }}"{{ end }}>
-{{ end }}
-
 {{ define "main" }}
-    <main aria-role="main">
-        <div>
-            {{ if .Site.Params.Portrait.Path }}
-               <img src="{{ .Site.Params.Portrait.Path }}" class="circle" alt="{{ .Site.Params.Portrait.Alt }}" style="max-width:{{ .Site.Params.Portrait.MaxWidth }}" />
-            {{ end }}
+<main aria-role="main">
+  <div>
+    {{ if .Site.Params.Portrait.Path }}
+    <img
+      src="{{ .Site.Params.Portrait.Path }}"
+      class="circle"
+      alt="{{ .Site.Params.Portrait.Alt }}"
+      style="max-width:{{ .Site.Params.Portrait.MaxWidth }}"
+    />
+    {{ end }}
 
-            <h1>{{ .Site.Title }}</h1>
+    <h1>{{ .Site.Title }}</h1>
 
-            {{ partial "subtitle.html" . }}
+    {{ partial "subtitle.html" . }} {{- with .Site.Params.social }}
+    <div>{{ partial "social-icons.html" . }}</div>
+    {{- end }}
 
-            {{- with .Site.Params.social }}
-                <div>
-                    {{ partial "social-icons.html" . }}
-                </div>
-            {{- end }}
-        </div>
-    </main>
+    <!-- Display the most recent post -->
+    {{ $posts := where .Site.RegularPages "Type" "post" }} {{ $recentPost :=
+    first 1 $posts }} {{ range $recentPost }}
+    <div class="recent-post">
+      <h2>Latest Post:</h2>
+      <a href="{{ .RelPermalink }}" title="{{ .Title }}">{{ .Title }}</a>
+      <p>{{ .Description | plainify | truncate 150 }}</p>
+    </div>
+    {{ end }}
+  </div>
+</main>
 {{ end }}
