@@ -68,7 +68,7 @@ y^{n}(x)\\
 The Euler Method approximates functions as straight lines at each point and to then evaluate the function at the next point. However, if the function is not much like a straight line then this approximation will fail to produce accurate results. Therefore, the question becomes how could one take into account the curve of the function between steps.
 
 ## Taylor Series
-A solution to the problem posed above is to use a taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :
+A solution to the problem posed above is to use a Taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :
 
 $$ y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n $$
 
@@ -80,12 +80,12 @@ When looking at the point $a + h$ exclusively, this formula transforms to:
 $$ y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n $$
 
 
-A nice property of the taylor series is that it has a really simple derivative function:
+A nice property of the Taylor series is that it has a really simple derivative function:
 
 $$ y'(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+1}(a)}{n!}\cdot(h)^n $$
 $$ y^m(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+m}(a)}{n!}\cdot(h)^n $$
 
-For a given h, this function describes a linear combination of the derivatives of a function, which can then be writen as a matrix multiplication
+This function describes a linear combination of the derivatives of a function, which can then be written as a matrix multiplication
 
 $$ \begin{bmatrix}
 y(x+h)\\
@@ -140,8 +140,8 @@ y^{n}(x)\\
 For the sake of simplicity, this equation can referred to as $Y(x+h) = S \cdot Y(x)$
 
 ## How to make the approximation fit the ODE
-The current $Y(x+h) = S \cdot Y(x)$ descirbes the path of a polynominal through space. To use it to approximate an ODE, it must be slightly modified such that for each step of the aproximation, the condition of the ODE is met.
-This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.
+The current $Y(x+h) = S \cdot Y(x)$ describes the path of a polynomial through space. To use it to approximate an ODE, it must be slightly modified such that for each step of the approximation, the condition of the ODE is met.
+This part of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.
 
 #### Case 1 : Exclusively linear
 
@@ -224,7 +224,7 @@ Now we have to look at an important part of approximations, truncation error, th
 
 $$R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - S \cdot Y(x) $$
 
-Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:
+Since this approximation is based on the Taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:
 
 $$ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n$$
 

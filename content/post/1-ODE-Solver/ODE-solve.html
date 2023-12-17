@@ -78,15 +78,15 @@ y^{n}(x)\\
 </div>
 <div id="taylor-series" class="section level2">
 <h2>Taylor Series</h2>
-<p>A solution to the problem posed above is to use a taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :</p>
+<p>A solution to the problem posed above is to use a Taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :</p>
 <p><span class="math display">\[ y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n \]</span></p>
 <p>Where <span class="math inline">\(a\)</span> is the point where the approximation is built.</p>
 <p>When looking at the point <span class="math inline">\(a + h\)</span> exclusively, this formula transforms to:</p>
 <p><span class="math display">\[ y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n \]</span></p>
-<p>A nice property of the taylor series is that it has a really simple derivative function:</p>
+<p>A nice property of the Taylor series is that it has a really simple derivative function:</p>
 <p><span class="math display">\[ y&#39;(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+1}(a)}{n!}\cdot(h)^n \]</span>
 <span class="math display">\[ y^m(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+m}(a)}{n!}\cdot(h)^n \]</span></p>
-<p>For a given h, this function describes a linear combination of the derivatives of a function, which can then be writen as a matrix multiplication</p>
+<p>This function describes a linear combination of the derivatives of a function, which can then be written as a matrix multiplication</p>
 <p><span class="math display">\[ \begin{bmatrix}
 y(x+h)\\
 y&#39;(x+h)\\
@@ -137,8 +137,8 @@ y^{n}(x)\\
 </div>
 <div id="how-to-make-the-approximation-fit-the-ode" class="section level2">
 <h2>How to make the approximation fit the ODE</h2>
-<p>The current <span class="math inline">\(Y(x+h) = S \cdot Y(x)\)</span> descirbes the path of a polynominal through space. To use it to approximate an ODE, it must be slightly modified such that for each step of the aproximation, the condition of the ODE is met.
-This pert of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.</p>
+<p>The current <span class="math inline">\(Y(x+h) = S \cdot Y(x)\)</span> describes the path of a polynomial through space. To use it to approximate an ODE, it must be slightly modified such that for each step of the approximation, the condition of the ODE is met.
+This part of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.</p>
 <div id="case-1-exclusively-linear" class="section level4">
 <h4>Case 1 : Exclusively linear</h4>
 <p>For an ODE that is a linear combination of x, y and y’s derivatives, such as <span class="math inline">\(y&#39;&#39;=x+y\)</span>, on can simply change multiply the function by a matrix representing this linear combination. This can be written as:</p>
@@ -204,7 +204,7 @@ T_3 \cdot S= \begin{bmatrix}
 \]</span></p>
 <p>Now we have to look at an important part of approximations, truncation error, that is, assuming the function has a solution <span class="math inline">\(y^*\)</span>, what is the magnitude of the difference between this function and the approximation. Formally, this is said to be <span class="math inline">\(r = y^* - y\)</span>. Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R with the definition:</p>
 <p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - S \cdot Y(x) \]</span></p>
-<p>Since this approximation is based on the taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:</p>
+<p>Since this approximation is based on the Taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:</p>
 <p><span class="math display">\[ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
 <p>For the standard stepping matrix for the order two ODE:</p>
 <p><span class="math display">\[\begin{bmatrix}
