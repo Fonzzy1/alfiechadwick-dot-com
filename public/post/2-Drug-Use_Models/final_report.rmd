@@ -56,19 +56,39 @@ The parameters $\pi_1$,$\pi_2$ and $\pi_3$ represent the 'infectiousness' of the
 
 We now look at some plots to see how this model behaves for various combinations of our parameters:
 
-```{python, echo = FALSE, SIRsims , fig.show="hold", out.width="50%" }
+```{python, echo=FALSE, SIRsims, fig.show='hold', out.width='50%'}
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from euler_methods import *
 
+# Assuming SIR is a function that creates a plot and does not call plt.show()
 
-SIR(0.001,0.02,0,70,20,10,100)
-SIR(0.009, 0, 0.04, 70, 20,10,100)
-SIR(0.001,0.05,0.5,70,20,10, 100)
-SIR(0.0001,0.001, 0.1, 70,20,10,100)
+# Set up a 2 by 2 grid of subplots
+plt.figure(figsize=(10, 10))  # Adjust the figure size if necessary
+
+# First plot
+plt.subplot(2, 2, 1)
+SIR(0.001, 0.02, 0, 70, 20, 10, 100)
+
+# Second plot
+plt.subplot(2, 2, 2)
+SIR(0.009, 0, 0.04, 70, 20, 10, 100)
+
+# Third plot
+plt.subplot(2, 2, 3)
+SIR(0.001, 0.05, 0.5, 70, 20, 10, 100)
+
+# Fourth plot
+plt.subplot(2, 2, 4)
+SIR(0.0001, 0.001, 0.1, 70, 20, 10, 100)
+
+# Finally, use plt.show() to display all the plots at once in the Rmd file
+plt.tight_layout()  # Optional: this improves spacing between plots
+plt.show()
 
 ```
+
 
 ## SUAR Model
 The SIR model fails to distinguish between different severities of addiction. By grouping the individuals who are trying/testing the drug with people who are addicted we fail to capture the behaviour of people trying the drug without becoming reliant on it.

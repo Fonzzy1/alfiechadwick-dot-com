@@ -5,4 +5,6 @@ pip install \
 
 r -e 'blogdown::build_site(build_rmd = TRUE)'
 
+git add .
+
 
