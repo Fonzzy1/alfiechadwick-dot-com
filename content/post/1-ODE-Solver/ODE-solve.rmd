@@ -1,7 +1,8 @@
 ---
 title: "Taylor Series approximations of ODEs: The Algorithm"
-author: Fonzzy
+author: Alfie Chadwick
 date: 2021-05-18T00:00:00+00:00
+Tags: ['Maths', 'Differential Equations']
 output:
   blogdown::html_page:
     toc: true

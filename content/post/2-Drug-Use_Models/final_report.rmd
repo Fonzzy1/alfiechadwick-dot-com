@@ -2,6 +2,7 @@
 title : 'Modelling Drug Use in Communities'
 author:  'Alfie Chadwick, Kevin Dai, Chrysovalantis Thomopoulos'
 date: '2021-10-22'
+Tags: ['Maths', 'Differential Equations', 'Modelling']
 output:
   blogdown::html_page:
     toc: true

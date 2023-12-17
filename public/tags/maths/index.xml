@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maths on Alfie Chadwick</title>
+    <link>/tags/maths/</link>
+    <description>Recent content in Maths on Alfie Chadwick</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/maths/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Taylor Series approximations of ODEs: The Algorithm</title>
+      <link>/2023/12/16/taylor-series-approximations-of-odes-the-algorithm/</link>
+      <pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>/2023/12/16/taylor-series-approximations-of-odes-the-algorithm/</guid>
+      <description>import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd.</description>
+    </item>
+    <item>
+      <title>Modelling Drug Use in Communities</title>
+      <link>/2021/10/22/modelling-drug-use-in-communities/</link>
+      <pubDate>Fri, 22 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>/2021/10/22/modelling-drug-use-in-communities/</guid>
+      <description>Preface Introduction Aim Method Initial Model: SIR SUAR Model SUAR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University.</description>
+    </item>
+    <item>
+      <title>Taylor Series approximations of ODEs: The Algorithm</title>
+      <link>/2021/05/18/taylor-series-approximations-of-odes-the-algorithm/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      <guid>/2021/05/18/taylor-series-approximations-of-odes-the-algorithm/</guid>
+      <description>Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus.</description>
+    </item>
+  </channel>
+</rss>

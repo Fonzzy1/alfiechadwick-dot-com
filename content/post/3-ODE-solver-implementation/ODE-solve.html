@@ -1,15 +1,16 @@
 ---
 title: "Taylor Series approximations of ODEs: The Algorithm"
-author: Fonzzy
+author: Alfie Chadwick
+Tags: ['Maths', 'Differential Equations', 'Python']
 date: 2023-12-16T00:00:00+00:00
 output:
   blogdown::html_page:
     toc: true
 ---
 
-```{python code-dump-first-order}
 
-import math
+
+<pre class="python"><code>import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,7 +21,6 @@ def c(a, cond, n):
         return cond;
     if n == 1:
         return a * math.sin(cond)
-
     return cond
 
 
@@ -37,9 +37,9 @@ d_min_scale = int(round(d_min / step))
 d_max_scale = int(round(d_max / step))
 ls_points = list(range(d_min_scale, d_max_scale))
 ls_points = list(map(lambda x: x * step, ls_points))
-df = pd.DataFrame(ls_points, columns=['Point'])
-df['Value'] = 0
-df.set_index('Point', inplace=True)
+df = pd.DataFrame(ls_points, columns=[&#39;Point&#39;])
+df[&#39;Value&#39;] = 0
+df.set_index(&#39;Point&#39;, inplace=True)
 
 # 2.2 Set up n list
 ls_n = list(range(0, depth))
@@ -58,9 +58,9 @@ def point(step, vector, ls_n, derivative):
 
 a = int_x
 cond = int_y
-while a <= d_max:
+while a &lt;= d_max:
     point_value = point(step, a, cond, ls_n)
-    location = df.index.get_loc(a, method='nearest')
+    location = df.index.get_loc(a, method=&#39;nearest&#39;)
     df.iloc[location, 0] = point_value
     cond = point_value
     a += step
@@ -68,22 +68,16 @@ while a <= d_max:
 a = int_x
 cond = int_y
 
-while a >= d_min:
+while a &gt;= d_min:
     point_value = point(-step, a, cond, ls_n)
-    location = df.index.get_loc(a, method='nearest')
+    location = df.index.get_loc(a, method=&#39;nearest&#39;)
     df.iloc[location, 0] = point_value
     cond = point_value
     a -= step
 
 df.plot()
-plt.show()
-
-
-```
-
-```{python ode-solver-higher }
-
-import math
+plt.show()</code></pre>
+<pre class="python"><code>import math
 import numpy as np
 import itertools as it
 import matplotlib.pyplot as plt
@@ -94,7 +88,7 @@ h = 0.001
 xmin = -math.pi * 2
 xmax = math.pi * 2
 
-## Int vector such that [h,x,f(x),f'(x) .... f^n(x)]
+## Int vector such that [h,x,f(x),f&#39;(x) .... f^n(x)]
 int_list = np.array([h, math.pi / 2, -5 / 3, np.NAN, 15])
 int_vect = int_list.reshape(len(int_list), 1)
 
@@ -164,7 +158,7 @@ for int_vect in poss_int_vect:
 
     ## Do the positive steps first
     vect = int_vect.copy()
-    while vect[1] <= xmax + h:
+    while vect[1] &lt;= xmax + h:
         index = int((vect[1] - xmin) / h)
         try:
             output[index] = vect.T
@@ -175,7 +169,7 @@ for int_vect in poss_int_vect:
 
     ## Do the negative steps next
     vect = int_vect.copy()
-    while vect[1] > xmin:
+    while vect[1] &gt; xmin:
         index = int((vect[1] - xmin) / h)
         try:
             output[index] = vect.T
@@ -194,9 +188,9 @@ for int_vect in poss_int_vect:
     ls_distance.append(dist_sum)
 
 df_results = pd.DataFrame(poss_int_vect)
-df_results['dist'] = ls_distance
+df_results[&#39;dist&#39;] = ls_distance
 
-best_index = df_results[['dist']].idxmin()
+best_index = df_results[[&#39;dist&#39;]].idxmin()
 
 best_int_vect = poss_int_vect[best_index]
 
@@ -210,7 +204,7 @@ output[0:len(output), 1] = x_list
 
 ## Do the positive steps first
 vect = best_int_vect.T.copy()
-while vect[1] <= xmax + h:
+while vect[1] &lt;= xmax + h:
     index = int((vect[1] - xmin) / h)
     try:
         output[index] = vect.T
@@ -221,7 +215,7 @@ while vect[1] <= xmax + h:
 
 ## Do the negative steps next
 vect = best_int_vect.T.copy()
-while vect[1] > xmin:
+while vect[1] &gt; xmin:
     index = int((vect[1] - xmin) / h)
     try:
         output[index] = vect.T
@@ -239,14 +233,8 @@ dist_sum = sum(dist_ls)
 
 plt.plot(output.T[1], output.T[2])
 plt.title(str(best_int_vect))
-plt.show()
-
-```
-
-
-
-```{python taylor-series }
-import math
+plt.show()</code></pre>
+<pre class="python"><code>import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -288,22 +276,21 @@ def point_term(x, a, cond, n):
     return point
 
 
-df = pd.DataFrame(ls_points, columns=['Point'])
+df = pd.DataFrame(ls_points, columns=[&#39;Point&#39;])
 
 ## Create A datframe with each collumn being the vaules for a single n
 for n in ls_n:
-    df[n] = df['Point'].apply(lambda x: point_term(x, a, ls_c[n], n))
+    df[n] = df[&#39;Point&#39;].apply(lambda x: point_term(x, a, ls_c[n], n))
 
-df.set_index('Point', inplace=True)
+df.set_index(&#39;Point&#39;, inplace=True)
 
 ## Sum all the estimations
 df_estimation = df.sum(axis=1)
 
-df_estimation.plot(label='Estimation')
+df_estimation.plot(label=&#39;Estimation&#39;)
 
 if f(a):
-    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)), label='Actual', linestyle='dashed', )
+    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)), label=&#39;Actual&#39;, linestyle=&#39;dashed&#39;, )
 plt.legend()
 
-plt.show()
-```
+plt.show()</code></pre>
