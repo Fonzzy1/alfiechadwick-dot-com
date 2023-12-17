@@ -79,8 +79,6 @@ url  = "https://github.com/"
 name = "linkedin"
 url  = "https://www.linkedin.com/"
 
-[permalinks.posts]
-    posts = "/posts/:year/:month/:title/"
 
 [taxonomies]
   tag      = "tags"
