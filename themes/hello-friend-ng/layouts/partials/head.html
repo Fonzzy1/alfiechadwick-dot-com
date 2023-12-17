@@ -65,7 +65,7 @@ template "_internal/twitter_cards.html" . }} {{ if isset .Site.Taxonomies
 title="{{ .Site.Title }}" /> {{ end }}
 
 <!-- include highlightjs -->
-{{ partial "head_highlightjs" . }}
+{{ partial "head_highlightjs" . }} {{ end }}
 
 <!-- Custom head tags -->
 {{- if templates.Exists "partials/extra-head.html" -}} {{ partial
