@@ -6,7 +6,7 @@ pip install \
 
 r -e 'blogdown::build_site(build_rmd = TRUE)'
 
-git add .
+git add public
 git commit --amend --no-edit
 git push --force-with-lease
 

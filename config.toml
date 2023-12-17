@@ -32,14 +32,14 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     enableGlobalLanguageMenu = false
 
 
-    highlightjsVersion = "9.12.0"
+    highlightjsVersion = "11.9.0"
     highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
     highlightjsLang = ["r", "yaml", 'python']
-    highlightjsTheme = "github"
+    highlightjsTheme = "github-dark"
 
 
     MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    MathJaxVersion = "2.7.5"
+    MathJaxVersion = "3.2.2"
 
 
     customCSS = []
@@ -92,20 +92,3 @@ PygmentsStyle = "monokai"
 rssLimit  = 10
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
 
-archetypeDir = "archetypes"
-contentDir   = "content"
-dataDir      = "data"
-layoutDir    = "layouts"
-publishDir   = "public"
-buildDrafts  = false
-buildFuture  = false
-buildExpired = false
-canonifyURLs = true
-enableRobotsTXT = true
-enableGitInfo   = false
-enableEmoji     = true
-enableMissingTranslationPlaceholders = false
-disableRSS     = true
-disableSitemap = true
-disable404     = false
-disableHugoGeneratorInject = false
