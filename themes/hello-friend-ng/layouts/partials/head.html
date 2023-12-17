@@ -20,8 +20,6 @@
 <meta name="theme-color" content="{{ .Site.Params.themeColor }}" />
 <link rel="canonical" href="{{ .Permalink }}" />
 
-<!-- Math support -->
-{{ partial "mathjax_support.html" . }} {{ block "title" . }}
 <title>
   {{ if .IsHome }} {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ .
   }} {{ end }} {{ else }} {{ .Title }} :: {{ $.Site.Title }} {{ with
@@ -82,4 +80,3 @@ title="{{ .Site.Title }}" /> {{ end }}
   src="{{ .Site.Params.plausibleScriptSource }}"
 ></script>
 {{- end}}
-
