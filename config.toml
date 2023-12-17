@@ -16,10 +16,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 [[menu.main]]
     name = "Posts"
     url = "/post/"
-[[menu.other]]
-identifier = "tags"
-name       = "Tags"
-url        = "/tags"
+[[menu.main]]
+    name = "Tags"
+    url = "/tags"
 
 [params]
     description = "A website built through Hugo and blogdown."
@@ -100,7 +99,7 @@ enableRobotsTXT = true
 enableGitInfo   = false
 enableEmoji     = true
 enableMissingTranslationPlaceholders = false
-disableRSS     = false
-disableSitemap = false
+disableRSS     = true
+disableSitemap = true
 disable404     = false
 disableHugoGeneratorInject = false
