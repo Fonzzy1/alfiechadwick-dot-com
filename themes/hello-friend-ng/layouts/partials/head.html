@@ -25,7 +25,6 @@
   }} {{ end }} {{ else }} {{ .Title }} :: {{ $.Site.Title }} {{ with
   $.Site.Params.Subtitle }} — {{ . }}{{ end }} {{ end }}
 </title>
-{{ end }}
 
 <!-- CSS -->
 {{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed"
