@@ -124,8 +124,8 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <span class="math display">\[\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  \]</span>
 <span class="math display">\[\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA\]</span>
 <span class="math display">\[\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR \]</span></p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-5.png" width="1152" />
-Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:</p>
+<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-5.png" width="1152" /></p>
+<p>Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:</p>
 <p><span class="math display">\[ T = S + U + A + R \]</span>
 <span class="math display">\[ T&#39; = b(S+U+A+R)  -d_SS -d_UU - d_AA - d_RR \]</span></p>
 <p><span class="math display">\[ \frac{d\frac{S}{N}}{dt} = \frac{(-S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R))T-T&#39;S}{T^2} \]</span>

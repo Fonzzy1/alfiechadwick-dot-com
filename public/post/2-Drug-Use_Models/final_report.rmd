@@ -89,7 +89,6 @@ plt.show()
 
 ```
 
-
 ## SUAR Model
 The SIR model fails to distinguish between different severities of addiction. By grouping the individuals who are trying/testing the drug with people who are addicted we fail to capture the behaviour of people trying the drug without becoming reliant on it.
 Because of this, we adapted the SIR model, relabeled the infected group to addicted and added in a new compartment model for users of the drug who are not addicted, the 'using' group. Susceptible people will now move into the using group before moving into the Addicted group. Since there are now two groups who are using the drug and interacting with the community, the $I$ terms of the ODEs in the SIR model have to be replaced with $U+A$
@@ -155,7 +154,7 @@ $$\frac{dR_i}{dt} = aA_{i-1}\pi_{i-1,4}P_{i-1} + aR_{i-1} - aR_i -R_i\pi_{i,5}N_
 
 With the parameters being sorted in matrices $\pi$, {d} and {i}, containing row-wise versions of the parameters for the SUAR model, the death rate for each compartment, and the influence that each age group has on the other, and scalars $a$ and $b$, which define the aging rate and the birth rate of the population.
 
-```{python, echo = FALSE, SUAR_20sims }
+````{python suar20, echo = FALSE}
 aging_rate = 0.05
 birth_rate = 0.07
 death_rate = 0.1*np.array([[0.2, 0.2, 0.2, 0.2],
@@ -189,6 +188,7 @@ SUAR_20(aging_rate,birth_rate,death_rate, I, P, X0,600)
 ```
 
 ## Simplified SUAR Model with age
+
 After creating the SUAR model with age groups, we experimented with various combinations of parameters to see how the model reacted. 
 However, we found that with 20 compartments and 73 parameters, it is really hard to go through all the combinations to find meaningful results from the model. We could see that there were stationary points for the population portions, but finding them analytically was near impossible. Because of this, we sought to find a way to simplify the model to produce results that are easier to understand. We did this by removing the different age groups all together, while keeping the equations describing the model the same. By removing the age groups, the equations dramatically simplify into this form;
 
@@ -225,8 +225,8 @@ SUAR_5(0.001, 0.001, 0.001, 0.01, 0.001, 0.001, [0.0001, 0.0005, 0.001, 0.0001],
 plt.tight_layout()
 plt.show()
 
-
 ```
+
 Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:
 
 $$ T = S + U + A + R $$
@@ -334,7 +334,8 @@ From this plot, one can see a big factor that influences the creation of these n
 
 Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in these plots below.
 
-```{python,pssp, echo = FALSE}
+```{python pssp, echo = FALSE}
+
 fig, axs = plt.subplots(5, 5)
 for i , a in enumerate( p):
     for j , b in enumerate(p):
@@ -368,6 +369,8 @@ cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
 c = fig.colorbar(t, cax=cbar_ax)
 fig.suptitle("Average portion of people using or addicted at non-Trivial Statioanry Points \n ds=1, du=1, da=1,dr=1 s0=0.6, u0=0.2, a0=0.1, r0=0.1, Total Sims = 216")
 plt.show()
+
+
 ```
 Looking at these plots we can see the following behaviours:
 
