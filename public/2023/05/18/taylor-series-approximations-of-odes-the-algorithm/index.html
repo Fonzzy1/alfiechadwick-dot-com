@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Alfie Chadwick">
+<meta name="description" content="Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus." />
+<meta name="keywords" content=", Maths, Differential Equations" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/2023/05/18/taylor-series-approximations-of-odes-the-algorithm/" />
+
+
+    <title>
+        
+            Taylor Series approximations of ODEs: The Algorithm :: Alfie Chadwick 
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.949191c1dcc9c4a887997048b240354e47152016d821198f89448496ba42e491.css" integrity="sha256-lJGRwdzJxKiHmXBIskA1TkcVIBbYIRmPiUSElrpC5JE=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Taylor Series approximations of ODEs: The Algorithm">
+<meta itemprop="description" content="Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus."><meta itemprop="datePublished" content="2023-05-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-05-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3060">
+<meta itemprop="keywords" content="Maths,Differential Equations," />
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Taylor Series approximations of ODEs: The Algorithm"/>
+<meta name="twitter:description" content="Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus."/>
+
+
+
+    <meta property="og:title" content="Taylor Series approximations of ODEs: The Algorithm" />
+<meta property="og:description" content="Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2023/05/18/taylor-series-approximations-of-odes-the-algorithm/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-18T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-05-18 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#A020F0;
+                   animation-duration:2s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/2023/05/18/taylor-series-approximations-of-odes-the-algorithm/">Taylor Series approximations of ODEs: The Algorithm</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#eulers-method">Euler’s Method</a>
+<ul>
+<li><a href="#how-to-expand-the-euler-method">How to expand the Euler method?</a></li>
+</ul></li>
+<li><a href="#taylor-series">Taylor Series</a></li>
+<li><a href="#how-to-make-the-approximation-fit-the-ode">How to make the approximation fit the ODE</a></li>
+<li><a href="#the-final-algorithm">The Final Algorithm</a></li>
+</ul>
+</div>
+
+<p>If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus. However, if you ever try and work with these problems in the real world, you will quickly realise that a lot of differential equations aren’t solvable.</p>
+<p>This is where numerical methods become useful as they provide one the ability to approximate the solution of the differential equation without explicitly solving it.</p>
+<div id="eulers-method" class="section level2">
+<h2>Euler’s Method</h2>
+<p>One of the first numerical methods that most people get taught is Euler’s method. There are many <a href="https://tutorial.math.lamar.edu/classes/de/eulersmethod.aspx">better writers</a> who can explain this method much better than me, so I won’t go into too much detail. Essentially, this method uses the definition of the differential equation to calculate steps of a given length h. For an ODE (differential equation of one variable) of order n, the method can be described as:</p>
+<p><span class="math display">\[ \begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n-1}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n-1}(x)\\
+\end{bmatrix} + \begin{bmatrix}
+h &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; h &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; h\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+y&#39;&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p>
+<p>This can also be written as:</p>
+<p><span class="math display">\[ \begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 1 &amp; h &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p>
+<div id="how-to-expand-the-euler-method" class="section level3">
+<h3>How to expand the Euler method?</h3>
+<p>The Euler Method approximates functions as straight lines at each point and to then evaluate the function at the next point. However, if the function is not much like a straight line then this approximation will fail to produce accurate results. Therefore, the question becomes how could one take into account the curve of the function between steps.</p>
+</div>
+</div>
+<div id="taylor-series" class="section level2">
+<h2>Taylor Series</h2>
+<p>A solution to the problem posed above is to use a Taylor series of the function, which describes a function as a polynomial determined by its derivatives. Explicitly, it is defined as :</p>
+<p><span class="math display">\[ y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n \]</span></p>
+<p>Where <span class="math inline">\(a\)</span> is the point where the approximation is built.</p>
+<p>When looking at the point <span class="math inline">\(a + h\)</span> exclusively, this formula transforms to:</p>
+<p><span class="math display">\[ y(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(h)^n \]</span></p>
+<p>A nice property of the Taylor series is that it has a really simple derivative function:</p>
+<p><span class="math display">\[ y&#39;(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+1}(a)}{n!}\cdot(h)^n \]</span>
+<span class="math display">\[ y^m(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+m}(a)}{n!}\cdot(h)^n \]</span></p>
+<p>This function describes a linear combination of the derivatives of a function, which can then be written as a matrix multiplication</p>
+<p><span class="math display">\[ \begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+y&#39;&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p>
+<p>One can see that this step matrix is similar to the matrix that defines the steps of the Euler method, however the Euler method doesn’t take into account each of the higher derivatives, whereas this new step matrix does.</p>
+<p>Now expanding the input vector to contain x and h information;</p>
+<p><span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p>
+<p>For the sake of simplicity, this equation can referred to as <span class="math inline">\(Y(x+h) = S \cdot Y(x)\)</span></p>
+</div>
+<div id="how-to-make-the-approximation-fit-the-ode" class="section level2">
+<h2>How to make the approximation fit the ODE</h2>
+<p>The current <span class="math inline">\(Y(x+h) = S \cdot Y(x)\)</span> describes the path of a polynomial through space. To use it to approximate an ODE, it must be slightly modified such that for each step of the approximation, the condition of the ODE is met.
+This part of the problem has to be turned into two separate problems, one for ODEs that are exclusively linear combinations of the input vector and one they are not.</p>
+<div id="case-1-exclusively-linear" class="section level4">
+<h4>Case 1 : Exclusively linear</h4>
+<p>For an ODE that is a linear combination of x, y and y’s derivatives, such as <span class="math inline">\(y&#39;&#39;=x+y\)</span>, on can simply change multiply the function by a matrix representing this linear combination. This can be written as:</p>
+<p><span class="math display">\[T \cdot Y(x+h) = T \cdot S \cdot Y(x) \]</span></p>
+<p>Knowing that each row of the stepping matrix represents one of h, x, y or y’s derivatives, creating a transformation matrix is fairly easy.</p>
+<p>Sticking with the same sample ODE <span class="math inline">\(y&#39;&#39;=x+y\)</span>, the transformation matrix can be defined as;</p>
+<p><span class="math display">\[
+T_1 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p>
+<p>However, thinking of this ODE as <span class="math inline">\(x = y&#39;&#39; - y\)</span> and <span class="math inline">\(y = y&#39;&#39; - x\)</span> it is just as reasonable to define T as:</p>
+<p><span class="math display">\[
+T_2 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; -1 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+T_3 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>So what is best option for the approximation. It’s not yet obvious, so lets look at the resulting step matrices from these transformations <span class="math inline">\(T \cdot S\)</span></p>
+<p><span class="math display">\[
+T_1 \cdot S= \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+1 &amp; 1 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+T_2 \cdot S= \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp;  -1 &amp; -h &amp; 1-\frac{h^2}{2}\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+T_3 \cdot S= \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+-1 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>Now we have to look at an important part of approximations, truncation error, that is, assuming the function has a solution <span class="math inline">\(y^*\)</span>, what is the magnitude of the difference between this function and the approximation. Formally, this is said to be <span class="math inline">\(r = y^* - y\)</span>. Since 5 curves are being simulated at the same time, this remainder still be seen as a vector R with the definition:</p>
+<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - S \cdot Y(x) \]</span></p>
+<p>Since this approximation is based on the Taylor series, the truncation error is the remaining terms in the approximation. For an approximation with the greatest term k, the truncation error is therefore:</p>
+<p><span class="math display">\[ r = \sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
+<p>For the standard stepping matrix for the order two ODE:</p>
+<p><span class="math display">\[\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix} \rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p>Since this is the error for an un-transformed system, by simply applying the transformation matrix <span class="math inline">\(R\)</span> we can find the truncation error for the transformed system.</p>
+<p><span class="math display">\[T_1 \cdot R = \begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+ 0 + \sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
+0\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n-\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+\mathbb y&#39;(x)\cdot(h) + \frac{\mathbb y&#39;&#39;(x)}{2}\cdot(h)^2\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}\]</span></p>
+<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+0-\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}\]</span></p>
+<p>Although the magnitude of these errors are theoretically possible to compute, it’s a lot of work considering that the question we are trying to answer is which one is the smallest. One tool we can employ to simplify this problem is big-O notation. Big-O notation is defined as <span class="math inline">\(f(x) = O(g(x))\)</span> as <span class="math inline">\(x \rightarrow a\)</span> if <span class="math inline">\(|f(x)| = M \cdot g(x)\)</span> . It describes the upper limit of a function as it’s variable approaches a. In this case, we are interested in the upper limit as h approaches 0.</p>
+<p>Applying this concept to the R vectors:</p>
+<p><span class="math display">\[T_1 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h^3)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
+0\\
+O(h)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p>Now looking at the magnitude of these vectors:</p>
+<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} \]</span>
+<span class="math display">\[ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2} \]</span>
+<span class="math display">\[ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} \]</span></p>
+<p>Since <span class="math inline">\(f_1 \cdot f_2 = O(g_1g_2)\)</span>;</p>
+<p><span class="math display">\[ |T_1 \cdot R |  = \sqrt{O(h^6) + O(h^4) + O(h^6)} \]</span>
+<span class="math display">\[ |T_2 \cdot R |  = \sqrt{O(h^2) + O(h^6) + O(h^4) + O(h^2)} \]</span>
+<span class="math display">\[ |T_3 \cdot R |  = \sqrt{O(h^2) + O(h^4) + O(h^2)} \]</span></p>
+<p>Since <span class="math inline">\(f_1 + f_2 = O(max(g_1,g_2))\)</span>;</p>
+<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{O(h^4)} \]</span>
+<span class="math display">\[ |T_2 \cdot R | = \sqrt{O(h^2)} \]</span>
+<span class="math display">\[ |T_3 \cdot R | = \sqrt{O(h^2)} \]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[ |T_1 \cdot R | = O(h^2) \]</span>
+<span class="math display">\[ |T_2 \cdot R | = O(h) \]</span>
+<span class="math display">\[ |T_3 \cdot R | = O(h) \]</span></p>
+<p>This shows that <span class="math inline">\(|R_1|\)</span> has the lowest upper limit of the 3 vectors, showing that <span class="math inline">\(R_1\)</span> is the smallest remainder matrix and therefore <span class="math inline">\(T_1\)</span> is the best transformation matrix for approximating the ODE.</p>
+<p>Now looking more generally for an ODE of order k, the stepping matrix, the remainder matrix and the big-O remainder matrix is ;</p>
+<p><span class="math display">\[
+S = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^k}{k!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{k-1}}{(k-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{k-2}}{(k-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}
+\]</span>
+<span class="math display">\[
+ R =  \begin{bmatrix}
+0\\
+0\\
+\sum_{n = k+1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = k-1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+...\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+ =  \begin{bmatrix}
+0\\
+0\\
+O(h^{k+1})\\
+O(h^{k})\\
+O(h^{k-1})\\
+...\\
+O(h)
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[ |R| = O(h) \]</span></p>
+<p>Therefore, to determine the best transformation matrix for a given ODE, you want to define the element that gives the <span class="math inline">\(O(h)\)</span> remainder as a combination of smaller remainder terms as this will then convert the approximation to <span class="math inline">\(O(h^2)\)</span>. Therefore, to optimise the transformation matrix, wherever possible, define higher order derivatives as functions of lower order derivatives, x and y, and where this is not possible, leave it as is.</p>
+</div>
+<div id="case-2-everything-else" class="section level4">
+<h4>Case 2: Everything Else</h4>
+<p>For non-linear cases, no transformation matrix will match the conditions set out in the ODE. Therefore, an adjustment function , <span class="math inline">\(A(x)\)</span>has to be defined to match the conditions such that:</p>
+<p><span class="math display">\[Y(x+h) =  A(S \cdot Y(x))\]</span></p>
+<p>Taking the example ODE <span class="math inline">\(Y = xY&#39;&#39;\)</span>, we have a similar problem to before where three adjustment functions can be defined such that <span class="math display">\[Y \leftarrow xY&#39;&#39;\]</span> <span class="math display">\[Y&#39;&#39; \leftarrow \frac{Y}{x}\]</span> <span class="math display">\[x \leftarrow \frac{Y}{Y&#39;&#39;}\]</span></p>
+<p>To now look at which one gives the best approximation one can take a similar action to previously, by applying the adjustment function to the remainder function</p>
+<p><span class="math display">\[ A_1(\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix})
+=
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_2 \cdot x_5\\
+x_4\\
+x_5\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[ A_2(\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix})
+=
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_3 / x_2\\
+\end{bmatrix}
+\forall   x_2 \neq 0
+or
+\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+0\\
+\end{bmatrix}
+x_2 = 0
+\]</span></p>
+<p><span class="math display">\[ A_1(\begin{bmatrix}
+x_1\\
+x_2\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix})
+=
+\begin{bmatrix}
+x_1\\
+x_3/x_5\\
+x_3\\
+x_4\\
+x_5\\
+\end{bmatrix}
+\forall   x_5 \neq 0
+\]</span></p>
+<p>Now applying these functions to the remainder vector;</p>
+<p><span class="math display">\[A_1(R) = \begin{bmatrix}
+0\\
+0\\
+0\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_2(R) =
+\begin{bmatrix}
+0\\
+0\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+0\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_3(R) = \begin{bmatrix}
+0\\
+\frac{\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\}{\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\}\\
+\sum_{n = 3}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\sum_{n = 1}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\\
+\end{bmatrix}
+\]</span></p>
+<p>Converting again to the big-O notation;</p>
+<p><span class="math display">\[A_1(R) = \begin{bmatrix}
+0\\
+0\\
+0\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_2(R) =
+\begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+0\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[A_3(R) = \begin{bmatrix}
+0\\
+O(h^2)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p>And then taking the magnitude:</p>
+<p><span class="math display">\[ |A_1(R)| = O(h) \]</span>
+<span class="math display">\[ |A_2(R)| = O(h^2) \]</span>
+<span class="math display">\[ |A_3(R)| = O(h) \]</span></p>
+<p>Therefore, <span class="math inline">\(A_2(x)\)</span> is the best adjustment function for this ODE. Unlike the exclusively linear case there is no hard and fast rule to get the best adjustment function, however similarly to the linear case you want to remove the highest order term, but the adjustment functions will need to be checked to determine the best one.</p>
+</div>
+</div>
+<div id="the-final-algorithm" class="section level2">
+<h2>The Final Algorithm</h2>
+<div id="linear-case" class="section level4">
+<h4>Linear Case</h4>
+<ol style="list-style-type: decimal">
+<li><p>For an ODE of order k, and a step size h convert the initial condition into a vector Y(x) such that:
+<span class="math display">\[Y(x) = \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{k}(x)\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Define an initial stepping function such that:
+<span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Define a transformation matrix to apply to Y(x) such that Y(x) always satisfies the conditions of the ODE, and that minimises truncation error.</p></li>
+<li><p>Define the new stepping function such that:
+<span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = T \cdot \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Iterate this stepping function over the desired domain.</p></li>
+</ol>
+</div>
+<div id="general-case" class="section level4">
+<h4>General case</h4>
+<ol style="list-style-type: decimal">
+<li><p>Same as the linear case</p></li>
+<li><p>Same as linear case</p></li>
+<li><p>Define a transformation <strong>function</strong> to apply to Y(x) such that Y(x) always satisfies the conditions of the ODE, and that minimises truncation error.</p></li>
+<li><p>Define a new stepping matrix such that:
+<span class="math display">\[ \begin{bmatrix}
+h\\
+x+h\\
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = A(\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+h\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix})\]</span></p></li>
+<li><p>Iterate this stepping function over the desired domain.</p></li>
+</ol>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/maths/">Maths</a></span>
+        <span class="tag"><a href="/tags/differential-equations/">Differential Equations</a></span>
+        
+    </p>
+
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2023</span>
+            <span><a href="/"></a></span>
+            <span></span>
+            <span><a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.46e438bd2eca7eb6358c700b40f6f56b22ab0b92503ecc11a2d8e4bcc610b8b4da83e5ea3d3e84fdb5f3c3c765744b9f5bbaf43cf5a027910be07ee39a9c12a1.js" integrity="sha512-RuQ4vS7KfrY1jHALQPb1ayKrC5JQPswRotjkvMYQuLTag&#43;XqPT6E/bXzw8dldEufW7r0PPWgJ5EL4H7jmpwSoQ=="></script>
+
+
+
+
+    </body>
+</html>

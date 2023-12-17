@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Alfie Chadwick, Kevin Dai, Chrysovalantis Thomopoulos">
+<meta name="description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SUAR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/post/3-drug-use_models/final_report/" />
+
+
+    <title>
+        
+            Modelling Drug Use in Communities :: Hello Friend NG  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.949191c1dcc9c4a887997048b240354e47152016d821198f89448496ba42e491.css" integrity="sha256-lJGRwdzJxKiHmXBIskA1TkcVIBbYIRmPiUSElrpC5JE=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Modelling Drug Use in Communities">
+<meta itemprop="description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SUAR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University."><meta itemprop="datePublished" content="2021-10-22T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-10-22T00:00:00+00:00" />
+<meta itemprop="wordCount" content="4772"><meta itemprop="image" content="" />
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="" /><meta name="twitter:title" content="Modelling Drug Use in Communities"/>
+<meta name="twitter:description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SUAR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University."/>
+
+
+
+    <meta property="og:title" content="Modelling Drug Use in Communities" />
+<meta property="og:description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SUAR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/3-drug-use_models/final_report/" /><meta property="og:image" content="" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-22T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-10-22 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                hello friend ng</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/3-drug-use_models/final_report/">Modelling Drug Use in Communities</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#preface">Preface</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#aim">Aim</a></li>
+<li><a href="#method">Method</a>
+<ul>
+<li><a href="#initial-model-sir">Initial Model: SIR</a></li>
+<li><a href="#suar-model">SUAR Model</a></li>
+<li><a href="#suar-model-with-age">SUAR Model with age</a></li>
+<li><a href="#simplified-suar-model-with-age">Simplified SUAR Model with age</a></li>
+</ul></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#discussion">Discussion</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#references">References</a></li>
+<li><a href="#appendix">Appendix</a>
+<ul>
+<li><a href="#appendix-1-stationary-points-of-sir-model">Appendix 1 : Stationary points of SIR model</a></li>
+<li><a href="#appendix-2-stationary-points-of-suar">Appendix 2 : Stationary points of SUAR</a></li>
+<li><a href="#appendix-3-critical-points-of-simplified-suar-model">Appendix 3: Critical Points of Simplified SUAR model</a></li>
+<li><a href="#appendix-4-matlab-code-for-generating-conditional-stationary-points">Appendix 4: Matlab code for generating conditional Stationary Points</a></li>
+<li><a href="#appendix-5-python-code-for-simulating-sir-model">Appendix 5: Python code for simulating SIR model</a></li>
+<li><a href="#appendix-6-python-code-for-simulating-suar-model">Appendix 6: Python code for simulating SUAR model</a></li>
+<li><a href="#appendix-7-python-code-for-simulating-20-compartment-suar-model">Appendix 7: Python code for simulating 20 compartment SUAR model</a></li>
+<li><a href="#appendix-8-python-code-for-simulating-5-compartment-suar-model">Appendix 8: Python code for simulating 5 compartment SUAR model</a></li>
+<li><a href="#appendix-9-python-code-for-simulating-5-compartment-dimensionless-suar-model">Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="preface" class="section level1">
+<h1>Preface</h1>
+<p>Big thanks to my colaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University.</p>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Drugs are chemical substances with physiological effects. Some drugs like opioid, cannabis, alcohol, nicotine, cocaine, methamphetamine, or heroine are of concerns to policymakers. Widespread drug abuse in a community can be a burden to the society and economy for example healthcare costs due to bodily harm, enhancing of infectious diseases through second-hand needle injections, indirect funding of organised crime, mental health and rehabilitation. Further harms of drug abuse to upon the abuser may be personal ones such as financial instability, death and familial grief.</p>
+<p>“Number one is the opioid epidemic. It is a scourge across our country. A person dies every 12-and-a-half minutes from an opioid overdose and that’s far too many. Especially when we know that many of those deaths can be prevented.” (Thedoctors.com, 2021)</p>
+<p>These were the words of Dr. Adams, the 20th surgeon general of the United States when asked about his main concerns and focus indicating the severity of the matter. Substance abuse is not only harmful for one’s self but our community. Multiple research articles and papers in the past have modelled drug use. We have included some examples below from which we have taken inspiration and made comparisons.</p>
+<p>One article in particular by Mushanyu, J, Nyabadza, F, Muchatibaya, G, &amp; Stewart, A G. R. (2016) touches on the importance of an adequate health care system since a limited rehabilitation capacity can increase the chances of a drug abuse epidemic. The methods used in this paper are discussed later. Also, Mushanyu, J, Nyabadza, F, &amp; Stewart, A G R. (2015) focuses on some matters that are of great importance as well.</p>
+<p>Having an understanding of the dynamics of drug use will inform decision makers strategies to minimise drug use.
+In this paper, we aim to understand how drug use and addiction develops in a community and what factors can be tweaked to alter the long term distributions of drug use, abuse and addiction in the community.</p>
+</div>
+<div id="aim" class="section level1">
+<h1>Aim</h1>
+<p>The aim of this project is to produce a model to capture the dynamics of drug use in the long term. The model should address how or when individuals become drug users, addicted drug users and abstainers, and have applications in addressing economic and policy decisions.</p>
+</div>
+<div id="method" class="section level1">
+<h1>Method</h1>
+<div id="initial-model-sir" class="section level2">
+<h2>Initial Model: SIR</h2>
+<p>It’s common to liken drug use to disease, treating drug addiction as an infection that can be recovered from. Using this analogy, we began looking into how diseases are modeled and how we can adapt our own model to fit drug usage.
+One of the simplest drug models is the SIR model, a compartment model based on the concept of mass action that sees infections as caused by interactions between infected people and susceptible people. The use of mass action can be justified in this case as we are looking at large populations over a long period of time, meaning that the variance in the movement will average out over time.
+There are a few reasons that this model is a good starting point for any type of drug modelling:
+Firstly, this model is very simple and can be easily adapted to our own needs with extra compartments and transferable conditions.
+Secondly, since we are looking at drug use in a population, relying on mass action rather than discrete modeling allows us to further simplify the model.
+Thirdly, the idea that addiction is caused by interactions between individuals seems to be a good assumption for drug use as one would expect people to become familiar and subsequently addicted to certain substances by being associated to people with them.</p>
+<p>One divergence we made from the most basic SIR model is allowing for relapse from the recovered group back into the infected group. This represents how recovering addicts will become addicted again at a different rate to people who have never used the drug before. However, an important fact is that people can not move back into the susceptible group as addiction is said to last a lifetime.</p>
+<div class="figure">
+<img src="pics/1.png" alt="" />
+<p class="caption">SIR Diagram</p>
+</div>
+<p>Our SIR model is defined by the following equations:
+<span class="math display">\[\frac{dS}{dt} = -\pi_1 * S * I \]</span>
+<span class="math display">\[\frac{dI}{dt} = \pi_1 * S * I + \pi_2 * R * I - \pi_3 *  I \]</span>
+<span class="math display">\[\frac{dR}{dt} = -\pi_2 * R * I + \pi_3 * I \]</span></p>
+<p>The parameters <span class="math inline">\(\pi_1\)</span>,<span class="math inline">\(\pi_2\)</span> and <span class="math inline">\(\pi_3\)</span> represent the ‘infectiousness’ of the drug for susceptible and recovering individuals and the rate of recovery from the drug respectively.</p>
+<p>We now look at some plots to see how this model behaves for various combinations of our parameters:</p>
+<p><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SIRsims-1.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SIRsims-2.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SIRsims-3.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SIRsims-4.png" width="50%" /></p>
+</div>
+<div id="suar-model" class="section level2">
+<h2>SUAR Model</h2>
+<p>The SIR model fails to distinguish between different severities of addiction. By grouping the individuals who are trying/testing the drug with people who are addicted we fail to capture the behaviour of people trying the drug without becoming reliant on it.
+Because of this, we adapted the SIR model, relabeled the infected group to addicted and added in a new compartment model for users of the drug who are not addicted, the ‘using’ group. Susceptible people will now move into the using group before moving into the Addicted group. Since there are now two groups who are using the drug and interacting with the community, the <span class="math inline">\(I\)</span> terms of the ODEs in the SIR model have to be replaced with <span class="math inline">\(U+A\)</span></p>
+<div class="figure">
+<img src="pics/2.png" alt="" />
+<p class="caption">SUAR Diagram</p>
+</div>
+<p>The new model can now be described by the following equations:</p>
+<p><span class="math display">\[\frac{dS}{dt} = - \pi_1*S*(A+U) + \pi_2*U   \]</span>
+<span class="math display">\[\frac{dU}{dt} =  \pi_1*S*(A+U) - \pi_2*U  - \pi_3*U \]</span>
+<span class="math display">\[\frac{dA}{dt} = \pi_3*U +\pi_5 *(A+U)*R - \pi_4*A \]</span>
+<span class="math display">\[\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R \]</span></p>
+<p>With parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, <span class="math inline">\(\pi_3\)</span>, <span class="math inline">\(\pi_4\)</span>, and <span class="math inline">\(\pi_5\)</span> being the ‘infectiveness’ of the drug for susceptible people, the rate that people stop trying the drug, the rate in which people become addicted,the recovery rate for addicted people respectively and the ‘infectiveness’ for recovered people.</p>
+<p><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARsims-9.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARsims-10.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARsims-11.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARsims-12.png" width="50%" /></p>
+</div>
+<div id="suar-model-with-age" class="section level2">
+<h2>SUAR Model with age</h2>
+<p>Now focusing on the stationary points of the previous two models (see appendix for derivation) we realize that our long term behaviour involves the extinction of either the user and/or the addicted group. However, this behaviour is unrealistic and rather too optimistic since there is a consistent number of people using and addicted to the drug, and a consistently high number of people who are susceptible to the drug. To fix this issue we integrate age groups into the model, grouping the population into children, teens, young adults, adults and seniors. Each of these groups has a distinct rate of death and the births are proportional to the number of young adults and adults. Separating the population also allows us to set different parameters according to each age group, capturing more nuanced behaviours such as an increased volume of experimentation of young people which would not have been identified otherwise.</p>
+<p>Another feature we wanted to tackle is how people recover. In the same way that people start using drugs based on interactions with others who are using them, we expect people to recover based on interactions with people who aren’t using them. This can be represented by support groups, concerned parents, friends etc. Furthermore, we can expect people in one age group and compartment model to be influenced differently from each age group and subsequent compartment model. We can store this information with a matrix <span class="math inline">\(I\)</span>, where <span class="math inline">\(I_{ij}\)</span> is the magnitude of the influence that group j has on group i.</p>
+<p>We can now go in to further simplify this by defining two new terms, the positive and negative influence on a age group <span class="math inline">\(i\)</span>, to be:
+<span class="math display">\[P_i = \sum{k=1}{5}{I_{ik} * (S_k + R_K)}\]</span>
+<span class="math display">\[N_i = \sum{k=1}{5}{I_{ik} * (U_k + A_K)}\]</span></p>
+<p>The model now has 20 compartments with both sideways movement from and to age groups and downwards movement as people age.</p>
+<p>Looking across age group ‘i’, the model can be described as:</p>
+<p><span class="math display">\[\frac{dS_i}{dt} = aS_{i-1} + aU_{i-1} \pi_{i-1,2}P_{i-1} - S_i\pi_{i,1}N_i + (1-a)U_i\pi_{i,2}P_i - aSi - d_{i,s}S_i + (b\sum_{k=2}^{3}S_k+U_k+A_k+R_K | i = 0)  \]</span>
+<span class="math display">\[\frac{dU_i}{dt} =  aS_{i-1}\pi_{i-1,1}N_{i-1} + aU_{i-1} - U_i * \pi_{i,3} - a U_i - U_i\pi_{i,2}P_i + (1-a)S_i\pi_{i,1}N_i - d_{i,U}U_i\]</span>
+<span class="math display">\[\frac{dA_i}{dt} = aU_{i-1}\pi_{i-1,3} + aA_{i-1} + aR_{i-1}\pi_{i-1,5}N_{i-1} - A_i\pi_{i,4}P_i + (1-a)R_i\pi_{i,5}N_{i}-aA_i + (1-a)U_i\pi_{i,3}- d_{i,A}A_i\]</span>
+<span class="math display">\[\frac{dR_i}{dt} = aA_{i-1}\pi_{i-1,4}P_{i-1} + aR_{i-1} - aR_i -R_i\pi_{i,5}N_i + (1-a)A_i\pi_{i,4}P_i - d_{i,R}R_I \]</span></p>
+<p>With the parameters being sorted in matrices <span class="math inline">\(\pi\)</span>, {d} and {i}, containing row-wise versions of the parameters for the SUAR model, the death rate for each compartment, and the influence that each age group has on the other, and scalars <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, which define the aging rate and the birth rate of the population.</p>
+</div>
+<div id="simplified-suar-model-with-age" class="section level2">
+<h2>Simplified SUAR Model with age</h2>
+<p>After creating the SUAR model with age groups, we experimented with various combinations of parameters to see how the model reacted.
+However, we found that with 20 compartments and 73 parameters, it is really hard to go through all the combinations to find meaningful results from the model. We could see that there were stationary points for the population portions, but finding them analytically was near impossible. Because of this, we sought to find a way to simplify the model to produce results that are easier to understand. We did this by removing the different age groups all together, while keeping the equations describing the model the same. By removing the age groups, the equations dramatically simplify into this form;</p>
+<div class="figure">
+<img src="pics/3.png" alt="" />
+<p class="caption">SUAR Diagram with ageing</p>
+</div>
+<p><span class="math display">\[\frac{dS}{dt} = -S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R)  \]</span>
+<span class="math display">\[\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  \]</span>
+<span class="math display">\[\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA\]</span>
+<span class="math display">\[\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR \]</span></p>
+<p><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-17.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-18.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-19.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-20.png" width="50%" />
+Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:</p>
+<p><span class="math display">\[ T = S + U + A + R \]</span>
+<span class="math display">\[ T&#39; = b(S+U+A+R)  -d_SS -d_UU - d_AA - d_RR \]</span></p>
+<p><span class="math display">\[ \frac{d\frac{S}{N}}{dt} = \frac{(-S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R))T-T&#39;S}{T^2} \]</span>
+<span class="math display">\[ \frac{d\frac{U}{N}}{dt} = \frac{(S\pi_1N -U\pi_2P - U\pi_3 - d_UU )T-T&#39;U}{T^2} \]</span>
+<span class="math display">\[ \frac{d\frac{A}{N}}{dt} = \frac{(U\pi_3 - A\pi_4P + R\pi_5N - d_AA)T-T&#39;A}{T^2}  \]</span>
+<span class="math display">\[ \frac{d\frac{R}{N}}{dt} = \frac{(A\pi_4P - R\pi_5N - d_RR )T-T&#39;R}{T^2} \]</span></p>
+<p>Denoting these fractions as s,u,a,r and reformatting the equation using T as a characteristic for population and <span class="math inline">\(\frac{1}{b}\)</span> as a characteristic for time;</p>
+<p><span class="math display">\[ s+u+a+r = 1\]</span>
+<span class="math display">\[ \frac{ds}{dt} = (-s\pi_{1}(u+a)+u\pi_2(s+r)  -d_Ss + 1)-s(1 - d_Ss - d_Uu - d_Aa - d_Rr) \]</span>
+<span class="math display">\[ \frac{du}{dt} = (s\pi_{1}(u+a)-u\pi_2(s+r) - u\pi_3 -d_Uu )-u(1 - d_Ss - d_Uu - d_Aa - d_Rr) \]</span>
+<span class="math display">\[ \frac{da}{dt} = (u\pi_3 -a\pi_4(s+r) + r\pi_5(u+a) -d_Aa )-a(1 - d_Ss - d_Uu - d_Aa - d_Rr)  \]</span>
+<span class="math display">\[ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa - d_Rr)\]</span></p>
+<p><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-25.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-26.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-27.png" width="50%" /><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-28.png" width="50%" /></p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>We can think of deaths as a movement from all compartments to the susceptible compartments. This makes it clear that a stationary point exists when all the people are in the susceptible compartment, meaning the drug is ‘extinct’. Similarly, the drug is also extinct when everyone is either in the recovered or susceptible group, as one just has to wait for the recovered people to die for the portion of S to reach 1. These two facts can be seen in appendix 3. Let the stationary point at <span class="math inline">\(s=1\)</span> be the trivial stationary point.</p>
+<p>However, for some combinations of parameters, secondary stationary points are found. These non-trivial stationary points could not be found analytically using MATLAB 2021b, therefore their existence must be verified in a case by case basis, using the code in appendix 4.
+Note that all the death parameters were set to one, meaning that these results are for drugs where the rate of death is independent of compartment. To find results for other sets of death parameters, line 25 of appendix 4 should be altered.</p>
+<p>Using the table of non trivial stationary points (appendix 10), we can now plot the number of combinations of parameters that lead to non-trivial stationary points pairwise by parameter.</p>
+<p><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/simforallparams-33.png" width="672" /></p>
+<p>From this plot, one can see a big factor that influences the creation of these non-trivial stationary points is the magnitude of <span class="math inline">\(\pi_1\)</span>, an in a lesser extent the ratio of <span class="math inline">\(\pi_1\)</span> and <span class="math inline">\(\pi_2\)</span>. In this case, births will rapidly transition to the using category, meaning that they then have the potential to become addicted.</p>
+<p>Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in these plots below.</p>
+<p><img src="/post/3-Drug-Use_Models/final_report_files/figure-html/pssp-35.png" width="672" />
+Looking at these plots we can see the following behaviours:</p>
+<ul>
+<li>Bigger <span class="math inline">\(\pi_1\)</span> <span class="math inline">\(\to\)</span> Higher Mean</li>
+<li>Bigger <span class="math inline">\(\pi_2\)</span> <span class="math inline">\(\to\)</span> Lower Mean</li>
+<li>Bigger <span class="math inline">\(\pi_3\)</span> <span class="math inline">\(\to\)</span> Lower Mean</li>
+<li>Bigger <span class="math inline">\(\pi_4\)</span> <span class="math inline">\(\to\)</span> Lower Mean</li>
+<li>Bigger <span class="math inline">\(\pi_5\)</span> <span class="math inline">\(\to\)</span> Higher Mean</li>
+</ul>
+<p>Therefore, in terms of the long term state of drug use in communities, the best way to minimise drug use is to minimise <span class="math inline">\(\pi_1\)</span> such that the drug becomes extinct. If this can not be done, the number of people using or addicted to drugs can be minimised by lowering the values of <span class="math inline">\(\pi_2, \pi_3, \pi_4\)</span> or maximising the value of <span class="math inline">\(\pi_5\)</span> to make the stationary point have a minimal number of people using the drug.</p>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>In this part of the discussion, we aim to compare our model with the one by
+Mushanyu, J, Nyabadza, F, Muchatibaya, G, &amp; Stewart, A G. R. (2016) and decide what future tweaks and changes can be made to further improve our own model.
+The use of protein and ligand bonding as well as the Hill function is quite interesting
+since the authors have effectively linked Biological Modelling and altered it to their own advantage.
+Firstly, protein and a ligand bonding forming a new product has equivalently been transformed into addicts connecting and creating a bond with a recovery center and as a result being transformed themselves. They have also used the term ‘Cooperativity’ as a parameter which is how other rehabilitants affect other users either negatively or positively.
+In our case we have used positive and negative influence of age groups and/or compartment models on each other based on interactions instead of cooperativity. Cooperativity is a way more specific and detailed parameter whilst our own is more general. Applying both the protein-ligand equivalent and the subdivision of a recovered Cooperation parameter could help our model in the future.
+Secondly, the Hill Function was adjusted to suit their drug model. They split Rehabilitation in two sections. Outpatient rehabilitation allows the user to stay productive and around their family while inpatient rehabilitation involves rehabilitation centers and more strict rules. Of course, limited resources and capacities affect users choices. The rehabilitation capacities are limited in their own way as well since in a lot of countries Health Care Departments are not adequate enough to help all users which makes the model more realistic.
+We on the other hand have sub compartments in the Infected Area which we have split into using and addicted compartments while we have not done the same in the susceptible and recovered compartments. Integrating those in the future as well as saturation effects can make our model more effective.</p>
+<p>Contrasting the simplified SUAR model with Nyabadza et al (2016) on crystal meth use in South Africa, the forcing parameter for a susceptible individual to transfer out of their compartment was a weighted sum of U and A rather than the sum scaled, furthermore, there was a forcing parameter dependent on the size of the drug supply chain.</p>
+<p>Another downside of our model is the fact that we have not focused on one specific substance and rather decided to adopt a more general approach to the problem. When focusing on one substance and/or a “family” of substances such as in the paper by Mushanyu, J, Nyabadza, F, &amp; Stewart, A G R. (2015) we can narrow down our results and get more specific and detailed answers.</p>
+<p>A question posed by the model is how we arrive at the various states that we see at t = 0.
+For non-illicit drugs like cigarettes and alcohol, marketing strategies from distributors like television ads, billboards etc. can persuade susceptible members to initiate. We suggest the forcing parameter to be a function of the industry’s market cap. Australia has plain packaging laws to dampen the forcing parameter. For illicit drugs, the supply of the drug depend on network effects. Online drug markets like The Silk Road can be assumed to have no interaction with non-users. Its only effect is to the accessibility of drugs for people in compartments U and A. Adding in forcing functions into the model, and/or allowing the parameters to change as a function of time will allow for these events to be modeled.</p>
+<p>Regarding the findings of the model, the way parameters are altered to change when the trivial stationary point is found, or the level of drug use in a nontrivial stationary point seem in line with common policies targeting drug minimisation. By lowering the amount of people who star using the drug, such as Australia’s ban on cigarette marketing. More generally, the results show that the best way to reduce drug use is to minimise the net movement from susceptible to using and recovered to addicted.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>The aim of this project was to model the long term outcomes of drug use in a community.
+Four models were developed: the initial SIR model, a modified SUAR model, the SUAR model with age-structure, then the simplified SUAR model with age.
+For the closed population models, the simulations had one of two outcomes: no drug users or entirely drug users. When births and deaths are accounted for, the population can have an endemic proportions of susceptible, using, addicted and recovered members.
+We found ways to push drug use to extinction by manipulating the transmission parameters.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<ol style="list-style-type: decimal">
+<li>Mushanyu, J, Nyabadza, F, Muchatibaya, G, &amp; Stewart, A G. R. (2016). Modelling Drug Abuse Epidemics in the Presence of Limited Rehabilitation Capacity. Bulletin of Mathematical Biology, 78(12), 2364–2389. <a href="https://doi.org/10.1007/s11538-016-0218-5" class="uri">https://doi.org/10.1007/s11538-016-0218-5</a></li>
+<li>Mushanyu, J, Nyabadza, F, &amp; Stewart, A G R. (2015). Modelling the trends of inpatient and outpatient rehabilitation for methamphetamine in the Western Cape province of South Africa. BMC Research Notes, 8(796), 797–797. <a href="https://doi.org/10.1186/s13104-015-1741-4" class="uri">https://doi.org/10.1186/s13104-015-1741-4</a></li>
+<li>Betterhealth.vic.gov.au. 2021. Drug use in Victoria - Better Health Channel. [online] Available at: <a href="https://www.betterhealth.vic.gov.au/health/healthyliving/drug-use-in-victoria" class="uri">https://www.betterhealth.vic.gov.au/health/healthyliving/drug-use-in-victoria</a> [Accessed 21 October 2021].</li>
+<li>Thedoctors.com. 2021. U.S. Surgeon General Discusses the Opioid Epidemic. [online] Available at: <a href="https://www.thedoctors.com/articles/u.s.-surgeon-general-discusses-the-opioid-epidemic/" class="uri">https://www.thedoctors.com/articles/u.s.-surgeon-general-discusses-the-opioid-epidemic/</a> [Accessed 21 October 2021].</li>
+<li>Caulkins, Jonathan P, Dietze, Paul, &amp; Ritter, Alison. (2007). Dynamic compartmental model of trends in Australian drug use. Health Care Management Science, 10(2), 151–162. <a href="https://doi.org/10.1007/s10729-007-9012-0" class="uri">https://doi.org/10.1007/s10729-007-9012-0</a></li>
+<li>Harvim, P., Zhang, H., Georgescu, P., &amp; Zhang, L. (2021). Cigarette smoking on college campuses: An epidemical modelling approach. Journal of Applied Mathematics and Computing, 65(1), 515–540. <a href="https://doi.org/10.1007/s12190-020-01402-y" class="uri">https://doi.org/10.1007/s12190-020-01402-y</a></li>
+<li>Nyabadza, F., Njagarah, J. B. H., &amp; Smith, R. J. (2013). Modelling the Dynamics of Crystal Meth (‘Tik’) Abuse in the Presence of Drug-Supply Chains in South Africa. Bulletin of Mathematical Biology, 75(1), 24–48. <a href="https://doi.org/10.1007/s11538-012-9790-5" class="uri">https://doi.org/10.1007/s11538-012-9790-5</a></li>
+</ol>
+<div style="page-break-after: always;"></div>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<div id="appendix-1-stationary-points-of-sir-model" class="section level2">
+<h2>Appendix 1 : Stationary points of SIR model</h2>
+<p><span class="math display">\[0 = -\pi_1 * S * I \]</span>
+<span class="math display">\[0 = \pi_1 * S * I + \pi_2 * R * I - \pi_3 *  I \]</span>
+<span class="math display">\[0 = -\pi_2 * R * I + \pi_3 * I \]</span></p>
+<p>Therefore either <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(S\)</span> or <span class="math inline">\(I\)</span> must be 0</p>
+<p>If <span class="math inline">\(I = 0\)</span>:</p>
+<p><span class="math display">\[0 = -\pi_1 * S * 0 \]</span>
+<span class="math display">\[0 = \pi_1 * S * 0 + \pi_2 * R * 0 - \pi_3 *  0 \]</span>
+<span class="math display">\[0 = -\pi_2 * R * 0 + \pi_3 * 0 \]</span></p>
+<p>Therefore any point [<span class="math inline">\(S\)</span>,0,<span class="math inline">\(R\)</span>] is stationary.</p>
+<p>If <span class="math inline">\(\pi_1 = 0\)</span> or <span class="math inline">\(S=0\)</span>:</p>
+<p><span class="math display">\[0 =  0 * I \]</span>
+<span class="math display">\[0 = 0 * I + \pi_2 * R * I - \pi_3 *  I \]</span>
+<span class="math display">\[0 = -\pi_2 * R * I + \pi_3 * I \]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[ \pi_2 * R * I - \pi_3 *  I = - \pi_2 * R * I + \pi_3 *  I  \]</span>
+<span class="math display">\[ \pi_2 * R * I = \pi_3 * I \]</span>
+<span class="math display">\[ R:I = \pi_3:\pi_2 \]</span></p>
+<p>Therefore any point [0, <span class="math inline">\(\frac {P_{total}*\pi_2}{\pi_2 + \pi_3}\)</span> ,<span class="math inline">\(\frac {P_{total}*\pi_3}{\pi_2 + \pi_3}\)</span>]</p>
+</div>
+<div id="appendix-2-stationary-points-of-suar" class="section level2">
+<h2>Appendix 2 : Stationary points of SUAR</h2>
+<p><span class="math display">\[0 = - \pi_1*S*(A+U) + \pi_2*U   \]</span>
+<span class="math display">\[0 =  \pi_1*S*(A+U) - \pi_2*U  - \pi_3*U \]</span>
+<span class="math display">\[0 = \pi_3*U +\pi_4 *(A+U)*R - \pi_5*A \]</span>
+<span class="math display">\[0 =  \pi_5*A - \pi_4 *(A+U)*R \]</span></p>
+<p>By combing the first two and last two equations, one can see that if the parameters are non 0, <span class="math inline">\(U=0\)</span>. Therefore:</p>
+<p><span class="math display">\[ 0 = \pi_1*S*A \]</span>
+<span class="math display">\[0 = \pi_4 *A*R - \pi_5*A \]</span>
+<span class="math display">\[0 =  \pi_5*A - \pi_4 *A*R \]</span></p>
+<p>Therefore <span class="math inline">\(S = 0\)</span> or <span class="math inline">\(A = 0\)</span>
+In the case <span class="math inline">\(A = 0\)</span>, any point [<span class="math inline">\(S\)</span>,0,0,<span class="math inline">\(R\)</span>] will be stationary</p>
+<p>In the case <span class="math inline">\(S=0\)</span>
+<span class="math display">\[ \pi_4*A*R = \pi_5*A\]</span>
+<span class="math display">\[R:A = \pi_5:\pi_4\]</span></p>
+<p>Therefore any point [0,0, <span class="math inline">\(\frac {P_{total}*\pi_4}{\pi_4 + \pi_5}\)</span> ,<span class="math inline">\(\frac {P_{total}*\pi_5}{\pi_4 + \pi_5}\)</span>]</p>
+</div>
+<div id="appendix-3-critical-points-of-simplified-suar-model" class="section level2">
+<h2>Appendix 3: Critical Points of Simplified SUAR model</h2>
+<p>When s = 1:
+<span class="math display">\[ s = 1\]</span>
+<span class="math display">\[ \frac{ds}{dt} = (-d_Ss + 1)-s(1 - d_Ss) = (1-S)(1-d_Ss)  = 0 \]</span>
+<span class="math display">\[ \frac{du}{dt} = 0 \]</span>
+<span class="math display">\[ \frac{da}{dt} = 0  \]</span>
+<span class="math display">\[ \frac{dr}{dt} = 0  \]</span></p>
+<p>When s+r = 1:
+<span class="math display">\[ s+r = 1\]</span>
+<span class="math display">\[ s = 1 - r \]</span></p>
+<p><span class="math display">\[ \frac{ds}{dt} = (-d_Ss + b)-s(1 - d_Ss - d_Rr)  = (1 -s)*(1 + d_r*s - d_s*s)\]</span>
+<span class="math display">\[ \frac{du}{dt} = 0 \]</span>
+<span class="math display">\[ \frac{da}{dt} = 0  \]</span>
+<span class="math display">\[ \frac{dr}{dt} = (-d_Rr )-r(1 - d_Ss - d_Rr) = (s - 1)*(1 + d_r*s - d_s*s)\]</span></p>
+</div>
+<div id="appendix-4-matlab-code-for-generating-conditional-stationary-points" class="section level2">
+<h2>Appendix 4: Matlab code for generating conditional Stationary Points</h2>
+<pre class="octave"><code>syms s u a r p1 p2 p3 p4 p5 ds du da dr
+
+
+ode1 =  (-s*p1*(u+a)+u*p2*(s+r)  -ds*s + 1)-s *(1 - ds*s - du*u - da*a - dr*r);
+ode2 =  (s*p1*(u+a)-u*p2*(s+r) - u*p3 -du*u )-u*(1 - ds*s - du*u - da*a - dr*r) ;
+ode3 =  (u*p3 -a*p4*(s+r) + r*p5*(u+a) -da*a )-a*(1 - ds*s - du*u - da*a - dr*r);
+ode4 =  (a*p4*(s+r) - r*p5*(u+a) -dr*r )-r*(1 - ds*s -du*u - da*a - dr*r);
+sums = s+u+a+r;
+
+
+
+odes = [ode1 == 0, ode2 == 0, ode3 == 0 , ode4 == 0, sums  == 1, s&gt;=0, u &gt;= 0, a &gt;=0, r&gt;=0];
+
+
+ss = [];
+avg = [];
+
+k = 3;
+
+for p1i = -k:k
+for p2i   = -k:k
+for p3i  = -k:k
+for p4i  = -k:k
+for p5i = -k:k
+[p1, p2, p3, p4, p5, ds, du, da, dr] = deal(2^p1i, 2^p2i, 2^p3i, 2^p4i, 2^p5i,1,1,1,1);
+sol = solve(subs(odes),&#39;Real&#39;,true);
+ss = [ss ; [p1i,p2i,p3i,p4i,p5i,length(sol.s) - 1]];
+if length(sol.s) &gt; 1
+avg = [avg ; [p1i,p2i,p3i,p4i,p5i,mean(sol.u(2:length(sol.u)) + sol.a(2:length(sol.a)))]];
+end;end;end;end;end;end
+
+
+
+writematrix(double(avg),&#39;avg.csv&#39;)
+writematrix(double(ss), &#39;ss.csv&#39;)</code></pre>
+</div>
+<div id="appendix-5-python-code-for-simulating-sir-model" class="section level2">
+<h2>Appendix 5: Python code for simulating SIR model</h2>
+<pre><code>## def SIR(p1,p2,p3,S0,I0,R0,i):
+## 
+##     vect_initial = np.array([S0,I0,R0]).T
+##     
+##     output = pd.DataFrame(columns = [&#39;day&#39;, &#39;S&#39;, &#39;I&#39;, &#39;R&#39;])
+##     j = 0
+##     vect = vect_initial.copy()
+##     
+##     while j &lt; i:
+##         vectplus1 = np.zeros([3])
+##         S = vect[0]
+##         I = vect[1]
+##         R = vect[2]
+##         vectplus1[0] = S - p1 *S*I
+##         vectplus1[1] = I +p1 *S*I + p2*R*I - p3*I
+##         vectplus1[2] = R - p2*R*I + p3*I
+##         output.loc[j] = np.concatenate((np.array([j]),vectplus1.T))
+##         vect = vectplus1.copy()
+##         j+=1
+##                      
+##     plt.plot(output[&#39;day&#39;],output[&#39;S&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;I&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;R&#39;])
+##     plt.title(&#39;p1=&#39; + str(p1) +
+##               &#39;, p2=&#39; + str(p2) +
+##               &#39;, p3=&#39; +str(p3))
+##     plt.legend([&#39;S&#39;,&#39;I&#39;,&#39;R&#39;])
+##     plt.show()</code></pre>
+</div>
+<div id="appendix-6-python-code-for-simulating-suar-model" class="section level2">
+<h2>Appendix 6: Python code for simulating SUAR model</h2>
+<pre><code>## def SUAR(p1,p2,p3, p4, p5 ,S0,U0,A0,R0,i):
+## 
+##     vect_initial = np.array([S0,U0,A0,R0]).T
+##     
+##     output = pd.DataFrame(columns = [&#39;day&#39;, &#39;S&#39;, &#39;U&#39;,&#39;A&#39;, &#39;R&#39;])
+##     j = 0
+##     vect = vect_initial.copy()
+##     
+##     while j &lt; i:
+##         vectplus1 = np.zeros([4])
+##         S = vect[0]
+##         U = vect[1]
+##         A = vect[2]
+##         R = vect[3]
+##         vectplus1[0] = S -p1*S*(A+U) + p2*U
+##         vectplus1[1] = U +p1*S*(A+U) - p2*U - p3*U
+##         vectplus1[2] = A +p3*U + p5*(A+U)*R - p4*A
+##         vectplus1[3] = R + p4*A -p5*(A+U)*R
+##         output.loc[j] = np.concatenate((np.array([j]),vectplus1.T))
+##         vect = vectplus1.copy()
+##         j+=1
+##                      
+##     plt.plot(output[&#39;day&#39;],output[&#39;S&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;U&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;A&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;R&#39;])
+##     plt.title(&#39;p1=&#39; + str(p1) +
+##               &#39;, p2=&#39; + str(p2) +
+##               &#39;, p3=&#39; +str(p3) +
+##               &#39;, p4=&#39; +str(p4) +
+##               &#39;, p5=&#39; +str(p5))
+##     plt.legend([&#39;S&#39;,&#39;U&#39;,&#39;A&#39;,&#39;R&#39;])
+##     plt.show()</code></pre>
+</div>
+<div id="appendix-7-python-code-for-simulating-20-compartment-suar-model" class="section level2">
+<h2>Appendix 7: Python code for simulating 20 compartment SUAR model</h2>
+<pre><code>## def SUAR_20(aging_rate,birth_rate,death_rate, I, P, X0, steps):
+## 
+##     C = pd.DataFrame(columns=[&#39;s&#39;, &#39;t&#39;, &#39;a&#39;, &#39;r&#39;], dtype=&#39;float128&#39;)
+##     T = pd.DataFrame(columns=[&#39;s&#39;, &#39;t&#39;, &#39;a&#39;, &#39;r&#39;], dtype=&#39;float128&#39;)
+##     Y = pd.DataFrame(columns=[&#39;s&#39;, &#39;t&#39;, &#39;a&#39;, &#39;r&#39;], dtype=&#39;float128&#39;)
+##     A = pd.DataFrame(columns=[&#39;s&#39;, &#39;t&#39;, &#39;a&#39;, &#39;r&#39;], dtype=&#39;float128&#39;)
+##     S = pd.DataFrame(columns=[&#39;s&#39;, &#39;t&#39;, &#39;a&#39;, &#39;r&#39;], dtype=&#39;float128&#39;)
+##     
+##     (n_age_groups, n_status) = np.shape(X0)
+##     itterations  = 0
+##     while itterations &lt; steps:
+##         C.loc[itterations] = X0[0]
+##         T.loc[itterations] = X0[1]
+##         Y.loc[itterations] = X0[2]
+##         A.loc[itterations] = X0[3]
+##         S.loc[itterations] = X0[4]
+##     
+##         i = 0
+##     
+##         IE = np.matmul(I, X0)
+##     
+##         Xn = np.zeros(np.shape(X0))
+##     
+##         while i &lt; n_age_groups:
+##                 group_vect = X0[i].copy()
+##                 s = group_vect[0]
+##                 t = group_vect[1]
+##                 a = group_vect[2]
+##                 r = group_vect[3]
+##                 interaction_neg = np.sum(IE[i][[1, 2]])
+##                 interaction_pos = np.sum(IE[i][[0, 3]])
+##     
+##                 Xn[i][0] = s - (s * P[i][0] * interaction_neg) + t * P[i][1] * interaction_pos
+##                 Xn[i][1] = t + (s * P[i][0] * interaction_neg) - t * P[i][1] * interaction_pos - t * P[i][2]
+##                 Xn[i][2] = a + t * P[i][2] + r * P[i][4] * interaction_neg - a * P[i][3] * interaction_pos
+##                 Xn[i][3] = r - r * P[i][4] * interaction_neg + a * P[i][3] * interaction_pos
+##     
+##                 i += 1
+##     
+##         Xn_aged = np.zeros(np.shape(X0))
+##     
+##         i = 0
+##         j = 0
+##     
+##         while i &lt; n_age_groups:
+##                 j = 0
+##                 while j &lt; n_status:
+##                      if i == 0:
+##                             if j == 0:
+##                                 Xn_aged[i][j] = Xn[i][j] * (1-aging_rate-death_rate[i][j])+birth_rate*sum(Xn[2]+ Xn[3])
+##                      j += 1           
+##                 i+=1
+## 
+##         itterations += 1</code></pre>
+</div>
+<div id="appendix-8-python-code-for-simulating-5-compartment-suar-model" class="section level2">
+<h2>Appendix 8: Python code for simulating 5 compartment SUAR model</h2>
+<pre><code>## def SUAR_5(p1,p2,p3, p4, p5,b,d,S0,U0,A0,R0,i):
+## 
+##     vect_initial = np.array([S0,U0,A0,R0]).T
+##     
+##     output = pd.DataFrame(columns = [&#39;day&#39;, &#39;S&#39;, &#39;U&#39;,&#39;A&#39;, &#39;R&#39;])
+##     j = 0
+##     vect = vect_initial.copy()
+##     
+##     while j &lt; i:
+##         vectplus1 = np.zeros([4])
+##         S = vect[0]
+##         U = vect[1]
+##         A = vect[2]
+##         R = vect[3]
+##         vectplus1[0] = S - p1*S*(A+U) + p2*U*(S+R)  - d[0]*S + b*(S+U+A+R) 
+##         vectplus1[1] = U + p1*S*(A+U) - p2*U*(S+R) - p3*U - d[1]*U
+##         vectplus1[2] = A + p3*U + p5*(A+U)*R - p4*A*(R+S) - d[2]*A
+##         vectplus1[3] = R + p4*A*(S+R) - p5*(A+U)*R - d[3]*R
+## 
+##         output.loc[j] = np.concatenate((np.array([j]),vectplus1.T))
+##         vect = vectplus1.copy()
+##         j+=1
+##         
+##     output[&#39;pop&#39;] = output[&#39;S&#39;] + output[&#39;U&#39;] + output[&#39;A&#39;] + output[&#39;R&#39;]
+##     plt.plot(output[&#39;day&#39;],output[&#39;S&#39;]/output[&#39;pop&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;U&#39;]/output[&#39;pop&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;A&#39;]/output[&#39;pop&#39;])
+##     plt.plot(output[&#39;day&#39;],output[&#39;R&#39;]/output[&#39;pop&#39;])
+##     plt.title(&#39;Portion: p1=&#39; + str(p1) +
+##               &#39;, p2=&#39; + str(p2) +
+##               &#39;, p3=&#39; +str(p3) +
+##               &#39;, p4=&#39; +str(p4) +
+##               &#39;, p5=&#39; +str(p5))
+##     plt.legend([&#39;S&#39;,&#39;U&#39;,&#39;A&#39;,&#39;R&#39;])
+##     plt.show()</code></pre>
+</div>
+<div id="appendix-9-python-code-for-simulating-5-compartment-dimensionless-suar-model" class="section level2">
+<h2>Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model</h2>
+<pre><code>## def SUAR_norm(p1,p2,p3, p4, p5,d,S0,U0,A0,R0,i,h, plot = True):
+## 
+##     vect_initial = np.array([S0,U0,A0,R0]).T
+## 
+##     output = pd.DataFrame(columns = [&#39;day&#39;, &#39;s&#39;, &#39;u&#39;,&#39;a&#39;, &#39;r&#39;])
+##     j = 0
+##     vect = vect_initial.copy()
+##     
+##     ds = d[0]
+##     du = d[1]
+##     da = d[2]
+##     dr = d[3]
+##     
+##     while j &lt; i:
+##         vectplus1 = np.zeros([4])
+##         s = vect[0]
+##         u = vect[1]
+##         a = vect[2]
+##         r = vect[3]
+##         vectplus1[0] = s+h*((-s*p1*(u+a)+u*p2*(s+r) -ds*s + 1)-s *(1 - ds*s - du*u - da*a - dr*r))
+##         vectplus1[1] = u+h*((s*p1*(u+a)-u*p2*(s+r) - u*p3 -du*u )-u*(1 - ds*s - du*u - da*a - dr*r))
+##         vectplus1[2] = a+h*((u*p3 -a*p4*(s+r) + r*p5*(u+a) -da*a )-a*(1 - ds*s - du*u - da*a - dr*r))
+##         vectplus1[3] = r+h*((a*p4*(s+r) - r*p5*(u+a) -dr*r )-r*(1 - ds*s -du*u - da*a - dr*r))
+##         output.loc[j] = np.concatenate((np.array([j*h]),vectplus1.T))
+##         vect = vectplus1.copy()
+##         j+=1
+##     if plot:    
+##         plt.plot(output[&#39;day&#39;],output[&#39;s&#39;])
+##         plt.plot(output[&#39;day&#39;],output[&#39;u&#39;])
+##         plt.plot(output[&#39;day&#39;],output[&#39;a&#39;])
+##         plt.plot(output[&#39;day&#39;],output[&#39;r&#39;])
+##         plt.title(&#39;Portion: p1=&#39; + str(p1) +
+##                   &#39;, p2=&#39; + str(p2) +
+##                   &#39;, p3=&#39; +str(p3) +
+##                   &#39;, p4=&#39; +str(p4) +
+##                   &#39;, p5=&#39; +str(p5))
+##         plt.legend([&#39;S&#39;,&#39;U&#39;,&#39;A&#39;,&#39;R&#39;])
+##         plt.show()
+##         return
+##     else:
+##         return [s,u,a,r]</code></pre>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.46e438bd2eca7eb6358c700b40f6f56b22ab0b92503ecc11a2d8e4bcc610b8b4da83e5ea3d3e84fdb5f3c3c765744b9f5bbaf43cf5a027910be07ee39a9c12a1.js" integrity="sha512-RuQ4vS7KfrY1jHALQPb1ayKrC5JQPswRotjkvMYQuLTag&#43;XqPT6E/bXzw8dldEufW7r0PPWgJ5EL4H7jmpwSoQ=="></script>
+
+
+
+
+    </body>
+</html>
