@@ -12,19 +12,36 @@
 
     <h1>{{ .Site.Title }}</h1>
 
-    {{ partial "subtitle.html" . }} {{- with .Site.Params.social }}
+    {{ partial "subtitle.html" . }}
+    {{- with .Site.Params.social }}
     <div>{{ partial "social-icons.html" . }}</div>
     {{- end }}
 
-    <!-- Display the most recent post -->
-    {{ $posts := where .Site.RegularPages "Type" "post" }} {{ $recentPost :=
-    first 1 $posts }} {{ range $recentPost }}
-    <div class="recent-post">
-      <h2>Latest Post:</h2>
-      <a href="{{ .RelPermalink }}" title="{{ .Title }}">{{ .Title }}</a>
-      <p>{{ .Description | plainify | truncate 150 }}</p>
+    <!-- Display the three latest posts -->
+    {{ $posts := where .Site.RegularPages "Type" "post" | first 3 }}
+    <div class="latest-posts">
+      <h2>Latest Posts:</h2>
+      {{ range $posts }}
+        <div class="post">
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        </div>
+      {{ end }}
     </div>
-    {{ end }}
+
+    <!-- List the most common tags -->
+    {{ $tags := .Site.Taxonomies.tags.ByCount | first 10 }}
+    <div class="common-tags">
+      <h2>Most Common Tags:</h2>
+      <ul>
+        {{ range $tags }}
+          <li>
+            <a href="{{ "tags/" | relLangURL}}{{ .Page.Slug }}/">{{ .Page.Title }} ({{ .Count }})</a>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+
   </div>
 </main>
 {{ end }}
