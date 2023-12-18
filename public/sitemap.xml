@@ -8,10 +8,10 @@
     <loc>/tags/differential-equations/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/maths/</loc>
+    <loc>/ideas/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/</loc>
+    <loc>/tags/maths/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/python/</loc>
@@ -20,7 +20,7 @@
     <loc>/tags/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2023/12/16/taylor-series-approximations-of-odes-the-algorithm/</loc>
+    <loc>/ideas/3-ode-solver-implementation/ode-solve/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/math/</loc>
@@ -32,7 +32,10 @@
     <loc>/2023/10/22/modeling-drug-use-in-communities/</loc>
     <lastmod>2023-10-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2023/05/18/taylor-series-approximations-of-odes-the-algorithm/</loc>
+    <loc>/post/</loc>
+    <lastmod>2023-10-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/ideas/ode-solver/ode-solve/</loc>
     <lastmod>2023-05-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/about/</loc>
