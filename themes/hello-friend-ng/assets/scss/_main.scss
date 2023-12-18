@@ -255,8 +255,9 @@ pre {
   overflow: auto;
 
   @media #{$media-size-phone} {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    white-space: pre; // Disable wrapping
+    word-wrap: normal;
+    overflow-x: auto; // Enable horizontal scrolling
   }
 
   code {
@@ -429,4 +430,20 @@ hr {
   background-attachment: fixed;
   background-size: cover;
   background-position: center center;
+}
+
+@media screen and ($media-size-phone) {
+  /* Adjust breakpoint as needed */
+  .mjx-chtml.MJXc-display {
+    display: block !important; /* Override default display */
+    text-align: center; /* Optional: Center equations */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow-y: hidden;
+    max-width: 100%; /* Limit width of MathJax container */
+  }
+
+  /* If each individual equation should also be limited */
+  .mjx-chtml {
+    max-width: 100%; /* Limit width */
+  }
 }
