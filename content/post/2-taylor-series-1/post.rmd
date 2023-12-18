@@ -7,8 +7,6 @@ output:
   blogdown::html_page:
     toc: true
 ---
-    toc: true
----
 
 # Euler's Method
 
