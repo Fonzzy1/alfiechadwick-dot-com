@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Maths on Alfie Chadwick</title>
-    <link>/tags/maths/</link>
-    <description>Recent content in Maths on Alfie Chadwick</description>
+    <title>Improving the Euler Method on Alfie Chadwick</title>
+    <link>/tags/improving-the-euler-method/</link>
+    <description>Recent content in Improving the Euler Method on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 18 Dec 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/maths/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/improving-the-euler-method/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using Taylor Series to Improve the Euler Method: Part 1</title>
       <link>/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/</link>

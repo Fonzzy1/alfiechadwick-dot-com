@@ -1,0 +1,113 @@
+---
+title: "Using Taylor Series to Improve the Euler Method: Part 1"
+author: 'Alfie Chadwick'
+date: '2023-12-18'
+Tags: ['Maths', 'Differential Equations', 'Improving the Euler Method']
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#eulers-method">Euler’s Method</a>
+<ul>
+<li><a href="#higher-order-odes">Higher Order ODEs</a></li>
+</ul></li>
+<li><a href="#taylor-series">Taylor Series</a></li>
+<li><a href="#putting-it-together">Putting it together</a></li>
+</ul>
+</div>
+
+<div id="eulers-method" class="section level1">
+<h1>Euler’s Method</h1>
+<p>Euler’s method is a classic way of approximating first-order differential equations.
+In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.</p>
+<p>This is commonly written as:</p>
+<p><span class="math display">\[
+\frac{dy}{dx} = f(x, y)
+\]</span>
+<span class="math display">\[
+y(x+h) = y(x) + hf(x, y(x)) + \epsilon
+\]</span>
+<span class="math display">\[
+\lim_{h \to 0} |\epsilon| = 0
+\]</span></p>
+<p>Where <span class="math inline">\(\epsilon\)</span> is the error created by the approximation.</p>
+<div id="higher-order-odes" class="section level2">
+<h2>Higher Order ODEs</h2>
+<p>Generalizing Euler’s method to higher order ODEs is pretty easy. All you have to do is think of the ODE as a vector with each entry being the next derivative of the function. You can now write Euler’s Method in terms of this function:</p>
+<p><span class="math display">\[ 
+\begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n-1}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n-1}(x)\\
+\end{bmatrix} + \begin{bmatrix}
+h &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; h &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; h\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+y&#39;&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon
+\]</span></p>
+</div>
+</div>
+<div id="taylor-series" class="section level1">
+<h1>Taylor Series</h1>
+<p>So everything up to now has been pretty textbook. But when I saw the matrix representation of the Euler method, I couldn’t help but think of another method that combines derivatives and linear algebra, Taylor Series.
+Taylor Series allows you to express functions as a polynomial of their derivatives at a single point <span class="math inline">\(a\)</span>, as defined by this equation:</p>
+<p><span class="math display">\[
+y(x) =  \sum_{n = 0}^{\infty}  \frac{y^{(n)}(a)}{n!}\cdot(x - a)^n 
+\]</span></p>
+<p>The link between the Taylor Series and Euler’s Method becomes clear when we replace <span class="math inline">\(x\)</span> with <span class="math inline">\(x+h\)</span> and <span class="math inline">\(a\)</span> with <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[
+y(x+h) =  \sum_{n = 0}^{\infty}  \frac{y^{(n)}(x)}{n!}\cdot(h)^n 
+\]</span></p>
+<p><span class="math display">\[
+y(x+h) = y(x) +  y&#39;(x) \cdot h + \frac{y&#39;&#39;(x)}{2!}\cdot(h)^2 + \frac{y&#39;&#39;&#39;(x)}{3!}\cdot(h)^3 ...
+\]</span></p>
+<p>The first two terms of this expansion are the same as Euler’s Method, but the additional terms provide even greater accuracy, minimizing the error in the approximation!</p>
+</div>
+<div id="putting-it-together" class="section level1">
+<h1>Putting it together</h1>
+<p>A nice property of Taylor Series is that they have a really simple derivative function:</p>
+<p><span class="math display">\[ y&#39;(a+h) = \sum_{n = 0}^{\infty}  \frac{y^{(n+1)}(a)}{n!}\cdot(h)^n \]</span>
+<span class="math display">\[ y^{(m)}(a+h) = \sum_{n = 0}^{\infty}  \frac{y^{(n+m)}(a)}{n!}\cdot(h)^n \]</span></p>
+<p>This means that not only the function can be described as a linear combination of the derivatives at a point, but so too can all derivatives of a function.</p>
+<p>Using this, we can go back to the initial matrix representation of the Euler method and include these higher order terms.</p>
+<p><span class="math display">\[ \begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+y&#39;&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon \]</span></p>
+<p>This should allow us to approximate higher order ODEs with more precision than just using Euler’s method.</p>
+</div>
