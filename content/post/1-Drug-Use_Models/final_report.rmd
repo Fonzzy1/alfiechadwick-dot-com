@@ -10,7 +10,9 @@ output:
 
 # Preface
 
-Big thanks to my collaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University.
+This was written as a University project but I'm pretty happy with how it turned out.
+
+Big thanks to Kevin Dai and Chrysovalantis Thomopoulos who worked with me on this throughout the semester.
 
 
 \newpage
