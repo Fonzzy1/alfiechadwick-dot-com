@@ -295,6 +295,8 @@ Using the table of non-trivial stationary points (appendix 10), we can now plot 
 
 
 ```{python, simforallparams, echo = FALSE}
+from mplcatppuccin.colormaps import get_colormap_from_list
+cmap = get_colormap_from_list("mocha", ["red", "peach", "yellow", "green"])
 
 res = pd.read_csv('ss.csv')
 use =  pd.read_csv('avg.csv')
@@ -310,7 +312,7 @@ for i, a in enumerate(p):
     for j, b in enumerate(p):
         if i != j:
             w = res[[a, b, 'extinct']].groupby([a, b]).sum().unstack()
-            t = axs[i, j].pcolormesh(w, cmap="RdYlGn_r", vmin=0, vmax=216)  # Here is the change
+            t = axs[i, j].pcolormesh(w, cmap=cmap, vmin=0, vmax=216)  # Here is the change
         if i == 4:
             axs[i, j].set_xticks(np.arange(7) + 0.5, minor=False)
             axs[i, j].set_xticklabels(xlabels, fontdict=None, minor=False)
@@ -351,7 +353,7 @@ for i , a in enumerate( p):
                     except:
                         pass
 
-            t = axs[i, j].pcolormesh(w, cmap="RdYlGn_r", vmin=0, vmax=1)  # Here is the change
+            t = axs[i, j].pcolormesh(w, cmap=cmap, vmin=0, vmax=1)  # Here is the change
         if i == 4:
             axs[i,j].set_xticks(np.arange(7) + 0.5, minor=False)
             axs[i,j].set_xticklabels(xlabels, fontdict=None, minor=False)

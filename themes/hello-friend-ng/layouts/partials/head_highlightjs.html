@@ -1,6 +1,21 @@
 {{ if and (not .Params.disable_highlight) (in (string .Content) "</pre>") }}
 {{ $highTheme := .Site.Params.highlightjsTheme }}
 {{ with .Site.Params.highlightjsVersion }}
-<link href='{{ $.Site.Params.highlightjsCDN | default "//cdnjs.cloudflare.com/ajax/libs" }}/highlight.js/{{ . }}/styles/{{ $highTheme }}.min.css' rel='stylesheet' type='text/css' />
+<!--
+    <link href='{{ $.Site.Params.highlightjsCDN | default "//cdnjs.cloudflare.com/ajax/libs" }}/highlight.js/{{ . }}/styles/{{ $highTheme }}.min.css' rel='stylesheet' type='text/css' />
+   -->
+<link  rel='stylesheet' type='text/css' href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-{{ $highTheme }}.css">
+
+    <style>
+        pre code.hljs {
+            display:block;
+            overflow-x:auto;
+            padding:1em;
+        }
+        code.hljs {
+            padding:3px 5px;
+        }
+    </style>
+    
 {{ end }}
 {{ end }}

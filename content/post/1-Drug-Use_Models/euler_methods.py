@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
+import mplcatppuccin
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+mpl.style.use("macchiato")
 
 
 def SIR(p1, p2, p3, S0, I0, R0, i):

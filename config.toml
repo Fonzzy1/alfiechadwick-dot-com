@@ -34,7 +34,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     highlightjsVersion = "11.9.0"
     highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
     highlightjsLang = ["r", "yaml", 'python', 'matlab']
-    highlightjsTheme = "tokyo-night-dark"
+    highlightjsTheme = "macchiato"
 
 
     MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
