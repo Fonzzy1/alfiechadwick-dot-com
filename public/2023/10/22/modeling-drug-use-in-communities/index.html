@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Alfie Chadwick, Kevin Dai, Chrysovalantis Thomopoulos">
-<meta name="description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my collaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University." />
-<meta name="keywords" content=", Math, Differential Equations, Modeling" />
+        <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<meta
+  name="author"
+  content="Alfie Chadwick, Kevin Dai, Chrysovalantis Thomopoulos"
+/>
+<meta
+  name="description"
+  content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my collaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University."
+/>
+<meta
+  name="keywords"
+  content=", Math, Differential Equations, Modeling"
+/>
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/2023/10/22/modeling-drug-use-in-communities/" />
 
-
-    <title>
-        
-            Modeling Drug Use in Communities :: Alfie Chadwick 
-        
-    </title>
+<title>
+   Modeling Drug Use in Communities :: Alfie Chadwick  
+</title>
 
 
-
-
-
-<link rel="stylesheet" href="/main.949191c1dcc9c4a887997048b240354e47152016d821198f89448496ba42e491.css" integrity="sha256-lJGRwdzJxKiHmXBIskA1TkcVIBbYIRmPiUSElrpC5JE=">
+ 
+<link
+  rel="stylesheet"
+  href="/main.949191c1dcc9c4a887997048b240354e47152016d821198f89448496ba42e491.css"
+  integrity="sha256-lJGRwdzJxKiHmXBIskA1TkcVIBbYIRmPiUSElrpC5JE="
+/>
 
 
 
@@ -33,33 +44,31 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="msapplication-TileColor" content="">
-
-
-<meta itemprop="name" content="Modeling Drug Use in Communities">
+ <meta itemprop="name" content="Modeling Drug Use in Communities">
 <meta itemprop="description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my collaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University."><meta itemprop="datePublished" content="2023-10-22T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-10-22T00:00:00+00:00" />
 <meta itemprop="wordCount" content="4872">
-<meta itemprop="keywords" content="Math,Differential Equations,Modeling," />
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Modeling Drug Use in Communities"/>
+<meta itemprop="keywords" content="Math,Differential Equations,Modeling," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Modeling Drug Use in Communities"/>
 <meta name="twitter:description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my collaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University."/>
-
-
-
-    <meta property="og:title" content="Modeling Drug Use in Communities" />
+  <meta property="og:title" content="Modeling Drug Use in Communities" />
 <meta property="og:description" content="Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface Big thanks to my collaborators Kevin Dai and Chrysovalantis Thomopoulos from Monash University." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/2023/10/22/modeling-drug-use-in-communities/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-10-22T00:00:00+00:00" />
 <meta property="article:modified_time" content="2023-10-22T00:00:00+00:00" />
 
+   
+<meta property="article:published_time" content="2023-10-22 00:00:00 &#43;0000 UTC" />
 
 
 
 
 
 
-    <meta property="article:published_time" content="2023-10-22 00:00:00 &#43;0000 UTC" />
 
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css' rel='stylesheet' type='text/css' />
 
 
 
@@ -202,7 +211,7 @@ Thirdly, the idea that addiction is caused by interactions between individuals s
 <span class="math display">\[\frac{dR}{dt} = -\pi_2 * R * I + \pi_3 * I \]</span></p>
 <p>The parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, and <span class="math inline">\(\pi_3\)</span> represent the ‘infectiousness’ of the drug for susceptible and recovering individuals and the rate of recovery from the drug, respectively.</p>
 <p>We now look at some plots to see how this model behaves for various combinations of our parameters:</p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/SIRsims-1.png" width="960" /></p>
+<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SIRsims-1.png" width="960" /></p>
 </div>
 <div id="suar-model" class="section level2">
 <h2>SUAR Model</h2>
@@ -218,7 +227,7 @@ Because of this, we adapted the SIR model, relabeled the infected group to addic
 <span class="math display">\[\frac{dA}{dt} = \pi_3*U +\pi_5 *(A+U)*R - \pi_4*A \]</span>
 <span class="math display">\[\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R \]</span></p>
 <p>With parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, <span class="math inline">\(\pi_3\)</span>, <span class="math inline">\(\pi_4\)</span>, and <span class="math inline">\(\pi_5\)</span> being the ‘effectiveness’ of the drug for susceptible people, the rate that people stop trying the drug, the rate at which people become addicted, the recovery rate for addicted people respectively, and the ‘effectiveness’ for recovered people.</p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/SUARsims-3.png" width="1152" /></p>
+<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SUARsims-3.png" width="1152" /></p>
 </div>
 <div id="saur-model-with-age" class="section level2">
 <h2>SAUR Model with age</h2>
@@ -247,7 +256,7 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <span class="math display">\[\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  \]</span>
 <span class="math display">\[\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA\]</span>
 <span class="math display">\[\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR \]</span></p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-5.png" width="1152" /></p>
+<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-5.png" width="1152" /></p>
 <p>Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:</p>
 <p><span class="math display">\[ T = S + U + A + R \]</span>
 <span class="math display">\[ T&#39; = b(S+U+A+R)  -d_SS -d_UU - d_AA - d_RR \]</span></p>
@@ -261,7 +270,7 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <span class="math display">\[ \frac{du}{dt} = (s\pi_{1}(u+a)-u\pi_2(s+r) - u\pi_3 -d_Uu )-u(1 - d_Ss - d_Uu - d_Aa - d_Rr) \]</span>
 <span class="math display">\[ \frac{da}{dt} = (u\pi_3 -a\pi_4(s+r) + r\pi_5(u+a) -d_Aa )-a(1 - d_Ss - d_Uu - d_Aa - d_Rr)  \]</span>
 <span class="math display">\[ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa - d_Rr)\]</span></p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-7.png" width="1152" /></p>
+<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-7.png" width="1152" /></p>
 </div>
 </div>
 <div id="results" class="section level1">
@@ -270,10 +279,10 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <p>However, for some combinations of parameters, secondary stationary points are found. These non-trivial stationary points could not be found analytically using MATLAB 2021b, therefore their existence must be verified on a case-by-case basis, using the code in appendix 4.
 Note that all the death parameters were set to one, meaning that these results are for drugs where the rate of death is independent of the compartment. To find results for other sets of death parameters, line 25 of appendix 4 should be altered.</p>
 <p>Using the table of non-trivial stationary points (appendix 10), we can now plot the number of combinations of parameters that lead to non-trivial stationary points pairwise by parameter.</p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/simforallparams-9.png" width="672" /></p>
+<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/simforallparams-9.png" width="672" /></p>
 <p>From this plot, one can see a big factor that influences the creation of these non-trivial stationary points is the magnitude of <span class="math inline">\(\pi_1\)</span>, and to a lesser extent the ratio of <span class="math inline">\(\pi_1\)</span> and <span class="math inline">\(\pi_2\)</span>. In this case, births will rapidly transition to the using category, meaning that they then have the potential to become addicted.</p>
 <p>Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in the plots below.</p>
-<p><img src="/post/2-Drug-Use_Models/final_report_files/figure-html/pssp-11.png" width="672" />
+<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/pssp-11.png" width="672" />
 Looking at these plots we can see the following behaviors:</p>
 <ul>
 <li>Bigger <span class="math inline">\(\pi_1\)</span> <span class="math inline">\(\to\)</span> Higher Mean</li>
@@ -676,31 +685,33 @@ writematrix(double(ss), &#39;ss.csv&#39;)</code></pre>
 
             
                 <footer class="footer">
-    
-    <div class="footer__inner">
-        <div class="footer__content">
-            <span>&copy; 2023</span>
-            <span><a href="/"></a></span>
-            <span></span>
-            <span><a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
-            
-        </div>
-    </div>
-    
-    
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  <script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 </footer>
 
+</body>
+</html>
+
             
         </div>
 
-        
-
-
-
-<script type="text/javascript" src="/bundle.min.46e438bd2eca7eb6358c700b40f6f56b22ab0b92503ecc11a2d8e4bcc610b8b4da83e5ea3d3e84fdb5f3c3c765744b9f5bbaf43cf5a027910be07ee39a9c12a1.js" integrity="sha512-RuQ4vS7KfrY1jHALQPb1ayKrC5JQPswRotjkvMYQuLTag&#43;XqPT6E/bXzw8dldEufW7r0PPWgJ5EL4H7jmpwSoQ=="></script>
-
-
-
+           
 
     </body>
 </html>

@@ -10,9 +10,9 @@
     <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Taylor Series approximations of ODEs: The Algorithm</title>
-      <link>/2023/12/16/taylor-series-approximations-of-odes-the-algorithm/</link>
+      <link>/ideas/3-ode-solver-implementation/ode-solve/</link>
       <pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/2023/12/16/taylor-series-approximations-of-odes-the-algorithm/</guid>
+      <guid>/ideas/3-ode-solver-implementation/ode-solve/</guid>
       <description>import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd.</description>
     </item>
   </channel>
