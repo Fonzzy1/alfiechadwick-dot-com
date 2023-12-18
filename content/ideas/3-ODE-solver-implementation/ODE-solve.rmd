@@ -1,7 +1,6 @@
 ---
 title: "Taylor Series approximations of ODEs: The Algorithm"
 author: Alfie Chadwick
-Tags: ['Maths', 'Differential Equations', 'Python']
 date: 2023-12-16T00:00:00+00:00
 output:
   blogdown::html_page:

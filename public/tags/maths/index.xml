@@ -15,19 +15,5 @@
       <guid>/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/</guid>
       <description>Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first-order differential equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.&#xA;This is commonly written as:&#xA;\[ \frac{dy}{dx} = f(x, y) \] \[ y(x+h) = y(x) + hf(x, y(x)) + \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]</description>
     </item>
-    <item>
-      <title>Taylor Series approximations of ODEs: The Algorithm</title>
-      <link>/ideas/3-ode-solver-implementation/ode-solve/</link>
-      <pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/ideas/3-ode-solver-implementation/ode-solve/</guid>
-      <description>import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd.</description>
-    </item>
-    <item>
-      <title>Taylor Series approximations of ODEs: The Algorithm</title>
-      <link>/ideas/ode-solver/ode-solve/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      <guid>/ideas/ode-solver/ode-solve/</guid>
-      <description>Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus.</description>
-    </item>
   </channel>
 </rss>
