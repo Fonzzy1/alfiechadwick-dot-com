@@ -11,14 +11,25 @@ $light-border-color: #dcdcdc;
 $light-table-color: #dcdcdc;
 
 /* Dark theme colors */
-$dark-background: #232425;
-$dark-background-secondary: #3b3d42;
-$dark-background-header: #1b1c1d;
-$dark-color: #a9a9b3;
-$dark-color-variant: white;
-$dark-color-secondary: #b3b3bd;
-$dark-border-color: #4e4e57;
-$dark-table-color: #4e4e57;
+/* Catppuccin Macchiato theme colors */
+$dark-background: #24273a; /* Base (base00) */
+$dark-background-secondary: #1e2030; /* Mantle (base01) */
+$dark-background-header: #363a4f; /* Surface0 (base02) */
+$dark-color: #cad3f5; /* Text (base05) */
+$dark-color-variant: #f4dbd6; /* Rosewater (base06) */
+$dark-color-secondary: #b7bdf8; /* Lavender (base07) */
+$dark-border-color: #494d64; /* Surface1 (base03) */
+$dark-table-color: #5b6078; /* Surface2 (base04) */
+
+/* Additional colors from Catppuccin Macchiato not initially present in your scheme */
+$dark-color-red: #ed8796; /* Red (base08) */
+$dark-color-peach: #f5a97f; /* Peach (base09) */
+$dark-color-yellow: #eed49f; /* Yellow (base0A) */
+$dark-color-green: #a6da95; /* Green (base0B) */
+$dark-color-teal: #8bd5ca; /* Teal (base0C) */
+$dark-color-blue: #8aadf4; /* Blue (base0D) */
+$dark-color-mauve: #c6a0f6; /* Mauve (base0E) */
+$dark-color-flamingo: #f0c6c6; /* Flamingo (base0F) */
 
 $media-size-phone: "(max-width: 684px)";
 $media-size-tablet: "(max-width: 900px)";
@@ -31,3 +42,4 @@ $media-size-tablet: "(max-width: 900px)";
 
 /* Content */
 $max-width: 860px;
+
