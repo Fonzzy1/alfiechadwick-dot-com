@@ -618,6 +618,7 @@ y^{n}(x)\\
 
 
 #### General case
+
 1) Same as the linear case
 
 2) Same as linear case

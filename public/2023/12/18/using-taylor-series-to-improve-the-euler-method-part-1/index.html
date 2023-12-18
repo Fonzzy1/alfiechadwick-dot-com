@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<meta
+  name="author"
+  content="Alfie Chadwick"
+/>
+<meta
+  name="description"
+  content="Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first Differential Equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.
+This is commonly written as:
+\[ \frac{dy}{dx} = f(x, y) \] \[ y(x&#43;h) = y(x) &#43; hf(x, y(x)) &#43; \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]"
+/>
+<meta
+  name="keywords"
+  content=", Maths, Differential Equations, Improving the Euler Method"
+/>
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/" />
+
+<title>
+   Using Taylor Series to Improve the Euler Method: Part 1 :: Alfie Chadwick  
+</title>
+
+
+ 
+<link
+  rel="stylesheet"
+  href="/main.5e7cf77b5cdaddd36cb67a554908f7399c74d1f1a70f3a7f8516df106ae7619f.css"
+  integrity="sha256-Xnz3e1za3dNstnpVSQj3OZx00fGnDzp/hRbfEGrnYZ8="
+/>
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+ <meta itemprop="name" content="Using Taylor Series to Improve the Euler Method: Part 1">
+<meta itemprop="description" content="Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first Differential Equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.
+This is commonly written as:
+\[ \frac{dy}{dx} = f(x, y) \] \[ y(x&#43;h) = y(x) &#43; hf(x, y(x)) &#43; \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]"><meta itemprop="datePublished" content="2023-12-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-12-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="508">
+<meta itemprop="keywords" content="Maths,Differential Equations,Improving the Euler Method," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Using Taylor Series to Improve the Euler Method: Part 1"/>
+<meta name="twitter:description" content="Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first Differential Equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.
+This is commonly written as:
+\[ \frac{dy}{dx} = f(x, y) \] \[ y(x&#43;h) = y(x) &#43; hf(x, y(x)) &#43; \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]"/>
+  <meta property="og:title" content="Using Taylor Series to Improve the Euler Method: Part 1" />
+<meta property="og:description" content="Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first Differential Equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.
+This is commonly written as:
+\[ \frac{dy}{dx} = f(x, y) \] \[ y(x&#43;h) = y(x) &#43; hf(x, y(x)) &#43; \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-12-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-12-18T00:00:00+00:00" />
+
+   
+<meta property="article:published_time" content="2023-12-18 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#bb9af7;
+                   animation-duration:2s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/tags">Tags</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/">Using Taylor Series to Improve the Euler Method: Part 1</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#eulers-method">Euler’s Method</a>
+<ul>
+<li><a href="#higher-order-odes">Higher Order ODEs</a></li>
+</ul></li>
+<li><a href="#taylor-series">Taylor Series</a></li>
+<li><a href="#putting-it-together">Putting it together</a></li>
+</ul>
+</div>
+
+<div id="eulers-method" class="section level1">
+<h1>Euler’s Method</h1>
+<p>Euler’s method is a classic way of approximating first Differential Equations.
+In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.</p>
+<p>This is commonly written as:</p>
+<p><span class="math display">\[
+\frac{dy}{dx} = f(x, y)
+\]</span>
+<span class="math display">\[
+y(x+h) = y(x) + hf(x, y(x)) + \epsilon
+\]</span>
+<span class="math display">\[
+\lim_{h \to 0} |\epsilon| = 0
+\]</span></p>
+<p>Where <span class="math inline">\(\epsilon\)</span> is the error created by the approximation.</p>
+<div id="higher-order-odes" class="section level2">
+<h2>Higher Order ODEs</h2>
+<p>Generalising Euler’s method to higher order ODE’s is pretty easy. All you have to do is think of the ODE as a vector with each entry being the next derivative of the function. You can now write Eulers Method in terms of this function:</p>
+<p><span class="math display">\[ 
+\begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n-1}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n-1}(x)\\
+\end{bmatrix} + \begin{bmatrix}
+h &amp; 0 &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; h &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; h\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+y&#39;&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon
+\]</span></p>
+</div>
+</div>
+<div id="taylor-series" class="section level1">
+<h1>Taylor Series</h1>
+<p>So everything up to now has been pretty textbook. But when I saw the matrix representation of the Euler method, I couldn’t help but think of another method that combines derivatives and linear algebra, Taylor Series.
+Taylor Series allow you to express functions as a polynomial of their derivatives at a single point <span class="math inline">\(a\)</span> , as defined by this equation:</p>
+<p><span class="math display">\[
+y(x) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(a)}{n!}\cdot(x - a)^n 
+\]</span></p>
+<p>The link between the Taylor Series and Euler’s Method becomes clear when we replace <span class="math inline">\(x\)</span> with <span class="math inline">\(x+h\)</span> and <span class="math inline">\(a\)</span> with <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[
+y(x+h) =  \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n 
+\]</span></p>
+<p><span class="math display">\[
+y(x+h) = y(x) +  y&#39;(x) \cdot h + \frac{\mathbb y&#39;&#39;(x)}{2!}\cdot(h)^2 + \frac{\mathbb y&#39;&#39;&#39;(x)}{3!}\cdot(h)^3 ...
+\]</span></p>
+<p>The first two terms of this expansion are the same as Euler’s Method, but the additional terms provide even greater accuracy, minimising the error in the approximation!</p>
+</div>
+<div id="putting-it-together" class="section level1">
+<h1>Putting it together</h1>
+<p>A nice property of Taylor Series is that they has a really simple derivative function:</p>
+<p><span class="math display">\[ y&#39;(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+1}(a)}{n!}\cdot(h)^n \]</span>
+<span class="math display">\[ y^m(a+h) = \sum_{n = 0}^{\infty}  \frac{\mathbb y^{n+m}(a)}{n!}\cdot(h)^n \]</span></p>
+<p>This means that not only the function can be described as a linear combination of the derivatives at a point, but so to can all derivatives of a function.</p>
+<p>Using this, we can go back to the initial matrix representation of the Euler method and include these higher order terms.</p>
+<p><span class="math display">\[ \begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+y&#39;&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon \]</span></p>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/maths/">Maths</a></span>
+        <span class="tag"><a href="/tags/differential-equations/">Differential Equations</a></span>
+        <span class="tag"><a href="/tags/improving-the-euler-method/">Improving the Euler Method</a></span>
+        
+    </p>
+
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+  
+
+  <script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</footer>
+
+</body>
+</html>
+
+            
+        </div>
+
+           
+
+    </body>
+</html>

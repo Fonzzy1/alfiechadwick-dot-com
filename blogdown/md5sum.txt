@@ -1,4 +1,5 @@
 "file" "checksum"
 "content/ideas/3-ODE-solver-implementation/ODE-solve.rmd" "5d0d40de4e1d654ca4187228275b1431"
-"content/ideas/ODE-Solver/ODE-solve.rmd" "59c65224c7b822f69fe6864401fb25b9"
+"content/ideas/ODE-Solver/ODE-solve.rmd" "169865b9b6b54155a6aba11f316c7a87"
 "content/post/1-Drug-Use_Models/final_report.rmd" "b529e4ed7e5944be2a905f9b5fcc7b60"
+"content/post/2-taylor-series-1/post.rmd" "70f88ba19c6bd3e0b522cb21f6e98fed"
