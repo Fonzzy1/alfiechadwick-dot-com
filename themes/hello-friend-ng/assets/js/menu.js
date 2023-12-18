@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
   const menuTrigger = document.querySelector(".menu-trigger");
   const menu = document.querySelector(".menu");
   const breakpoint = 768; // This is the window width threshold, you can adjust this value
