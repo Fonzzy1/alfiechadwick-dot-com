@@ -4,159 +4,188 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', (event) => {
-          // Create an array to hold all posts and their details
-          var postsData = [];
+        document.addEventListener('DOMContentLoaded', (event) => {
+                // Create an array to hold all posts and their details
+                var postsData = [];
 
-          // Iterate through each page to collect its title, permalink, and tags
-          {{ range .Site.RegularPages }}
-            // Use 'jsonify' to convert tags to a JSON array, if tags are not present, default to an empty array
-            var tags = {{ if .Params.tags }}{{ .Params.tags }}{{ else }}[]{{ end }};
-            postsData.push({
-              title: {{ .Title }},
-              permalink: {{ .RelPermalink }},
-              tags: tags // This is now a real JavaScript array
+                // Iterate through each page to collect its title, permalink, and tags
+                {{ range .Site.RegularPages }}
+                  // Use 'jsonify' to convert tags to a JSON array, if tags are not present, default to an empty array
+                  var tags = {{ if .Params.tags }}{{ .Params.tags }}{{ else }}[]{{ end }};
+                  postsData.push({
+                    title: {{ .Title }},
+                    permalink: {{ .RelPermalink }},
+                    tags: tags // This is now a real JavaScript array
+                  });
+                {{ end }}
+
+                // Log the posts information in the console as JSON
+                console.log(postsData);
+            var tagsToPosts = {};
+
+            // Loop through each post
+            postsData.forEach(function(post) {
+              // Loop through each tag in the current post
+              post.tags.forEach(function(tag) {
+                // If the tag hasn't been added to tagsToPosts, initialize it with an empty array
+                if (!tagsToPosts.hasOwnProperty(tag)) {
+                  tagsToPosts[tag] = [];
+                }
+                // Add the current post to the array for this tag
+                tagsToPosts[tag].push({
+                  title: post.title,
+                  permalink: post.permalink
+                });
+              });
             });
-          {{ end }}
 
-          // Log the posts information in the console as JSON
-          console.log(postsData);
-      var tagsToPosts = {};
+            // Log the new tags to posts dictionary
+            console.log(tagsToPosts);
+          // Get all unique tags
+          var uniqueTags = Object.keys(tagsToPosts);
 
-      // Loop through each post
-      postsData.forEach(function(post) {
-        // Loop through each tag in the current post
-        post.tags.forEach(function(tag) {
-          // If the tag hasn't been added to tagsToPosts, initialize it with an empty array
-          if (!tagsToPosts.hasOwnProperty(tag)) {
-            tagsToPosts[tag] = [];
+          // Initialize the matrix with zeros
+          var tagMatrix = uniqueTags.map(() => uniqueTags.map(() => 0));
+
+          // Function to check the intersection of posts for two tags
+          function getSharedPostsCount(tagA, tagB, tagsToPosts) {
+            var postsA = tagsToPosts[tagA];
+            var postsB = tagsToPosts[tagB];
+            var shared = postsA.filter(postA => postsB.some(postB => postA.permalink === postB.permalink));
+            return shared.length;
           }
-          // Add the current post to the array for this tag
-          tagsToPosts[tag].push({
-            title: post.title,
-            permalink: post.permalink
+
+          // Populate the matrix with shared post counts
+          for (let i = 0; i < uniqueTags.length; i++) {
+            for (let j = i; j < uniqueTags.length; j++) {
+              // We only need to calculate the upper triangular matrix due to symmetry
+              var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
+              tagMatrix[i][j] = sharedCount;
+              tagMatrix[j][i] = sharedCount; // The matrix is symmetric so we mirror the count
+            }
+          }
+
+          // Log the matrix
+          console.log(tagMatrix);
+
+          // Create nodes and links for the force graph from the tag matrix
+          var nodes = uniqueTags.map(function(tag, index) {
+            return { id: tag, group: index };
           });
-        });
-      });
 
-      // Log the new tags to posts dictionary
-      console.log(tagsToPosts);
-    // Get all unique tags
-    var uniqueTags = Object.keys(tagsToPosts);
+          var links = [];
+          for (let i = 0; i < uniqueTags.length; i++) {
+            for (let j = i + 1; j < uniqueTags.length; j++) {
+              if (tagMatrix[i][j] > 0) {
+                links.push({
+                  source: uniqueTags[i],
+                  target: uniqueTags[j],
+                  value: tagMatrix[i][j]
+                });
+              }
+            }
+          }
 
-    // Initialize the matrix with zeros
-    var tagMatrix = uniqueTags.map(() => uniqueTags.map(() => 0));
+        var width = window.innerWidth;
+        var height = window.innerHeight;
 
-    // Function to check the intersection of posts for two tags
-    function getSharedPostsCount(tagA, tagB, tagsToPosts) {
-      var postsA = tagsToPosts[tagA];
-      var postsB = tagsToPosts[tagB];
-      var shared = postsA.filter(postA => postsB.some(postB => postA.permalink === postB.permalink));
-      return shared.length;
-    }
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .style("display", "block") // Ensures that the SVG fills horizontal space
+            .style("margin", "auto"); // Centers the SVG horizontally
 
-    // Populate the matrix with shared post counts
-    for (let i = 0; i < uniqueTags.length; i++) {
-      for (let j = i; j < uniqueTags.length; j++) {
-        // We only need to calculate the upper triangular matrix due to symmetry
-        var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
-        tagMatrix[i][j] = sharedCount;
-        tagMatrix[j][i] = sharedCount; // The matrix is symmetric so we mirror the count
-      }
-    }
+        var nodeRadius = 50; // Adjust node radius to be larger
+        var collisionRadius = nodeRadius * 2; // Set the minimum distance between nodes to twice their radius
 
-    // Log the matrix
-    console.log(tagMatrix);
+        var simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.id).distance(200)) // You can adjust link distance to space out nodes further
+            .force("charge", d3.forceManyBody().strength(-500)) // Increase repulsion strength to space out the nodes
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide(collisionRadius)) // Keep nodes from overlapping
+            .alphaDecay(0.01); // Adjust alpha decay - lower values (closer to 0) slow the simulation down
 
-    // Create nodes and links for the force graph from the tag matrix
-    var nodes = uniqueTags.map(function(tag, index) {
-      return { id: tag, group: index };
+  var dragHandler = d3.drag()
+    .on("start", function(d) {
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    })
+    .on("drag", function(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    })
+    .on("end", function(d) {
+      if (!d3.event.active) simulation.alphaTarget(0);
+      d.fx = null; // Set to null to release the node and let it react to the simulation again
+      d.fy = null; // Set to null to release the node and let it react to the simulation again
     });
 
-    var links = [];
-    for (let i = 0; i < uniqueTags.length; i++) {
-      for (let j = i + 1; j < uniqueTags.length; j++) {
-        if (tagMatrix[i][j] > 0) {
-          links.push({
-            source: uniqueTags[i],
-            target: uniqueTags[j],
-            value: tagMatrix[i][j]
+
+        var link = svg.append("g")
+            .attr("class", "links")
+          .selectAll("line")
+          .data(links)
+          .enter().append("line")
+            .attr("stroke-width", d => Math.sqrt(d.value))
+            .attr("stroke", "white"); // Ensure the stroke (line) color is set
+
+
+        var node = svg.append("g")
+            .attr("class", "nodes")
+          .selectAll("circle")
+          .data(nodes)
+          .enter().append("circle")
+            .attr("r", nodeRadius)
+            .attr("fill", "blue");
+
+        node.append("title")
+            .text(d => d.id);
+
+        simulation
+            .nodes(nodes)
+            .on("tick", ticked);
+
+        simulation.force("link")
+            .links(links);
+
+
+    dragHandler(node);
+
+        var labels = svg.append("g")
+          .attr("class", "labels")
+          .selectAll("text")
+          .data(nodes)
+          .enter().append("text")
+          .text(d => d.id)
+          .style("fill", "white") // Set the text color
+          .style("text-anchor", "middle") // Center the text horizontally
+          .style("dominant-baseline", "central") // Center the text vertically
+          .on("click", function(d) {
+              let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
+              window.location.href = `/tags/${tagName}`;
           });
+
+        function ticked() {
+          link
+              .attr("x1", d => d.source.x)
+              .attr("y1", d => d.source.y)
+              .attr("x2", d => d.target.x)
+              .attr("y2", d => d.target.y);
+
+          // Now the 'cx' and 'cy' attributes define the center of the circle
+          node
+              .attr("cx", d => d.x)
+              .attr("cy", d => d.y);
+
+          // Update labels to be at the center of the nodes
+          labels
+              .attr("x", d => d.x)
+              .attr("y", d => d.y);
         }
-      }
-    }
 
-  var width = window.innerWidth;
-  var height = window.innerHeight;
-
-  var svg = d3.select("body")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .style("display", "block") // Ensures that the SVG fills horizontal space
-    .style("margin", "auto"); // Centers the SVG horizontally
-
-  var simulation = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(d => d.id))
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2));
-
-  var link = svg.append("g")
-      .attr("class", "links")
-    .selectAll("line")
-    .data(links)
-    .enter().append("line")
-      .attr("stroke-width", d => Math.sqrt(d.value))
-      .attr("stroke", "white"); // Ensure the stroke (line) color is set
-
-  var node = svg.append("g")
-      .attr("class", "nodes")
-    .selectAll("circle")
-    .data(nodes)
-    .enter().append("circle")
-      .attr("r", 10) // Increase the radius to make balls bigger
-      .attr("fill", "blue");
-
-  node.append("title")
-      .text(d => d.id);
-
-  simulation
-      .nodes(nodes)
-      .on("tick", ticked);
-
-  simulation.force("link")
-      .links(links);
-
-  var labels = svg.append("g")
-    .attr("class", "labels")
-    .selectAll("text")
-    .data(nodes)
-    .enter().append("text")
-    .text(d => d.id)
-    .attr("dx", 12) // Offset the text from the node center
-    .attr("dy", ".35em") // Vertically align the text
-    .style("fill", "white") // Set the text color
-    .on("click", d => window.location.href = `/tags/${d.id}`); // Click handler to navigate
-
-  // Update the ticked function to also update label positions
-  function ticked() {
-    link
-      .attr("x1", d => d.source.x)
-      .attr("y1", d => d.source.y)
-      .attr("x2", d => d.target.x)
-      .attr("y2", d => d.target.y);
-
-    node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y);
-    
-    labels
-      .attr("x", d => d.x)
-      .attr("y", d => d.y);
-  }
-
-});
-</script>
+      });
 </script>
 
 {{ end }}
