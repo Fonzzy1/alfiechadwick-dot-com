@@ -30,6 +30,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     enableSharingButtons = true
     enableGlobalLanguageMenu = false
 
+    EnableSharingButtons = false
 
     highlightjsVersion = "11.9.0"
     highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
@@ -83,8 +84,6 @@ url = "https://www.linkedin.com/in/alfie-chadwick-6a773a94/"
 
 [taxonomies]
   tag      = "tags"
-  category = "categories"
-  series   = "series"
 
 PygmentsCodeFences = true
 PygmentsStyle = "monokai"
