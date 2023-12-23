@@ -149,7 +149,7 @@
 
     
     if (additionalTag) {
-      additionalTag = toTitleCase(additionalTag.replace(/\s+/g, "-"));
+      additionalTag = toTitleCase(additionalTag.replace(/-/g, " "));
       document.querySelector("h1").textContent += " & " + additionalTag;
     }
 

@@ -9,24 +9,10 @@
     <lastBuildDate>Mon, 18 Dec 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Differential Equations</title>
-      <link>/tags/differential-equations/</link>
+      <title>Calculus</title>
+      <link>/tags/calculus/</link>
       <pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/differential-equations/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Improving the Euler Method</title>
-      <link>/tags/improving-the-euler-method/</link>
-      <pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/improving-the-euler-method/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Maths</title>
-      <link>/tags/maths/</link>
-      <pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/maths/</guid>
+      <guid>/tags/calculus/</guid>
       <description></description>
     </item>
     <item>
