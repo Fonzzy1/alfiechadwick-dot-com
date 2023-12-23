@@ -164,6 +164,10 @@
     .selectAll("circle")
     .data(nodes)
     .enter().append("circle")
+    .on("click", function(d) {
+        let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
+        window.location.href = `/tags/${tagName}`;
+    })
     .attr("r", nodeRadius)
     .attr("fill", function(d) { return getRandomColor(); }); // Set fill attribute to a random color
 

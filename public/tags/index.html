@@ -305,6 +305,10 @@
     .selectAll("circle")
     .data(nodes)
     .enter().append("circle")
+    .on("click", function(d) {
+        let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); 
+        window.location.href = `/tags/${tagName}`;
+    });
     .attr("r", nodeRadius)
     .attr("fill", function(d) { return getRandomColor(); }); 
 
