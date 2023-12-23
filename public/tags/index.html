@@ -269,14 +269,15 @@
 
 
     var link = svg.append("g")
-        .attr("class", "links")
+      .attr("class", "links")
       .selectAll("line")
       .data(links)
       .enter().append("line")
-        
-        .attr("stroke-width", d => Math.sqrt(d.value)) 
-        .attr("stroke", "white"); 
-
+      .attr("stroke-width", d => Math.sqrt(d.value))
+      .attr("stroke", "white")
+      .on("click", function(d) {
+        console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
+      });
 
             var node = svg.append("g")
                 .attr("class", "nodes")

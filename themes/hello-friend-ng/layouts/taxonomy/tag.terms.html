@@ -128,14 +128,18 @@
 
 
     var link = svg.append("g")
-        .attr("class", "links")
+      .attr("class", "links")
       .selectAll("line")
       .data(links)
       .enter().append("line")
-        // Adjust the line thickness based on the number of posts shared
-        .attr("stroke-width", d => Math.sqrt(d.value)) // You may tweak the function for the desired visual effect.
-        .attr("stroke", "white"); // Ensure the stroke (line) color is set
-
+      .attr("stroke-width", d => Math.sqrt(d.value)+ 10)
+      .attr("stroke", "white")
+      .on("click", function(d) {
+        console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
+                  let tagName1  = d.source.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
+                  let tagName2  = d.target.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
+          window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
+      });
 
             var node = svg.append("g")
                 .attr("class", "nodes")
