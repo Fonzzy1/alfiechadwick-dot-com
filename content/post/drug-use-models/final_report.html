@@ -80,7 +80,7 @@ Thirdly, the idea that addiction is caused by interactions between individuals s
 <span class="math display">\[\frac{dR}{dt} = -\pi_2 * R * I + \pi_3 * I \]</span></p>
 <p>The parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, and <span class="math inline">\(\pi_3\)</span> represent the ‘infectiousness’ of the drug for susceptible and recovering individuals and the rate of recovery from the drug, respectively.</p>
 <p>We now look at some plots to see how this model behaves for various combinations of our parameters:</p>
-<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SIRsims-1.png" width="960" /></p>
+<p><img src="/post/drug-use-models/final_report_files/figure-html/SIRsims-1.png" width="960" /></p>
 </div>
 <div id="suar-model" class="section level2">
 <h2>SUAR Model</h2>
@@ -96,7 +96,7 @@ Because of this, we adapted the SIR model, relabeled the infected group to addic
 <span class="math display">\[\frac{dA}{dt} = \pi_3*U +\pi_5 *(A+U)*R - \pi_4*A \]</span>
 <span class="math display">\[\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R \]</span></p>
 <p>With parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, <span class="math inline">\(\pi_3\)</span>, <span class="math inline">\(\pi_4\)</span>, and <span class="math inline">\(\pi_5\)</span> being the ‘effectiveness’ of the drug for susceptible people, the rate that people stop trying the drug, the rate at which people become addicted, the recovery rate for addicted people respectively, and the ‘effectiveness’ for recovered people.</p>
-<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SUARsims-3.png" width="1152" /></p>
+<p><img src="/post/drug-use-models/final_report_files/figure-html/SUARsims-3.png" width="1152" /></p>
 </div>
 <div id="saur-model-with-age" class="section level2">
 <h2>SAUR Model with age</h2>
@@ -125,7 +125,7 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <span class="math display">\[\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  \]</span>
 <span class="math display">\[\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA\]</span>
 <span class="math display">\[\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR \]</span></p>
-<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SUAR_5Sims-5.png" width="1152" /></p>
+<p><img src="/post/drug-use-models/final_report_files/figure-html/SUAR_5Sims-5.png" width="1152" /></p>
 <p>Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:</p>
 <p><span class="math display">\[ T = S + U + A + R \]</span>
 <span class="math display">\[ T&#39; = b(S+U+A+R)  -d_SS -d_UU - d_AA - d_RR \]</span></p>
@@ -139,7 +139,7 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <span class="math display">\[ \frac{du}{dt} = (s\pi_{1}(u+a)-u\pi_2(s+r) - u\pi_3 -d_Uu )-u(1 - d_Ss - d_Uu - d_Aa - d_Rr) \]</span>
 <span class="math display">\[ \frac{da}{dt} = (u\pi_3 -a\pi_4(s+r) + r\pi_5(u+a) -d_Aa )-a(1 - d_Ss - d_Uu - d_Aa - d_Rr)  \]</span>
 <span class="math display">\[ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa - d_Rr)\]</span></p>
-<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/SUARnormsims-7.png" width="1152" /></p>
+<p><img src="/post/drug-use-models/final_report_files/figure-html/SUARnormsims-7.png" width="1152" /></p>
 </div>
 </div>
 <div id="results" class="section level1">
@@ -148,10 +148,10 @@ However, we found that with 20 compartments and 73 parameters, it is really hard
 <p>However, for some combinations of parameters, secondary stationary points are found. These non-trivial stationary points could not be found analytically using MATLAB 2021b, therefore their existence must be verified on a case-by-case basis, using the code in appendix 4.
 Note that all the death parameters were set to one, meaning that these results are for drugs where the rate of death is independent of the compartment. To find results for other sets of death parameters, line 25 of appendix 4 should be altered.</p>
 <p>Using the table of non-trivial stationary points (appendix 10), we can now plot the number of combinations of parameters that lead to non-trivial stationary points pairwise by parameter.</p>
-<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/simforallparams-9.png" width="672" /></p>
+<p><img src="/post/drug-use-models/final_report_files/figure-html/simforallparams-9.png" width="672" /></p>
 <p>From this plot, one can see a big factor that influences the creation of these non-trivial stationary points is the magnitude of <span class="math inline">\(\pi_1\)</span>, and to a lesser extent the ratio of <span class="math inline">\(\pi_1\)</span> and <span class="math inline">\(\pi_2\)</span>. In this case, births will rapidly transition to the using category, meaning that they then have the potential to become addicted.</p>
 <p>Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in the plots below.</p>
-<p><img src="/post/1-Drug-Use_Models/final_report_files/figure-html/pssp-11.png" width="672" />
+<p><img src="/post/drug-use-models/final_report_files/figure-html/pssp-11.png" width="672" />
 Looking at these plots we can see the following behaviors:</p>
 <ul>
 <li>Bigger <span class="math inline">\(\pi_1\)</span> <span class="math inline">\(\to\)</span> Higher Mean</li>

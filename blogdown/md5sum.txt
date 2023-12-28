@@ -4,4 +4,6 @@
 "content/post/1-Drug-Use_Models/final_report.rmd" "52544c5d6db8146ec6189bd43cc22f54"
 "content/post/2-taylor-series-1/post.rmd" "a20a9e9ffdc7c38469df8dd0a0c03867"
 "content/post/3-tag-graph/post.rmd" "d0447d50fac282feebbe1fe5bd962b2c"
-"content/post/tag-graph/post.rmd" "08b4afad4d4946d5664339540b967025"
+"content/post/drug-use-models/final_report.rmd" "52544c5d6db8146ec6189bd43cc22f54"
+"content/post/tag-graph/post.rmd" "d0447d50fac282feebbe1fe5bd962b2c"
+"content/post/taylor-series/post-1.rmd" "a20a9e9ffdc7c38469df8dd0a0c03867"
