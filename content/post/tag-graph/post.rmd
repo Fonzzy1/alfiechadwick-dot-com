@@ -12,13 +12,15 @@ This site is build through [blogdown](https://bookdown.org/yihui/blogdown/), whi
 
 My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you get a list of posts; all the categories, a list of categories. This can definitely be improved.
 
+![How the list of tags looks by default](/post/tag-graph/1.png)
+
 # Looking at the edges
 
+A software that I've always been meaning to use is [obsidian](https://obsidian.md/) which is a note taking and organising software which uses plaintext. One of its features has always really intrigued me, is the graph view which organises all of the notes based on their connections.
 
+![An example of an obsidian graph (Sourced from u/jannesjy on reddit)](https://i.redd.it/49l0t8v09yr91.png)
 
-
-I always find just looking at a list of posts a bit boring. The inteesting ones are always where the t
-
+Thought it would be cool to implement something like this in my Hugo site.
 
 
 

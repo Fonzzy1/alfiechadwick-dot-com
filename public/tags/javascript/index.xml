@@ -13,7 +13,7 @@
       <link>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</link>
       <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
       <guid>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</guid>
-      <description>test</description>
+      <description>This site is build through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.&#xA;My only gripe with the theme is that it uses a default list for all types of content.</description>
     </item>
   </channel>
 </rss>

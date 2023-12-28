@@ -14,11 +14,26 @@
             <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
             
             <guid>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</guid>
-            <description>test</description>
+            <description>This site is build through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.
+My only gripe with the theme is that it uses a default list for all types of content.</description>
             <content type="html"><![CDATA[
 
 
-<p>test</p>
+<p>This site is build through <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the <a href="https://github.com/rhazdon/hugo-theme-hello-friend-ng">hello-friend-ng</a> theme, using <a href="https://github.com/catppuccin">catppuccin</a> for the colors.</p>
+<p>My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you get a list of posts; all the categories, a list of categories. This can definitely be improved.</p>
+<div class="figure">
+<img src="/post/tag-graph/1.png" alt="" />
+<p class="caption">How the list of tags looks by default</p>
+</div>
+<div id="looking-at-the-edges" class="section level1">
+<h1>Looking at the edges</h1>
+<p>A software that I’ve always been meaning to use is <a href="https://obsidian.md/">obsidian</a> which is a note taking and organising software which uses plaintext. One of its features has always really intrigued me, is the graph view which organises all of the notes based on their connections.</p>
+<div class="figure">
+<img src="https://i.redd.it/49l0t8v09yr91.png" alt="" />
+<p class="caption">An example of an obsidian graph (Sourced from u/jannesjy on reddit)</p>
+</div>
+<p>Thought it would be cool to implement something like this in my Hugo site.</p>
+</div>
 ]]></content>
         </item>
         
@@ -208,7 +223,7 @@ Secondly, since we are looking at drug use in a population, relying on mass acti
 Thirdly, the idea that addiction is caused by interactions between individuals seems to be a good assumption for drug use as one would expect people to become familiar and subsequently addicted to certain substances by being associated with people who have them.</p>
 <p>One divergence we made from the most basic SIR model is allowing for relapse from the recovered group back into the infected group. This represents how recovering addicts will become addicted again at a different rate than people who have never used the drug before. However, an important fact is that people cannot move back into the susceptible group as addiction is said to last a lifetime.</p>
 <div class="figure">
-<img src="/post/1-Drug-Use_Models/pics/1.png" alt="" />
+<img src="/post/drug-use-models/pics/1.png" alt="" />
 <p class="caption">SIR Diagram</p>
 </div>
 <p>Our SIR model is defined by the following equations:
@@ -224,7 +239,7 @@ Thirdly, the idea that addiction is caused by interactions between individuals s
 <p>The SIR model fails to distinguish between different severities of addiction. By grouping the individuals who are trying/testing the drug with people who are addicted, we fail to capture the behavior of people trying the drug without becoming reliant on it.
 Because of this, we adapted the SIR model, relabeled the infected group to addicted, and added in a new compartment model for users of the drug who are not addicted, the ‘using’ group. Susceptible people will now move into the using group before moving into the Addicted group. Since there are now two groups who are using the drug and interacting with the community, the <span class="math inline">\(I\)</span> terms of the ODEs in the SIR model have to be replaced with <span class="math inline">\(U+A\)</span>.</p>
 <div class="figure">
-<img src="/post/1-Drug-Use_Models/pics/2.png" alt="" />
+<img src="/post/drug-use-models/pics/2.png" alt="" />
 <p class="caption">SUAR Diagram</p>
 </div>
 <p>The new model can now be described by the following equations:</p>
@@ -255,7 +270,7 @@ Because of this, we adapted the SIR model, relabeled the infected group to addic
 <p>After creating the SAUR model with age groups, we experimented with various combinations of parameters to see how the model reacted.
 However, we found that with 20 compartments and 73 parameters, it is really hard to go through all the combinations to find meaningful results from the model. We could see that there were stationary points for the population portions, but finding them analytically was near impossible. Because of this, we sought to find a way to simplify the model to produce results that are easier to understand. We did this by removing the different age groups altogether, while keeping the equations describing the model the same. By removing the age groups, the equations dramatically simplify into this form;</p>
 <div class="figure">
-<img src="/post/1-Drug-Use_Models/pics/3.png" alt="" />
+<img src="/post/drug-use-models/pics/3.png" alt="" />
 <p class="caption">SUAR Diagram with ageing</p>
 </div>
 <p><span class="math display">\[\frac{dS}{dt} = -S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R)  \]</span>
