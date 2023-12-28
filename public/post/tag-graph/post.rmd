@@ -10,7 +10,8 @@ output:
 
 This site is built through [blogdown](https://bookdown.org/yihui/blogdown/), which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the [hello-friend-ng](https://github.com/rhazdon/hugo-theme-hello-friend-ng) theme, using [catppuccin](https://github.com/catppuccin) for the colors.
 
-My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you see a list of posts; for categories, similarly, you get a list of categories.
+My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you see a list of posts; for tags, similarly, you get a list of tags.
+
 ![How the list of tags looks by default](/post/tag-graph/1.png)
 
 # Looking at the edges
