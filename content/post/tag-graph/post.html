@@ -10,8 +10,8 @@ output:
 
 
 
-<p>This site is build through <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the <a href="https://github.com/rhazdon/hugo-theme-hello-friend-ng">hello-friend-ng</a> theme, using <a href="https://github.com/catppuccin">catppuccin</a> for the colors.</p>
-<p>My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you get a list of posts; all the categories, a list of categories. This can definitely be improved.</p>
+<p>This site is built through <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the <a href="https://github.com/rhazdon/hugo-theme-hello-friend-ng">hello-friend-ng</a> theme, using <a href="https://github.com/catppuccin">catppuccin</a> for the colors.</p>
+<p>My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you see a list of posts; for categories, similarly, you get a list of categories.</p>
 <div class="figure">
 <img src="/post/tag-graph/1.png" alt="" />
 <p class="caption">How the list of tags looks by default</p>
@@ -28,7 +28,7 @@ output:
 <div id="starting-small" class="section level1">
 <h1>Starting small</h1>
 <p>Before making the graph view, I wanted to make something that allows you to see all the posts with two of the tags. That way, when you click on a node or an edge in the graph you can be taken through to see all the posts with the relevant tags.</p>
-<p>Unfortunately the scripting language used by Hugo doesn’t have this kind of filtering built in. So I have to do it rather un-elegantly is JavaScript.</p>
+<p>Unfortunately the scripting language used by Hugo doesn’t have this kind of filtering built in. So I have to do it rather un-elegantly in JavaScript.</p>
 <p>To make the linking easier, I added the second tag using the query string so that it can be reached just using a href link.</p>
 <pre class="html"><code>{{ define &quot;main&quot; }}
 &lt;main class=&quot;posts&quot;&gt;
@@ -99,7 +99,7 @@ output:
 </div>
 <div id="building-the-graph" class="section level1">
 <h1>Building the graph</h1>
-<p>With a similar issue to that of building the page to list the posts, building the graph requires some rather ugly JavaScript to make it work.</p>
+<p>Similar to the issue with creating the post listing page, constructing the graph requires some rather unwieldy JavaScript to make it work.</p>
 <div id="fetching-all-the-posts" class="section level2">
 <h2>Fetching All the Posts</h2>
 <p>The first thing to do is to fetch all the posts from across the site with their tags.</p>
@@ -194,7 +194,7 @@ console.log(tagMatrix);</code></pre>
 <div id="build-the-graph" class="section level2">
 <h2>Build the graph</h2>
 <p>Building the graph was honestly one of the easiest parts of this project. The <a href="https://d3js.org/">d3js</a> library has an object called a force directed graph, has most of the features I would want baked in.</p>
-<p>The only interesting thing I’ve done here is add in on-click links to the nodes and the edges that allow you to clck through to see the relevent posts</p>
+<p>The only interesting thing I’ve done here is add in on-click links to the nodes and the edges that allow you to click through to see the relevant posts.</p>
 <pre class="javascript"><code>var width = window.innerWidth;
 var height = window.innerHeight;
 
