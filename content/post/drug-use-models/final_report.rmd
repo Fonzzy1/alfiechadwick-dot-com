@@ -2,7 +2,8 @@
 title: 'Modeling Drug Use in Communities'
 author: 'Alfie Chadwick, Kevin Dai, Chrysovalantis Thomopoulos'
 date: '2023-10-22'
-Tags: ['Maths', 'Differential Equations', 'Modeling']
+lastmod: "`r Sys.Date()`"
+Tags: ['Calculus', 'Modeling']
 output:
   blogdown::html_page:
     toc: true
@@ -45,7 +46,7 @@ Thirdly, the idea that addiction is caused by interactions between individuals s
 
 One divergence we made from the most basic SIR model is allowing for relapse from the recovered group back into the infected group. This represents how recovering addicts will become addicted again at a different rate than people who have never used the drug before. However, an important fact is that people cannot move back into the susceptible group as addiction is said to last a lifetime.
 
-![SIR Diagram](/post/1-Drug-Use_Models/pics/1.png)
+![SIR Diagram](/post/drug-use-models/pics/1.png)
 
 Our SIR model is defined by the following equations:
 $$\frac{dS}{dt} = -\pi_1 * S * I $$
@@ -98,7 +99,7 @@ plt.show()
 The SIR model fails to distinguish between different severities of addiction. By grouping the individuals who are trying/testing the drug with people who are addicted, we fail to capture the behavior of people trying the drug without becoming reliant on it.
 Because of this, we adapted the SIR model, relabeled the infected group to addicted, and added in a new compartment model for users of the drug who are not addicted, the 'using' group. Susceptible people will now move into the using group before moving into the Addicted group. Since there are now two groups who are using the drug and interacting with the community, the $I$ terms of the ODEs in the SIR model have to be replaced with $U+A$.
 
-![SUAR Diagram](/post/1-Drug-Use_Models/pics/2.png)
+![SUAR Diagram](/post/drug-use-models/pics/2.png)
 
 The new model can now be described by the following equations:
 
@@ -197,7 +198,7 @@ SUAR_20(aging_rate,birth_rate,death_rate, I, P, X0,600)
 After creating the SAUR model with age groups, we experimented with various combinations of parameters to see how the model reacted. 
 However, we found that with 20 compartments and 73 parameters, it is really hard to go through all the combinations to find meaningful results from the model. We could see that there were stationary points for the population portions, but finding them analytically was near impossible. Because of this, we sought to find a way to simplify the model to produce results that are easier to understand. We did this by removing the different age groups altogether, while keeping the equations describing the model the same. By removing the age groups, the equations dramatically simplify into this form;
 
-![SUAR Diagram with ageing](/post/1-Drug-Use_Models/pics/3.png)
+![SUAR Diagram with ageing](/post/drug-use-models/pics/3.png)
 
 
 $$\frac{dS}{dt} = -S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R)  $$

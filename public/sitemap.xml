@@ -2,26 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</loc>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/differential-equations/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/improving-the-euler-method/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/maths/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
+    <loc>/tags/javascript/</loc>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/post/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/visualizations/</loc>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/calculus/</loc>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/</loc>
-    <lastmod>2023-12-18T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/ideas/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
@@ -30,10 +33,10 @@
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/modeling/</loc>
-    <lastmod>2023-10-22T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2023/10/22/modeling-drug-use-in-communities/</loc>
-    <lastmod>2023-10-22T00:00:00+00:00</lastmod>
+    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/ideas/ode-solver/ode-solve/</loc>
     <lastmod>2023-05-18T00:00:00+00:00</lastmod>
@@ -43,11 +46,7 @@
   </url><url>
     <loc>/10/</loc>
   </url><url>
-    <loc>/categories/</loc>
-  </url><url>
     <loc>/monokai/</loc>
-  </url><url>
-    <loc>/series/</loc>
   </url><url>
     <loc>/this-work-is-licensed-under-a-creative-commons-attribution-noncommercial-4.0-international-license./</loc>
   </url><url>

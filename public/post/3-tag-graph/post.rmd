@@ -1,0 +1,15 @@
+---
+title: "A new way to look at Categories in Hugo Blogs"
+author: "Alfie Chadwick"
+date: "2023-12-28"
+lastmod: "`r Sys.Date()`"
+tags: ['JavaScript', 'Visualizations']
+output:
+  blogdown::html_page
+---
+
+test
+
+
+
+

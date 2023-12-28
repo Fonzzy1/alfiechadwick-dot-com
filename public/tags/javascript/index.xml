@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JavaScript on Alfie Chadwick</title>
+    <link>/tags/javascript/</link>
+    <description>Recent content in JavaScript on Alfie Chadwick</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A new way to look at Categories in Hugo Blogs</title>
+      <link>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</link>
+      <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</guid>
+      <description>This site is built through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.&#xA;My only gripe with the theme is that it uses a default list for all types of content.</description>
+    </item>
+  </channel>
+</rss>
