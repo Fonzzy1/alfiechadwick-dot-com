@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<meta
+  name="author"
+  content="Alfie Chadwick"
+/>
+<meta
+  name="description"
+  content="import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd."
+/>
+<meta
+  name="keywords"
+  content=""
+/>
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/ideas/3-ode-solver-implementation/ode-solve.html" />
+
+<title>
+   Taylor Series approximations of ODEs: The Algorithm :: Alfie Chadwick  
+</title>
+
+
+ 
+<link
+  rel="stylesheet"
+  href="/main.31794a882edd5d9498060696fac88868884ee779eea3c8b0224893db772add4b.css"
+  integrity="sha256-MXlKiC7dXZSYBgaW&#43;siIaIhO53nuo8iwIkiT23cq3Us="
+/>
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+ <meta itemprop="name" content="Taylor Series approximations of ODEs: The Algorithm">
+<meta itemprop="description" content="import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd."><meta itemprop="datePublished" content="2023-12-16T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-12-16T00:00:00+00:00" />
+<meta itemprop="wordCount" content="927">
+<meta itemprop="keywords" content="" /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Taylor Series approximations of ODEs: The Algorithm"/>
+<meta name="twitter:description" content="import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd."/>
+   
+<meta property="article:published_time" content="2023-12-16 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+<link  rel='stylesheet' type='text/css' href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-macchiato.css">
+<style>
+    pre code.hljs {
+        display: block;
+        overflow-x: auto;
+        padding: 1em;
+        background: #1e2030 ;
+    }
+
+    code.hljs {
+        padding: 3px 5px;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#bb9af7;
+                   animation-duration:2s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+  <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/tags">Tags</a></li>
+  </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/ideas/3-ode-solver-implementation/ode-solve.html">Taylor Series approximations of ODEs: The Algorithm</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                
+
+
+<pre class="python"><code>import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def c(a, cond, n):
+    if n == 0:
+        return cond;
+    if n == 1:
+        return a * math.sin(cond)
+    return cond
+
+
+int_x = 0
+int_y = 2
+# 2
+depth = 2
+step = 0.001
+d_min = -3
+d_max = 3
+
+# 2.1 Set up output space
+d_min_scale = int(round(d_min / step))
+d_max_scale = int(round(d_max / step))
+ls_points = list(range(d_min_scale, d_max_scale))
+ls_points = list(map(lambda x: x * step, ls_points))
+df = pd.DataFrame(ls_points, columns=[&#39;Point&#39;])
+df[&#39;Value&#39;] = 0
+df.set_index(&#39;Point&#39;, inplace=True)
+
+# 2.2 Set up n list
+ls_n = list(range(0, depth))
+
+
+# 3
+def point(step, vector, ls_n, derivative):
+    ls_point_term = []
+    for n in ls_n:
+        coefficient = c(vector, n + derivative)
+        point = coefficient / math.factorial(n) * step ** n
+        ls_point_term.append(point)
+    point_value = sum(ls_point_term)
+    return point_value
+
+
+a = int_x
+cond = int_y
+while a &lt;= d_max:
+    point_value = point(step, a, cond, ls_n)
+    location = df.index.get_loc(a, method=&#39;nearest&#39;)
+    df.iloc[location, 0] = point_value
+    cond = point_value
+    a += step
+
+a = int_x
+cond = int_y
+
+while a &gt;= d_min:
+    point_value = point(-step, a, cond, ls_n)
+    location = df.index.get_loc(a, method=&#39;nearest&#39;)
+    df.iloc[location, 0] = point_value
+    cond = point_value
+    a -= step
+
+df.plot()
+plt.show()</code></pre>
+<pre class="python"><code>import math
+import numpy as np
+import itertools as it
+import matplotlib.pyplot as plt
+import pandas as pd
+
+## Set parameters for approximation
+h = 0.001
+xmin = -math.pi * 2
+xmax = math.pi * 2
+
+## Int vector such that [h,x,f(x),f&#39;(x) .... f^n(x)]
+int_list = np.array([h, math.pi / 2, -5 / 3, np.NAN, 15])
+int_vect = int_list.reshape(len(int_list), 1)
+
+## Condition Vector
+condition_vect = np.array([[h, 0, np.NAN, 5, np.NAN],
+                          [h, 2, 0, np.NAN, np.NAN],
+                          [h, 0, np.NAN, 0, np.NAN]])
+search_min = 1.43
+search_max = 1.45
+search_step = 0.01
+
+## Find Permutaions
+search_permutations = [ *it.permutations(np.arange(search_min, search_max, search_step), np.count_nonzero(np.isnan(int_vect)))]
+nan_location = np.argwhere(np.isnan(int_vect))
+nan_location = nan_location[nan_location != 0]
+poss_int_vect = np.zeros((len(search_permutations), len(int_vect)))
+for i in range(0, len(poss_int_vect)):
+    poss_int_vect[i] = int_vect.T
+    poss_int_vect[i][nan_location] = search_permutations[i]
+
+## Set up matrix for step definition
+step_matrix_pos = np.identity(len(int_vect))
+step_matrix_neg = np.identity(len(int_vect))
+
+## Set up x stepping system
+step_matrix_pos[1][0] = 1
+step_matrix_neg[1][0] = -1
+
+## Set up taylor seies h values
+for i in range(2, len(step_matrix_pos)):
+    for j in range(i, len(step_matrix_pos)):
+        step_matrix_pos[i][j] = h ** (j - i) / math.factorial(j - i)
+
+## Set up taylor seies h/n! values
+for i in range(2, len(step_matrix_neg)):
+    for j in range(i, len(step_matrix_neg)):
+        step_matrix_neg[i][j] = ((-h) ** (j - i)) / math.factorial(j - i)
+
+
+## Swap rows of step_matrix to represent linear ODE
+def linear_step_converion(matrix):
+    matrix[4] = -9 * matrix[2]
+    return matrix
+
+
+step_matrix_pos = linear_step_converion(step_matrix_pos)
+step_matrix_neg = linear_step_converion((step_matrix_neg))
+
+
+## Create adjusting Function for non linear ODE
+def adjustment(vector):
+    vector[4] = -9 * vector[2] + math.cos(vector[1])
+    return vector
+
+
+## Run Simulation for all permutations, returning the distance from the condition
+
+ls_distance = []
+for int_vect in poss_int_vect:
+    ## Create Output Space
+    x_list = np.arange(xmin, xmax, h)
+
+    output = np.zeros((len(x_list), len(int_vect)))
+    output[0:len(output), 0] = h
+    output[0:len(output), 1] = x_list
+    ## Set up stepping process
+
+    ## Do the positive steps first
+    vect = int_vect.copy()
+    while vect[1] &lt;= xmax + h:
+        index = int((vect[1] - xmin) / h)
+        try:
+            output[index] = vect.T
+        except IndexError:
+            pass
+        vect = np.matmul(step_matrix_pos, vect)
+        vect = adjustment(vect)
+
+    ## Do the negative steps next
+    vect = int_vect.copy()
+    while vect[1] &gt; xmin:
+        index = int((vect[1] - xmin) / h)
+        try:
+            output[index] = vect.T
+        except IndexError:
+            pass
+        vect = np.matmul(step_matrix_neg, vect)
+        vect = adjustment(vect)
+
+    ## Check condition
+    dist_ls = []
+    for vect in condition_vect:
+        index = int(math.floor((vect[1] - xmin) / h))
+        dist = np.linalg.norm(np.nan_to_num(output[index] - vect))
+        dist_ls.append(dist)
+    dist_sum = sum(dist_ls)
+    ls_distance.append(dist_sum)
+
+df_results = pd.DataFrame(poss_int_vect)
+df_results[&#39;dist&#39;] = ls_distance
+
+best_index = df_results[[&#39;dist&#39;]].idxmin()
+
+best_int_vect = poss_int_vect[best_index]
+
+## Create Output Space
+x_list = np.arange(xmin, xmax, h)
+
+output = np.zeros((len(x_list), len(int_vect)))
+output[0:len(output), 0] = h
+output[0:len(output), 1] = x_list
+## Set up stepping process
+
+## Do the positive steps first
+vect = best_int_vect.T.copy()
+while vect[1] &lt;= xmax + h:
+    index = int((vect[1] - xmin) / h)
+    try:
+        output[index] = vect.T
+    except IndexError:
+        pass
+    vect = np.matmul(step_matrix_pos, vect)
+    vect = adjustment(vect)
+
+## Do the negative steps next
+vect = best_int_vect.T.copy()
+while vect[1] &gt; xmin:
+    index = int((vect[1] - xmin) / h)
+    try:
+        output[index] = vect.T
+    except IndexError:
+        pass
+    vect = np.matmul(step_matrix_neg, vect)
+    vect = adjustment(vect)
+
+dist_ls = []
+for vect in condition_vect:
+    index = int(math.floor((vect[1] - xmin) / h))
+    dist = np.linalg.norm(np.nan_to_num(output[index] - vect))
+    dist_ls.append(dist)
+dist_sum = sum(dist_ls)
+
+plt.plot(output.T[1], output.T[2])
+plt.title(str(best_int_vect))
+plt.show()</code></pre>
+<pre class="python"><code>import math
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+## Varibles to set to define simultaion
+def f(x):  ## Only for plotting against estimation
+    return
+
+def c(n):  ## C vaules
+    if n == 0:
+        return 2
+    if n == 1:
+        return 3
+    if n == 2:
+        return 3 + math.sin(2) + 3
+
+
+a = 0  ## Around what point is this estimation
+step = 0.1  ## step Size for points
+width = 10  ## Range of Estimation
+depth = 3  ## Max size of n
+
+## Create List of points
+width_mult = 1 / step
+new_witdh = int(round(width * width_mult))
+ls_points = range(-new_witdh, new_witdh)
+ls_points = list(map(lambda x: x * step, ls_points))
+
+## Create List n
+ls_n = list(range(0, depth))
+
+## Create List of coefficients
+ls_c = list(map(lambda x: c(x), ls_n))
+
+
+def point_term(x, a, cond, n):
+    point = cond / math.factorial(n) * (x - a) ** n
+    return point
+
+
+df = pd.DataFrame(ls_points, columns=[&#39;Point&#39;])
+
+## Create A datframe with each collumn being the vaules for a single n
+for n in ls_n:
+    df[n] = df[&#39;Point&#39;].apply(lambda x: point_term(x, a, ls_c[n], n))
+
+df.set_index(&#39;Point&#39;, inplace=True)
+
+## Sum all the estimations
+df_estimation = df.sum(axis=1)
+
+df_estimation.plot(label=&#39;Estimation&#39;)
+
+if f(a):
+    plt.plot(ls_points, list(map(lambda x: f(x), ls_points)), label=&#39;Actual&#39;, linestyle=&#39;dashed&#39;, )
+plt.legend()
+
+plt.show()</code></pre>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/matlab.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  <script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+    
+    <script src="/js/menu.js"></script>
+</footer>
+
+</body>
+</html>
+
+            
+        </div>
+
+           
+
+    </body>
+</html>
