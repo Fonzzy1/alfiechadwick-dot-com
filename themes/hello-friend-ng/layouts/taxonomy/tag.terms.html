@@ -4,219 +4,223 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 
 <script>
-              document.addEventListener('DOMContentLoaded', (event) => {
-                      // Create an array to hold all posts and their details
-                      var postsData = [];
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // Create an array to hold all posts and their details
+      var postsData = [];
 
-                      // Iterate through each page to collect its title, permalink, and tags
-                      {{ range .Site.RegularPages }}
-                        // Use 'jsonify' to convert tags to a JSON array, if tags are not present, default to an empty array
-                        var tags = {{ if .Params.tags }}{{ .Params.tags }}{{ else }}[]{{ end }};
-                        postsData.push({
-                          title: {{ .Title }},
-                          permalink: {{ .RelPermalink }},
-                          tags: tags // This is now a real JavaScript array
-                        });
-                      {{ end }}
+      // Iterate through each page to collect its title, permalink, and tags
+      {{ range .Site.RegularPages }}
+        // Use 'jsonify' to convert tags to a JSON array, if tags are not present, default to an empty array
+        var tags = {{ if .Params.tags }}{{ .Params.tags }}{{ else }}[]{{ end }};
+        postsData.push({
+          title: {{ .Title }},
+          permalink: {{ .RelPermalink }},
+          tags: tags // This is now a real JavaScript array
+        });
+      {{ end }}
 
-                      // Log the posts information in the console as JSON
-                      console.log(postsData);
-                  var tagsToPosts = {};
+      // Log the posts information in the console as JSON
+      console.log(postsData);
 
-                  // Loop through each post
-                  postsData.forEach(function(post) {
-                    // Loop through each tag in the current post
-                    post.tags.forEach(function(tag) {
-                      // If the tag hasn't been added to tagsToPosts, initialize it with an empty array
-                      if (!tagsToPosts.hasOwnProperty(tag)) {
-                        tagsToPosts[tag] = [];
-                      }
-                      // Add the current post to the array for this tag
-                      tagsToPosts[tag].push({
-                        title: post.title,
-                        permalink: post.permalink
-                      });
-                    });
-                  });
+      var tagsToPosts = {};
 
-                  // Log the new tags to posts dictionary
-                  console.log(tagsToPosts);
-                // Get all unique tags
-                var uniqueTags = Object.keys(tagsToPosts);
+      // Loop through each post
+      postsData.forEach(function(post) {
+        // Loop through each tag in the current post
+        post.tags.forEach(function(tag) {
+          // If the tag hasn't been added to tagsToPosts, initialize it with an empty array
+          if (!tagsToPosts.hasOwnProperty(tag)) {
+            tagsToPosts[tag] = [];
+          }
+          // Add the current post to the array for this tag
+          tagsToPosts[tag].push({
+            title: post.title,
+            permalink: post.permalink
+          });
+        });
+      });
+      // Log the new tags to posts dictionary
+      console.log(tagsToPosts);
 
-                // Initialize the matrix with zeros
-                var tagMatrix = uniqueTags.map(() => uniqueTags.map(() => 0));
+      // Get all unique tags
+      var uniqueTags = Object.keys(tagsToPosts);
 
-                // Function to check the intersection of posts for two tags
-                function getSharedPostsCount(tagA, tagB, tagsToPosts) {
-                  var postsA = tagsToPosts[tagA];
-                  var postsB = tagsToPosts[tagB];
-                  var shared = postsA.filter(postA => postsB.some(postB => postA.permalink === postB.permalink));
-                  return shared.length;
-                }
+      // Initialize the matrix with zeros
+      var tagMatrix = uniqueTags.map(() => uniqueTags.map(() => 0));
 
-                // Populate the matrix with shared post counts
-                for (let i = 0; i < uniqueTags.length; i++) {
-                  for (let j = i; j < uniqueTags.length; j++) {
-                    // We only need to calculate the upper triangular matrix due to symmetry
-                    var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
-                    tagMatrix[i][j] = sharedCount;
-                    tagMatrix[j][i] = sharedCount; // The matrix is symmetric so we mirror the count
-                  }
-                }
+      // Function to check the intersection of posts for two tags
+      function getSharedPostsCount(tagA, tagB, tagsToPosts) {
+        var postsA = tagsToPosts[tagA];
+        var postsB = tagsToPosts[tagB];
+        var shared = postsA.filter(postA => postsB.some(postB => postA.permalink === postB.permalink));
+        return shared.length;
+      }
 
-                // Log the matrix
-                console.log(tagMatrix);
+      // Populate the matrix with shared post counts
+      for (let i = 0; i < uniqueTags.length; i++) {
+        for (let j = i; j < uniqueTags.length; j++) {
+          // We only need to calculate the upper triangular matrix due to symmetry
+          var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
+          tagMatrix[i][j] = sharedCount;
+          tagMatrix[j][i] = sharedCount; // The matrix is symmetric so we mirror the count
+        }
+      }
 
-                // Create nodes and links for the force graph from the tag matrix
-                var nodes = uniqueTags.map(function(tag, index) {
-                  return { id: tag, group: index };
-                });
+      // Log the matrix
+      console.log(tagMatrix);
 
-                var links = [];
-                for (let i = 0; i < uniqueTags.length; i++) {
-                  for (let j = i + 1; j < uniqueTags.length; j++) {
-                    if (tagMatrix[i][j] > 0) {
-                      links.push({
-                        source: uniqueTags[i],
-                        target: uniqueTags[j],
-                        value: tagMatrix[i][j]
-                      });
-                    }
-                  }
-                }
+      // Create nodes and links for the force graph from the tag matrix
+      var nodes = uniqueTags.map(function(tag, index) {
+        return { id: tag, group: index };
+      });
 
-              var width = window.innerWidth;
-              var height = window.innerHeight;
+      var links = [];
+      for (let i = 0; i < uniqueTags.length; i++) {
+        for (let j = i + 1; j < uniqueTags.length; j++) {
+          if (tagMatrix[i][j] > 0) {
+            links.push({
+              source: uniqueTags[i],
+              target: uniqueTags[j],
+              value: tagMatrix[i][j]
+            });
+          }
+        }
+      }
 
-              var svg = d3.select("body")
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height)
-                  .style("display", "block") // Ensures that the SVG fills horizontal space
-                  .style("margin", "auto"); // Centers the SVG horizontally
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-              var nodeRadius = 50; // Adjust node radius to be larger
-              var collisionRadius = nodeRadius * 2; // Set the minimum distance between nodes to twice their radius
+      // Setup the window
+      var svg = d3.select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("display", "block")
+        .style("margin", "auto");
 
-    var simulation = d3.forceSimulation(nodes)
+      var nodeRadius = 60;
+      var collisionRadius = nodeRadius * 2;
+
+      // Setup the simulation
+      var simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links)
-            .id(d => d.id)
-            .distance(200)
-            .strength(d => 0.1 * d.value)) // Using the shared post count to set the link strength dynamically
+          .id(d => d.id)
+          .distance(200)
+          .strength(d => 0.1 * d.value))
         .force("charge", d3.forceManyBody()
-            .strength(d => -500 * (d.value + 1))) // Multiply by the node value (plus one to avoid zero).
+          .strength(d => -500 * (d.value + 1)))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collision", d3.forceCollide(collisionRadius))
         .alphaDecay(0.01);
 
-        var dragHandler = d3.drag()
-          .on("start", function(d) {
-            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-          })
-          .on("drag", function(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-          })
-          .on("end", function(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null; // Set to null to release the node and let it react to the simulation again
-            d.fy = null; // Set to null to release the node and let it react to the simulation again
-          });
+      // System for dragging
+      var dragHandler = d3.drag()
+        .on("start", function(d) {
+          if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        })
+        .on("drag", function(d) {
+          d.fx = d3.event.x;
+          d.fy = d3.event.y;
+        })
+        .on("end", function(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        });
 
-
+      // Draw the line between the nodes
       var link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
         .data(links)
         .enter().append("line")
-        .attr("stroke-width", d => Math.sqrt(d.value)+ 10)
+        .attr("stroke-width", d => Math.sqrt(d.value) + 10)
         .attr("stroke", "#cad3f5")
         .on("click", function(d) {
           console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
-                    let tagName1  = d.source.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
-                    let tagName2  = d.target.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
-            window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
+          let tagName1 = d.source.id.replace(/\s+/g, '-').toLowerCase();
+          let tagName2 = d.target.id.replace(/\s+/g, '-').toLowerCase();
+          window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
         });
 
-  var colors = [
-    '#f4dbd6', // Rosewater (base06)
-    '#b7bdf8', // Lavender (base07)
-    '#ed8796', // Red (base08)
-    '#f5a97f', // Peach (base09)
-    '#eed49f', // Yellow (base0A)
-    '#a6da95', // Green (base0B)
-    '#8bd5ca', // Teal (base0C)
-    '#8aadf4', // Blue (base0D)
-    '#c6a0f6', // Mauve (base0E)
-    '#f0c6c6'  // Flamingo (base0F)
-  ];
+      var colors = [
+        '#f4dbd6',
+        '#b7bdf8',
+        '#ed8796',
+        '#f5a97f',
+        '#eed49f',
+        '#a6da95',
+        '#8bd5ca',
+        '#8aadf4',
+        '#c6a0f6',
+        '#f0c6c6'
+      ];
 
-  // Function to return a random color
-  function getRandomColor() {
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
-
-  var node = svg.append("g")
-    .attr("class", "nodes")
-    .selectAll("circle")
-    .data(nodes)
-    .enter().append("circle")
-    .on("click", function(d) {
-        let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
-        window.location.href = `/tags/${tagName}`;
-    })
-    .attr("r", nodeRadius)
-    .attr("fill", function(d) { return getRandomColor(); }); // Set fill attribute to a random color
-
-              node.append("title")
-                  .text(d => d.id);
-
-              simulation
-                  .nodes(nodes)
-                  .on("tick", ticked);
-
-              simulation.force("link")
-                  .links(links);
+      function getRandomColor() {
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
 
 
-          dragHandler(node);
 
-              var labels = svg.append("g")
-                .attr("class", "labels")
-                .selectAll("text")
-                .data(nodes)
-                .enter().append("text")
-                .text(d => d.id)
-                .style("fill", "24273a") // Set the text color
-                .style("text-anchor", "middle") // Center the text horizontally
-                .style("dominant-baseline", "central") // Center the text vertically
-                .on("click", function(d) {
-                    let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); // Replace spaces with hyphens and convert to lowercase
-                    window.location.href = `/tags/${tagName}`;
-                });
+      // Make the nodes
+      var node = svg.append("g")
+        .attr("class", "nodes")
+        .selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .on("click", function(d) {
+          let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
+          window.location.href = `/tags/${tagName}`;
+        })
+        .attr("r", nodeRadius)
+        .attr("fill", function(d) { return getRandomColor(); });
 
-              function ticked() {
-                link
-                    .attr("x1", d => d.source.x)
-                    .attr("y1", d => d.source.y)
-                    .attr("x2", d => d.target.x)
-                    .attr("y2", d => d.target.y);
+      node.append("title")
+        .text(d => d.id);
 
-                // Now the 'cx' and 'cy' attributes define the center of the circle
-                node
-                    .attr("cx", d => d.x)
-                    .attr("cy", d => d.y);
+      simulation
+        .nodes(nodes)
+        .on("tick", ticked);
 
-                // Update labels to be at the center of the nodes
-                labels
-                    .attr("x", d => d.x)
-                    .attr("y", d => d.y);
-              }
+      simulation.force("link")
+        .links(links);
 
-            });
+      dragHandler(node);
+
+      // Wirite out the labels
+      var labels = svg.append("g")
+        .attr("class", "labels")
+        .selectAll("text")
+        .data(nodes)
+        .enter().append("text")
+        .text(d => d.id)
+        .style("fill", "24273a")
+        .style("text-anchor", "middle")
+        .style("dominant-baseline", "central")
+        .on("click", function(d) {
+          let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
+          window.location.href = `/tags/${tagName}`;
+        });
+
+      // Update function
+      function ticked() {
+        link
+          .attr("x1", d => d.source.x)
+          .attr("y1", d => d.source.y)
+          .attr("x2", d => d.target.x)
+          .attr("y2", d => d.target.y);
+
+        node
+          .attr("cx", d => d.x)
+          .attr("cy", d => d.y);
+
+        labels
+          .attr("x", d => d.x)
+          .attr("y", d => d.y);
+      }
+  })
 </script>
 
 {{ end }}

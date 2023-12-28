@@ -31,8 +31,8 @@
  
 <link
   rel="stylesheet"
-  href="/main.c054fc988b62946fa19ccde108b44a21765b08d99288d3b0f5682c143b778427.css"
-  integrity="sha256-wFT8mItilG&#43;hnM3hCLRKIXZbCNmSiNOw9WgsFDt3hCc="
+  href="/main.a9ab624e85e095bcf95bb267aad409c118b491d4ab8297e6d81ced1812528418.css"
+  integrity="sha256-qatiToXglbz5W7JnqtQJwRi0kdSrgpfm2BztGBJShBg="
 />
 
 
@@ -113,259 +113,263 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 
 <script>
-              document.addEventListener('DOMContentLoaded', (event) => {
-                      
-                      var postsData = [];
+    document.addEventListener('DOMContentLoaded', (event) => {
+      
+      var postsData = [];
 
-                      
-                      
-                        
-                        var tags = ["JavaScript","Visualizations"];
-                        postsData.push({
-                          title: "A new way to look at Categories in Hugo Blogs",
-                          permalink: "/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/",
-                          tags: tags 
-                        });
-                      
-                        
-                        var tags = ["Calculus"];
-                        postsData.push({
-                          title: "Using Taylor Series to Improve the Euler Method: Part 1",
-                          permalink: "/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/",
-                          tags: tags 
-                        });
-                      
-                        
-                        var tags = [];
-                        postsData.push({
-                          title: "Taylor Series approximations of ODEs: The Algorithm",
-                          permalink: "/ideas/3-ode-solver-implementation/ode-solve/",
-                          tags: tags 
-                        });
-                      
-                        
-                        var tags = ["Calculus","Modeling"];
-                        postsData.push({
-                          title: "Modeling Drug Use in Communities",
-                          permalink: "/2023/10/22/modeling-drug-use-in-communities/",
-                          tags: tags 
-                        });
-                      
-                        
-                        var tags = [];
-                        postsData.push({
-                          title: "Taylor Series approximations of ODEs: The Algorithm",
-                          permalink: "/ideas/ode-solver/ode-solve/",
-                          tags: tags 
-                        });
-                      
-                        
-                        var tags = [];
-                        postsData.push({
-                          title: "About",
-                          permalink: "/about/",
-                          tags: tags 
-                        });
-                      
+      
+      
+        
+        var tags = ["JavaScript","Visualizations"];
+        postsData.push({
+          title: "A new way to look at Categories in Hugo Blogs",
+          permalink: "/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/",
+          tags: tags 
+        });
+      
+        
+        var tags = ["Calculus"];
+        postsData.push({
+          title: "Using Taylor Series to Improve the Euler Method: Part 1",
+          permalink: "/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/",
+          tags: tags 
+        });
+      
+        
+        var tags = [];
+        postsData.push({
+          title: "Taylor Series approximations of ODEs: The Algorithm",
+          permalink: "/ideas/3-ode-solver-implementation/ode-solve/",
+          tags: tags 
+        });
+      
+        
+        var tags = ["Calculus","Modeling"];
+        postsData.push({
+          title: "Modeling Drug Use in Communities",
+          permalink: "/2023/10/22/modeling-drug-use-in-communities/",
+          tags: tags 
+        });
+      
+        
+        var tags = [];
+        postsData.push({
+          title: "Taylor Series approximations of ODEs: The Algorithm",
+          permalink: "/ideas/ode-solver/ode-solve/",
+          tags: tags 
+        });
+      
+        
+        var tags = [];
+        postsData.push({
+          title: "About",
+          permalink: "/about/",
+          tags: tags 
+        });
+      
 
-                      
-                      console.log(postsData);
-                  var tagsToPosts = {};
+      
+      console.log(postsData);
 
-                  
-                  postsData.forEach(function(post) {
-                    
-                    post.tags.forEach(function(tag) {
-                      
-                      if (!tagsToPosts.hasOwnProperty(tag)) {
-                        tagsToPosts[tag] = [];
-                      }
-                      
-                      tagsToPosts[tag].push({
-                        title: post.title,
-                        permalink: post.permalink
-                      });
-                    });
-                  });
+      var tagsToPosts = {};
 
-                  
-                  console.log(tagsToPosts);
-                
-                var uniqueTags = Object.keys(tagsToPosts);
+      
+      postsData.forEach(function(post) {
+        
+        post.tags.forEach(function(tag) {
+          
+          if (!tagsToPosts.hasOwnProperty(tag)) {
+            tagsToPosts[tag] = [];
+          }
+          
+          tagsToPosts[tag].push({
+            title: post.title,
+            permalink: post.permalink
+          });
+        });
+      });
+      
+      console.log(tagsToPosts);
 
-                
-                var tagMatrix = uniqueTags.map(() => uniqueTags.map(() => 0));
+      
+      var uniqueTags = Object.keys(tagsToPosts);
 
-                
-                function getSharedPostsCount(tagA, tagB, tagsToPosts) {
-                  var postsA = tagsToPosts[tagA];
-                  var postsB = tagsToPosts[tagB];
-                  var shared = postsA.filter(postA => postsB.some(postB => postA.permalink === postB.permalink));
-                  return shared.length;
-                }
+      
+      var tagMatrix = uniqueTags.map(() => uniqueTags.map(() => 0));
 
-                
-                for (let i = 0; i < uniqueTags.length; i++) {
-                  for (let j = i; j < uniqueTags.length; j++) {
-                    
-                    var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
-                    tagMatrix[i][j] = sharedCount;
-                    tagMatrix[j][i] = sharedCount; 
-                  }
-                }
+      
+      function getSharedPostsCount(tagA, tagB, tagsToPosts) {
+        var postsA = tagsToPosts[tagA];
+        var postsB = tagsToPosts[tagB];
+        var shared = postsA.filter(postA => postsB.some(postB => postA.permalink === postB.permalink));
+        return shared.length;
+      }
 
-                
-                console.log(tagMatrix);
+      
+      for (let i = 0; i < uniqueTags.length; i++) {
+        for (let j = i; j < uniqueTags.length; j++) {
+          
+          var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
+          tagMatrix[i][j] = sharedCount;
+          tagMatrix[j][i] = sharedCount; 
+        }
+      }
 
-                
-                var nodes = uniqueTags.map(function(tag, index) {
-                  return { id: tag, group: index };
-                });
+      
+      console.log(tagMatrix);
 
-                var links = [];
-                for (let i = 0; i < uniqueTags.length; i++) {
-                  for (let j = i + 1; j < uniqueTags.length; j++) {
-                    if (tagMatrix[i][j] > 0) {
-                      links.push({
-                        source: uniqueTags[i],
-                        target: uniqueTags[j],
-                        value: tagMatrix[i][j]
-                      });
-                    }
-                  }
-                }
+      
+      var nodes = uniqueTags.map(function(tag, index) {
+        return { id: tag, group: index };
+      });
 
-              var width = window.innerWidth;
-              var height = window.innerHeight;
+      var links = [];
+      for (let i = 0; i < uniqueTags.length; i++) {
+        for (let j = i + 1; j < uniqueTags.length; j++) {
+          if (tagMatrix[i][j] > 0) {
+            links.push({
+              source: uniqueTags[i],
+              target: uniqueTags[j],
+              value: tagMatrix[i][j]
+            });
+          }
+        }
+      }
 
-              var svg = d3.select("body")
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height)
-                  .style("display", "block") 
-                  .style("margin", "auto"); 
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-              var nodeRadius = 50; 
-              var collisionRadius = nodeRadius * 2; 
+      
+      var svg = d3.select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("display", "block")
+        .style("margin", "auto");
 
-    var simulation = d3.forceSimulation(nodes)
+      var nodeRadius = 60;
+      var collisionRadius = nodeRadius * 2;
+
+      
+      var simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links)
-            .id(d => d.id)
-            .distance(200)
-            .strength(d => 0.1 * d.value)) 
+          .id(d => d.id)
+          .distance(200)
+          .strength(d => 0.1 * d.value))
         .force("charge", d3.forceManyBody()
-            .strength(d => -500 * (d.value + 1))) 
+          .strength(d => -500 * (d.value + 1)))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collision", d3.forceCollide(collisionRadius))
         .alphaDecay(0.01);
 
-        var dragHandler = d3.drag()
-          .on("start", function(d) {
-            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-          })
-          .on("drag", function(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-          })
-          .on("end", function(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null; 
-            d.fy = null; 
-          });
+      
+      var dragHandler = d3.drag()
+        .on("start", function(d) {
+          if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        })
+        .on("drag", function(d) {
+          d.fx = d3.event.x;
+          d.fy = d3.event.y;
+        })
+        .on("end", function(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        });
 
-
+      
       var link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
         .data(links)
         .enter().append("line")
-        .attr("stroke-width", d => Math.sqrt(d.value)+ 10)
+        .attr("stroke-width", d => Math.sqrt(d.value) + 10)
         .attr("stroke", "#cad3f5")
         .on("click", function(d) {
           console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
-                    let tagName1  = d.source.id.replace(/\s+/g, '-').toLowerCase(); 
-                    let tagName2  = d.target.id.replace(/\s+/g, '-').toLowerCase(); 
-            window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
+          let tagName1 = d.source.id.replace(/\s+/g, '-').toLowerCase();
+          let tagName2 = d.target.id.replace(/\s+/g, '-').toLowerCase();
+          window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
         });
 
-  var colors = [
-    '#f4dbd6', 
-    '#b7bdf8', 
-    '#ed8796', 
-    '#f5a97f', 
-    '#eed49f', 
-    '#a6da95', 
-    '#8bd5ca', 
-    '#8aadf4', 
-    '#c6a0f6', 
-    '#f0c6c6'  
-  ];
+      var colors = [
+        '#f4dbd6',
+        '#b7bdf8',
+        '#ed8796',
+        '#f5a97f',
+        '#eed49f',
+        '#a6da95',
+        '#8bd5ca',
+        '#8aadf4',
+        '#c6a0f6',
+        '#f0c6c6'
+      ];
 
-  
-  function getRandomColor() {
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
-
-  var node = svg.append("g")
-    .attr("class", "nodes")
-    .selectAll("circle")
-    .data(nodes)
-    .enter().append("circle")
-    .on("click", function(d) {
-        let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); 
-        window.location.href = `/tags/${tagName}`;
-    })
-    .attr("r", nodeRadius)
-    .attr("fill", function(d) { return getRandomColor(); }); 
-
-              node.append("title")
-                  .text(d => d.id);
-
-              simulation
-                  .nodes(nodes)
-                  .on("tick", ticked);
-
-              simulation.force("link")
-                  .links(links);
+      function getRandomColor() {
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
 
 
-          dragHandler(node);
 
-              var labels = svg.append("g")
-                .attr("class", "labels")
-                .selectAll("text")
-                .data(nodes)
-                .enter().append("text")
-                .text(d => d.id)
-                .style("fill", "24273a") 
-                .style("text-anchor", "middle") 
-                .style("dominant-baseline", "central") 
-                .on("click", function(d) {
-                    let tagName = d.id.replace(/\s+/g, '-').toLowerCase(); 
-                    window.location.href = `/tags/${tagName}`;
-                });
+      
+      var node = svg.append("g")
+        .attr("class", "nodes")
+        .selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .on("click", function(d) {
+          let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
+          window.location.href = `/tags/${tagName}`;
+        })
+        .attr("r", nodeRadius)
+        .attr("fill", function(d) { return getRandomColor(); });
 
-              function ticked() {
-                link
-                    .attr("x1", d => d.source.x)
-                    .attr("y1", d => d.source.y)
-                    .attr("x2", d => d.target.x)
-                    .attr("y2", d => d.target.y);
+      node.append("title")
+        .text(d => d.id);
 
-                
-                node
-                    .attr("cx", d => d.x)
-                    .attr("cy", d => d.y);
+      simulation
+        .nodes(nodes)
+        .on("tick", ticked);
 
-                
-                labels
-                    .attr("x", d => d.x)
-                    .attr("y", d => d.y);
-              }
+      simulation.force("link")
+        .links(links);
 
-            });
+      dragHandler(node);
+
+      
+      var labels = svg.append("g")
+        .attr("class", "labels")
+        .selectAll("text")
+        .data(nodes)
+        .enter().append("text")
+        .text(d => d.id)
+        .style("fill", "24273a")
+        .style("text-anchor", "middle")
+        .style("dominant-baseline", "central")
+        .on("click", function(d) {
+          let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
+          window.location.href = `/tags/${tagName}`;
+        });
+
+      
+      function ticked() {
+        link
+          .attr("x1", d => d.source.x)
+          .attr("y1", d => d.source.y)
+          .attr("x2", d => d.target.x)
+          .attr("y2", d => d.target.y);
+
+        node
+          .attr("cx", d => d.x)
+          .attr("cy", d => d.y);
+
+        labels
+          .attr("x", d => d.x)
+          .attr("y", d => d.y);
+      }
+  })
 </script>
 
 

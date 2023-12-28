@@ -32,8 +32,8 @@ My only gripe with the theme is that it uses a default list for all types of con
  
 <link
   rel="stylesheet"
-  href="/main.c054fc988b62946fa19ccde108b44a21765b08d99288d3b0f5682c143b778427.css"
-  integrity="sha256-wFT8mItilG&#43;hnM3hCLRKIXZbCNmSiNOw9WgsFDt3hCc="
+  href="/main.a9ab624e85e095bcf95bb267aad409c118b491d4ab8297e6d81ced1812528418.css"
+  integrity="sha256-qatiToXglbz5W7JnqtQJwRi0kdSrgpfm2BztGBJShBg="
 />
 
 
@@ -49,7 +49,7 @@ My only gripe with the theme is that it uses a default list for all types of con
 <meta itemprop="description" content="This site is build through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.
 My only gripe with the theme is that it uses a default list for all types of content."><meta itemprop="datePublished" content="2023-12-28T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2023-12-28T00:00:00+00:00" />
-<meta itemprop="wordCount" content="188">
+<meta itemprop="wordCount" content="1415">
 <meta itemprop="keywords" content="JavaScript,Visualizations," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="A new way to look at Categories in Hugo Blogs"/>
 <meta name="twitter:description" content="This site is build through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.
 My only gripe with the theme is that it uses a default list for all types of content."/>
@@ -59,6 +59,25 @@ My only gripe with the theme is that it uses a default list for all types of con
 
 
 
+
+
+
+
+
+
+<link  rel='stylesheet' type='text/css' href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-macchiato.css">
+<style>
+    pre code.hljs {
+        display: block;
+        overflow-x: auto;
+        padding: 1em;
+        background: #1e2030 ;
+    }
+
+    code.hljs {
+        padding: 3px 5px;
+    }
+</style>
 
 
 
@@ -134,7 +153,7 @@ My only gripe with the theme is that it uses a default list for all types of con
         <circle cx="12" cy="12" r="10"></circle>
         <polyline points="12 6 12 12 16 14"></polyline>
       </svg>
-      One minute 
+      7 minutes 
     </p>
 
     <p>
@@ -186,7 +205,313 @@ My only gripe with the theme is that it uses a default list for all types of con
 <img src="https://i.redd.it/49l0t8v09yr91.png" alt="" />
 <p class="caption">An example of an obsidian graph (Sourced from u/jannesjy on reddit)</p>
 </div>
-<p>Thought it would be cool to implement something like this in my Hugo site.</p>
+<p>I thought it would be cool to implement something like this in my Hugo site. Something that lets you not only look at all the tags, but see how they are connected.</p>
+</div>
+<div id="starting-small" class="section level1">
+<h1>Starting small</h1>
+<p>Before making the graph view, I wanted to make something that allows you to see all the posts with two of the tags. That way, when you click on a node or an edge in the graph you can be taken through to see all the posts with the relevant tags.</p>
+<p>Unfortunately the scripting language used by Hugo doesn’t have this kind of filtering built in. So I have to do it rather un-elegantly is JavaScript.</p>
+<p>To make the linking easier, I added the second tag using the query string so that it can be reached just using a href link.</p>
+<pre class="html"><code>{{ define &quot;main&quot; }}
+&lt;main class=&quot;posts&quot;&gt;
+  &lt;h1&gt;{{ .Title }}&lt;/h1&gt;
+
+  &lt;div id=&quot;posts-container&quot;&gt;
+    {{ $pages := where .Data.Pages &quot;Params.tags&quot; &quot;intersect&quot; (slice .Title) }}
+    {{ $paginator := .Paginate $pages }}
+
+    &lt;ul class=&quot;posts-list&quot;&gt;
+      {{ range $paginator.Pages }}
+      &lt;li class=&quot;post-item&quot; data-tags=&quot;{{  .Params.tags | jsonify }}&quot;&gt;
+        &lt;a href=&quot;{{ .Permalink }}&quot; class=&quot;post-item-inner&quot;&gt;
+          &lt;span class=&quot;post-title&quot;&gt;{{ .Title }}&lt;/span&gt;
+          &lt;span class=&quot;post-date&quot;&gt;{{ .Date.Format &quot;January 2, 2006&quot; }}&lt;/span&gt;
+        &lt;/a&gt;
+      &lt;/li&gt;
+      {{ end }}
+    &lt;/ul&gt;
+
+    {{ partial &quot;pagination-list.html&quot; . }}
+  &lt;/div&gt;
+&lt;/main&gt;
+
+&lt;script&gt;
+  document.addEventListener(&quot;DOMContentLoaded&quot;, function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    let additionalTag = urlParams.get(&quot;tag&quot;);
+    // Capitalize the first letter of each word
+    function toTitleCase(str) {
+      return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    }
+
+    // Update the title with the capitalized query string tag if it exists
+    if (additionalTag) {
+      additionalTag = toTitleCase(additionalTag.replace(/-/g, &quot; &quot;));
+      document.querySelector(&quot;h1&quot;).textContent += &quot; &amp; &quot; + additionalTag;
+    }
+
+    // Convert the additionalTag to lowercase and hyphenated format
+    if (additionalTag) {
+      additionalTag = additionalTag.toLowerCase().replace(/\s+/g, &quot;-&quot;);
+      console.log(additionalTag);
+
+      const posts = document.querySelectorAll(&quot;.post-item&quot;);
+
+      posts.forEach((post) =&gt; {
+        const tagsString = JSON.parse(post.getAttribute(&quot;data-tags&quot;));
+
+        // Convert tag string into a lowercase, hyphenated array of tags
+        const tags = tagsString.map((tag) =&gt;
+          tag.trim().toLowerCase().replace(/\s+/g, &quot;-&quot;)
+        );
+
+        console.log(tags);
+
+        // If the additional tag is not in the post&#39;s tags, hide the post.
+        if (!tags.includes(additionalTag)) {
+          post.style.display = &quot;none&quot;;
+        }
+      });
+    }
+  });
+&lt;/script&gt;
+{{ end }}</code></pre>
+</div>
+<div id="building-the-graph" class="section level1">
+<h1>Building the graph</h1>
+<p>With a similar issue to that of building the page to list the posts, building the graph requires some rather ugly JavaScript to make it work.</p>
+<div id="fetching-all-the-posts" class="section level2">
+<h2>Fetching All the Posts</h2>
+<p>The first thing to do is to fetch all the posts from across the site with their tags.</p>
+<pre class="javascript"><code>// Create an array to hold all posts and their details
+var postsData = [];
+
+// Iterate through each page to collect its title, permalink, and tags
+{{ range .Site.RegularPages }}
+  // Use &#39;jsonify&#39; to convert tags to a JSON array, if tags are not present, default to an empty array
+  var tags = {{ if .Params.tags }}{{ .Params.tags }}{{ else }}[]{{ end }};
+  postsData.push({
+    title: {{ .Title }},
+    permalink: {{ .RelPermalink }},
+    tags: tags // This is now a real JavaScript array
+  });
+{{ end }}
+
+// Log the posts information in the console as JSON
+console.log(postsData);
+
+var tagsToPosts = {};
+
+// Loop through each post
+postsData.forEach(function(post) {
+  // Loop through each tag in the current post
+  post.tags.forEach(function(tag) {
+    // If the tag hasn&#39;t been added to tagsToPosts, initialize it with an empty array
+    if (!tagsToPosts.hasOwnProperty(tag)) {
+      tagsToPosts[tag] = [];
+    }
+    // Add the current post to the array for this tag
+    tagsToPosts[tag].push({
+      title: post.title,
+      permalink: post.permalink
+    });
+  });
+});</code></pre>
+</div>
+<div id="invert-the-keys-of-the-list" class="section level2">
+<h2>Invert the keys of the list</h2>
+<p>Now that there is a list of posts with there tags, we can now invert the list so that we have all the tags with their posts.</p>
+<pre class="javascript"><code>var tagsToPosts = {};
+
+// Loop through each post
+postsData.forEach(function(post) {
+  // Loop through each tag in the current post
+  post.tags.forEach(function(tag) {
+    // If the tag hasn&#39;t been added to tagsToPosts, initialize it with an empty array
+    if (!tagsToPosts.hasOwnProperty(tag)) {
+      tagsToPosts[tag] = [];
+    }
+    // Add the current post to the array for this tag
+    tagsToPosts[tag].push({
+      title: post.title,
+      permalink: post.permalink
+    });
+  });
+});
+// Log the new tags to posts dictionary
+console.log(tagsToPosts);</code></pre>
+</div>
+<div id="make-a-matrix-of-connections" class="section level2">
+<h2>Make a matrix of connections</h2>
+<p>With the list of tags, we can now make a matrix showing all of the connections between the tags. This is really inefficient but it works well enough that I don’t think it requires too much optimisation.</p>
+<pre class="javascript"><code>// Get all unique tags
+var uniqueTags = Object.keys(tagsToPosts);
+
+// Initialize the matrix with zeros
+var tagMatrix = uniqueTags.map(() =&gt; uniqueTags.map(() =&gt; 0));
+
+// Function to check the intersection of posts for two tags
+function getSharedPostsCount(tagA, tagB, tagsToPosts) {
+  var postsA = tagsToPosts[tagA];
+  var postsB = tagsToPosts[tagB];
+  var shared = postsA.filter(postA =&gt; postsB.some(postB =&gt; postA.permalink === postB.permalink));
+  return shared.length;
+}
+
+// Populate the matrix with shared post counts
+for (let i = 0; i &lt; uniqueTags.length; i++) {
+  for (let j = i; j &lt; uniqueTags.length; j++) {
+    // We only need to calculate the upper triangular matrix due to symmetry
+    var sharedCount = getSharedPostsCount(uniqueTags[i], uniqueTags[j], tagsToPosts);
+    tagMatrix[i][j] = sharedCount;
+    tagMatrix[j][i] = sharedCount; // The matrix is symmetric so we mirror the count
+  }
+}
+
+// Log the matrix
+console.log(tagMatrix);</code></pre>
+</div>
+<div id="build-the-graph" class="section level2">
+<h2>Build the graph</h2>
+<p>Building the graph was honestly one of the easiest parts of this project. The <a href="https://d3js.org/">d3js</a> library has an object called a force directed graph, has most of the features I would want baked in.</p>
+<p>The only interesting thing I’ve done here is add in on-click links to the nodes and the edges that allow you to clck through to see the relevent posts</p>
+<pre class="javascript"><code>var width = window.innerWidth;
+var height = window.innerHeight;
+
+// Setup the window
+var svg = d3.select(&quot;body&quot;)
+  .append(&quot;svg&quot;)
+  .attr(&quot;width&quot;, width)
+  .attr(&quot;height&quot;, height)
+  .style(&quot;display&quot;, &quot;block&quot;)
+  .style(&quot;margin&quot;, &quot;auto&quot;);
+
+var nodeRadius = 60;
+var collisionRadius = nodeRadius * 2;
+
+// Setup the simulation
+var simulation = d3.forceSimulation(nodes)
+  .force(&quot;link&quot;, d3.forceLink(links)
+    .id(d =&gt; d.id)
+    .distance(200)
+    .strength(d =&gt; 0.1 * d.value))
+  .force(&quot;charge&quot;, d3.forceManyBody()
+    .strength(d =&gt; -500 * (d.value + 1)))
+  .force(&quot;center&quot;, d3.forceCenter(width / 2, height / 2))
+  .force(&quot;collision&quot;, d3.forceCollide(collisionRadius))
+  .alphaDecay(0.01);
+
+// System for dragging
+var dragHandler = d3.drag()
+  .on(&quot;start&quot;, function(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  })
+  .on(&quot;drag&quot;, function(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  })
+  .on(&quot;end&quot;, function(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  });
+
+// Draw the line between the nodes
+var link = svg.append(&quot;g&quot;)
+  .attr(&quot;class&quot;, &quot;links&quot;)
+  .selectAll(&quot;line&quot;)
+  .data(links)
+  .enter().append(&quot;line&quot;)
+  .attr(&quot;stroke-width&quot;, d =&gt; Math.sqrt(d.value) + 10)
+  .attr(&quot;stroke&quot;, &quot;#cad3f5&quot;)
+  .on(&quot;click&quot;, function(d) {
+    console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
+    let tagName1 = d.source.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    let tagName2 = d.target.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
+  });
+
+var colors = [
+  &#39;#f4dbd6&#39;,
+  &#39;#b7bdf8&#39;,
+  &#39;#ed8796&#39;,
+  &#39;#f5a97f&#39;,
+  &#39;#eed49f&#39;,
+  &#39;#a6da95&#39;,
+  &#39;#8bd5ca&#39;,
+  &#39;#8aadf4&#39;,
+  &#39;#c6a0f6&#39;,
+  &#39;#f0c6c6&#39;
+];
+
+function getRandomColor() {
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+
+
+// Make the nodes
+var node = svg.append(&quot;g&quot;)
+  .attr(&quot;class&quot;, &quot;nodes&quot;)
+  .selectAll(&quot;circle&quot;)
+  .data(nodes)
+  .enter().append(&quot;circle&quot;)
+  .on(&quot;click&quot;, function(d) {
+    let tagName = d.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    window.location.href = `/tags/${tagName}`;
+  })
+  .attr(&quot;r&quot;, nodeRadius)
+  .attr(&quot;fill&quot;, function(d) { return getRandomColor(); });
+
+node.append(&quot;title&quot;)
+  .text(d =&gt; d.id);
+
+simulation
+  .nodes(nodes)
+  .on(&quot;tick&quot;, ticked);
+
+simulation.force(&quot;link&quot;)
+  .links(links);
+
+dragHandler(node);
+
+// Wirite out the labels
+var labels = svg.append(&quot;g&quot;)
+  .attr(&quot;class&quot;, &quot;labels&quot;)
+  .selectAll(&quot;text&quot;)
+  .data(nodes)
+  .enter().append(&quot;text&quot;)
+  .text(d =&gt; d.id)
+  .style(&quot;fill&quot;, &quot;24273a&quot;)
+  .style(&quot;text-anchor&quot;, &quot;middle&quot;)
+  .style(&quot;dominant-baseline&quot;, &quot;central&quot;)
+  .on(&quot;click&quot;, function(d) {
+    let tagName = d.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    window.location.href = `/tags/${tagName}`;
+  });
+
+// Update function
+function ticked() {
+  link
+    .attr(&quot;x1&quot;, d =&gt; d.source.x)
+    .attr(&quot;y1&quot;, d =&gt; d.source.y)
+    .attr(&quot;x2&quot;, d =&gt; d.target.x)
+    .attr(&quot;y2&quot;, d =&gt; d.target.y);
+
+  node
+    .attr(&quot;cx&quot;, d =&gt; d.x)
+    .attr(&quot;cy&quot;, d =&gt; d.y);
+
+  labels
+    .attr(&quot;x&quot;, d =&gt; d.x)
+    .attr(&quot;y&quot;, d =&gt; d.y);
+}</code></pre>
+<p>If you want to check out the code for this in full, you can get the <a href="https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.html">post page</a> and the <a href="https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.terms.html">graph page</a> from github, or checkout the graph in its current state <a href="/tags/">here</a>.</p>
+</div>
 </div>
 </div>
   </article>
@@ -225,7 +550,7 @@ My only gripe with the theme is that it uses a default list for all types of con
         <line x1="16" y1="17" x2="8" y2="17"></line>
         <polyline points="10 9 9 9 8 9"></polyline>
       </svg>
-      188 Words
+      1415 Words
     </p>
   </div>
 
@@ -237,6 +562,20 @@ My only gripe with the theme is that it uses a default list for all types of con
             
                 <footer class="footer">
   
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/matlab.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
   <script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
