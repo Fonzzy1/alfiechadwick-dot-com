@@ -5,8 +5,135 @@
         <description>Recent content in Posts on Alfie Chadwick</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 28 Dec 2023 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 29 Dec 2023 00:00:00 +0000</lastBuildDate>
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Using Taylor Series to Improve the Euler Method: Part 2</title>
+            <link>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</link>
+            <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
+            
+            <guid>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</guid>
+            <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
+It also gives me a chance to see numerically how well the new method works compared to the Euler method.
+First Steps So in the last post I set out the method such that: \[ \begin{bmatrix} y(x+h)\\ y&amp;#39;(x+h)\\ y&amp;#39;&amp;#39;(x+h)\\ .</description>
+            <content type="html"><![CDATA[
+
+
+<p>After having the initial idea I wrote up in a <a href="/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/">previous post</a>, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.</p>
+<p>It also gives me a chance to see numerically how well the new method works compared to the Euler method.</p>
+<div id="first-steps" class="section level1">
+<h1>First Steps</h1>
+<p>So in the last post I set out the method such that:
+<span class="math display">\[ \begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  S \cdot \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon \]</span></p>
+<p>In the Euler method, <span class="math inline">\(S\)</span> is:
+<span class="math display">\[\begin{bmatrix}
+1 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 1 &amp; h &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}\]</span></p>
+<p>And in the new method I proposed, <span class="math inline">\(S\)</span> is now:
+<span class="math display">\[ \begin{bmatrix}
+1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}\]</span></p>
+<p>Converting these matrices into python is fairly easy.</p>
+<pre class="python"><code>import numpy as np
+import math
+
+
+def euler(dims, h):
+    # Start with an identity matrix
+    step_matrix = np.identity(dims)
+    # Add in all the h values
+    for i in range(dims - 1):
+        step_matrix[i, i + 1] = h
+    return step_matrix
+
+
+def expanded_euler(dims, h):
+    step_matrix = np.zeros((dims, dims))
+    for i in range(dims):
+        for j in range(i, dims):
+            # Is 1, and h at j-i =0, 1 respectively
+            step_matrix[i, j] = h ** (j - i) / math.factorial(j - i)
+    return step_matrix</code></pre>
+</div>
+<div id="making-a-step-simulation" class="section level1">
+<h1>Making a step simulation</h1>
+<p>Now that we have the stepping matrices, we can use them to iterate from an initial value. All we have to do is generate the stepping matrix for the given problem, and then for each step, we just multiple the previous step by the stepping matrix.</p>
+<pre class="python"><code>def IVP(x, y, step_matrix_generator, steps=10, h=0.1):
+    dims = len(y)
+    step_matrix = step_matrix_generator(dims, h)
+    output_dict = {x: y}
+
+    x_n = x
+    y_n = y.copy()
+    i = 0
+    while i &lt; steps:
+        y_n = step_matrix @ y_n
+        x_n += h
+        output_dict[x_n] = y_n
+        i += 1
+
+    return output_dict</code></pre>
+</div>
+<div id="testing-and-comparing-the-methods" class="section level1">
+<h1>Testing and Comparing the methods</h1>
+<p>Now we can run the simulations, let’s see how good they are.
+Say you throw a ball up in the air and track its vertical position. The path of the ball is described by the equation <span class="math inline">\(y&#39;&#39; = -9.8\)</span>. We can know for a fact that the solution to this equation is <span class="math inline">\(\frac{-9.8}{2}x^2+V_0x+P_0\)</span>, where <span class="math inline">\(V_0\)</span> is the initial velocity and <span class="math inline">\(P_0\)</span> is the initial position. So now lets compare the real solutions to the simulations.</p>
+<pre class="python"><code># Time starts at 0
+x = 0
+# Start the object moving upwards with a velocity of 10
+y = np.array([0, 10, -9.8])
+
+euler_result = IVP(x, y, euler)
+expanded_euler_result =IVP(x, y, expanded_euler)
+true_result = {x: np.array([
+                    -4.9 * x**2 + 10 * x,
+                    -9.8 * x + 10,
+                    -9.8
+                ]) for x in np.arange(0, 1.1, 0.1)}</code></pre>
+<p><img src="/post/taylor-series/post-2_files/figure-html/gravity-sim-plot-1.png" width="614" /></p>
+<p>So from here, we’re looking pretty good. The new method is much closer to the true solution than the Euler method in in this scenario. However, when working with numerical methods, it generally isn’t too hard to improve the accuracy of the model, but there will be a trade off in computation time. So lets see how much longer it takes to compute the approximation with the expanded method comparing it to the original.</p>
+<pre class="python"><code>import timeit
+
+# Define the step counts to test
+steps_list = [10, 100, 1000, 10000, 100000]
+
+# Lists to store execution times for each method
+euler_times = []
+expanded_euler_times = []
+
+# Testing the functions with the different step counts and store the execution times
+for steps in steps_list:
+    euler_time = timeit.timeit(lambda: IVP(x, y, euler, steps), number=1)
+    expanded_euler_time = timeit.timeit(lambda: IVP(x, y, expanded_euler, steps), number=1)
+    
+    euler_times.append(euler_time)
+    expanded_euler_times.append(expanded_euler_time)</code></pre>
+<p><img src="/post/taylor-series/post-2_files/figure-html/time-plot-3.png" width="960" /></p>
+<p>Looking at this graph, we can see that we’re not sacrificing compute time for better accuracy, so this seems like a big win, though I haven’t optimised the Euler method that much. But overall, the new method seems to show some promise in approximating differential equations.</p>
+</div>
+]]></content>
+        </item>
         
         <item>
             <title>A new way to look at Categories in Hugo Blogs</title>
@@ -410,6 +537,26 @@ y&#39;&#39;&#39;(x)\\
 y^{n}(x)\\
 \end{bmatrix} + \epsilon
 \]</span></p>
+<p>Or shifting the <span class="math inline">\(Y&#39;\)</span> matrix to make it a bit prettier:</p>
+<p><span class="math display">\[\begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  \begin{bmatrix}
+1 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 1 &amp; h &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon \]</span></p>
 </div>
 </div>
 <div id="taylor-series" class="section level1">
@@ -448,9 +595,9 @@ y^{n}(x+h)\\
 ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
 \end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
 y&#39;(x)\\
 y&#39;&#39;(x)\\
-y&#39;&#39;&#39;(x)\\
 ...\\
 y^{n}(x)\\
 \end{bmatrix} + \epsilon \]</span></p>

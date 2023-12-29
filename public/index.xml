@@ -6,8 +6,15 @@
     <description>Recent content on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 Dec 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Taylor Series to Improve the Euler Method: Part 2</title>
+      <link>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</link>
+      <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</guid>
+      <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.&#xA;It also gives me a chance to see numerically how well the new method works compared to the Euler method.&#xA;First Steps So in the last post I set out the method such that: \[ \begin{bmatrix} y(x+h)\\ y&amp;#39;(x+h)\\ y&amp;#39;&amp;#39;(x+h)\\ .</description>
+    </item>
     <item>
       <title>A new way to look at Categories in Hugo Blogs</title>
       <link>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</link>

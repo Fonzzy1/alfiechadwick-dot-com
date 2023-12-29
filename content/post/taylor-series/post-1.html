@@ -2,7 +2,7 @@
 title: "Using Taylor Series to Improve the Euler Method: Part 1"
 author: 'Alfie Chadwick'
 date: '2023-12-18'
-lastmod: "2023-12-28"
+lastmod: "2023-12-29"
 Tags: ['Calculus']
 output:
   blogdown::html_page:
@@ -66,6 +66,26 @@ y&#39;&#39;&#39;(x)\\
 y^{n}(x)\\
 \end{bmatrix} + \epsilon
 \]</span></p>
+<p>Or shifting the <span class="math inline">\(Y&#39;\)</span> matrix to make it a bit prettier:</p>
+<p><span class="math display">\[\begin{bmatrix}
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  \begin{bmatrix}
+1 &amp; h &amp; 0 &amp;  ... &amp; 0\\
+0 &amp; 1 &amp; h &amp;  ... &amp; 0\\
+0 &amp; 0 &amp; 1 &amp;  ... &amp; 0\\
+... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon \]</span></p>
 </div>
 </div>
 <div id="taylor-series" class="section level1">
@@ -104,9 +124,9 @@ y^{n}(x+h)\\
 ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
 \end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
 y&#39;(x)\\
 y&#39;&#39;(x)\\
-y&#39;&#39;&#39;(x)\\
 ...\\
 y^{n}(x)\\
 \end{bmatrix} + \epsilon \]</span></p>

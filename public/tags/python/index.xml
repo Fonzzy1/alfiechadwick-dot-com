@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Alfie Chadwick</title>
+    <link>/tags/python/</link>
+    <description>Recent content in Python on Alfie Chadwick</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Taylor Series to Improve the Euler Method: Part 2</title>
+      <link>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</link>
+      <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</guid>
+      <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.&#xA;It also gives me a chance to see numerically how well the new method works compared to the Euler method.&#xA;First Steps So in the last post I set out the method such that: \[ \begin{bmatrix} y(x+h)\\ y&amp;#39;(x+h)\\ y&amp;#39;&amp;#39;(x+h)\\ .</description>
+    </item>
+  </channel>
+</rss>
