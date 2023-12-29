@@ -1,0 +1,48 @@
+---
+title: "Using Taylor Series to Improve the Euler Method: Part 2"
+author: 'Alfie Chadwick'
+date: '2023-12-29'
+lastmod: "`r Sys.Date()`"
+Tags: ['Calculus', 'Algebra','Python']
+output:
+  blogdown::html_page
+---
+
+After having the initial idea I wrote up in a [previous post](/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/), I though it was a good idea to turn it into a python library so that I can use it as part of my other projects.
+
+It also gives me a chance to see numerically how well the new method works compared to the Euler method.
+
+# First Steps
+
+So in the last post I set out the method such that:
+$$ \begin{bmatrix}
+y(x+h)\\
+y'(x+h)\\
+y''(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  S \cdot \begin{bmatrix}
+y(x)\\
+y'(x)\\
+y''(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon $$ 
+
+In the Euler method, $S$ is:
+$$\begin{bmatrix}
+1 & h & 0 &  ... & 0\\
+0 & 1 & h &  ... & 0\\
+0 & 0 & 1 &  ... & 0\\
+... & ... & ... &  ... & ...\\
+0 & 0 & 0 &  ... & 1\\
+\end{bmatrix}$$
+
+And in the new method I proposed, $S$ is now:
+$$ \begin{bmatrix}
+1 & \frac{h}{1!} & \frac{h^2}{2!} &  ... & \frac{h^n}{n!}\\
+0 & 1 & \frac{h}{1!} &  ... & \frac{h^{n-1}}{(n-1)!}\\
+0 & 0 & 1 &  ... & \frac{h^{n-2}}{(n-2)!}\\
+... & ... & ... &  ... & ...\\
+0 & 0 & 0 &  ... & 1\\
+\end{bmatrix}$$
