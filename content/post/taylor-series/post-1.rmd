@@ -106,9 +106,9 @@ y^{n}(x+h)\\
 ... & ... & ... &  ... & ...\\
 0 & 0 & 0 &  ... & 1\\
 \end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
 y'(x)\\
 y''(x)\\
-y'''(x)\\
 ...\\
 y^{n}(x)\\
 \end{bmatrix} + \epsilon $$ 
