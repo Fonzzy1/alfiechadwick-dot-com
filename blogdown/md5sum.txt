@@ -3,4 +3,5 @@
 "content/ideas/ODE-Solver/ODE-solve.rmd" "ba4a91a58aceddd70962d07e2b609652"
 "content/post/drug-use-models/final_report.rmd" "163ddbdfbd17f8204b1af60ec112e24a"
 "content/post/tag-graph/post.rmd" "57bd315fcc00372c38bb2914b81b9f90"
-"content/post/taylor-series/post-1.rmd" "a20a9e9ffdc7c38469df8dd0a0c03867"
+"content/post/taylor-series/post-1.rmd" "f71dc5946cc5791cd31f8dacb141c291"
+"content/post/taylor-series/post-2.rmd" "ece7326d0aa619df6bfae28ee7875df1"
