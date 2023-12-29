@@ -60,6 +60,29 @@ y^{n}(x)\\
 \end{bmatrix} + \epsilon
 $$
 
+Or shifting the $Y'$ matrix to make it a bit prettier:
+
+$$\begin{bmatrix}
+y(x+h)\\
+y'(x+h)\\
+y''(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  \begin{bmatrix}
+1 & h & 0 &  ... & 0\\
+0 & 1 & h &  ... & 0\\
+0 & 0 & 1 &  ... & 0\\
+... & ... & ... &  ... & ...\\
+0 & 0 & 0 &  ... & 1\\
+\end{bmatrix} \cdot \begin{bmatrix}
+y(x)\\
+y'(x)\\
+y''(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} + \epsilon $$
+
+
 # Taylor Series
 
 So everything up to now has been pretty textbook. But when I saw the matrix representation of the Euler method, I couldn't help but think of another method that combines derivatives and linear algebra, Taylor Series. 
