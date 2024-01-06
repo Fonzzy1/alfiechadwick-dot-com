@@ -23,8 +23,8 @@ So lets quickly scope out this project. In my dev containers, I want:
  - Vim with my config built in
  - Integration with common cli tools
  - The ability to use docker from inside of the container
- - Transportability between various unix-machines
  - Secrets Management ( Not Having to Re-Authenticate  all my tools every time I open Up a container )
+ - Transportability between various unix-machines
  
 # The Beginnings
 
@@ -171,10 +171,49 @@ To do this, I can run the container with the following command:
 
 ```bash
 docker run -it -v /var/run/docker.sock:/var/run/docker.sock fonzzy1/vim
-
 ```
 
 # Secrets Management
+
+The next thing to implement is secrets management. I currently have these all stored in config files in my home directory, which isn't best practice in a docker container I want to make public. So instead, I can just put all my secrets in a .env file and reference them in the docker container. This can be done using the --env-file flag when running my docker container
+
+# Portability
+
+The final goal on my list is making the container portable between my multiple machines. This is resolved through the use of docker hub, which will allow me to download the image from docker hub. The only other thing I need is to make sure docker is set up on the other machine. For this I wrote a quick script to do this nicely.
+
+```{bash, eval=FALSE}
+#!/bin/bash
+set -e
+
+# Dot Progress Indicator
+progress() {
+    local pid=$2 # PID of the process we're waiting for
+    local text=$1
+    local delay=2 # 2-second delay between dots
+    local dot="."
+
+    printf "%s:" "$text"
+    while [ "$(ps a | awk '{print $1}' | grep -w $pid)" ]; do
+        printf "%s" "$dot"
+        sleep $delay
+    done
+    printf " Done!\n"
+}
+
+progress "Updating package list" $(sudo apt-get update > /dev/null 2>&1 & echo $!)
+
+progress "Installing Useful Packages" $(sudo apt-get install -y curl > /dev/null 2>&1 & echo $!)
+
+progress "Fetching Docker Install Script" $(curl -fsSL https://get.docker.com -o install-docker.sh > /dev/null 2>&1 & echo $!)
+
+progress "Installing Docker" $(sudo sh install-docker.sh > /dev/null 2>&1 & echo $!)
+
+progress "Adding the current user to the Docker group" $(sudo usermod -aG docker $USER > /dev/null 2>&1 & echo $!)
+
+progress "Pulling Image" docker pull fonzzy1/vim
+
+echo "Setup complete!"
+```
 
 
 # Wrapping it up

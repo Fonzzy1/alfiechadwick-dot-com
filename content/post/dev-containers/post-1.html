@@ -17,6 +17,7 @@ output:
 <li><a href="#the-beginnings">The Beginnings</a></li>
 <li><a href="#docker-in-docker">Docker In Docker</a></li>
 <li><a href="#secrets-management">Secrets Management</a></li>
+<li><a href="#portability">Portability</a></li>
 <li><a href="#wrapping-it-up">Wrapping it up</a></li>
 </ul>
 </div>
@@ -34,8 +35,8 @@ output:
 <li>Vim with my config built in</li>
 <li>Integration with common cli tools</li>
 <li>The ability to use docker from inside of the container</li>
-<li>Transportability between various unix-machines</li>
 <li>Secrets Management ( Not Having to Re-Authenticate all my tools every time I open Up a container )</li>
+<li>Transportability between various unix-machines</li>
 </ul>
 </div>
 <div id="the-beginnings" class="section level1">
@@ -173,11 +174,46 @@ CMD vim</code></pre>
 <p>The next thing to tick of the list is being able to run docker commands from within the container. Although I have installed docker, running any docker command inside the container will say the daemon isn’t running.</p>
 <p>I could put in a lot of work giving the container the ability to make it’s own containers, but that would be a real pain. Instead, I can just mount the docker daemon onto the container, so that running docker commands inside the container will call the system docker.</p>
 <p>To do this, I can run the container with the following command:</p>
-<pre class="bash"><code>docker run -it -v /var/run/docker.sock:/var/run/docker.sock fonzzy1/vim
-</code></pre>
+<pre class="bash"><code>docker run -it -v /var/run/docker.sock:/var/run/docker.sock fonzzy1/vim</code></pre>
 </div>
 <div id="secrets-management" class="section level1">
 <h1>Secrets Management</h1>
+<p>The next thing to implement is secrets management. I currently have these all stored in config files in my home directory, which isn’t best practice in a docker container I want to make public. So instead, I can just put all my secrets in a .env file and reference them in the docker container. This can be done using the –env-file flag when running my docker container</p>
+</div>
+<div id="portability" class="section level1">
+<h1>Portability</h1>
+<p>The final goal on my list is making the container portable between my multiple machines. This is resolved through the use of docker hub, which will allow me to download the image from docker hub. The only other thing I need is to make sure docker is set up on the other machine. For this I wrote a quick script to do this nicely.</p>
+<pre class="bash"><code>#!/bin/bash
+set -e
+
+# Dot Progress Indicator
+progress() {
+    local pid=$2 # PID of the process we&#39;re waiting for
+    local text=$1
+    local delay=2 # 2-second delay between dots
+    local dot=&quot;.&quot;
+
+    printf &quot;%s:&quot; &quot;$text&quot;
+    while [ &quot;$(ps a | awk &#39;{print $1}&#39; | grep -w $pid)&quot; ]; do
+        printf &quot;%s&quot; &quot;$dot&quot;
+        sleep $delay
+    done
+    printf &quot; Done!\n&quot;
+}
+
+progress &quot;Updating package list&quot; $(sudo apt-get update &gt; /dev/null 2&gt;&amp;1 &amp; echo $!)
+
+progress &quot;Installing Useful Packages&quot; $(sudo apt-get install -y curl &gt; /dev/null 2&gt;&amp;1 &amp; echo $!)
+
+progress &quot;Fetching Docker Install Script&quot; $(curl -fsSL https://get.docker.com -o install-docker.sh &gt; /dev/null 2&gt;&amp;1 &amp; echo $!)
+
+progress &quot;Installing Docker&quot; $(sudo sh install-docker.sh &gt; /dev/null 2&gt;&amp;1 &amp; echo $!)
+
+progress &quot;Adding the current user to the Docker group&quot; $(sudo usermod -aG docker $USER &gt; /dev/null 2&gt;&amp;1 &amp; echo $!)
+
+progress &quot;Pulling Image&quot; docker pull fonzzy1/vim
+
+echo &quot;Setup complete!&quot;</code></pre>
 </div>
 <div id="wrapping-it-up" class="section level1">
 <h1>Wrapping it up</h1>
