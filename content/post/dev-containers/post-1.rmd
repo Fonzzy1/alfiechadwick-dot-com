@@ -1,7 +1,7 @@
 ---
 title: "DIY Dev-Containers"
 author: 'Alfie Chadwick'
-date: '2024-01-06'
+date: '2024-01-07'
 lastmod: "`r Sys.Date()`"
 Tags: ['Devops','Docker','Vim']
 output:
@@ -215,5 +215,149 @@ progress "Pulling Image" docker pull fonzzy1/vim
 echo "Setup complete!"
 ```
 
-
 # Wrapping it up
+
+My so now I have my dev containers running, my only gripe is the stupidly long docker commands that I need to type out to get it running, such as:
+
+```{bash, eval=FALSE}
+current_dir="$(pwd)"
+dir_name="$(basename "$current_dir")"
+
+docker run -it \
+  --env-file ~/.env \
+  --net=host \
+  --rm \
+  -v "$current_dir:/$(dir_name)" \
+  -w "/$dir_name" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  fonzzy1/vim \
+  /bin/bash -c "gh auth setup-git; git config --global --add safe.directory /$dir_name; vim"
+```
+
+So I decided, to make this into a little python script that allows me to quickly run these commands. I also added an integration with gh that lets me clone repo's in to edit them on the fly.
+
+
+```{python, eval=FALSE}
+
+#!/bin/python3
+import subprocess
+import argparse
+import os
+
+
+def run_local(args):
+    """
+    Runs a command in a Docker container with the current directory mounted.
+
+    Args:
+        args (argparse.Namespace): The command-line arguments.
+
+    Returns:
+        None
+    """
+    current_dir = subprocess.run(["pwd"], capture_output=True, text=True).stdout.strip()
+    dir_name = current_dir.split("/")[-1]  # Get the name of the current directory
+
+    subprocess.run(
+        [
+            "docker",
+            "run",
+            "-it",
+            "--env-file",
+            os.path.expanduser("~/.env"),
+            "--net=host",
+            "--rm",
+            "-v",
+            f"{current_dir}:/{dir_name}",  # Mount to a directory with the same name
+            "-w",
+            f"/{dir_name}",  # Set the working directory
+            "-v",
+            "/var/run/docker.sock:/var/run/docker.sock",
+            "fonzzy1/vim",
+            "/bin/bash",
+            "-c",
+            f"gh auth setup-git; git config --global --add safe.directory /{dir_name}; vim",
+        ]
+    )
+
+
+def run_gh(args):
+    """
+    Runs a command for cloning a GitHub repository in a Docker container.
+
+    Args:
+        args (argparse.Namespace): The command-line arguments.
+
+    Returns:
+        None
+    """
+    name = args.repo.replace("/", "-")
+    repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
+    command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; "
+
+    # Additional git command based on input parameters
+    if args.branch:
+        command += f"git switch {args.branch}; "
+    elif args.pullrequest:
+        command += f"gh pr checkout {args.pullrequest}; "
+    elif args.checkout:
+        command += f"git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; "
+
+    # Update submodules if any
+    command += "git submodule update --init; vim; "
+
+    # Check for unpushed or uncommitted changes before exiting Vim
+    check_changes_command = ' \
+        CHANGES=$(git status --porcelain); \
+        UPSTREAM_CHANGES=$(git cherry -v); \
+        if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
+            vim -c \':G | only\'; \
+        fi'
+
+    # Final combined command
+    final_command = command + check_changes_command
+
+    subprocess.run(
+        [
+            "docker",
+            "run",
+            "-it",
+            "--env-file",
+            os.path.expanduser("~/.env"),
+            "--name",
+            name,
+            "--net=host",
+            "--rm",
+            "-w",
+            f"/{repo}",
+            "-v",
+            "/var/run/docker.sock:/var/run/docker.sock",
+            "fonzzy1/vim",
+            "/bin/bash",
+            "-c",
+            final_command,
+        ]
+    )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(title="commands", dest="command")
+
+    local_parser = subparsers.add_parser(
+        "local", help="Run command for a container with local directory"
+    )
+    local_parser.set_defaults(func=run_local)
+
+    gh_parser = subparsers.add_parser("gh", help="Run command for cloning a repo")
+    gh_parser.add_argument("repo", help="Specify the repository for cloning")
+    gh_parser.set_defaults(func=run_gh)
+    gh_parser.add_argument("-b", "--branch", help="The branch to checkout")
+    gh_parser.add_argument(
+        "-p", "--pullrequest", help="The pull request number to checkout"
+    )
+    gh_parser.add_argument("-c", "--checkout", help="Checkout a new branch from main")
+
+    args = parser.parse_args()
+    args.func(args)
+```

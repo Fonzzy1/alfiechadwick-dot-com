@@ -6,13 +6,13 @@
     <description>Recent content in Docker on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 06 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jan 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DIY Dev-Containers</title>
-      <link>/2024/01/06/diy-dev-containers/</link>
-      <pubDate>Sat, 06 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>/2024/01/06/diy-dev-containers/</guid>
+      <link>/2024/01/07/diy-dev-containers/</link>
+      <pubDate>Sun, 07 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/2024/01/07/diy-dev-containers/</guid>
       <description>Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an unruly amount of time dealing with my local installs and dependencies. When working across multiple projects, I find it’s not uncommon to have to deal with conflicting versions of dependencies and although virtual environments and node package manager go a long way to fixing this problem, it still often falls short.</description>
     </item>
   </channel>
