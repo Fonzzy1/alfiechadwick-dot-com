@@ -21,10 +21,10 @@
 />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="/post/" />
+<link rel="canonical" href="/tags/docker/" />
 
 <title>
-   Posts :: Alfie Chadwick  
+   Docker :: Alfie Chadwick  
 </title>
 
 
@@ -44,8 +44,8 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="msapplication-TileColor" content="">
- <meta itemprop="name" content="Posts">
-<meta itemprop="description" content="A website built through Hugo and blogdown."> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Posts"/>
+ <meta itemprop="name" content="Docker">
+<meta itemprop="description" content="A website built through Hugo and blogdown."> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Docker"/>
 <meta name="twitter:description" content="A website built through Hugo and blogdown."/>
    
 
@@ -107,100 +107,77 @@
 
 
             <div class="content">
-                 
-
+                
 <main class="posts">
-  <h1>Posts</h1>
+  <h1>Docker</h1>
 
-  
-
-  
-   
-  <div class="posts-year-group">
-    <h2 class="year-header">2024</h2>
-
+  <div id="posts-container">
     
     
-    <div class="posts-month-group">
-      <h3 class="month-header">January</h3>
 
-      <ul class="posts-list">
-        
-        <li class="post-item">
-          <a href="/2024/01/07/diy-dev-containers/" class="post-item-inner">
-            <span class="post-title">DIY Dev-Containers</span>
-            <span class="post-day">      7th
- </span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-  </div>
-   
-  <div class="posts-year-group">
-    <h2 class="year-header">2023</h2>
+    <ul class="posts-list">
+      
+      <li class="post-item" data-tags="[&#34;Devops&#34;,&#34;Docker&#34;,&#34;Vim&#34;]">
+        <a href="/2024/01/07/diy-dev-containers/" class="post-item-inner">
+          <span class="post-title">DIY Dev-Containers</span>
+          <span class="post-date">January 7, 2024</span>
+        </a>
+      </li>
+      
+    </ul>
 
-    
-    
-    <div class="posts-month-group">
-      <h3 class="month-header">December</h3>
-
-      <ul class="posts-list">
-        
-        <li class="post-item">
-          <a href="/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/" class="post-item-inner">
-            <span class="post-title">Using Taylor Series to Improve the Euler Method: Part 2</span>
-            <span class="post-day">      29th
- </span>
-          </a>
-        </li>
-        
-        <li class="post-item">
-          <a href="/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/" class="post-item-inner">
-            <span class="post-title">A new way to look at Categories in Hugo Blogs</span>
-            <span class="post-day">      28th
- </span>
-          </a>
-        </li>
-        
-        <li class="post-item">
-          <a href="/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/" class="post-item-inner">
-            <span class="post-title">Using Taylor Series to Improve the Euler Method: Part 1</span>
-            <span class="post-day">      18th
- </span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-    <div class="posts-month-group">
-      <h3 class="month-header">October</h3>
-
-      <ul class="posts-list">
-        
-        <li class="post-item">
-          <a href="/2023/10/22/modeling-drug-use-in-communities/" class="post-item-inner">
-            <span class="post-title">Modeling Drug Use in Communities</span>
-            <span class="post-day">        22nd
- </span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-  </div>
-   <div class="pagination">
+    <div class="pagination">
     <div class="pagination__buttons">
         
         
     </div>
 </div>
 
+  </div>
 </main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    let additionalTag = urlParams.get("tag");
+    
+    function toTitleCase(str) {
+      return str.replace(/\w\S*/g, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    }
+
+    
+    if (additionalTag) {
+      additionalTag = toTitleCase(additionalTag.replace(/-/g, " "));
+      document.querySelector("h1").textContent += " & " + additionalTag;
+    }
+
+    
+    if (additionalTag) {
+      additionalTag = additionalTag.toLowerCase().replace(/\s+/g, "-");
+      console.log(additionalTag);
+
+      const posts = document.querySelectorAll(".post-item");
+
+      posts.forEach((post) => {
+        const tagsString = JSON.parse(post.getAttribute("data-tags"));
+
+        
+        const tags = tagsString.map((tag) =>
+          tag.trim().toLowerCase().replace(/\s+/g, "-")
+        );
+
+        console.log(tags);
+
+        
+        if (!tags.includes(additionalTag)) {
+          post.style.display = "none";
+        }
+      });
+    }
+  });
+</script>
 
             </div>
 
