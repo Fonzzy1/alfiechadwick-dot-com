@@ -13,7 +13,7 @@
       <link>/2024/01/07/diy-dev-containers/</link>
       <pubDate>Sun, 07 Jan 2024 00:00:00 +0000</pubDate>
       <guid>/2024/01/07/diy-dev-containers/</guid>
-      <description>Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an unruly amount of time dealing with my local installs and dependencies. When working across multiple projects, I find it’s not uncommon to have to deal with conflicting versions of dependencies and although virtual environments and node package manager go a long way to fixing this problem, it still often falls short.</description>
+      <description>Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short.</description>
     </item>
     <item>
       <title>Using Taylor Series to Improve the Euler Method: Part 2</title>

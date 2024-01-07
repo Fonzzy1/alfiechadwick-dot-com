@@ -13,7 +13,7 @@
 />
 <meta
   name="description"
-  content="Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an unruly amount of time dealing with my local installs and dependencies. When working across multiple projects, I find it’s not uncommon to have to deal with conflicting versions of dependencies and although virtual environments and node package manager go a long way to fixing this problem, it still often falls short."
+  content="Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short."
 />
 <meta
   name="keywords"
@@ -45,11 +45,11 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="msapplication-TileColor" content="">
  <meta itemprop="name" content="DIY Dev-Containers">
-<meta itemprop="description" content="Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an unruly amount of time dealing with my local installs and dependencies. When working across multiple projects, I find it’s not uncommon to have to deal with conflicting versions of dependencies and although virtual environments and node package manager go a long way to fixing this problem, it still often falls short."><meta itemprop="datePublished" content="2024-01-07T00:00:00+00:00" />
+<meta itemprop="description" content="Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short."><meta itemprop="datePublished" content="2024-01-07T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2024-01-07T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1703">
+<meta itemprop="wordCount" content="1697">
 <meta itemprop="keywords" content="Devops,Docker,Vim," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="DIY Dev-Containers"/>
-<meta name="twitter:description" content="Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an unruly amount of time dealing with my local installs and dependencies. When working across multiple projects, I find it’s not uncommon to have to deal with conflicting versions of dependencies and although virtual environments and node package manager go a long way to fixing this problem, it still often falls short."/>
+<meta name="twitter:description" content="Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short."/>
    
 <meta property="article:published_time" content="2024-01-07 00:00:00 &#43;0000 UTC" />
 
@@ -200,26 +200,26 @@
 </ul>
 </div>
 
-<p>Like most developers, I spend an unruly amount of time dealing with my local installs and dependencies. When working across multiple projects, I find it’s not uncommon to have to deal with conflicting versions of dependencies and although virtual environments and node package manager go a long way to fixing this problem, it still often falls short.</p>
+<p>Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short.</p>
 <div id="why-we-use-dev-containers" class="section level1">
 <h1>Why we use Dev-Containers</h1>
-<p>A common answer to these issues is the use of ‘dev-containers’, which have mostly been popularised by VS Studio Code as a way to have you dependencies exist exclusively inside a Docker container, and then attach an editor to it to make your changes. Sounds great, but unfortunately for me I have years of using vim keybindings built into my muscle memory so there’s little chance of me changing my editor. So instead I thought why not just rebuild the dev containers for vim.</p>
+<p>A common solution to these issues is the use of ‘dev-containers’, which have mostly been popularized by VS Code as a way to have your dependencies exist exclusively inside a Docker container, and then attach an editor to it to make your changes. Sounds great, but unfortunately for me, I have years of using Vim keybindings built into my muscle memory, so there’s little chance of me changing my editor. So instead, I thought, why not just rebuild the dev containers for Vim?</p>
 </div>
 <div id="what-i-want" class="section level1">
 <h1>What I want</h1>
-<p>So lets quickly scope out this project. In my dev containers, I want:</p>
+<p>So let’s quickly scope out this project. In my development containers, I want:</p>
 <ul>
-<li>Isolated Environments</li>
-<li>Vim with my config built in</li>
-<li>Integration with common cli tools</li>
-<li>The ability to use docker from inside of the container</li>
-<li>Secrets Management ( Not Having to Re-Authenticate all my tools every time I open Up a container )</li>
-<li>Transportability between various unix-machines</li>
+<li>Isolated environments</li>
+<li>Vim with my configuration built-in</li>
+<li>Integration with common CLI tools</li>
+<li>The ability to use Docker from inside the container</li>
+<li>Secrets management (not having to re-authenticate all my tools every time I open up a container)</li>
+<li>Transportability between various Unix machines</li>
 </ul>
 </div>
 <div id="the-beginnings" class="section level1">
 <h1>The Beginnings</h1>
-<p>So after doing a quick look around my system, I came up with this initial Dockerfile for my dev container:</p>
+<p>So after taking a quick look around my system, I have come up with this initial Dockerfile for my development container:</p>
 <pre class="dockerfile"><code>FROM ubuntu as setter_upper
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -341,26 +341,28 @@ RUN mkdir -p /root/.config/coc/extensions &amp;&amp; \
     done
 
 CMD vim</code></pre>
-<p>I won’t bother explaining most of it since its really just a heap of install statements but here are some of the interesting parts:
-- I needed to add the WORKDIR to the list of safe directories for git since if I mount the file the ownership will be wrong
-- I needed to manually install the gh act extension as you can’t do it normally without authenticating with a gh token, something I don’t want to do in a public container
-- Coc Extentions needed to be manually installed as to stop them installing every time I started the container. Just calling <code>Vim +CocInstall</code> didn’t work because its an async process.</p>
-<p>So at this point, I have the first three of my requirements done. Because I’m using docker, I have an isolated environment every time I boot up the container. Through copying over my vim config files, I have my vim config baked in, and with some of the commands in the dockerfile, I am able to have it set up. Finaly, through installing a heap of CLI tools, I am able to do most of my work from inside the vim terminal.</p>
+<p>I won’t bother explaining most of it since it’s really just a heap of install statements, but here are some of the interesting parts:</p>
+<ul>
+<li>I needed to add the WORKDIR to the list of safe directories for git since if I mount the file, the ownership will be wrong.</li>
+<li>I needed to manually install the gh act extension as you can’t do it normally without authenticating with a gh token, something I don’t want to do in a public container.</li>
+<li>Coc Extensions needed to be manually installed to prevent them from installing every time I started the container. Just calling <code>Vim +CocInstall</code> didn’t work because it’s an async process.</li>
+</ul>
+<p>So at this point, I have the first three of my requirements done. Because I’m using Docker, I have an isolated environment every time I boot up the container. By copying over my Vim config files, I have my Vim config baked in, and with some of the commands in the Dockerfile, I am able to have it set up. Finally, by installing a heap of CLI tools, I am able to do most of my work from inside the Vim terminal.</p>
 </div>
 <div id="docker-in-docker" class="section level1">
 <h1>Docker In Docker</h1>
-<p>The next thing to tick of the list is being able to run docker commands from within the container. Although I have installed docker, running any docker command inside the container will say the daemon isn’t running.</p>
-<p>I could put in a lot of work giving the container the ability to make it’s own containers, but that would be a real pain. Instead, I can just mount the docker daemon onto the container, so that running docker commands inside the container will call the system docker.</p>
-<p>To do this, I can run the container with the following command:</p>
+<p>The next thing to tick off the list is being able to run Docker commands from within the container. Although I have installed Docker, running any Docker command inside the container will say the daemon isn’t running.</p>
+<p>I could put in a lot of work to give the container the ability to create its own containers, but that would be a real pain. Instead, I can simply mount the Docker daemon onto the container, so that running Docker commands inside the container will invoke the system Docker.</p>
+<p>To accomplish this, I can execute the container using the following command:</p>
 <pre class="bash"><code>docker run -it -v /var/run/docker.sock:/var/run/docker.sock fonzzy1/vim</code></pre>
 </div>
 <div id="secrets-management" class="section level1">
 <h1>Secrets Management</h1>
-<p>The next thing to implement is secrets management. I currently have these all stored in config files in my home directory, which isn’t best practice in a docker container I want to make public. So instead, I can just put all my secrets in a .env file and reference them in the docker container. This can be done using the –env-file flag when running my docker container</p>
+<p>The next thing to implement is secrets management. I currently have all of these stored in config files in my home directory, which isn’t best practice in a Docker container that I want to make public. Instead, I can put all my secrets in a .env file and reference them in the Docker container. This can be done using the –env-file flag when running my Docker container.</p>
 </div>
 <div id="portability" class="section level1">
 <h1>Portability</h1>
-<p>The final goal on my list is making the container portable between my multiple machines. This is resolved through the use of docker hub, which will allow me to download the image from docker hub. The only other thing I need is to make sure docker is set up on the other machine. For this I wrote a quick script to do this nicely.</p>
+<p>The final goal on my list is to make the container portable between my multiple machines. This is achieved through the use of Docker Hub, which will allow me to download the image from Docker Hub. The only other thing I need is to ensure that Docker is set up on the other machine. For this, I have written a quick script to handle the setup process.</p>
 <pre class="bash"><code>#!/bin/bash
 set -e
 
@@ -408,7 +410,7 @@ docker run -it \
   -v /var/run/docker.sock:/var/run/docker.sock \
   fonzzy1/vim \
   /bin/bash -c &quot;gh auth setup-git; git config --global --add safe.directory /$dir_name; vim&quot;</code></pre>
-<p>So I decided, to make this into a little python script that allows me to quickly run these commands. I also added an integration with gh that lets me clone repo’s in to edit them on the fly.</p>
+<p>So I decided to make this into a little Python script that allows me to quickly run these commands. I also added an integration with <code>gh</code> that lets me clone repos in order to edit them on the fly.</p>
 <pre class="python"><code>#!/bin/python3
 import subprocess
 import argparse
@@ -569,7 +571,7 @@ if __name__ == &quot;__main__&quot;:
         <line x1="16" y1="17" x2="8" y2="17"></line>
         <polyline points="10 9 9 9 8 9"></polyline>
       </svg>
-      1703 Words
+      1697 Words
     </p>
   </div>
 
