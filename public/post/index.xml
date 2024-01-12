@@ -5,8 +5,196 @@
         <description>Recent content in Posts on Alfie Chadwick</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 07 Jan 2024 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate>
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Making my ODE solver solve ODEs</title>
+            <link>/2024/01/12/making-my-ode-solver-solve-odes/</link>
+            <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
+            
+            <guid>/2024/01/12/making-my-ode-solver-solve-odes/</guid>
+            <description>After writing out the last post where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of the domain. To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</description>
+            <content type="html"><![CDATA[
+
+
+<p>After writing out the <a href="/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/">last post</a> where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of the domain. To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</p>
+<div id="a-different-type-of-linear" class="section level1">
+<h1>A different type of Linear</h1>
+<p>A common way to talk about ODEs are by grouping them into linear and non-linear. Linear ODEs can be written in the form <span class="math inline">\(a_0(x)y + a_1(x)y&#39; + ... + a_n(x)y^{n} = b(x)\)</span>, where <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are arbitrary functions, while the rest are considered non-linear. For the case of this solver, I want to provide a new class of ODEs that I’ll call constant-linear ODEs, where <span class="math inline">\(a\)</span> is always a constant and <span class="math inline">\(b\)</span> will be in the form <span class="math inline">\(x * b + c\)</span>. This means that a constant-linear ODE can be expressed in the form <span class="math inline">\(a_0 \cdot y + a_1 \cdot y&#39; + ... + a_n \cdot y^{n} = b \cdot x + c\)</span>. This may seem like a very restrictive requirement, but there are many famous examples of this kind of equation including:</p>
+<ol style="list-style-type: decimal">
+<li><p>Simple Harmonic Motion:
+<span class="math display">\[ y&#39;&#39; + \omega^2 y = 0 \]</span></p></li>
+<li><p>Radioactive Decay:
+<span class="math display">\[ \frac{dy}{dt} = -\lambda y \]</span></p></li>
+<li><p>RC Circuit Equation:
+<span class="math display">\[ y&#39; + \frac{1}{RC} y = 0 \]</span></p></li>
+<li><p>Damped Harmonic Oscillator:
+<span class="math display">\[ y&#39;&#39; + 2\gamma y&#39; + \omega_0^2 y = 0 \]</span></p></li>
+<li><p>Heat Equation (One-Dimensional):
+<span class="math display">\[ u&#39;&#39; - \frac{1}{\alpha} u&#39;= 0 \]</span></p></li>
+<li><p>Exponential Growth or Decay:
+<span class="math display">\[ y&#39; = ky \]</span></p></li>
+</ol>
+</div>
+<div id="a-new-way-to-think-about-odes" class="section level1">
+<h1>A new way to think about ODEs</h1>
+<p>Pivoting for a moment, I want to take a quick moment to reframe how we are imagining ODEs. Most of the time, we see ODEs as curves in space and/or time, but I want to reframe them as planes in a vector space.</p>
+<p>Each point in this space is read as describing a state of a curve, such that a vector in this space describes:</p>
+<p><span class="math display">\[\begin{bmatrix}
+1\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} 
+\]</span></p>
+<p>For example, for the equation <span class="math inline">\(y&#39; = 2x\)</span>, there is a plane that contains all valid points that meet this requirement, this plane looks like</p>
+<p><img src="/post/taylor-series/post-3_files/figure-html/vector-space-1.png" width="614" />
+Then a specific solution to the ODE exists as a curve that sits on this plane. For example, for the IVP that starts at (0,0), the solution follows this curve:</p>
+<p><img src="/post/taylor-series/post-3_files/figure-html/vector-space-line-3.png" width="672" /></p>
+<div id="but-why-does-this-matter" class="section level2">
+<h2>But Why Does This Matter</h2>
+<p>The reason that we want to reframe ODEs in this way is beause of the following fact:</p>
+<p><strong>For all constant-linear ODEs, we can express the ODE as a matrix such that applying it to any point in the vector space would map any point to a valid point on the curve defined by the ODE</strong></p>
+<p>Looking at the equations above, these matrices (<span class="math inline">\(T\)</span>) are:</p>
+<ol style="list-style-type: decimal">
+<li><p>Simple Harmonic Motion:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; -\omega^2 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p></li>
+<li><p>Radioactive Decay:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; -\lambda &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>RC Circuit Equation:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; \frac{-1}{RC} &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Damped Harmonic Oscillator:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; -\omega^2 &amp; -2\gamma &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Heat Equation (One-Dimensional):
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; \frac{1}{\alpha} &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Exponential Growth or Decay:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; k &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+</ol>
+</div>
+<div id="using-these-to-fit-odes" class="section level2">
+<h2>Using these to fit ODEs</h2>
+<p>Now that we can express the ODEs in the form of a matrix, we can implement these matriexies in the ODE solver package to make the solution fit the ode.
+It’s important here to note that I’ve diverted from my old definitions of <span class="math inline">\(Y\)</span> here, where the first element of the vector is <span class="math inline">\(y(x)\)</span>.</p>
+<p>To make a step in the approximation we use the following equation:</p>
+<p><span class="math display">\[ \begin{bmatrix}
+1 \\
+x+h \\ 
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  S \cdot \begin{bmatrix}
+1 \\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}
+\epsilon \]</span></p>
+<p>Where <span class="math inline">\(S\)</span> is:
+<span class="math display">\[ \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; ... &amp; 0 \\
+h &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; ... &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}\]</span></p>
+<p>When making this step, the error in the approximation will move the point away from the plane that contains all valid solutions to the ODE, and therefore we will have to snap it back using one of the transformation matrices (<span class="math inline">\(T\)</span>).</p>
+<p>Implementing this in code</p>
+<pre class="python"><code>def expanded_euler(dims, h):
+    step_matrix = np.zeros((dims, dims))
+    for i in range(dims):
+        for j in range(i, dims):
+            # Is 1, and h at j-i =0, 1 respectively
+            step_matrix[i, j] = h ** (j - i) / math.factorial(j - i)
+    expanded_matrix = add_x_and_1(step_matrix, h)
+    return expanded_matrix
+
+
+def add_x_and_1(original_matrix, h):
+    new_size = len(original_matrix) + 2
+    new_matrix = np.zeros((new_size, new_size), dtype=original_matrix.dtype)
+
+    # Set the 2x2 top left matrix
+    new_matrix[0:2, 0:2] = [[1, 0], [h, 1]]
+
+    # Copy the original matrix to the bottom right of the new matrix.
+    new_matrix[2:, 2:] = original_matrix
+    return new_matrix
+
+
+def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
+    dims = len(y) - 2
+    step_matrix = transformation_matrix @ step_matrix_generator(dims, h)
+    output_list = []
+
+    y_n = y.copy()
+    i = 0
+    while i &lt; steps:
+        y_n = step_matrix @ y_n
+        output_list.append(y_n)
+        i += 1</code></pre>
+<p>Applying this to the above example of <span class="math inline">\(y&#39;=2x\)</span> that starts at (0,0):</p>
+<pre class="python"><code>init_y = [1,0,0,0] #[1,x,y,y&#39;]
+transformation_matrix = np.array([
+   [ 1,0,0,0 ],
+   [ 0,1,0,0 ],
+   [ 0,0,1,0 ],
+   [ 0,2,0,0 ]
+])
+solution = linear(
+    init_y,
+    expanded_euler,
+    transformation_matrix,
+    steps=100, h=0.01)</code></pre>
+<p><img src="/post/taylor-series/post-3_files/figure-html/example_plo-5.png" width="672" /></p>
+</div>
+</div>
+]]></content>
+        </item>
         
         <item>
             <title>DIY Dev-Containers</title>
@@ -366,11 +554,11 @@ if __name__ == &quot;__main__&quot;:
         </item>
         
         <item>
-            <title>Using Taylor Series to Improve the Euler Method: Part 2</title>
-            <link>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</link>
+            <title>Making a Python Library to solve differential Equations</title>
+            <link>/2023/12/29/making-a-python-library-to-solve-differential-equations/</link>
             <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
             
-            <guid>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</guid>
+            <guid>/2023/12/29/making-a-python-library-to-solve-differential-equations/</guid>
             <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
 It also gives me a chance to see numerically how well the new method works compared to the Euler method.
 First Steps So in the last post I set out the method such that: \[ \begin{bmatrix} y(x+h)\\ y&amp;#39;(x+h)\\ y&amp;#39;&amp;#39;(x+h)\\ .</description>
@@ -828,11 +1016,11 @@ function ticked() {
         </item>
         
         <item>
-            <title>Using Taylor Series to Improve the Euler Method: Part 1</title>
-            <link>/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/</link>
+            <title>Using Taylor Series to Improve the Euler Method</title>
+            <link>/2023/12/18/using-taylor-series-to-improve-the-euler-method/</link>
             <pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate>
             
-            <guid>/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/</guid>
+            <guid>/2023/12/18/using-taylor-series-to-improve-the-euler-method/</guid>
             <description>Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first-order differential equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.
 This is commonly written as:
 \[ \frac{dy}{dx} = f(x, y) \] \[ y(x+h) = y(x) + hf(x, y(x)) + \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]</description>

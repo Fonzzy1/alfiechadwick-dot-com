@@ -1,5 +1,5 @@
 ---
-title: "Using Taylor Series to Improve the Euler Method: Part 2"
+title: "Making a Python Library to solve differential Equations"
 author: 'Alfie Chadwick'
 date: '2023-12-29'
 lastmod: "`r Sys.Date()`"

@@ -6,13 +6,20 @@
     <description>Recent content in Python on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Using Taylor Series to Improve the Euler Method: Part 2</title>
-      <link>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</link>
+      <title>Making my ODE solver solve ODEs</title>
+      <link>/2024/01/12/making-my-ode-solver-solve-odes/</link>
+      <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/2024/01/12/making-my-ode-solver-solve-odes/</guid>
+      <description>After writing out the last post where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of the domain. To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</description>
+    </item>
+    <item>
+      <title>Making a Python Library to solve differential Equations</title>
+      <link>/2023/12/29/making-a-python-library-to-solve-differential-equations/</link>
       <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</guid>
+      <guid>/2023/12/29/making-a-python-library-to-solve-differential-equations/</guid>
       <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.&#xA;It also gives me a chance to see numerically how well the new method works compared to the Euler method.&#xA;First Steps So in the last post I set out the method such that: \[ \begin{bmatrix} y(x+h)\\ y&amp;#39;(x+h)\\ y&amp;#39;&amp;#39;(x+h)\\ .</description>
     </item>
   </channel>

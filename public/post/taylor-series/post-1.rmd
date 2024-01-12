@@ -1,5 +1,5 @@
 ---
-title: "Using Taylor Series to Improve the Euler Method: Part 1"
+title: "Using Taylor Series to Improve the Euler Method"
 author: 'Alfie Chadwick'
 date: '2023-12-18'
 lastmod: "`r Sys.Date()`"
