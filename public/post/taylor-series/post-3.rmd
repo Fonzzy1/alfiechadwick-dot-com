@@ -8,7 +8,7 @@ output:
   blogdown::html_page
 ---
 
-After writing out the [last post](/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/) where I wrote out a python library for using an improved version of Euler's method to solve ODEs. But so far, we haven't been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.
+After writing out the [last post](/2023/12/29/making-a-python-library-to-solve-differential-equations/) where I wrote out a python library for using an improved version of Euler's method to solve ODEs. But so far, we haven't been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.
 
 # Simplifying ODEs: Constant-Linear ODEs
 

@@ -18,7 +18,7 @@
             <content type="html"><![CDATA[
 
 
-<p>After writing out the <a href="/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/">last post</a> where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</p>
+<p>After writing out the <a href="/2023/12/29/making-a-python-library-to-solve-differential-equations/">last post</a> where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</p>
 <div id="simplifying-odes-constant-linear-odes" class="section level1">
 <h1>Simplifying ODEs: Constant-Linear ODEs</h1>
 <p>ODEs are often categorized as linear or non-linear. Linear ODEs take the form <span class="math inline">\(a_0(x)y + a_1(x)y&#39; + ... + a_n(x)y^{n} = b(x)\)</span>, with both <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> representing functions of <span class="math inline">\(x\)</span>, while Non-linear equations are all the others. In our solver’s context, we’ll concentrate on a subset I’ve termed “constant-linear” ODEs, characterized by constant coefficients for <span class="math inline">\(y\)</span> terms and a linear function of <span class="math inline">\(x\)</span> for <span class="math inline">\(b\)</span>. Specifically, a constant-linear ODE looks like <span class="math inline">\(a_0y + a_1y&#39; + ... + a_ny^{n} = bx + c\)</span>.<br />
@@ -578,7 +578,7 @@ First Steps So in the last post I set out the method such that: \[ \begin{bmatri
             <content type="html"><![CDATA[
 
 
-<p>After having the initial idea I wrote up in a <a href="/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/">previous post</a>, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.</p>
+<p>After having the initial idea I wrote up in a <a href="2023/12/18/using-taylor-series-to-improve-the-euler-method/">previous post</a>, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.</p>
 <p>It also gives me a chance to see numerically how well the new method works compared to the Euler method.</p>
 <div id="first-steps" class="section level1">
 <h1>First Steps</h1>
