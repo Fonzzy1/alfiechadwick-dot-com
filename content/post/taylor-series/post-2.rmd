@@ -1,5 +1,5 @@
 ---
-title: "Using Taylor Series to Improve the Euler Method: Part 2"
+title: "Making a Python Library to solve differential Equations"
 author: 'Alfie Chadwick'
 date: '2023-12-29'
 lastmod: "`r Sys.Date()`"
@@ -8,7 +8,7 @@ output:
   blogdown::html_page
 ---
 
-After having the initial idea I wrote up in a [previous post](/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/), I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
+After having the initial idea I wrote up in a [previous post](2023/12/18/using-taylor-series-to-improve-the-euler-method/), I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
 
 It also gives me a chance to see numerically how well the new method works compared to the Euler method.
 

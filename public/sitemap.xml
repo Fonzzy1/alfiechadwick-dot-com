@@ -3,7 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2024-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/algebra/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/calculus/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/2024/01/12/making-my-ode-solver-solve-odes/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/python/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/devops/</loc>
     <lastmod>2024-01-07T00:00:00+00:00</lastmod>
@@ -14,26 +32,11 @@
     <loc>/tags/docker/</loc>
     <lastmod>2024-01-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/</loc>
-    <lastmod>2024-01-07T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2024-01-07T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/vim/</loc>
     <lastmod>2024-01-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/algebra/</loc>
-    <lastmod>2023-12-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/calculus/</loc>
-    <lastmod>2023-12-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/python/</loc>
-    <lastmod>2023-12-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/</loc>
-    <lastmod>2023-12-29T00:00:00+00:00</lastmod>
+    <loc>/2023/12/29/making-a-python-library-to-solve-differential-equations/</loc>
+    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</loc>
     <lastmod>2023-12-28T00:00:00+00:00</lastmod>
@@ -44,8 +47,8 @@
     <loc>/tags/visualizations/</loc>
     <lastmod>2023-12-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2023/12/18/using-taylor-series-to-improve-the-euler-method-part-1/</loc>
-    <lastmod>2023-12-29T00:00:00+00:00</lastmod>
+    <loc>/2023/12/18/using-taylor-series-to-improve-the-euler-method/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/ideas/</loc>
     <lastmod>2023-12-16T00:00:00+00:00</lastmod>

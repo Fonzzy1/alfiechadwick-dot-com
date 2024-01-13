@@ -1,0 +1,200 @@
+---
+title: "Making my ODE solver solve ODEs"
+author: 'Alfie Chadwick'
+date: '2024-01-12'
+lastmod: "2024-01-13"
+Tags: ['Calculus', 'Algebra','Python']
+output:
+  blogdown::html_page
+---
+
+
+
+<p>After writing out the <a href="/2023/12/29/making-a-python-library-to-solve-differential-equations/">last post</a> where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</p>
+<div id="simplifying-odes-constant-linear-odes" class="section level1">
+<h1>Simplifying ODEs: Constant-Linear ODEs</h1>
+<p>ODEs are often categorized as linear or non-linear. Linear ODEs take the form <span class="math inline">\(a_0(x)y + a_1(x)y&#39; + ... + a_n(x)y^{n} = b(x)\)</span>, with both <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> representing functions of <span class="math inline">\(x\)</span>, while Non-linear equations are all the others. In our solver’s context, we’ll concentrate on a subset I’ve termed “constant-linear” ODEs, characterized by constant coefficients for <span class="math inline">\(y\)</span> terms and a linear function of <span class="math inline">\(x\)</span> for <span class="math inline">\(b\)</span>. Specifically, a constant-linear ODE looks like <span class="math inline">\(a_0y + a_1y&#39; + ... + a_ny^{n} = bx + c\)</span>.<br />
+This may seem like a very restrictive requirement, but there are many famous examples of this kind of equation including:</p>
+<ol style="list-style-type: decimal">
+<li><p>Simple Harmonic Motion:
+<span class="math display">\[ y&#39;&#39; + \omega^2 y = 0 \]</span></p></li>
+<li><p>Radioactive Decay:
+<span class="math display">\[ \frac{dy}{dt} = -\lambda y \]</span></p></li>
+<li><p>RC Circuit Equation:
+<span class="math display">\[ y&#39; + \frac{1}{RC} y = 0 \]</span></p></li>
+<li><p>Damped Harmonic Oscillator:
+<span class="math display">\[ y&#39;&#39; + 2\gamma y&#39; + \omega_0^2 y = 0 \]</span></p></li>
+<li><p>Heat Equation (One-Dimensional):
+<span class="math display">\[ u&#39;&#39; - \frac{1}{\alpha} u&#39;= 0 \]</span></p></li>
+<li><p>Exponential Growth or Decay:
+<span class="math display">\[ y&#39; = ky \]</span></p></li>
+</ol>
+</div>
+<div id="a-quick-diversion-odes-in-vector-space" class="section level1">
+<h1>A Quick Diversion: ODEs in Vector Space</h1>
+<p>Pivoting for a moment, I want to take a quick moment to reframe how we are imagining ODEs. Most of the time, we see ODEs as curves in space and/or time, but I want to reframe them as planes in a vector space.</p>
+<p>Each point in this vector space describes the state of a point along a curve, such that a values of the vector give:</p>
+<p><span class="math display">\[\begin{bmatrix}
+1\\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix} 
+\]</span></p>
+<p>This means that an ODE can be defined by a plane that contains all the points which meet the requirements of the ODE.</p>
+<p>For example, for the equation <span class="math inline">\(y&#39; = 2x\)</span> this plane looks like:</p>
+<p><img src="/post/taylor-series/post-3_files/figure-html/vector-space-1.png" width="614" /></p>
+<p>Then a specific solution to the ODE exists as a curve that sits on this plane. For example, for the IVP that starts at (0,0), the solution follows this curve:</p>
+<p><img src="/post/taylor-series/post-3_files/figure-html/vector-space-line-3.png" width="672" /></p>
+<div id="but-why-does-this-matter" class="section level2">
+<h2>But Why Does This Matter</h2>
+<p>The reason that we want to reframe ODEs in this way is because of the following fact:</p>
+<p><strong>For all constant-linear ODEs, we can express the ODE as a matrix such that applying it to any point in the vector space would map any point to a valid point on the curve defined by the ODE</strong><br />
+</p>
+<p>Looking at the equations above, these matrices (<span class="math inline">\(T\)</span>) are:</p>
+<ol style="list-style-type: decimal">
+<li><p>Simple Harmonic Motion:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; -\omega^2 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p></li>
+<li><p>Radioactive Decay:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; -\lambda &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>RC Circuit Equation:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; \frac{-1}{RC} &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Damped Harmonic Oscillator:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; -\omega^2 &amp; -2\gamma &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Heat Equation (One-Dimensional):
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; \frac{1}{\alpha} &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+<li><p>Exponential Growth or Decay:
+<span class="math display">\[T = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; k &amp; 0\\
+\end{bmatrix}\]</span></p></li>
+</ol>
+</div>
+<div id="using-these-to-fit-odes" class="section level2">
+<h2>Using these to fit ODEs</h2>
+<p>Now that we can express the ODEs in the form of a matrix, we can implement these matriexies in the ODE solver package to make the solution fit the ode.
+It’s important here to note that I’ve diverted from my old definitions of <span class="math inline">\(Y\)</span> here, where the first element of the vector is <span class="math inline">\(y(x)\)</span>.</p>
+<p>To make a step in the approximation we use the following equation:</p>
+<p><span class="math display">\[ \begin{bmatrix}
+1 \\
+x+h \\ 
+y(x+h)\\
+y&#39;(x+h)\\
+y&#39;&#39;(x+h)\\
+...\\
+y^{n}(x+h)\\
+\end{bmatrix} =  S \cdot \begin{bmatrix}
+1 \\
+x\\
+y(x)\\
+y&#39;(x)\\
+y&#39;&#39;(x)\\
+...\\
+y^{n}(x)\\
+\end{bmatrix}
+\epsilon \]</span></p>
+<p>Where <span class="math inline">\(S\)</span> is:
+<span class="math display">\[ \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; ... &amp; 0 \\
+h &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; ... &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
+... &amp; ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
+\end{bmatrix}\]</span></p>
+<p>When making this step, the error in the approximation will move the point away from the plane that contains all valid solutions to the ODE, and therefore we will have to snap it back using one of the transformation matrices (<span class="math inline">\(T\)</span>).</p>
+<p>Implementing this method in our python library:</p>
+<pre class="python"><code>def expanded_euler(dims, h):
+    step_matrix = np.zeros((dims, dims))
+    for i in range(dims):
+        for j in range(i, dims):
+            # Is 1, and h at j-i =0, 1 respectively
+            step_matrix[i, j] = h ** (j - i) / math.factorial(j - i)
+    expanded_matrix = add_x_and_1(step_matrix, h)
+    return expanded_matrix
+
+
+def add_x_and_1(original_matrix, h):
+    new_size = len(original_matrix) + 2
+    new_matrix = np.zeros((new_size, new_size), dtype=original_matrix.dtype)
+
+    # Set the 2x2 top left matrix
+    new_matrix[0:2, 0:2] = [[1, 0], [h, 1]]
+
+    # Copy the original matrix to the bottom right of the new matrix.
+    new_matrix[2:, 2:] = original_matrix
+    return new_matrix
+
+
+def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
+    dims = len(y) - 2
+    step_matrix = transformation_matrix @ step_matrix_generator(dims, h)
+    output_list = []
+
+    y_n = y.copy()
+    i = 0
+    while i &lt; steps:
+        y_n = step_matrix @ y_n
+        output_list.append(y_n)
+        i += 1</code></pre>
+<p>Bind this machinery together, and you get a tool capable of tackling the initial example of <span class="math inline">\(y&#39; = 2x\)</span> passing through the point (0,0):</p>
+<pre class="python"><code>init_y = [1,0,0,0] #[1,x,y,y&#39;]
+transformation_matrix = np.array([
+   [ 1,0,0,0 ],
+   [ 0,1,0,0 ],
+   [ 0,0,1,0 ],
+   [ 0,2,0,0 ]
+])
+solution = linear(
+    init_y,
+    expanded_euler,
+    transformation_matrix,
+    steps=100, h=0.01)</code></pre>
+<p><img src="/post/taylor-series/post-3_files/figure-html/example_plo-5.png" width="672" /></p>
+</div>
+</div>
+<div id="whats-next" class="section level1">
+<h1>What’s Next?</h1>
+<p>This method seems to work pretty well and follows the true solution pretty closely. I’m going to stop here for now but there are many things on my wishlist that I want to build in later posts. This includes:</p>
+<ul>
+<li>Solving IVPs which aren’t constant-linear</li>
+<li>Solving BVPs</li>
+<li>Applying this method to PDEs</li>
+</ul>
+<p>Stay tuned for more posts in this series where I try to implement these features into my solver!</p>
+</div>
