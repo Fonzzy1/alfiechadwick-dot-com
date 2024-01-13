@@ -13,7 +13,7 @@
       <link>/2024/01/12/making-my-ode-solver-solve-odes/</link>
       <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
       <guid>/2024/01/12/making-my-ode-solver-solve-odes/</guid>
-      <description>After writing out the last post where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of the domain. To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</description>
+      <description>After writing out the last post where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</description>
     </item>
     <item>
       <title>DIY Dev-Containers</title>

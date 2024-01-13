@@ -8,11 +8,13 @@ output:
   blogdown::html_page
 ---
 
-After writing out the [last post](/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/) where I wrote out a python library for using an improved version of Euler's method to solve ODEs. But so far, we haven't been solving ODES, instead we have just been taking an initial value and iterating it over the length of the domain. To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.
+After writing out the [last post](/2023/12/29/using-taylor-series-to-improve-the-euler-method-part-2/) where I wrote out a python library for using an improved version of Euler's method to solve ODEs. But so far, we haven't been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.
 
-# A different type of Linear
+# Simplifying ODEs: Constant-Linear ODEs
 
-A common way to talk about ODEs are by grouping them into linear and non-linear. Linear ODEs can be written in the form $a_0(x)y + a_1(x)y' + ... + a_n(x)y^{n} = b(x)$, where $a$ and $b$ are arbitrary functions, while the rest are considered non-linear. For the case of this solver, I want to provide a new class of ODEs that I'll call constant-linear ODEs, where $a$ is always a constant and $b$ will be in the form $x * b + c$. This means that a constant-linear ODE can be expressed in the form $a_0 \cdot y + a_1 \cdot y' + ... + a_n \cdot y^{n} = b \cdot x + c$. This may seem like a very restrictive requirement, but there are many famous examples of this kind of equation including:
+ODEs are often categorized as linear or non-linear. Linear ODEs take the form $a_0(x)y + a_1(x)y' + ... + a_n(x)y^{n} = b(x)$, with both $a$ and $b$ representing functions of $x$, while  Non-linear equations are all the others. In our solver's context, we'll concentrate on a subset I've termed "constant-linear" ODEs, characterized by constant coefficients for $y$ terms and a linear function of $x$ for $b$. Specifically, a constant-linear ODE looks like $a_0y + a_1y' + ... + a_ny^{n} = bx + c$.
+\
+This may seem like a very restrictive requirement, but there are many famous examples of this kind of equation including:
 
 
 1. Simple Harmonic Motion:
@@ -33,11 +35,11 @@ A common way to talk about ODEs are by grouping them into linear and non-linear.
 6. Exponential Growth or Decay:
    \[ y' = ky \]
 
-# A new way to think about ODEs
+# A Quick Diversion: ODEs in Vector Space
 
 Pivoting for a moment, I want to take a quick moment to reframe how we are imagining ODEs. Most of the time, we see ODEs as curves in space and/or time, but I want to reframe them as planes in a vector space.
 
-Each point in this space is read as describing a state of a curve, such that a vector in this space describes:
+Each point in this vector space describes the state of a point along a curve, such that a values of the vector give:
 
 $$\begin{bmatrix}
 1\\
@@ -50,7 +52,9 @@ y^{n}(x)\\
 \end{bmatrix} 
 $$
 
-For example, for the equation $y' = 2x$, there is a plane that contains all valid points that meet this requirement, this plane looks like
+This means that an ODE can be defined by a plane that contains all the points which meet the requirements of the ODE.
+
+For example, for the equation $y' = 2x$ this plane looks like:
 
 ```{python vector-space, echo = FALSE}
 
@@ -85,6 +89,7 @@ ax.set_ylabel("Y'")
 plt.show()
 
 ```
+
 Then a specific solution to the ODE exists as a curve that sits on this plane. For example, for the IVP that starts at (0,0), the solution follows this curve:
 
 ```{python vector-space-line, echo = FALSE}
@@ -122,9 +127,10 @@ plt.show()
 
 ## But Why Does This Matter
 
-The reason that we want to reframe ODEs in this way is beause of the following fact:
+The reason that we want to reframe ODEs in this way is because of the following fact:
 
 **For all constant-linear ODEs, we can express the ODE as a matrix such that applying it to any point in the vector space would map any point to a valid point on the curve defined by the ODE**
+\
 
 Looking at the equations above, these matrices ($T$) are:
 
@@ -220,8 +226,7 @@ h & 1 & 0 & 0 & 0 & ... & 0 \\
 
 When making this step, the error in the approximation will move the point away from the plane that contains all valid solutions to the ODE, and therefore we will have to snap it back using one of the transformation matrices ($T$).
 
-
-Implementing this in code
+Implementing this method in our python library:
 
 ```{python solver_code}
 def expanded_euler(dims, h):
@@ -259,7 +264,7 @@ def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
         i += 1
 ```
 
-Applying this to the above example of $y'=2x$ that starts at (0,0):
+Bind this machinery together, and you get a tool capable of tackling the initial example of $y' = 2x$ passing through the point (0,0):
 
 ```{python example-setup, echo = FALSE}
 import numpy as np
@@ -342,4 +347,14 @@ plt.grid(True) # Show a grid for better readability
 plt.legend()
 plt.show()
 ```
+
+# What's Next?
+
+This method seems to work pretty well and follows the true solution pretty closely. I'm going to stop here for now but there are many things on my wishlist that I want to build in later posts. This includes:
+
+- Solving IVPs which aren't constant-linear
+- Solving BVPs
+- Applying this method to PDEs
+
+Stay tuned for more posts in this series where I try to implement these features into my solver!
 
