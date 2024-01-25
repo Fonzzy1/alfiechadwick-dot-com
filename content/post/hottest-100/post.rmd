@@ -1,0 +1,9 @@
+---
+title: 'Predicting the 2024 Hottest 100'
+author: 'Alfie Chadwick'
+date: '2023-12-26'
+lastmod: "`r Sys.Date()`"
+Tags: ['Music', 'Stats']
+output:
+  blogdown::html_page:
+---
