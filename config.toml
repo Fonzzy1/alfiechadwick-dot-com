@@ -5,7 +5,17 @@ paginate = 10
 title = "Alfie Chadwick"
 googleAnalytics = ""
 disqusShortname = ""
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+ignoreFiles = [
+  "\\.Rmd$", 
+  "\\.Rmarkdown$", 
+  "_cache$", 
+  "\\.knit\\.md$", 
+  "\\.utf8\\.md$", 
+  "\\.rmd$", 
+  "\\.py$", 
+  "/build/", 
+  "/data/"
+]
 
 [permalinks]
     post = "/:year/:month/:day/:slug/" 

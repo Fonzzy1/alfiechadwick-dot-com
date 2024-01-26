@@ -5,8 +5,46 @@
         <description>Recent content in Posts on Alfie Chadwick</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 26 Jan 2024 00:00:00 +0000</lastBuildDate>
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Predicting the 2023 Hottest 100</title>
+            <link>/2024/01/26/predicting-the-2023-hottest-100/</link>
+            <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+            
+            <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
+            <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by [100 Warm Tunas] (https://100warmtunas.com/) that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
+            <content type="html"><![CDATA[
+
+
+<p>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown.
+And for the last few years, there’s been a project run by [100 Warm Tunas] (<a href="https://100warmtunas.com/" class="uri">https://100warmtunas.com/</a>) that has been really accurate at predicting the results of the countdown.
+Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</p>
+<p>So I’ve set out this year to try and work out what songs will come top in the 2023 countdown, without looking at anything related to the voting itself.</p>
+<div id="my-hypotheses" class="section level2">
+<h2>My Hypotheses</h2>
+<p>Heading into this, I have a few ideas as to factors that will make a song perform well in the countdown:</p>
+<div id="plays-on-triple-j" class="section level3">
+<h3>Plays on Triple J</h3>
+<p>I feel this factor is pretty self explanatory, if a song is being played a lot on triple j, it’s most likely popular with the listener base and will get more votes in the Hottest 100</p>
+</div>
+<div id="chart-success" class="section level3">
+<h3>Chart Success</h3>
+<p>This one is a bit weirder, as I don’t think that just getting to number one in the aria charts will make you a top pick for triple j listeners, or else the countdown would be topped by the years biggest Pop hits. If a song is too popular in the mainstream it seems falls out of favour with triple J listeners, however there are some notable exceptions to this such as Bad Guy by Billie Eilish and Thift Shop by Macklemore who both too out the top spot in their respective years.</p>
+</div>
+<div id="time-of-release-and-peak" class="section level3">
+<h3>Time of Release and Peak</h3>
+<p>This idea is commonly thrown around when talking about the Oscars, so I feel that it’s probably going to be applicable to the hottest 100 as well. Being at peak popularity when people are voting is probably going to be usefull. Similarly, a song that hung around for a long time will probably be voted for more than a song that only hung around for a week.</p>
+</div>
+</div>
+<div id="play-data" class="section level1">
+<h1>Play Data</h1>
+<p>I gathered the data for all plays on Triple J for the last 8 years from their <a href="https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&amp;offset=0&amp;page=0&amp;station=triplej">API</a>, which left me a data set looking like this:</p>
+<p><img src="/post/hottest-100/post_files/figure-html/dataset-1.png" width="672" /></p>
+</div>
+]]></content>
+        </item>
         
         <item>
             <title>Making my ODE solver solve ODEs</title>

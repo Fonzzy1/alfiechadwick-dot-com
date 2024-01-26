@@ -6,8 +6,29 @@
     <description>Recent content in Tags on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jan 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Music</title>
+      <link>/tags/music/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/music/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stats</title>
+      <link>/tags/stats/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/stats/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Visualizations</title>
+      <link>/tags/visualizations/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/visualizations/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Algebra</title>
       <link>/tags/algebra/</link>
@@ -55,13 +76,6 @@
       <link>/tags/javascript/</link>
       <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
       <guid>/tags/javascript/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Visualizations</title>
-      <link>/tags/visualizations/</link>
-      <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/visualizations/</guid>
       <description></description>
     </item>
     <item>

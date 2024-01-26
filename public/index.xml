@@ -6,8 +6,15 @@
     <description>Recent content on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jan 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Predicting the 2023 Hottest 100</title>
+      <link>/2024/01/26/predicting-the-2023-hottest-100/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
+      <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by [100 Warm Tunas] (https://100warmtunas.com/) that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
+    </item>
     <item>
       <title>Making my ODE solver solve ODEs</title>
       <link>/2024/01/12/making-my-ode-solver-solve-odes/</link>
