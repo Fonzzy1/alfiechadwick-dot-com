@@ -13,7 +13,7 @@
       <link>/2024/01/26/predicting-the-2023-hottest-100/</link>
       <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
       <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
-      <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by [100 Warm Tunas] (https://100warmtunas.com/) that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
+      <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by 100 Warm Tunas that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
     </item>
     <item>
       <title>Making my ODE solver solve ODEs</title>

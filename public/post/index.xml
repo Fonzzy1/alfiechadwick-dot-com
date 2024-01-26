@@ -14,12 +14,12 @@
             <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
             
             <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
-            <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by [100 Warm Tunas] (https://100warmtunas.com/) that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
+            <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by 100 Warm Tunas that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
             <content type="html"><![CDATA[
 
 
 <p>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown.
-And for the last few years, there’s been a project run by [100 Warm Tunas] (<a href="https://100warmtunas.com/" class="uri">https://100warmtunas.com/</a>) that has been really accurate at predicting the results of the countdown.
+And for the last few years, there’s been a project run by <a href="https://100warmtunas.com/">100 Warm Tunas</a> that has been really accurate at predicting the results of the countdown.
 Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</p>
 <p>So I’ve set out this year to try and work out what songs will come top in the 2023 countdown, without looking at anything related to the voting itself.</p>
 <div id="my-hypotheses" class="section level2">
@@ -41,7 +41,41 @@ Warm tuna makes predictions by scraping social media posts for peoples votes and
 <div id="play-data" class="section level1">
 <h1>Play Data</h1>
 <p>I gathered the data for all plays on Triple J for the last 8 years from their <a href="https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&amp;offset=0&amp;page=0&amp;station=triplej">API</a>, which left me a data set looking like this:</p>
-<p><img src="/post/hottest-100/post_files/figure-html/dataset-1.png" width="672" /></p>
+<pre><code>##   rank                     Song                                         Artist
+## 1    1        Never Be like You                            Flume featuring Kai
+## 2    2                    Adore                                      Amy Shark
+## 3    3                   Jungle                                   Tash Sultana
+## 4    4                     1955 Hilltop Hoods featuring Montaigne and Tom Thum
+## 5    5                  Redbone                               Childish Gambino
+## 6    6 Believe (Like a Version)                                          DMA&#39;s
+##   Country.of.origin Year
+## 1  Australia/Canada 2016
+## 2         Australia 2016
+## 3         Australia 2016
+## 4         Australia 2016
+## 5     United States 2016
+## 6         Australia 2016</code></pre>
+<pre><code>##                   timestamp                  title                   artist aus
+## 1 2016-01-01T07:00:24+00:00 Learning For Your Love Marcus Marr &amp; Chet Faker  NA
+## 2 2016-01-01T07:07:30+00:00        Global Concepts            Robert DeLong  NA
+## 3 2016-01-01T07:11:13+00:00         Turn Your Love            Half Moon Run  NA
+## 4 2016-01-01T07:14:22+00:00                  Ghost              Tkay Maidza  NA
+## 5 2016-01-01T07:19:07+00:00              Body Suit                 Banoffee  NA
+## 6 2016-01-01T07:22:33+00:00             Hallelujah               The Rubens  NA
+##   duration            album_title release_year Year
+## 1      386                   Work         2015 2016
+## 2      224        Global Concepts         2012 2016
+## 3      182        Sun Leads Me On         2015 2016
+## 4      207                  Ghost         2015 2016
+## 5      218 Do I Make You Nervous?         &lt;NA&gt; 2016
+## 6      174             Hallelujah         &lt;NA&gt; 2016</code></pre>
+<p><img src="/post/hottest-100/post_files/figure-html/dataset-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/dataset-2.png" width="672" /></p>
+<div id="number-of-plays" class="section level2">
+<h2>Number of Plays</h2>
+<p>To me, the most obvious indicator of a song being popular is the number of plays that it gets, so we can start by looking at that.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/plays-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-2.png" width="672" /></p>
+<p>This plot gives us a good insight into the tends in howe tipple J picks songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge the reaction. If they take off, the songs will be played a lot, signified by the lack of songs siting around the 40-60 plays mark.</p>
+</div>
 </div>
 ]]></content>
         </item>
