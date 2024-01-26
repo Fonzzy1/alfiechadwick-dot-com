@@ -7,3 +7,102 @@ Tags: ['Music', 'Stats', 'Visualizations']
 output:
   blogdown::html_page
 ---
+
+
+```{R setup,  include=FALSE}
+
+
+library(tidyverse)
+library(catppuccin)
+
+
+theme_dark_catppuccino <- function(base_size = 11, base_family = "") {
+  theme_minimal(base_size = base_size, base_family = base_family) +
+    theme(
+      # Define colors
+      text = element_text(color = "#cad3f5"),
+      
+      # Background colors
+      plot.background = element_rect(fill = "#24273a", color = NA),
+      panel.background = element_rect(fill = "#1e2030", color = NA),
+      plot.margin = margin(5.5, 5.5, 5.5, 5.5, "pt"),
+
+      # Grid colors
+      panel.grid.major = element_line(color = "#494d64", size = 0.25),
+      panel.grid.minor = element_line(color = "#494d64", size = 0.25),
+      
+      # Axis colors and ticks
+      axis.ticks = element_line(color = "#cad3f5"),
+      axis.text = element_text(color = "#cad3f5"),
+      axis.title = element_text(color = "#cad3f5"),
+      axis.line = element_line(color = "#cad3f5"),
+      
+      # Legend colors
+      legend.background = element_rect(fill = "#363a4f"),
+      legend.text = element_text(color = "#cad3f5"),
+      legend.title = element_text(color = "#cad3f5", face = "bold"),
+      legend.position = "bottom",
+
+      # Title and subtitle
+      plot.title = element_text(color = "#b7bdf8", size = base_size * 1.2, 
+                                hjust = 0.5, face = "bold"),
+      plot.subtitle = element_text(color = "#b7bdf8", size = base_size * 0.9,
+                                   hjust = 0.5),
+                                   
+      # Caption
+      plot.caption = element_text(color = "#f4dbd6", hjust = 0.5, 
+                                  size = base_size * 0.8)
+    )
+}
+
+theme_set(theme_dark_catppuccino())
+
+```
+
+Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. 
+And for the last few years, there's been a project run by [100 Warm Tunas] (https://100warmtunas.com/) that has been really accurate at predicting the results of the countdown.
+Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.
+
+So I've set out this year to try and work out what songs will come top in the 2023 countdown, without looking at anything related to the voting itself.
+
+## My Hypotheses
+
+Heading into this, I have a few ideas as to factors that will make a song perform well in the countdown:
+
+
+### Plays on Triple J
+
+I feel this factor is pretty self explanatory, if a song is being played a lot on triple j, it's most likely popular with the listener base and will get more votes in the Hottest 100
+
+### Chart Success
+
+This one is a bit weirder, as I don't think that just getting to number one in the aria charts will make you a top pick for triple j listeners, or else the countdown would be topped by the years biggest Pop hits. If a song is too popular in the mainstream it seems falls out of favour with triple J listeners, however there are some notable exceptions to this such as Bad Guy by Billie Eilish and Thift Shop by Macklemore who both too out the top spot in their respective years.
+
+
+### Time of Release and Peak
+
+This idea is commonly thrown around when talking about the Oscars, so I feel that it's probably going to be applicable to the hottest 100 as well. Being at peak popularity when people are voting is probably going to be usefull. Similarly, a song that hung around for a long time will probably be voted for more than a song that only hung around for a week.
+
+
+# Play Data
+
+I gathered the data for all plays on Triple J for the last 8 years from their [API](https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&offset=0&page=0&station=triplej), which left me a data set looking like this:
+
+```{R dataset, echo = FALSE}
+# Use the mtcars dataset
+data(mtcars)
+
+# Create a simple bar plot with the number of cars for each number of cylinders
+ggplot(mtcars, aes(x = factor(cyl), fill = factor(cyl))) + 
+  geom_bar() + 
+  scale_fill_catppuccin(palette = "macchiato") +
+  xlab("Number of Cylinders") + 
+  ylab("Count of Cars") + 
+  ggtitle("Bar Plot of Car Counts by Number of Cylinders") 
+
+
+```
+
+
+
+
