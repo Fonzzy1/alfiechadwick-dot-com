@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ML on Alfie Chadwick</title>
+    <link>/tags/ml/</link>
+    <description>Recent content in ML on Alfie Chadwick</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 26 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/ml/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Predicting the 2023 Hottest 100</title>
+      <link>/2024/01/26/predicting-the-2023-hottest-100/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
+      <description>Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the last few years, there’s been a project run by 100 Warm Tunas that has been really accurate at predicting the results of the countdown. Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.</description>
+    </item>
+  </channel>
+</rss>

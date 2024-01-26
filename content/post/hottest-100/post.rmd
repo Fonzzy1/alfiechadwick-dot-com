@@ -3,7 +3,7 @@ title: 'Predicting the 2023 Hottest 100'
 author: 'Alfie Chadwick'
 date: '2024-01-26'
 lastmod: "`r Sys.Date()`"
-Tags: ['Music', 'Stats', 'Visualizations']
+Tags: ['Music', 'Stats', 'Visualizations', 'ML']
 output:
   blogdown::html_page
 ---
@@ -11,12 +11,13 @@ output:
 
 ```{R setup,  include=FALSE}
 
-
 library(tidyverse)
 library(catppuccin)
 library(jsonlite)
 library(patchwork)
 library(lubridate)
+
+knitr::opts_chunk$set( echo = FALSE, warning = FALSE, message = FALSE)
 
 
 theme_dark_catppuccino <- function(base_size = 11, base_family = "") {
@@ -149,6 +150,7 @@ p1
 p2
 ```
 
+
 ## Number of Plays
 
 To me, the most obvious indicator of a song being popular is the number of plays that it gets, so we can start by looking at that.
@@ -188,13 +190,179 @@ combined_plays %>%
 
 These plots give us a good insight into the trends in how Triple J picks songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge the reaction. If they take off, the songs will be played a lot, signified by the lack of songs siting around the 40-60 plays mark. But very few get played an excessive amount, with very few making it past the 200 mark.
 
-We can also see here some impact of being released early in the year, 
+We can also see here some impact of being released early in the year,  as these songs have the opportunity to be played more in a year, hence the downward slope over for each year.
+
+```{R plays-vs-success , echo = FALSE, results='hide'}
+combined_results <- combined_results %>%
+  mutate(
+    Song = tolower(str_remove_all(Song, "\\s*[\\(\\)\\[\\]\\{\\}].*?[\\(\\)\\[\\]\\{\\}]")) %>%
+            str_trim(),
+    Artist = tolower(str_replace_all(Artist, "\\s*(?:feat[.:\\s]|ft[.:\\s]|featuring[.:\\s])", "&")) %>%
+              str_trim() # replace ampersands with 'and'
+  )
+
+combined_plays <- combined_plays %>%
+  mutate(
+    title = tolower(str_remove_all(title, "\\s*[\\(\\)\\[\\]\\{\\}].*?[\\(\\)\\[\\]\\{\\}]")) %>%
+            str_trim(),
+    artist = tolower(str_replace_all(artist, "\\s*(?:feat[.:\\s]|ft[.:\\s]|featuring[.:\\s])", "&")) %>%
+              str_trim() # replace ampersands with 'and'
+  )
+
+combined_data <- combined_results %>%
+  left_join(combined_plays, by = c("Song" = "title", "Artist" = "artist", 'Year'='Year')) %>%
+  filter(Year == year(ymd_hms(timestamp))) 
+ 
 
 
 
-```{R plays vs Success , echo = FALSE}
+ combined_data %>%
+ group_by(Song, Artist, rank, Year) %>%
+  summarise(number_of_plays = n(), .groups="drop") %>%
+  filter(number_of_plays > 1) %>%
+ggplot( aes(x = rank, y = number_of_plays, color = factor(Year)))+
+  geom_point()+
+  scale_color_catppuccin(palette = "macchiato") +
+  geom_smooth(color = "#cad3f5")+
+  theme(legend.position = 'right') +
+  labs(title = 'Position vs Plays', x = 'Final Position', y = "Number of Plays", color = 'Year')
+```
 
-plays_marge_results <- combined_results %>%
-     merge( combined_plays)
+Now looking at the final ranking vs the number of plays, we can see that surprisingly, the total number of plays had very little impact on the results. As expected, most songs that got into the hottest 100 were in that pool of songs that got more than 100 plays, but weather they were rank 100 or rank 1 is impossible to tell.
+
+```{R plays-vs-success-accounting-for-time , echo = FALSE, results='hide', messae = FALSE}
+
+combined_data %>%
+  group_by(Song, Artist, rank, Year, week(ymd_hms(timestamp))) %>%
+  summarise(number_of_plays_per_week = n(), .groups="drop") %>%
+  filter(number_of_plays_per_week > 7) %>%
+  group_by(Song, Artist, rank, Year) %>% 
+  summarise(peak = n(), .groups="drop") %>%
+ggplot( aes(y = rank, x = peak, color = factor(Year)))+
+  geom_point()+
+  scale_color_catppuccin(palette = "macchiato") +
+  geom_smooth(color = "#cad3f5")+
+  theme(legend.position = 'right') +
+  labs(title = 'Position vs Number of Weeks With More than 7 Plays', y = 'Final Position', x = "Number of Weeks", color = 'Year')
+
+combined_data %>%
+  group_by(Song, Artist, rank, Year, week(ymd_hms(timestamp))) %>%
+  summarise(number_of_plays_per_week = n(), .groups="drop") %>%
+  group_by(Song, Artist, rank, Year) %>%
+  summarise(peak = max(number_of_plays_per_week), .groups="drop") %>%
+ggplot( aes(y = rank, x = peak, color = factor(Year)))+
+  geom_point()+
+  scale_color_catppuccin(palette = "macchiato") +
+  geom_smooth(color = "#cad3f5")+
+  theme(legend.position = 'right') +
+  labs(title = 'Position vs Peak Plays Per Week', y = 'Final Position', x = "Number of Plays", color = 'Year')
+  
+combined_data %>%
+  group_by(Song, Artist, rank, Year, week(ymd_hms(timestamp))) %>%
+  summarise(number_of_plays_per_week = n(), .groups="drop") %>%
+  group_by(Song, Artist, rank, Year) %>%
+  summarise(peak = mean(number_of_plays_per_week), .groups="drop") %>%
+ggplot( aes(y = rank, x = peak, color = factor(Year)))+
+  geom_point()+
+  scale_color_catppuccin(palette = "macchiato") +
+  geom_smooth(color = "#cad3f5")+
+  theme(legend.position = 'right') +
+  labs(title = 'Position vs Mean Plays Per Week after First Play', y = 'Final Position', x = "Number of Plays", color = 'Year')
 
 ```
+
+The weekly play numbers try to remove any advantage that songs that were released earlier in the year may have had, and again, we see very little regarding a relationship between the number of plays that a song got and its performance.
+
+
+## Timing
+
+Another thing I wanted to look at was when and how the songs peaked in the play data.
+
+```{R week-of-peak , echo = FALSE, results='hide', messages = FALSE, warnings = FALSE}
+
+combined_data %>%
+  mutate(Week = week(ymd_hms(timestamp)), Year = year(ymd_hms(timestamp))) %>%
+  group_by(Song, Artist, Rank=rank, Year, Week) %>%
+  summarise(plays = n(), .groups = "drop") %>%
+  group_by(Song, Artist, Rank, Year) %>%
+  slice_max(order_by = plays, n = 1) %>%
+  ungroup() %>%
+ggplot( aes(x = Week, y = Rank, color = factor(Year))) +
+  geom_point()+
+  geom_smooth() +
+  scale_color_catppuccin(palette = "macchiato", discrete) +
+  labs(title = 'Week of Peak', x = 'Week', y = "Rank", color = 'Year')
+
+combined_data %>%
+  mutate(Week = week(ymd_hms(timestamp)), Year = year(ymd_hms(timestamp))) %>%
+  group_by(Song, Artist, Rank=rank, Year) %>%
+  slice_min(order_by = timestamp, n = 1) %>%
+  ungroup()  %>%
+ggplot( aes(x = Week, y = Rank, color = factor(Year))) +
+  geom_point()+
+  geom_smooth(aes(group = 1), se = FALSE) + # Single smooth line for all data
+  scale_color_catppuccin(palette = "macchiato", discrete) +
+  labs(title = 'Week of first play', x = 'Week', y = "Rank", color = 'Year')
+
+```
+
+
+
+```{R multiline , echo = FALSE, results='hide', messages = FALSE, warnings = FALSE}
+
+combined_data %>%
+  mutate(Week = week(ymd_hms(timestamp))) %>%
+  filter(rank < 4 ) %>%
+  group_by(Song, Artist, rank, Year, Week) %>%
+  summarise(plays = n(), .groups="drop") %>%
+ggplot( aes(x = Week, y = plays, color = factor(rank), group = interaction(Song, Artist))) +
+  geom_line()+
+  scale_color_catppuccin(palette = "macchiato", discrete) +
+  labs(title = 'Position history for Top 3 Tracks', x = 'Week', y = "Number of Plays", color = 'Rank')
+
+combined_data %>%
+  mutate(Week = week(ymd_hms(timestamp))) %>%
+  filter(rank > 96 ) %>%
+  group_by(Song, Artist, rank, Year, Week) %>%
+  summarise(plays = n(), .groups="drop") %>%
+ggplot( aes(x = Week, y = plays, color = factor(rank), group = interaction(Song, Artist))) +
+  geom_line()+
+  scale_color_catppuccin(palette = "macchiato", discrete) +
+  labs(title = 'Position history for Bottom 3 Tracks', x = 'Week', y = "Number of Plays", color = 'Rank')
+  
+```
+
+
+# Where we are going wrong
+
+
+```{R overall}
+
+combined_plays <- combined_plays %>% mutate(Year = year(ymd_hms(timestamp)))
+
+combined_data_full <- combined_results %>%
+  right_join(combined_plays, by = c("Song" = "title", "Artist" = "artist", 'Year' = 'Year')) %>%
+  filter(Year == year(ymd_hms(timestamp)))
+
+
+combined_data_full %>%
+  group_by(Song, Artist, rank, Year) %>%
+  summarise(
+    number_of_plays = n(),
+    first_timestamp = min(timestamp),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    DayTime = paste(yday(first_timestamp), format(first_timestamp, "%H:%M:%S"), sep=" ")
+  ) %>%
+  filter(number_of_plays > 1) %>%
+  mutate(rank_na = ifelse(is.na(rank), "No", "Yes")) %>%
+  ggplot(aes(x = DayTime, y = number_of_plays, color = rank_na)) +
+  geom_point() +
+  labs(x = "Day and Time of First Play in the Year", y = "Total Number of Plays", title = "Total Number of Plays In Release Year", color = 'Did It Make the Top 100?') +
+  theme(legend.position = 'right') +
+  scale_y_continuous(limit = c(0, NA)) 
+
+```
+
+# Fuckit XDG boost

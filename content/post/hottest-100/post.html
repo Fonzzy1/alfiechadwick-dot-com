@@ -3,7 +3,7 @@ title: 'Predicting the 2023 Hottest 100'
 author: 'Alfie Chadwick'
 date: '2024-01-26'
 lastmod: "2024-01-26"
-Tags: ['Music', 'Stats', 'Visualizations']
+Tags: ['Music', 'Stats', 'Visualizations', 'ML']
 output:
   blogdown::html_page
 ---
@@ -66,6 +66,24 @@ Warm tuna makes predictions by scraping social media posts for peoples votes and
 <h2>Number of Plays</h2>
 <p>To me, the most obvious indicator of a song being popular is the number of plays that it gets, so we can start by looking at that.</p>
 <p><img src="/post/hottest-100/post_files/figure-html/plays-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-2.png" width="672" /></p>
-<p>This plot gives us a good insight into the tends in howe tipple J picks songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge the reaction. If they take off, the songs will be played a lot, signified by the lack of songs siting around the 40-60 plays mark.</p>
+<p>These plots give us a good insight into the trends in how Triple J picks songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge the reaction. If they take off, the songs will be played a lot, signified by the lack of songs siting around the 40-60 plays mark. But very few get played an excessive amount, with very few making it past the 200 mark.</p>
+<p>We can also see here some impact of being released early in the year, as these songs have the opportunity to be played more in a year, hence the downward slope over for each year.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/plays-vs-success%20-1.png" width="672" /></p>
+<p>Now looking at the final ranking vs the number of plays, we can see that surprisingly, the total number of plays had very little impact on the results. As expected, most songs that got into the hottest 100 were in that pool of songs that got more than 100 plays, but weather they were rank 100 or rank 1 is impossible to tell.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time%20-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time%20-2.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time%20-3.png" width="672" /></p>
+<p>The weekly play numbers try to remove any advantage that songs that were released earlier in the year may have had, and again, we see very little regarding a relationship between the number of plays that a song got and its performance.</p>
 </div>
+<div id="timing" class="section level2">
+<h2>Timing</h2>
+<p>Another thing I wanted to look at was when and how the songs peaked in the play data.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/week-of-peak%20-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/week-of-peak%20-2.png" width="672" /></p>
+<p><img src="/post/hottest-100/post_files/figure-html/multiline%20-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/multiline%20-2.png" width="672" /></p>
+</div>
+</div>
+<div id="where-we-are-going-wrong" class="section level1">
+<h1>Where we are going wrong</h1>
+<p><img src="/post/hottest-100/post_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="fuckit-xdg-boost" class="section level1">
+<h1>Fuckit XDG boost</h1>
 </div>
