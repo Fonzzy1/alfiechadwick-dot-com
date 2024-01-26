@@ -53,9 +53,59 @@ def get_plays_for_year(year):
         print(next_start_time)
 
         with open(filename, "a+") as f:
-            json_str = ",\n".join([json.dumps(i) for i in played])
+            json_str = "\n".join([json.dumps(i) for i in played])
             f.write(json_str)
 
 
 pool = Pool()
 pool.map(get_plays_for_year, range(2016, 2024))
+
+
+def process_object(string):
+    try:
+        dic = json.loads(string)
+        out = {
+            "timestamp": dic["played_time"],
+            "title": dic["recording"]["title"],
+            "artist": dic["recording"]["artists"][0]["name"],
+            "aus": dic["recording"]["artists"][0]["is_australian"],
+            "duration": dic["recording"]["duration"],
+            "album_title": dic["recording"]["releases"][0]["title"],
+            "release_year": dic["recording"]["releases"][0]["release_year"],
+        }
+        return out
+    except:
+        return None
+
+
+for year in range(2016, 2024):
+    input_filename = f"data/{year}_plays.json"
+    output_filename = f"data/{year}_filtered.json"
+
+    with open(input_filename, "r") as input_file:  # Add the missing square brackets
+        uncleaned_data = input_file.read()
+        data_list = []
+        for line in uncleaned_data.split("\n"):
+            for entry in line.split("}{"):
+                string = ""
+                if not entry.startswith("{"):
+                    string = "{" + entry
+                else:
+                    string += entry
+
+                if not string.endswith("}"):
+                    if string.endswith(","):
+                        string = string[:-1]
+                    else:
+                        string += "}"
+
+                if not string.endswith("}"):
+                    string += "}"
+
+                data_list.append(string)
+
+    filtered_data = map(process_object, data_list)
+    filtered_data = [x for x in filtered_data if x is not None]
+
+    with open(output_filename, "w") as output_file:
+        output_file.write(json.dumps(filtered_data))
