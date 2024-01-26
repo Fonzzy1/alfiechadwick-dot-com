@@ -1,5 +1,5 @@
 ---
-title: 'Predicting the 2024 Hottest 100'
+title: 'Predicting the 2023 Hottest 100'
 author: 'Alfie Chadwick'
 date: '2024-01-26'
 lastmod: "`r Sys.Date()`"
