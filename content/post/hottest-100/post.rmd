@@ -96,53 +96,93 @@ combined_plays <- do.call(rbind, plays)
 
 charts <-  read_csv('https://raw.githubusercontent.com/caseybriggs/ARIA-charts/main/single_charts.csv')
 
+
+clean_artist_name <- function(artist_string) {
+  # Convert the string to lowercase
+  artist_string <- tolower(artist_string)
+  
+  # remove any text within parentheses or 
+  artist_string <- gsub("\\(.+?\\)", "", artist_string)
+  # Remove content in square brackets
+  artist_string <- gsub("\\[.+?\\]", "", artist_string)
+  
+main_artist <- unlist(strsplit(artist_string, " feat | featuring | ft | with | x | and | & | vs |, "))[1]
+
+    main_artist <- iconv(main_artist, from = "UTF-8", to = "ASCII//TRANSLIT")
+    main_artist <- gsub("[[:punct:]]", "", main_artist)
+  
+  # trim leading and trailing whitespace
+  main_artist <- trimws(main_artist)
+  
+  return(main_artist)
+}
+
+clean_song_name <- function(song_string) {
+  # Convert the string to lowercase
+  song_string <- tolower(song_string)
+  
+  # remove any text within parentheses or 
+  song_string <- gsub("\\(.+?\\)", "", song_string)
+  # Remove content in square brackets
+  song_string <- gsub("\\[.+?\\]", "", song_string)
+  
+  songname <- unlist(strsplit(song_string, " feat | featuring | ft | with "))[1]
+  
+  # trim leading and trailing whitespace
+  songname <- trimws(songname)
+  
+  return(songname)
+}
+
+
 combined_results <- combined_results %>%
   mutate(
-    Song = tolower(str_remove_all(Song, "\\s*[\\(\\)\\[\\]\\{\\}].*?[\\(\\)\\[\\]\\{\\}]")) %>%
-            str_trim(),
-    Artist = tolower(str_replace_all(Artist, "\\s*(?:feat[.:\\s]|ft[.:\\s]|featuring[.:\\s])", "&")) %>%
-              str_trim() # replace ampersands with 'and'
+    Song = map_chr(Song, clean_song_name),
+    Artist = map_chr(Artist, clean_artist_name)
+  )
+
+cleaned_pairs <- combined_plays %>%
+  distinct(title, artist)  %>%
+  mutate(
+    Song = map_chr(title, clean_song_name),
+    Artist = map_chr(artist, clean_artist_name)
   )
 
 combined_plays <- combined_plays %>%
-  mutate(
-    title = tolower(str_remove_all(title, "\\s*[\\(\\)\\[\\]\\{\\}].*?[\\(\\)\\[\\]\\{\\}]")) %>%
-            str_trim(),
-    artist = tolower(str_replace_all(artist, "\\s*(?:feat[.:\\s]|ft[.:\\s]|featuring[.:\\s])", "&")) %>%
-              str_trim() # replace ampersands with 'and'
-  )
+  left_join(cleaned_pairs, by = c("title", "artist")) %>%
+  select(-title, -artist, Song, Artist, everything()) %>%
+  filter(Year > 2015, Year < 2024) %>%
+  select(-title, -artist)
 
 charts <- charts %>%
   mutate(
-    Song = tolower(str_remove_all(title, "\\s*[\\(\\)\\[\\]\\{\\}].*?[\\(\\)\\[\\]\\{\\}]")) %>% str_trim(),
-    Artist = tolower(str_replace_all(artist, "\\s*(?:feat[.:\\s]|ft[.:\\s]|featuring[.:\\s])", "&")) %>% str_trim(),
+    Song = map_chr(title, clean_song_name),
+    Artist = map_chr(artist, clean_artist_name),
     Year = year(ymd(chart_date)),
     chart_rank = rank,
     Week = week(ymd(chart_date))
   ) %>% 
-  filter(Year > 2015, Year < 2024)
+  filter(Year > 2015, Year < 2024) %>%
+  select(-title, -artist)
 
-combined_plays <- combined_plays %>%
-  mutate(Year = year(ymd_hms(timestamp))) %>%
-  filter(Year > 2015, Year < 2024)
 
 chart_results <- combined_results %>%
   left_join(charts, by = c("Song" = "Song", "Artist" = "Artist", "Year" = "Year"))
 
 combined_data <- combined_results %>%
-  inner_join(combined_plays, by = c("Song" = "title", "Artist" = "artist", "Year" = "Year")) %>%
+  inner_join(combined_plays, by = c("Song" = "Song", "Artist" = "Artist", "Year" = "Year")) %>%
   filter(Year == year(ymd_hms(timestamp)))
 
 combined_data_full <- combined_results %>%
-  right_join(combined_plays, by = c("Song" = "title", "Artist" = "artist", "Year" = "Year")) %>%
+  right_join(combined_plays, by = c("Song" = "Song", "Artist" = "Artist", "Year" = "Year")) %>%
   filter(Year == year(ymd_hms(timestamp)))
  
 ```
-Like many Australians, I spend my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. 
-And for the last few years, there's been a project run by [100 Warm Tunas](https://100warmtunas.com/) that has been really accurate at predicting the results of the countdown.
-Warm tuna makes predictions by scraping social media posts for peoples votes and then collating them as a sample of all votes, and although this is very effective, I feel misses the point a bit in trying to work out why a song is popular.
+Like many Australians, I spent my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the past few years, there has been a project run by [100 Warm Tunas](https://100warmtunas.com/) that has been remarkably accurate at predicting the results of the countdown.
 
-So I've set out this year to try and work out what songs will come top in the 2023 countdown, without looking at anything related to the voting itself.
+Warm Tunas makes predictions by scraping social media posts for people's votes and then collating them as a sample of all votes. While this method is highly effective, I feel that it misses the point a bit when it comes to understanding why a song is popular.
+
+Therefore, this year, I have set out to determine the top songs in the 2023 countdown without relying on anything related to the voting itself.
 
 ## My Hypotheses
 
@@ -151,21 +191,19 @@ Heading into this, I have a few ideas as to factors that will make a song perfor
 
 ### Plays on Triple J
 
-I feel this factor is pretty self explanatory, if a song is being played a lot on triple j, it's most likely popular with the listener base and will get more votes in the Hottest 100
+I feel this factor is pretty self-explanatory. If a song is being played a lot on Triple J, it's most likely popular with the listener base and will get more votes in the Hottest 100.
 
 ### Chart Success
 
-This one is a bit weirder, as I don't think that just getting to number one in the aria charts will make you a top pick for triple j listeners, or else the countdown would be topped by the years biggest Pop hits. If a song is too popular in the mainstream it seems falls out of favour with triple J listeners, however there are some notable exceptions to this such as Bad Guy by Billie Eilish and Thift Shop by Macklemore who both too out the top spot in their respective years.
-
+This one is a bit weirder, as I don't think that just getting to number one in the ARIA charts will make you a top pick for Triple J listeners. Otherwise, the countdown would be topped by the year's biggest pop hits. If a song is too popular in the mainstream, it seems to fall out of favor with Triple J listeners. However, there are some notable exceptions to this, such as "Bad Guy" by Billie Eilish and "Thrift Shop" by Macklemore, which both took out the top spot in their respective years.
 
 ### Time of Release and Peak
 
-This idea is commonly thrown around when talking about the Oscars, so I feel that it's probably going to be applicable to the hottest 100 as well. Being at peak popularity when people are voting is probably going to be usefull. Similarly, a song that hung around for a long time will probably be voted for more than a song that only hung around for a week.
-
+This idea is commonly thrown around when talking about the Oscars, so I feel that it's probably going to be applicable to the Hottest 100 as well. Being at peak popularity when people are voting is probably going to be useful. Similarly, a song that hung around for a long time will probably be voted for more than a song that only hung around for a week.
 
 # Play Data
 
-I gathered the data for all plays on Triple J for the last 8 years from their [API](https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&offset=0&page=0&station=triplej), which left me a data set looking like this:
+I gathered the data for all plays on Triple J for the last 8 years from their [API](https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&offset=0&page=0&station=triplej), which left me with a dataset that looks like this:
 
 
 ```{R dataset-plot}
@@ -180,7 +218,7 @@ p1 <- combined_plays %>%
 
 
 p2 <- combined_plays %>%
-  distinct(release_year, title, artist) %>%
+  distinct(release_year, Song, Artist) %>%
   count(release_year, name = "num_unique_pairs") %>%
   filter(release_year >= 2016, release_year <= 2023) %>%
   ggplot(aes(x = release_year, y = num_unique_pairs, fill = factor(release_year))) +
@@ -197,14 +235,14 @@ p1 / p2
 
 ## Number of Plays
 
-To me, the most obvious indicator of a song being popular is the number of plays that it gets, so we can start by looking at that.
+To me, the most obvious indicator of a song's popularity is the number of plays it receives. So, we can start by examining that.
 
 ```{R plays}
 
 p1 <-combined_plays %>%
   filter(release_year >= 2016 & release_year <= 2023) %>%
   filter(release_year == Year) %>%
-  group_by(release_year, title, artist) %>%
+  group_by(release_year, Song, Artist) %>%
   summarize(
     first_timestamp = ymd_hms(min(timestamp)),
     total_plays = n(),
@@ -219,7 +257,7 @@ p1 <-combined_plays %>%
 p2 <- combined_plays %>%
   filter(release_year >= 2016 & release_year <= 2023) %>%
   filter(release_year == year(ymd_hms(timestamp))) %>%
-  count(title) %>%
+  count(Song) %>%
   group_by(n) %>%
   summarize(number_of_songs = n(), .groups = "drop")  %>%
   filter(number_of_songs > 1) %>%
@@ -232,9 +270,9 @@ p2 <- combined_plays %>%
 p1 / p2 
 ```
 
-These plots give us a good insight into the trends in how Triple J picks songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge the reaction. If they take off, the songs will be played a lot, signified by the lack of songs siting around the 40-60 plays mark. But very few get played an excessive amount, with very few making it past the 200 mark.
+These plots give us a good insight into the trends in how Triple J selects songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge their reaction. If they become popular, the songs will be played frequently, indicated by the absence of songs with 40-60 plays. However, very few songs receive excessive playtime, with only a handful surpassing 200 plays.
 
-We can also see here some impact of being released early in the year,  as these songs have the opportunity to be played more in a year, hence the downward slope over for each year.
+We can also observe the impact of being released early in the year, as these songs have more opportunities to be played throughout the year, resulting in a downward slope for each year.
 
 
 ## How Total Plays Impact Success
@@ -253,14 +291,15 @@ ggplot( aes(y = rank, x = number_of_plays, color = factor(Year)))+
 ```
 
 
-Looking at the ranking, we can see that the total number of plays doesn't have a massive impact on performance. A song can have 0 plays or a hundred and it seems to have a similar outcome in the rankings. 
-There is a slight downward trend for songs getting over 120 plays, as these are the absolute most played songs for the year, however this status still doesn't guarantee a top spot.
+Looking at the rankings, we can see that the total number of plays doesn't have a massive impact on performance. A song can have five plays or a hundred, and it seems to have a similar outcome in the rankings.
 
+There is a slight downward trend for songs getting over 120 plays, as these are the absolute most played songs for the year. However, this status still doesn't guarantee a top spot.
 
 ## Accounting for Time
 
-A thought I had looking at the absolute play data is that it disproportionately rewards songs that were released earlier in the year. 
-To fix this I put together some statistics that look at the songs peak, which should remove any reward for being released at the start of the year.
+A thought I had while looking at the absolute play data is that it disproportionately rewards songs that were released earlier in the year. 
+
+To address this, I have compiled some statistics that consider the peak of the songs, which should eliminate any advantage for being released at the beginning of the year.
 
 ```{R plays-vs-success-accounting-for-time}
 
@@ -307,12 +346,12 @@ ggplot( aes(y = rank, x = peak, color = factor(Year)))+
 p1 + p2 + p3  + plot_layout(guides = "collect") + theme(legend.position = 'bottom')
 ```
 
-Again we can see there is some usefully information, with the peak plays per week showing that songs which has a big peak generally performed well in the final rankings. However as with  the absolute count of plays, there doesn't seem to be a hard and fast rule.
+Again, we can see that there is some useful information, with the peak plays per week showing that songs which have a big peak generally perform well in the final rankings. However, as with the absolute count of plays, there doesn't seem to be a hard and fast rule.
 
 
 # Chart Success
 
-The ARIA charts collate music sale and streaming data within Australia and produce a weekly list of the top 50 most popular songs. A Github user has been nice enough to [collate all of these lists](https://raw.githubusercontent.com/caseybriggs/ARIA-charts/main/single_charts.csv), so we can just load them in and see how the chart results compare to a songs position in the hottest 100.
+The ARIA charts collate music sales and streaming data within Australia and produce a weekly list of the top 50 most popular songs. A GitHub user has been kind enough to [compile all of these lists](https://raw.githubusercontent.com/caseybriggs/ARIA-charts/main/single_charts.csv), so we can simply load them and compare the chart results to a song's position in the Hottest 100.
 
 ```{R Chart }
 
@@ -355,11 +394,12 @@ ggplot( aes(y = rank.x, x = chart_score, color = factor(Year)))+
 p1 + p2 + p3  + plot_layout(guides = "collect") + theme(legend.position = 'bottom')
 ```
 
-The first thing to note is that these plots are much more sparse than the rest, and this is because a lot of songs played on Tripple J don't make it into the top 50 at all, even though they make it into the Hottest 100.
+The first thing to note is that these plots are much sparser than the rest. This is because many songs played on Triple J don't make it into the top 50 at all, even though they make it into the Hottest 100.
 
-For the songs that did make it into the ARIA charts, and hung around, they were consistently some of the best performing songs in the countdown, such as Bad Guy by Billie Eilish and Dance Monkey by Tones and I, which took out the 1st and 4th spots in their respective years.
+For the songs that did make it into the ARIA charts and hung around, they consistently performed well in the countdown. Examples include "Bad Guy" by Billie Eilish and "Dance Monkey" by Tones and I, which claimed the 1st and 4th spots in their respective years.
 
-However the predictive power of this statistic is again quite limited, with many songs that performed well in the Hottest 100 having poor chart sucsess,  such as RedBone by childish Gambino taking the 5th spot in the 2015 despite only having a single week stint in the charts at rank 42.
+However, the predictive power of this statistic is again quite limited. Many songs that performed well in the Hottest 100 had poor chart success. For instance, "Redbone" by Childish Gambino took the 5th spot in 2015 despite only spending a single week in the charts at rank 42.
+
 
 
 ```{R chart-did-it-make-it}
@@ -373,11 +413,11 @@ chart_results %>%
 
 ```
 
-From this chart, we can see that songs that make the charts are outperforming songs that don't but more importantly shows us that making the charts is not a deal-breaker on weather or not a song will perform well in the Hottest 100.
+From this chart, we can see that songs that make the charts are outperforming songs that don't. But more importantly, it shows us that making the charts is not a deal-breaker on whether or not a song will perform well in the Hottest 100.
 
 # Timing
 
-Another thing I wanted to look at was when and how the songs peaked in the play data, as maybe being the popular song would help the song perform around the time that voting is open may help with it's performance in the final rankings.
+Another thing I wanted to look at was when and how the songs peaked in the play data. Maybe being the popular song would help the song perform around the time that voting is open, which may help with its performance in the final rankings.
 
 ```{R week-of-peak}
 
@@ -408,9 +448,9 @@ ggplot( aes(x = Week, y = Rank) ) +
 p1 + p2
 ```
 
-Looking at the above plots we can see that the week of release or peak really doesn't mater, when coming looking at the final results.
+Looking at the above plots, we can see that the week of release or peak really doesn't matter when looking at the final results.
 
-I went on to see if the shape of the peaks looks different for good performing songs vs the poorly performing songs and again, nothing seems that interesting or different between the two.
+I went on to see if the shape of the peaks looks different for well-performing songs versus poorly performing songs, and again, nothing seems particularly interesting or different between the two.
 
 ```{R multiline}
 
@@ -439,7 +479,7 @@ p1 + p2
 
 # Where we are going wrong
 
-So it seems that all of my hypotheses are wrong, and I think the reason why is that there is far too much variance amongst the top 100 because these are already the best songs of the year out of a pool of almost 4000. 
+So it seems that all of my hypotheses are incorrect, and I believe the reason for this is that there is too much variation among the top 100. This is because these songs are already considered the best of the year from a pool of nearly 4000.
 
 ```{R overall}
 
@@ -457,21 +497,21 @@ combined_data_full %>%
   theme(legend.position = 'bottom')
 ```
 
-Looking at this plot, we can see straight away that a song that made the hottest 100 got more plays than those that didn't, but also that plenty of songs that didn't make the 100 got a comparable number of plays. 
+Looking at this plot, we can see right away that a song that made the Hottest 100 got more plays than those that didn't, but also that plenty of songs that didn't make the 100 got a comparable number of plays.
 
-All Eligible songs for the year will sit on a continuum from 4000 to number 1 and the hottest 100 is just the top few elements of that list.
+# Screw it XGBoost
 
-# Screw it XGDBoost
+```{R xdg}
 
-```{R xdg }
+
 
 eligible_songs <- combined_plays %>%
-  distinct(Song = title, Artist = artist, Year, release_year) %>%
+  distinct(Song,  Artist, Year, release_year) %>%
   filter(Year == release_year) %>%
   select(-release_year) 
 
 play_stat_time_gt_7 <- combined_plays %>%
-  group_by(Song = title, Artist = artist, Year, week = week(ymd_hms(timestamp))) %>%
+  group_by(Song, Artist, Year, week = week(ymd_hms(timestamp))) %>%
   summarise(number_of_plays_per_week = n(), .groups="drop") %>%
   filter(number_of_plays_per_week > 7) %>%
   group_by(Song, Artist, Year) %>% 
@@ -479,7 +519,7 @@ play_stat_time_gt_7 <- combined_plays %>%
 
   
 play_stat_time_peak <- combined_plays %>%
-  group_by(Song = title, Artist = artist, Year, week = week(ymd_hms(timestamp))) %>%
+  group_by(Song, Artist, Year, week = week(ymd_hms(timestamp))) %>%
   summarise(number_of_plays_per_week = n(), .groups = "drop") %>%
   filter(number_of_plays_per_week > 1) %>%
   arrange(desc(number_of_plays_per_week)) %>%
@@ -490,7 +530,7 @@ play_stat_time_peak <- combined_plays %>%
 play_stat_total <- combined_plays %>%
   filter(release_year >= 2016 & release_year <= 2023) %>%
   filter(release_year == Year) %>%
-  group_by(Year, Song = title, Artist = artist) %>%
+  group_by(Year, Song, Artist) %>%
   summarize(
     first_play = ymd_hms(min(timestamp)),
     total_plays = n(),
@@ -527,7 +567,7 @@ data <- eligible_songs %>%
     
 
 training_data <- data %>% filter(Year > 2015, Year < 2023)
-inferance <- data %>% filter(Year > 2015, Year < 2023) %>% 
+inferance <- data %>% filter(Year == 2023) %>% 
     select(-rank, -made_100)
 
 
@@ -537,13 +577,15 @@ saveRDS(inferance, "data/inferance.rds")
 
 ```
 
-Working with predicting the hottest 100 directly is going to be too hard, as the variance is wild within the top 2.5% of songs. So the task is now working out weather or not the song made the hundred or not. 
+I think the direction to go here is to see if we can use ML to find any trends that aren't showing up in the plots.
 
-To do this, we are going to use XGDBoost to train a classifier to predict weather or not the song made it into the hottest 100 using all the statistics I have plotted above
+To do this, we are going to use XGBoost to train a model to predict the rank of the song using all the stats I wrote out above. The only thing I changed was taking the first play data and setting it to be the month rather than the day to reduce overfitting. For any song that didn't make it into the 100, I set the rank to be 101, as it could be the 101st most popular song that year.
 
-```{R boost}
+```{R boost-train, results = FALSE}
 
 library(xgboost)
+
+set.seed(64)
 
 training_data <- readRDS("data/training_data.rds")
 inferance <- readRDS("data/inferance.rds")
@@ -560,46 +602,123 @@ data_cols <- c(
   "chart_score"
 )
 
+training_data %>% mutate(first_play = month(first_play))
+
 training_data[data_cols] <- lapply(training_data[data_cols], as.numeric)
+training_data$rank[!training_data$made_100] <- 101
 
 # Prepare the data for XGBoost
 train_x <- as.matrix(training_data[, data_cols])
-train_y <- lapply(training_data$made_100, as.numeric)
+train_y <- lapply(training_data$rank, as.numeric)
 
-
-infer <- as.matrix(inferance[, data_cols])
 # Convert the training data to xgb.DMatrix format
 dtrain <- xgb.DMatrix(data = train_x, label = train_y)
 
 # Set XGBoost parameters
 params <- list(
-  objective = "binary:logistic",
-  eval_metric = "logloss",
-  max_depth = 100,
-  eta = 0.3,
-  gamma = 0,
+  booster = "gbtree",
+  objective = "reg:squarederror",
+  max_depth =  6,
+  num_parallel_tree =  200,
   subsample = 0.8,
-  colsample_bytree = 0.8
+  num_boost_round = 1,
+  eta = 1
 )
 
-# Number of rounds to train the model
-nrounds <- 1000
-
-# Train the XGBoost model
 xgb_model <- xgboost(
   params = params,
   data = dtrain,
-  nrounds = nrounds,
+  nrounds = 15,
   nthread = 8, # Set the number of threads to be used
   verbose = 1
 )
 
 importance_matrix <- xgb.importance(feature_names = data_cols, model = xgb_model)
-print(importance_matrix)
+importance_df <- as.data.frame(importance_matrix)
+
+p1 <-  ggplot(importance_df, aes(x = reorder(Feature, Gain), y = Gain)) +
+  geom_bar(stat = "identity") +
+  coord_flip() + # Flip the axes to make it horizontal
+  ylab("Gain") +
+  xlab("")
+p2 <-  ggplot(importance_df, aes(x = reorder(Feature, Cover), y = Cover)) +
+  geom_bar(stat = "identity") +
+  coord_flip() + # Flip the axes to make it horizontal
+  ylab("Cover") +
+  xlab("")
+
+(p1 + p2) + plot_annotation(title = "Feature Importance According to XGBoost")
 
 # Save the trained model to a file for later use
 xgb.save(xgb_model, "data/xgb_model.bin")
 
 ```
 
+A nice thing about XGBoost is that it can provide insight into the most important factors it uses to predict the results. From the above plots, we can see that the peak of the song on triple J and its total plays contribute significantly to the predictive power. 
 
+Interestingly, the chart scores seem to have little effect. However, this can be justified by considering the fact that many songs that make the top 100 never make the charts.
+
+Now that we have the model, we can evaluate its performance in predicting the Hottest 100 by applying it to the play data from 2022.
+
+```{R rebuild}
+
+test_data = training_data %>% filter(Year == 2022)
+
+test_x <- as.matrix(test_data[, data_cols])
+test_y <- lapply(test_data$made_100, as.numeric)
+
+predictions <- predict(xgb_model, test_x)
+
+test_data$predicted_rank <- predictions
+```
+
+### 2022 Predicted Countdown
+
+```{R rebuild-2022-pred}
+
+test_data %>% 
+  select(Song, Artist, rank, predicted_rank) %>%
+  mutate(predicted_rank = rank(predicted_rank, ties.method = "first")) %>%
+  arrange(predicted_rank) %>%  # Sort by predicted_rank
+  select(Song, Artist, Actual = rank) %>%
+  slice_head(n = 20) %>%       # Take the first 20 rows after sorting
+  print(na.print = '')         # Replace NA values with an empty string for printing
+```
+
+### 2022 Real Countdown
+
+```{R rebuild-2022-real}
+
+test_data %>% 
+  select(Song, Artist, rank, predicted_rank) %>%
+  mutate(predicted_rank = rank(predicted_rank, ties.method = "first")) %>%
+  arrange(rank) %>%  # Sort by predicted_rank
+  select(Song, Artist,Predicted =  predicted_rank) %>%
+  slice_head(n = 20) %>%       # Take the first 20 rows after sorting
+  print(na.print = '')         # Replace NA values with an empty string for printing
+
+```
+
+From this, I reckon the model is doing pretty well, so lets have a look at my final predictions for the hottest 100 of 2023.
+
+# My Final Predictions
+
+The list below seems pretty reasonable, with Doja Cat taking the top spot and my pick for number one, Rush, sitting in 10th. There seems to be a big lean towards pop and a lack of your classic Triple J-style indie rockers, but that might just be the turnout for this year.
+
+```{R 2023, cache = FALSE}
+inferance[data_cols] <- lapply(inferance[data_cols], as.numeric)
+inf <- as.matrix(inferance[, data_cols])
+
+predictions <- predict(xgb_model, inf)
+
+inferance$predicted_rank <- predictions
+
+inferance %>% 
+  select(Song, Artist, predicted_rank) %>%
+  mutate(predicted_rank = rank(predicted_rank, ties.method = "first")) %>%
+  arrange(predicted_rank) %>%  # Sort by predicted_rank
+  select(Song, Artist) %>%
+  slice_head(n = 100) %>%       # Take the first 20 rows after sorting
+  print(na.print = '')         # Replace NA values with an empty string for printing
+
+```
