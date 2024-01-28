@@ -41,59 +41,62 @@ Warm tuna makes predictions by scraping social media posts for peoples votes and
 <div id="play-data" class="section level1">
 <h1>Play Data</h1>
 <p>I gathered the data for all plays on Triple J for the last 8 years from their <a href="https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&amp;offset=0&amp;page=0&amp;station=triplej">API</a>, which left me a data set looking like this:</p>
-<pre><code>##   rank                     Song                                         Artist
-## 1    1        Never Be like You                            Flume featuring Kai
-## 2    2                    Adore                                      Amy Shark
-## 3    3                   Jungle                                   Tash Sultana
-## 4    4                     1955 Hilltop Hoods featuring Montaigne and Tom Thum
-## 5    5                  Redbone                               Childish Gambino
-## 6    6 Believe (Like a Version)                                          DMA&#39;s
-##   Country.of.origin Year
-## 1  Australia/Canada 2016
-## 2         Australia 2016
-## 3         Australia 2016
-## 4         Australia 2016
-## 5     United States 2016
-## 6         Australia 2016</code></pre>
-<pre><code>##                   timestamp                  title                   artist aus
-## 1 2016-01-01T07:00:24+00:00 Learning For Your Love Marcus Marr &amp; Chet Faker  NA
-## 2 2016-01-01T07:07:30+00:00        Global Concepts            Robert DeLong  NA
-## 3 2016-01-01T07:11:13+00:00         Turn Your Love            Half Moon Run  NA
-## 4 2016-01-01T07:14:22+00:00                  Ghost              Tkay Maidza  NA
-## 5 2016-01-01T07:19:07+00:00              Body Suit                 Banoffee  NA
-## 6 2016-01-01T07:22:33+00:00             Hallelujah               The Rubens  NA
-##   duration            album_title release_year Year
-## 1      386                   Work         2015 2016
-## 2      224        Global Concepts         2012 2016
-## 3      182        Sun Leads Me On         2015 2016
-## 4      207                  Ghost         2015 2016
-## 5      218 Do I Make You Nervous?         &lt;NA&gt; 2016
-## 6      174             Hallelujah         &lt;NA&gt; 2016</code></pre>
-<p><img src="/post/hottest-100/post_files/figure-html/dataset-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/dataset-2.png" width="672" /></p>
+<p><img src="/post/hottest-100/post_files/figure-html/dataset-plot-1.png" width="672" /></p>
 <div id="number-of-plays" class="section level2">
 <h2>Number of Plays</h2>
 <p>To me, the most obvious indicator of a song being popular is the number of plays that it gets, so we can start by looking at that.</p>
-<p><img src="/post/hottest-100/post_files/figure-html/plays-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-2.png" width="672" /></p>
+<p><img src="/post/hottest-100/post_files/figure-html/plays-1.png" width="672" /></p>
 <p>These plots give us a good insight into the trends in how Triple J picks songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge the reaction. If they take off, the songs will be played a lot, signified by the lack of songs siting around the 40-60 plays mark. But very few get played an excessive amount, with very few making it past the 200 mark.</p>
 <p>We can also see here some impact of being released early in the year, as these songs have the opportunity to be played more in a year, hence the downward slope over for each year.</p>
-<p><img src="/post/hottest-100/post_files/figure-html/plays-vs-success%20-1.png" width="672" /></p>
-<p>Now looking at the final ranking vs the number of plays, we can see that surprisingly, the total number of plays had very little impact on the results. As expected, most songs that got into the hottest 100 were in that pool of songs that got more than 100 plays, but weather they were rank 100 or rank 1 is impossible to tell.</p>
-<p><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time%20-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time%20-2.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time%20-3.png" width="672" /></p>
-<p>The weekly play numbers try to remove any advantage that songs that were released earlier in the year may have had, and again, we see very little regarding a relationship between the number of plays that a song got and its performance.</p>
 </div>
-<div id="timing" class="section level2">
-<h2>Timing</h2>
-<p>Another thing I wanted to look at was when and how the songs peaked in the play data.</p>
-<p><img src="/post/hottest-100/post_files/figure-html/week-of-peak%20-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/week-of-peak%20-2.png" width="672" /></p>
-<p><img src="/post/hottest-100/post_files/figure-html/multiline%20-1.png" width="672" /><img src="/post/hottest-100/post_files/figure-html/multiline%20-2.png" width="672" /></p>
+<div id="how-total-plays-impact-success" class="section level2">
+<h2>How Total Plays Impact Success</h2>
+<p><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-1.png" width="672" /></p>
+<p>Looking at the ranking, we can see that the total number of plays doesn’t have a massive impact on performance. A song can have 0 plays or a hundred and it seems to have a similar outcome in the rankings.
+There is a slight downward trend for songs getting over 120 plays, as these are the absolute most played songs for the year, however this status still doesn’t guarantee a top spot.</p>
 </div>
+<div id="accounting-for-time" class="section level2">
+<h2>Accounting for Time</h2>
+<p>A thought I had looking at the absolute play data is that it disproportionately rewards songs that were released earlier in the year.
+To fix this I put together some statistics that look at the songs peak, which should remove any reward for being released at the start of the year.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/plays-vs-success-accounting-for-time-1.png" width="672" /></p>
+<p>Again we can see there is some usefully information, with the peak plays per week showing that songs which has a big peak generally performed well in the final rankings. However as with the absolute count of plays, there doesn’t seem to be a hard and fast rule.</p>
+</div>
+</div>
+<div id="chart-success-1" class="section level1">
+<h1>Chart Success</h1>
+<p>The ARIA charts collate music sale and streaming data within Australia and produce a weekly list of the top 50 most popular songs. A Github user has been nice enough to <a href="https://raw.githubusercontent.com/caseybriggs/ARIA-charts/main/single_charts.csv">collate all of these lists</a>, so we can just load them in and see how the chart results compare to a songs position in the hottest 100.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/Chart-1.png" width="672" /></p>
+<p>The first thing to note is that these plots are much more sparse than the rest, and this is because a lot of songs played on Tripple J don’t make it into the top 50 at all, even though they make it into the Hottest 100.</p>
+<p>For the songs that did make it into the ARIA charts, and hung around, they were consistently some of the best performing songs in the countdown, such as Bad Guy by Billie Eilish and Dance Monkey by Tones and I, which took out the 1st and 4th spots in their respective years.</p>
+<p>However the predictive power of this statistic is again quite limited, with many songs that performed well in the Hottest 100 having poor chart sucsess, such as RedBone by childish Gambino taking the 5th spot in the 2015 despite only having a single week stint in the charts at rank 42.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/chart-did-it-make-it-1.png" width="672" /></p>
+<p>From this chart, we can see that songs that make the charts are outperforming songs that don’t but more importantly shows us that making the charts is not a deal-breaker on weather or not a song will perform well in the Hottest 100.</p>
+</div>
+<div id="timing" class="section level1">
+<h1>Timing</h1>
+<p>Another thing I wanted to look at was when and how the songs peaked in the play data, as maybe being the popular song would help the song perform around the time that voting is open may help with it’s performance in the final rankings.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/week-of-peak-1.png" width="672" /></p>
+<p>Looking at the above plots we can see that the week of release or peak really doesn’t mater, when coming looking at the final results.</p>
+<p>I went on to see if the shape of the peaks looks different for good performing songs vs the poorly performing songs and again, nothing seems that interesting or different between the two.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/multiline-1.png" width="672" /></p>
 </div>
 <div id="where-we-are-going-wrong" class="section level1">
 <h1>Where we are going wrong</h1>
-<p><img src="/post/hottest-100/post_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>So it seems that all of my hypotheses are wrong, and I think the reason why is that there is far too much variance amongst the top 100 because these are already the best songs of the year out of a pool of almost 4000.</p>
+<p><img src="/post/hottest-100/post_files/figure-html/overall-1.png" width="672" /></p>
+<p>Looking at this plot, we can see straight away that a song that made the hottest 100 got more plays than those that didn’t, but also that plenty of songs that didn’t make the 100 got a comparable number of plays.</p>
+<p>All Eligible songs for the year will sit on a continuum from 4000 to number 1 and the hottest 100 is just the top few elements of that list.</p>
 </div>
-<div id="fuckit-xdg-boost" class="section level1">
-<h1>Fuckit XDG boost</h1>
+<div id="screw-it-xgdboost" class="section level1">
+<h1>Screw it XGDBoost</h1>
+<pre><code>##  [1] &quot;Year&quot;                   &quot;Song&quot;                   &quot;Artist&quot;                
+##  [4] &quot;weeks_with_more_than_7&quot; &quot;peak_week_JJJ&quot;          &quot;peak_plays_JJJ&quot;        
+##  [7] &quot;first_play&quot;             &quot;total_plays&quot;            &quot;weeks_in_charts&quot;       
+## [10] &quot;peak_in_charts&quot;         &quot;chart_score&quot;            &quot;rank&quot;                  
+## [13] &quot;made_100&quot;</code></pre>
+<p>Working with predicting the hottest 100 directly is going to be too hard, as the variance is wild within the top 2.5% of songs. So the task is now working out weather or not the song made the hundred or not.</p>
+<p>To do this, we are going to use XGDBoost to train a classifier to predict weather or not the song made it into the hottest 100 using all the statistics I have plotted above.</p>
 </div>
 ]]></content>
         </item>

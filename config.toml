@@ -6,15 +6,13 @@ title = "Alfie Chadwick"
 googleAnalytics = ""
 disqusShortname = ""
 ignoreFiles = [
-  "\\.Rmd$", 
   "\\.Rmarkdown$", 
+  "\\.Rmd$", 
   "_cache$", 
   "\\.knit\\.md$", 
   "\\.utf8\\.md$", 
-  "\\.rmd$", 
   "\\.py$", 
-  "/build/", 
-  "/data/"
+  "_data$", 
 ]
 
 [permalinks]
@@ -100,3 +98,8 @@ PygmentsStyle = "monokai"
 rssLimit  = 10
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
 
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
