@@ -3,7 +3,7 @@ title: 'Predicting the 2023 Hottest 100'
 author: 'Alfie Chadwick'
 date: '2024-01-26'
 lastmod: "`r Sys.Date()`"
-tags: ['Music', 'Stats', 'Visualizations', 'ML']
+tags: ['Music', 'Visualizations', 'ML']
 output:
   blogdown::html_page
 ---
@@ -408,7 +408,7 @@ chart_results %>%
   mutate(chart_rank_na = !is.na(chart_rank)) %>%
   ggplot(aes(y = rank.x, x = factor(Year), fill = chart_rank_na)) +
   geom_boxplot(color = 'white') +
-  labs(x = "Year", y = "Hottest 100 Rank", fill = "Did it make the Aria Charts", title = "Comparing distribution of songs that made the charts ve thoes that didn't") +
+  labs(x = "Year", y = "Hottest 100 Rank", fill = "Did it make the Aria Charts", title = "Comparing distribution of songs that made the charts vs thoes that didn't") +
   theme(legend.position = 'bottom')
 
 ```

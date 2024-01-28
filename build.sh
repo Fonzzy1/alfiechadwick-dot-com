@@ -6,10 +6,8 @@ if [ "$1" = "--init" ]; then
   R -e 'install.packages("xgboost")'
   R -e 'devtools::install_github("albert-ying/catppuccin")'
 fi
-
-if ! R -e 'blogdown::build_site(build_rmd = "md5sum")'; then
-    exit 1
-fi
+ 
+R -e 'blogdown::build_site(build_rmd = "md5sum")'
 
 R -e 'blogdown::serve_site()'
 

@@ -90,6 +90,11 @@
       var width = window.innerWidth;
       var height = window.innerHeight;
 
+    nodes.forEach(function(d) {
+      d.x = Math.random() * width;
+      d.y = Math.random() * height;
+    });
+
       // Setup the window
       var svg = d3.select("body")
         .append("svg")
@@ -105,12 +110,13 @@
       var simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links)
           .id(d => d.id)
-          .distance(200)
+          .distance(100)
           .strength(d => 0.1 * d.value))
         .force("charge", d3.forceManyBody()
-          .strength(d => -500 * (d.value + 1)))
+          .strength(d => -1000 * (d.value + 1)))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collision", d3.forceCollide(collisionRadius))
+        .force("gravity", d3.forceRadial((node) => 0, width / 2, height / 2).strength(0.01))
         .alphaDecay(0.01);
 
       // System for dragging
