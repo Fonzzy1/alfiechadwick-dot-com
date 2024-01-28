@@ -3,7 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/ml/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/music/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/2024/01/26/predicting-the-2023-hottest-100/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/visualizations/</loc>
+    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/algebra/</loc>
     <lastmod>2024-01-13T00:00:00+00:00</lastmod>
@@ -14,13 +32,7 @@
     <loc>/2024/01/12/making-my-ode-solver-solve-odes/</loc>
     <lastmod>2024-01-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/</loc>
-    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/python/</loc>
-    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2024-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/devops/</loc>
@@ -39,13 +51,10 @@
     <lastmod>2024-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</loc>
-    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/javascript/</loc>
-    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/visualizations/</loc>
-    <lastmod>2023-12-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2023/12/18/using-taylor-series-to-improve-the-euler-method/</loc>
     <lastmod>2024-01-12T00:00:00+00:00</lastmod>

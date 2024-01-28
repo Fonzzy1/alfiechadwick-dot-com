@@ -6,8 +6,15 @@
     <description>Recent content in Visualizations on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jan 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/visualizations/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Predicting the 2023 Hottest 100</title>
+      <link>/2024/01/26/predicting-the-2023-hottest-100/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
+      <description>Like many Australians, I spent my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the past few years, there has been a project run by 100 Warm Tunas that has been remarkably accurate at predicting the results of the countdown.&#xA;Warm Tunas makes predictions by scraping social media posts for people’s votes and then collating them as a sample of all votes. While this method is highly effective, I feel that it misses the point a bit when it comes to understanding why a song is popular.</description>
+    </item>
     <item>
       <title>A new way to look at Categories in Hugo Blogs</title>
       <link>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</link>
