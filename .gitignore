@@ -1,3 +1,4 @@
 # ignore all files named *_play.json in all folders
 **/*_plays.json
 *.swp
+blogdown/post
