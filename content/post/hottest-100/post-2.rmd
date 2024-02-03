@@ -3,7 +3,7 @@ title: 'A Follow Up on my Hottest 100 Predictions'
 author: 'Alfie Chadwick'
 date: '2024-02-03'
 lastmod: "`r Sys.Date()`"
-tags: ['Music']
+tags: ['Music','ML']
 output:
   blogdown::html_page
 ---
@@ -173,9 +173,6 @@ So there were 55 songs in my predictions that didn't make it into the countdown,
 
 ```{R suroprise}
 
-if (nchar(song) > 20) {
-  song <- paste0(substr(song, 1, 17), "...")
-}
 
 my_100 %>%
   right_join(results) %>%
@@ -183,6 +180,7 @@ my_100 %>%
   select(Song, Artist, rank) %>%
   arrange(rank) %>%  # Sort by rank
   select(Song, Artist, rank) %>%
+  mutate(Song = if_else(nchar(Song) > 20, paste0(substr(Song, 1, 17), "..."), Song)) %>%
   print(na.print = '')
 ```
 
@@ -212,8 +210,7 @@ Looking at these plots, it seems that the chart data for these songs didn't corr
 
 # Did I do better than Warm Tuna?
 
-Part of my mission when setting out to make these predictions was to do better than 100 Warm Tunas, 
-
+Part of my mission when setting out to make these predictions was to outperform 100 Warm Tunas, who utilize a compilation of social media posts to formulate their predictions.
 
 ```{R warm_tuna_comp}
 
@@ -221,17 +218,47 @@ warm_tuna <- read_csv('data/warm_tuna_2023.csv')
 warm_tuna <- warm_tuna %>%
   mutate(
     Song = map_chr(Song, clean_song_name),
-    Artist = map_chr(Artist, clean_artist_name)
-    predicted_rank =rank
+    Artist = map_chr(Artist, clean_artist_name),
+    predicted_rank = Rank
   ) %>%
-  select(-rank)
+  select(-Rank)
 
 
 results %>% 
-  left_join(warm_tuna) %>%
-  select(Song, Artist, rank, predicted_rank) %>%
   arrange(rank) %>%  # Sort by rank
-  select(Song, Artist,Predicted =  predicted_rank) %>%
+  left_join(warm_tuna) %>%
+  select(Song, Artist, rank, warm_tuna = predicted_rank) %>%
+  left_join(my_100) %>%
+  select(Song, Artist, rank, warm_tuna, my_rankning = predicted_rank) %>%
   slice_head(n = 20) %>%       # Take the first 20 rows after sorting
   print(na.print = 'Not Ranked')         # Replace NA values with an empty string for printing
+
 ```
+
+Straight away, I can see that warm tuna did better than me, but by how much?
+
+So, I made up a quick statistic to see how far off our predictions were. This is the sum of the magnitudes of the differences between the predicted score and the actual score. If a song didn't make the top 100, it's given the equivalent rank of 101. I then divide this by 100 to get the average deviation for each prediction.
+
+```{R warm_tuna_comp_res}
+
+results_summary <- results %>% 
+  arrange(rank) %>%  # Sort by rank
+  left_join(warm_tuna) %>%
+  select(Song, Artist, rank, warm_tuna = predicted_rank) %>%
+  left_join(my_100) %>%
+  select(Song, Artist, rank, warm_tuna, my_ranking = predicted_rank) %>%
+  mutate(warm_tuna_score = replace_na(warm_tuna, 101) - rank) %>%
+  mutate(my_score = replace_na(my_ranking, 101) - rank) %>%
+  summarize(warm_tunas_avg = sum(abs(warm_tuna_score))/100, my_avg = sum(abs(my_score))/100)
+
+# Print the results with the requested labels
+cat("my score:", results_summary$my_avg, "\n")
+cat("warm tuna's score:", results_summary$warm_tunas_avg, "\n")
+```
+
+So from these statistics, we can see that my predictions were, on average, about 10 places more off than warm tuna's.
+
+
+# Next Year?
+
+I reckon this method still has promise, but I need to sort out the name joining issue to ensure that my method is working at its maximum potential. I also want to include genre and artist country into it since it seemed to be an important factor in the final rank that I didn't account for.
