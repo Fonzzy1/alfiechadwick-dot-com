@@ -9,6 +9,7 @@ from multiprocessing import Pool
 
 # Get the Results for the last 10 years
 for year, url in {
+    2023: "https://en.wikipedia.org/wiki/Triple_J_Hottest_100,_2023",
     2022: "https://en.wikipedia.org/wiki/Triple_J_Hottest_100,_2022",
     2021: "https://en.wikipedia.org/wiki/Triple_J_Hottest_100,_2021",
     2020: "https://en.wikipedia.org/wiki/Triple_J_Hottest_100,_2020",
