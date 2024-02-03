@@ -212,4 +212,26 @@ Looking at these plots, it seems that the chart data for these songs didn't corr
 
 # Did I do better than Warm Tuna?
 
-Part of my mission when setting out to make these predictions was to do better than 100 Warm Tunas
+Part of my mission when setting out to make these predictions was to do better than 100 Warm Tunas, 
+
+
+```{R warm_tuna_comp}
+
+warm_tuna <- read_csv('data/warm_tuna_2023.csv')
+warm_tuna <- warm_tuna %>%
+  mutate(
+    Song = map_chr(Song, clean_song_name),
+    Artist = map_chr(Artist, clean_artist_name)
+    predicted_rank =rank
+  ) %>%
+  select(-rank)
+
+
+results %>% 
+  left_join(warm_tuna) %>%
+  select(Song, Artist, rank, predicted_rank) %>%
+  arrange(rank) %>%  # Sort by rank
+  select(Song, Artist,Predicted =  predicted_rank) %>%
+  slice_head(n = 20) %>%       # Take the first 20 rows after sorting
+  print(na.print = 'Not Ranked')         # Replace NA values with an empty string for printing
+```
