@@ -13,7 +13,7 @@
 />
 <meta
   name="description"
-  content="With Taylor Swift coming to Melbourne next week, my house has started their prep for the concert. And an important part of that step is making friendship bracelets to trade at the concert. So we headed down to spotlight and grabbed ourselves a couple of bags of beads to make the bracelets, but when we opened them up we found that the distribution of letters were all over the place."
+  content="With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels."
 />
 <meta
   name="keywords"
@@ -45,11 +45,11 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="msapplication-TileColor" content="">
  <meta itemprop="name" content="Maximising the Number of Friendship Bracelets for the Taylor Swift Concert">
-<meta itemprop="description" content="With Taylor Swift coming to Melbourne next week, my house has started their prep for the concert. And an important part of that step is making friendship bracelets to trade at the concert. So we headed down to spotlight and grabbed ourselves a couple of bags of beads to make the bracelets, but when we opened them up we found that the distribution of letters were all over the place.">
+<meta itemprop="description" content="With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels.">
 <meta itemprop="dateModified" content="2024-02-09T00:00:00+00:00" />
-<meta itemprop="wordCount" content="684">
+<meta itemprop="wordCount" content="838">
 <meta itemprop="keywords" content="Python," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Maximising the Number of Friendship Bracelets for the Taylor Swift Concert"/>
-<meta name="twitter:description" content="With Taylor Swift coming to Melbourne next week, my house has started their prep for the concert. And an important part of that step is making friendship bracelets to trade at the concert. So we headed down to spotlight and grabbed ourselves a couple of bags of beads to make the bracelets, but when we opened them up we found that the distribution of letters were all over the place."/>
+<meta name="twitter:description" content="With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels."/>
    
 <meta property="article:published_time" content="2024-02-09 00:00:00 &#43;0000 UTC" />
 
@@ -189,11 +189,16 @@
     <div class="post-content">
 
 
-<p>With Taylor Swift coming to Melbourne next week, my house has started their prep for the concert. And an important part of that step is making friendship bracelets to trade at the concert. So we headed down to spotlight and grabbed ourselves a couple of bags of beads to make the bracelets, but when we opened them up we found that the distribution of letters were all over the place. We had a heap of useless Zs while also having almost no vowels. Instead of driving back down to spotlight, I decided to see if I could make enough friendship bracelets from the letters we already had.</p>
+<p>With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels. Instead of driving back to Spotlight, I decided to see if I could make enough friendship bracelets from the letters we already had, while also being a bit clever about which songs we were going to make friendship bracelets for.</p>
+<div class="figure">
+<img src="/post/tswift-beads/pic.jpg" alt="" />
+<p class="caption">The beads after I spent 15 minutes organinsing them</p>
+</div>
 <div id="first-try" class="section level2">
 <h2>First Try</h2>
-<p>My idea from this is pretty simple. I want to assign each word a cost, and then make the lowest cost song the bracelets. I can keep doing this until I cant make any more bracelets. To determine cost of a song name, I just summed the costs of its letters, and the cost of the letters was the number of occurrences it had in the list of songs divided by the number of beads I had remaining for that letter.</p>
+<p>I set out to make an algorithm to determine the best set of song titles we could use. I want to assign each song title a cost, and then make the song with the lowest cost the bracelets. I can keep doing this until I can’t make any more bracelets. To determine the cost of a song title, I just summed the costs of its letters. The cost of the letters was the number of occurrences it had in the list of songs divided by the number of beads I had remaining for that letter.</p>
 <pre class="python"><code>from collections import defaultdict
+import re
 
 def count_chars_in_list(list_of_strings):
     char_counts = defaultdict(int)
@@ -206,17 +211,27 @@ def count_chars_in_list(list_of_strings):
 
 
 def bracelets(song_list, bead_dict):
-    cleaned_dict = {re.sub(r&#39;\W+&#39;, &#39;&#39;, i.lower()).replace(&quot;w&quot;,&quot;m&quot;): i for i in song_list}
+
+    # W and M is interchangeable
+    cleaned_dict = {
+        re.sub(r&#39;\W+&#39;, &#39;&#39;, i.lower()).replace(&quot;w&quot;,&quot;m&quot;): i 
+        for i in song_list
+    }
+
+    # dict of letter usage totals
     letter_popularity = count_chars_in_list(cleaned_dict.keys())
 
+    # will run until a break is called
     while True:
         cost_dict = {}
+        # Determine the cost of all the songs
         for song in cleaned_dict.keys():
             song_cost = 0
             flag = False
             for char in song: 
                 # Assign the cost by adding up beads value
                 if char in bead_dict:
+                    # If no beads for that letter are left then that word cant be formed
                     if bead_dict[char] == 0:
                         flag = True
                         break
@@ -224,15 +239,17 @@ def bracelets(song_list, bead_dict):
                         song_cost += letter_popularity[char]/bead_dict[char]
             if not flag:
                 cost_dict[song] = song_cost
+
+        # Finish loop if no more songs can be made
         if len(cost_dict) ==0:
             break
+        # Find the cheapest song
         cost_dict_sorted = list(dict(sorted(cost_dict.items(), key=lambda item: item[1])).keys())
         cheapeast_song = cost_dict_sorted[0]
         print(cleaned_dict[cheapeast_song])
+        # Remove the cheapest songs beads from the bead counts
         for char in cheapeast_song:
             bead_dict[char] -= 1
-
-
 bracelets(song_list.copy(), bead_dict.copy())</code></pre>
 <pre><code>## ivy
 ## ivy
@@ -264,7 +281,7 @@ bracelets(song_list.copy(), bead_dict.copy())</code></pre>
 ## ME
 ## Glitch
 ## Karma</code></pre>
-<p>This was pretty good, but lets remove the repeated songs. We can do this by adding a <code>del cleaned_dict[cheapeast_song]</code> to the end of the loop.</p>
+<p>This was pretty good, but let’s remove the repeated songs because I don’t want to have 10 bracelets with Ivy on them. We can do this by adding <code>del cleaned_dict[cheapest_song]</code> to the end of the loop.</p>
 <pre><code>## ivy
 ## Run
 ## Slut
@@ -285,7 +302,7 @@ bracelets(song_list.copy(), bead_dict.copy())</code></pre>
 </div>
 <div id="getting-picky" class="section level2">
 <h2>Getting Picky</h2>
-<p>I presented this list to my housemates to only get the response of ‘I hate ME!’, so I did some cleaning to remove some of the so called ‘banned songs’. It also turns out that I’m not allowed to listen to London Boy anymore since the guy it is about is canceled or something? Not sure, but now we have a new list removing some of the songs we dont want.</p>
+<p>I presented this list to my housemates only to get the response, ‘I hate ME!’ So, I did some cleaning to remove some of the so-called ‘banned songs’. It also turns out that I’m not allowed to listen to “London Boy” anymore since the guy it is about is canceled or something? Not sure, but now we have a new list that doesn’t include the songs we don’t want.</p>
 <pre class="python"><code>bannded_songs = [
 &quot;Invisible&quot;,
 &quot;London Boy&quot;,
@@ -314,8 +331,12 @@ bracelets([song for song in song_list if song not in bannded_songs], bead_dict.c
 </div>
 <div id="a-final-go" class="section level2">
 <h2>A Final Go</h2>
-<p>I tried showing this list, which got a better reception, but there we’re still a couple of non-negotiable songs that needed to be included. We also decided that the Qs and the Os look close enough to be interchangeable, so I changed the way we generate the cleaned dict to reflect that.</p>
-<pre class="python"><code>required_songs = [&#39;Delicate&#39;, &#39;Lover&#39;]
+<p>I tried showing this list, which received a better reception, but there were still a couple of non-negotiable songs that needed to be included. We also decided that the Qs and the Os look close enough to be interchangeable, so I changed the way we generate the cleaned dict to reflect that.</p>
+<pre class="python"><code># Move all the Q beads to O
+bead_dict[&#39;o&#39;] += bead_dict[&#39;q&#39;]
+del bead_dict[&#39;q&#39;]
+
+required_songs = [&#39;Delicate&#39;, &#39;Lover&#39;]
     
 for song in required_songs:
     print(song)
@@ -323,11 +344,7 @@ for song in required_songs:
         bead_dict[char] -= 1</code></pre>
 <pre><code>## Delicate
 ## Lover</code></pre>
-<pre class="python"><code># Move all the Q beads to O
-bead_dict[&#39;o&#39;] += bead_dict[&#39;q&#39;]
-del bead_dict[&#39;q&#39;]
-
-bracelets([song for song in song_list if song not in bannded_songs and song not in required_songs], bead_dict.copy())</code></pre>
+<pre class="python"><code>bracelets([song for song in song_list if song not in bannded_songs and song not in required_songs], bead_dict.copy())</code></pre>
 <pre><code>## ivy
 ## willow
 ## Run
@@ -341,6 +358,7 @@ bracelets([song for song in song_list if song not in bannded_songs and song not 
 ## Midnights
 ## Long Live
 ## Last Kiss</code></pre>
+<p>And there’s a final list of 14 bracelets we can make with our current beads. Would it have been faster to drive back to Spotlight to buy more beads? Probably, but this was more fun.</p>
 </div>
 </div>
   </article>
@@ -378,7 +396,7 @@ bracelets([song for song in song_list if song not in bannded_songs and song not 
         <line x1="16" y1="17" x2="8" y2="17"></line>
         <polyline points="10 9 9 9 8 9"></polyline>
       </svg>
-      684 Words
+      838 Words
     </p>
   </div>
 
