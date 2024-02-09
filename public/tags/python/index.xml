@@ -6,8 +6,15 @@
     <description>Recent content in Python on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Maximising the Number of Friendship Bracelets for the Taylor Swift Concert</title>
+      <link>/2024/02/09/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</link>
+      <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>/2024/02/09/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</guid>
+      <description>With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels.</description>
+    </item>
     <item>
       <title>Making my ODE solver solve ODEs</title>
       <link>/2024/01/12/making-my-ode-solver-solve-odes/</link>
