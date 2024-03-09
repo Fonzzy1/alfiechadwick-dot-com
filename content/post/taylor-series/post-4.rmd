@@ -1,0 +1,281 @@
+---
+title: "Optimising the settings for the ODE solver"
+author: 'Alfie Chadwick'
+date: '2024-3-7'
+lastmod: "`r Sys.Date()`"
+Tags: ['Calculus', 'Algebra','Python']
+output:
+  blogdown::html_page
+---
+
+```{python example-setup, echo = FALSE}
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import mplcatppuccin
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+mpl.style.use("macchiato")
+
+def expanded_euler(dims, h):
+    step_matrix = np.zeros((dims, dims))
+    for i in range(dims):
+        for j in range(i, dims):
+            # Is 1, and h at j-i =0, 1 respectively
+            step_matrix[i, j] = h ** (j - i) / math.factorial(j - i)
+    expanded_matrix = add_x_and_1(step_matrix, h)
+    return expanded_matrix
+
+
+def add_x_and_1(original_matrix, h):
+    new_size = len(original_matrix) + 2
+    new_matrix = np.zeros((new_size, new_size), dtype=original_matrix.dtype)
+
+    # Set the 2x2 top left matrix
+    new_matrix[0:2, 0:2] = [[1, 0], [h, 1]]
+
+    # Copy the original matrix to the bottom right of the new matrix.
+    new_matrix[2:, 2:] = original_matrix
+    return new_matrix
+
+
+
+class Solution:
+    def __init__(self, input_list: list):
+        solution_list = sorted(input_list, key=lambda x: x[1])
+
+        dims = len(solution_list[0]) - 2
+        self.x = np.array([x[1] for x in input_list])
+
+        value_lists = [[] for _ in range(dims)]
+
+        for v in input_list:
+            for i in range(dims):
+                value_lists[i].append(v[i + 2])
+
+        for i in range(dims):
+            self.__dict__[f"y_{i}"] = np.array(value_lists[i])
+
+    def interpolate(self, x, y_n):
+        """
+        allows you to get any value from the solution by interpolating the points
+
+        """
+        y_values = self.__dict__[f"y_{y_n}"]
+
+        x_max_index = np.where(self.x >= x)[0][0]
+        x_min_index = np.where(self.x <= x)[0][-1]
+
+        x_at_x_max = self.x[x_max_index]
+        x_at_x_min = self.x[x_min_index]
+
+        y_at_x_max = y_values[x_max_index]
+        y_at_x_min = y_values[x_min_index]
+
+        slope = (y_at_x_max - y_at_x_min) / (x_at_x_max - x_at_x_min)
+
+        value = y_at_x_min + slope * (x - x_at_x_min)
+        return value
+
+def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
+    dims = len(y) - 2
+    step_matrix = transformation_matrix @ step_matrix_generator(dims, h)
+    output_list = []
+
+    y_n = y.copy()
+    i = 0
+    while i < steps:
+        y_n = step_matrix @ y_n
+        output_list.append(y_n)
+        i += 1
+
+    return Solution(output_list)
+```
+
+In the [last post](/2024/01/12/making-my-ode-solver-solve-odes/) in this series, I introduced my method for approximating ODEs. After re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
+
+Lets try the example $y'' = x + y$ which goes through the point $y(0) = 1$ and $y'(x) = 1$. Converting the into a matrix, we would define it as:
+
+$$
+T_1 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0\\
+0 & 1 & 1 & 0 & 0\\
+\end{bmatrix}
+$$
+
+However, thinking of this ODE as $x = y'' - y$  and $y = y'' - x$ it is just as reasonable to define T as:
+
+$$
+T_2 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 0 & -1 & 0 & 1\\
+0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+$$
+$$
+T_3 = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0\\
+0 & -1 & 0 & 0 & 1\\
+0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix}
+$$
+
+Using each of these matrices to approximate the ODE we get very different solutions. $T1$ is the closet, $T3$ is very far off and $T2$ doesn't even cover the domain.
+
+```{python example_code, echo = FALSE}
+init_y = [1,0,1,1,1] #[1,x,y,y']
+T1 = np.array([
+    [1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0],
+    [0, 1, 1, 0, 0]
+])
+
+T2 = np.array([
+    [1, 0, 0, 0, 0],
+    [0, 0, -1, 0, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1]
+])
+
+T3 = np.array([
+    [1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, -1, 0, 0, 1],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1]
+])
+steps = 10
+
+solution1 = linear(
+    init_y,
+    expanded_euler,
+    T1,
+    steps=steps, h=1/steps)
+    
+solution2 = linear(
+    init_y,
+    expanded_euler,
+    T2,
+    steps=2*steps, h=-1/steps)
+solution3 = linear(
+    init_y,
+    expanded_euler,
+    T3,
+    steps=steps, h=1/steps)
+
+
+plt.plot(solution1.x, solution1.y_0, label='T1 Aproximated Solution')
+plt.plot(solution2.x, solution2.y_0, label='T2 Aproximated Solution')
+plt.plot(solution3.x, solution3.y_0, label='T3 Aproximated Solution', linestyle='--')
+plt.plot(solution1.x, -solution1.x -0.5*np.e**(-solution1.x) + 1.5*np.e**solution1.x, label='True Solution', linestyle='--')
+plt.xlabel('x') # Label for the x-axis
+plt.ylabel('y') # Label for the y-axis
+plt.grid(True) # Show a grid for better readability
+plt.legend()
+plt.show()
+```
+
+
+So what makes the $T1$ approximation the best of the three?
+
+## Truncation Error
+
+Something I glossed over in the original post is that the whole reason I'm doing this is to minimise the amount of truncation error that is introduced when using the Euler method.
+
+We can define the truncation error ($R$) as the difference be the true value ($Y^*$) and the predicted value ($Y$). In our aproximation, this is defined as:
+
+$$R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - S \cdot T \cdot Y(x) $$
+
+Where $S$ is the stepping matrix and $T$ is the transformation matrix.
+
+Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren't used. When $k$ terms of the taylor series are used, the truncation error ($r$) is :
+
+$$ r = \sum_{n = k+2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n$$
+
+Since $y^{n}$ be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when $k$ terms are used, $r$ is $O(h^{k+2})$.
+
+For the case where $T$ is an identity matrix, a step is defined by just the stepping matrix, we can now see the truncation error is:
+
+$$S = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0\\
+1 & 1 & 0 & 0 & 0\\
+0 & 0 & 1 & h & \frac{h^2}{2}\\
+0 & 0 & 0 & 1 & h\\
+0 & 0 & 0 & 0 & 1\\
+\end{bmatrix} \rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}$$
+
+
+Taking it back to the above example of $y'' = x + y$, and the three transformation matrices it defines, we can apply the transformation matrices to the vector $R$ of the standard stepping matrix. 
+
+$$T_1 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h^3)\\
+\end{bmatrix}
+$$
+
+$$T_2 \cdot R = \begin{bmatrix}
+0\\
+O(h)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+$$
+
+$$T_3 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+$$
+
+Now looking at the magnitude of these vectors:
+
+
+$$ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} $$
+$$ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2} $$
+$$ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} $$
+
+Therefore:
+
+$$ |T_1 \cdot R | = O(h^2) $$
+$$ |T_2 \cdot R | = O(h) $$
+$$ |T_3 \cdot R | = O(h) $$
+
+This shows that $|R_1|$ has the lowest upper limit of the 3 vectors, showing that $R_1$ is the smallest remainder matrix and therefore $T_1$ is the best transformation matrix for approximating the ODE.
+
+
+
+Now these are the errors for each step, so now looking at the truncation error for the whole simulation, we can multiply the error by the number of steps.
+
+Say we want to find the value for for the curve at $x=1$, we would need to take $1/h$ steps to find this value.
+
+
+$$ |T_1 \cdot R | \cdot \frac{1}{h} = O(h) $$
+$$ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) $$
+$$ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) $$
+
+
