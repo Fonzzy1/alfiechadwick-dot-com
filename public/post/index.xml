@@ -5,8 +5,119 @@
         <description>Recent content in Posts on Alfie Chadwick</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 09 Feb 2024 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 15 Mar 2024 00:00:00 +0000</lastBuildDate>
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Optimising the settings for the ODE solver</title>
+            <link>/2024/03/15/optimising-the-settings-for-the-ode-solver/</link>
+            <pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
+            
+            <guid>/2024/03/15/optimising-the-settings-for-the-ode-solver/</guid>
+            <description>In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
+This is best exemplified by the ODE \(y&amp;#39;&amp;#39; = x + y\) which goes through the point \(y(0) = 1\) and \(y&amp;#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:
+\[ T_1 = \begin{bmatrix} 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ \end{bmatrix} \]</description>
+            <content type="html"><![CDATA[
+
+
+<p>In the <a href="/2024/01/12/making-my-ode-solver-solve-odes/">last post</a> in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.</p>
+<p>This is best exemplified by the ODE <span class="math inline">\(y&#39;&#39; = x + y\)</span> which goes through the point <span class="math inline">\(y(0) = 1\)</span> and <span class="math inline">\(y&#39;(x) = 1\)</span>. Converting it into a matrix, we would define <span class="math inline">\(T\)</span> as:</p>
+<p><span class="math display">\[
+T_1 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p>
+<p>However, rearranging this ODE into <span class="math inline">\(x = y&#39;&#39; - y\)</span> or <span class="math inline">\(y = y&#39;&#39; - x\)</span>, it would be just as reasonable to define T as:</p>
+<p><span class="math display">\[
+T_2 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; -1 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span>
+<span class="math display">\[
+T_3 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
+<p><img src="/post/taylor-series/post-4_files/figure-html/example-1.png" width="672" /></p>
+<div id="truncation-error" class="section level2">
+<h2>Truncation Error</h2>
+<p>Truncation error is the error that is introduced by approximating a infinite series, such as the Taylor series we use, with a finite number of terms. I’m suspecting in this case, that <span class="math inline">\(T_1\)</span> introduces the least amount of truncation error at each step and this is why it is the best aproximation of the ODE.</p>
+<p>We can define our truncation error (<span class="math inline">\(R\)</span>) as the difference be the true value (<span class="math inline">\(Y^*\)</span>) and the predicted value (<span class="math inline">\(Y\)</span>). In our aproximation, this is defined as:</p>
+<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot Y(x) \]</span></p>
+<p>Where <span class="math inline">\(S\)</span> is the stepping matrix and <span class="math inline">\(T\)</span> is the transformation matrix.</p>
+<p>Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren’t used. When <span class="math inline">\(k\)</span> terms of the taylor series are used, the truncation error (<span class="math inline">\(r\)</span>) is :</p>
+<p><span class="math display">\[ r = \sum_{n = k+2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
+<p>Since <span class="math inline">\(y^{n}\)</span> be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when <span class="math inline">\(k\)</span> terms are used, <span class="math inline">\(r\)</span> is <span class="math inline">\(O(h^{k+3})\)</span>.</p>
+<p>Looking at just the stepping matrix, we can see the truncation error is:</p>
+<p><span class="math display">\[S = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix} \rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}\]</span></p>
+<p>Taking it back to the above example of <span class="math inline">\(y&#39;&#39; = x + y\)</span>, and the three transformation matrices it defines, we can apply the transformation matrices to the vector <span class="math inline">\(R\)</span> of the standard stepping matrix to get the truncation error for each of the approximations.</p>
+<p><span class="math display">\[T_1 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h^3)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
+0\\
+O(h)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p>Now looking at the magnitude of these vectors:</p>
+<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} = O(h^2) \]</span>
+<span class="math display">\[ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2}  = O(h) \]</span>
+<span class="math display">\[ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} $ = O(h) \]</span></p>
+<p>This shows that <span class="math inline">\(|T_1 \cdot R |\)</span> shrinks as <span class="math inline">\(h\)</span> gets smaller faster than when you use <span class="math inline">\(T_2\)</span> or <span class="math inline">\(T_3\)</span>.
+More generally, you can say that <span class="math inline">\(T_1\)</span> will lead to the least error.</p>
+<p>Now these are the errors for each step, so now looking at the truncation error for the whole approximation, we can multiply the error by the number of steps.</p>
+<p>Say we want to find the value for for the curve at <span class="math inline">\(x=1\)</span>, we would need to take <span class="math inline">\(1/h\)</span> steps to find this value.</p>
+<p><span class="math display">\[ |T_1 \cdot R | \cdot \frac{1}{h} = O(h) \]</span>
+<span class="math display">\[ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) \]</span>
+<span class="math display">\[ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) \]</span></p>
+<p>We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the <span class="math inline">\(T_1\)</span> result follows the <span class="math inline">\(O(h)\)</span> curve while the <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> result follows the <span class="math inline">\(O(1)\)</span> curve.</p>
+<p><img src="/post/taylor-series/post-4_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<p>So now trying to generalise this beyond the example we’ve worked through, the reduction in error using the <span class="math inline">\(T_1\)</span> matrix was caused by redefining the term with the most truncation error, <span class="math inline">\(y&#39;&#39;\)</span> with terms with less truncation error, <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Both <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> failed to do this.</p>
+<p>So in general, to minimise error we should try to define the highest derivative in terms of the lower terms, as this will remove the <span class="math inline">\(O(h)\)</span> error from the truncation vector.</p>
+</div>
+]]></content>
+        </item>
         
         <item>
             <title>Maximising the Number of Friendship Bracelets for the Taylor Swift Concert</title>
