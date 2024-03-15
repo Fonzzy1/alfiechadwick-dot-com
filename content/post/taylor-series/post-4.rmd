@@ -1,5 +1,5 @@
 ---
-title: "Optimising the settings for the ODE solver"
+title: "Optimizing the settings for the ODE solver"
 author: 'Alfie Chadwick'
 date: '2024-3-15'
 lastmod: "`r Sys.Date()`"
@@ -115,7 +115,7 @@ T_3 = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. $T1$ is the closet, $T3$ and $T2$ are both equally far off.
+So does this matter? Since they are all equally valid ways of representing the ODE, surely they will all lead to the same conclusion. However, using each of these matrices the ODE we get very different solutions. $T1$ is the closet, $T3$ and $T2$ are both equally far off.
 
 ```{python example, echo = FALSE}
 init_y = [1,0,1,1,1] #[1,x,y,y']
