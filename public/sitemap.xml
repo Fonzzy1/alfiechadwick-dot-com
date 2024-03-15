@@ -3,18 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2024-02-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/algebra/</loc>
+    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/calculus/</loc>
+    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/2024/03/15/optimising-the-settings-for-the-ode-solver/</loc>
+    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/</loc>
+    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2024/02/09/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</loc>
     <lastmod>2024-02-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/</loc>
-    <lastmod>2024-02-09T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/python/</loc>
-    <lastmod>2024-02-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2024-02-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2024/02/03/a-follow-up-on-my-hottest-100-predictions/</loc>
@@ -31,12 +40,6 @@
   </url><url>
     <loc>/tags/visualizations/</loc>
     <lastmod>2024-01-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/algebra/</loc>
-    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/calculus/</loc>
-    <lastmod>2024-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2024/01/12/making-my-ode-solver-solve-odes/</loc>
     <lastmod>2024-01-13T00:00:00+00:00</lastmod>
