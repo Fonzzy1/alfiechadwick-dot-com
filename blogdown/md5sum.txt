@@ -9,5 +9,5 @@
 "content/post/taylor-series/post-1.rmd" "d031e843ad1b0e579049368c30c43fc6"
 "content/post/taylor-series/post-2.rmd" "2117dd6fc7da97762b5b079cdf58eb3d"
 "content/post/taylor-series/post-3.rmd" "3f139ded01ace12f7fb68103439fd56a"
-"content/post/taylor-series/post-4.rmd" "b0959f1e6539e7c7f086ad0a0239a922"
+"content/post/taylor-series/post-4.rmd" "571ee03b8ddf9ea5765a0609bbb81312"
 "content/post/tswift-beads/post.rmd" "ea65056a0933762f18d1754174be4ded"

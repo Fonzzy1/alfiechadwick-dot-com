@@ -9,10 +9,10 @@
     <lastBuildDate>Fri, 15 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/calculus/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Optimising the settings for the ODE solver</title>
-      <link>/2024/03/15/optimising-the-settings-for-the-ode-solver/</link>
+      <title>Optimizing the settings for the ODE solver</title>
+      <link>/2024/03/15/optimizing-the-settings-for-the-ode-solver/</link>
       <pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>/2024/03/15/optimising-the-settings-for-the-ode-solver/</guid>
+      <guid>/2024/03/15/optimizing-the-settings-for-the-ode-solver/</guid>
       <description>In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.&#xA;This is best exemplified by the ODE \(y&amp;#39;&amp;#39; = x + y\) which goes through the point \(y(0) = 1\) and \(y&amp;#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:&#xA;\[ T_1 = \begin{bmatrix} 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ \end{bmatrix} \]</description>
     </item>
     <item>

@@ -9,11 +9,11 @@
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
-            <title>Optimising the settings for the ODE solver</title>
-            <link>/2024/03/15/optimising-the-settings-for-the-ode-solver/</link>
+            <title>Optimizing the settings for the ODE solver</title>
+            <link>/2024/03/15/optimizing-the-settings-for-the-ode-solver/</link>
             <pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
             
-            <guid>/2024/03/15/optimising-the-settings-for-the-ode-solver/</guid>
+            <guid>/2024/03/15/optimizing-the-settings-for-the-ode-solver/</guid>
             <description>In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
 This is best exemplified by the ODE \(y&amp;#39;&amp;#39; = x + y\) which goes through the point \(y(0) = 1\) and \(y&amp;#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:
 \[ T_1 = \begin{bmatrix} 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ \end{bmatrix} \]</description>
@@ -50,7 +50,7 @@ T_3 = \begin{bmatrix}
 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
 \end{bmatrix}
 \]</span></p>
-<p>So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
+<p>So does this matter? Since they are all equally valid ways of representing the ODE, surely they will all lead to the same conclusion. However, using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
 <p><img src="/post/taylor-series/post-4_files/figure-html/example-1.png" width="672" /></p>
 <div id="truncation-error" class="section level2">
 <h2>Truncation Error</h2>

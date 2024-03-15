@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<meta
+  name="author"
+  content="Alfie Chadwick"
+/>
+<meta
+  name="description"
+  content="In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
+This is best exemplified by the ODE \(y&amp;#39;&amp;#39; = x &#43; y\) which goes through the point \(y(0) = 1\) and \(y&amp;#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:
+\[ T_1 = \begin{bmatrix} 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ \end{bmatrix} \]"
+/>
+<meta
+  name="keywords"
+  content=", Calculus, Algebra"
+/>
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/2024/03/15/optimizing-the-settings-for-the-ode-solver/" />
+
+<title>
+   Optimizing the settings for the ODE solver :: Alfie Chadwick  
+</title>
+
+
+ 
+<link
+  rel="stylesheet"
+  href="/main.a9ab624e85e095bcf95bb267aad409c118b491d4ab8297e6d81ced1812528418.css"
+  integrity="sha256-qatiToXglbz5W7JnqtQJwRi0kdSrgpfm2BztGBJShBg="
+/>
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+ <meta itemprop="name" content="Optimizing the settings for the ODE solver">
+<meta itemprop="description" content="In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
+This is best exemplified by the ODE \(y&#39;&#39; = x &#43; y\) which goes through the point \(y(0) = 1\) and \(y&#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:
+\[ T_1 = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\ \end{bmatrix} \]">
+<meta itemprop="dateModified" content="2024-03-15T00:00:00+00:00" />
+<meta itemprop="wordCount" content="932">
+<meta itemprop="keywords" content="Calculus,Algebra," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Optimizing the settings for the ODE solver"/>
+<meta name="twitter:description" content="In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
+This is best exemplified by the ODE \(y&#39;&#39; = x &#43; y\) which goes through the point \(y(0) = 1\) and \(y&#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:
+\[ T_1 = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\ \end{bmatrix} \]"/>
+   
+<meta property="article:published_time" content="2024-03-15 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#bb9af7;
+                   animation-duration:2s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+  <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/tags">Tags</a></li>
+  </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+<main class="post">
+  <div class="post-info">
+    <p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-clock"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      5 minutes 
+    </p>
+
+    <p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-calendar"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      
+       2024-03-15 
+
+      
+      
+    </p>
+  </div>
+
+  <article>
+    <h1 class="post-title">
+      <a href="/2024/03/15/optimizing-the-settings-for-the-ode-solver/">Optimizing the settings for the ODE solver</a>
+    </h1>
+
+      
+
+    <div class="post-content">
+
+
+<p>In the <a href="/2024/01/12/making-my-ode-solver-solve-odes/">last post</a> in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.</p>
+<p>This is best exemplified by the ODE <span class="math inline">\(y&#39;&#39; = x + y\)</span> which goes through the point <span class="math inline">\(y(0) = 1\)</span> and <span class="math inline">\(y&#39;(x) = 1\)</span>. Converting it into a matrix, we would define <span class="math inline">\(T\)</span> as:</p>
+<p><span class="math display">\[
+T_1 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p>
+<p>However, rearranging this ODE into <span class="math inline">\(x = y&#39;&#39; - y\)</span> or <span class="math inline">\(y = y&#39;&#39; - x\)</span>, it would be just as reasonable to define T as:</p>
+<p><span class="math display">\[
+T_2 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; -1 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span>
+<span class="math display">\[
+T_3 = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span></p>
+<p>So does this matter? Since they are all equally valid ways of representing the ODE, surely they will all lead to the same conclusion. However, using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
+<p><img src="/post/taylor-series/post-4_files/figure-html/example-1.png" width="672" /></p>
+<div id="truncation-error" class="section level2">
+<h2>Truncation Error</h2>
+<p>Truncation error is the error that is introduced by approximating a infinite series, such as the Taylor series we use, with a finite number of terms. I’m suspecting in this case, that <span class="math inline">\(T_1\)</span> introduces the least amount of truncation error at each step and this is why it is the best aproximation of the ODE.</p>
+<p>We can define our truncation error (<span class="math inline">\(R\)</span>) as the difference be the true value (<span class="math inline">\(Y^*\)</span>) and the predicted value (<span class="math inline">\(Y\)</span>). In our aproximation, this is defined as:</p>
+<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot Y(x) \]</span></p>
+<p>Where <span class="math inline">\(S\)</span> is the stepping matrix and <span class="math inline">\(T\)</span> is the transformation matrix.</p>
+<p>Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren’t used. When <span class="math inline">\(k\)</span> terms of the taylor series are used, the truncation error (<span class="math inline">\(r\)</span>) is :</p>
+<p><span class="math display">\[ r = \sum_{n = k+2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
+<p>Since <span class="math inline">\(y^{n}\)</span> be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when <span class="math inline">\(k\)</span> terms are used, <span class="math inline">\(r\)</span> is <span class="math inline">\(O(h^{k+3})\)</span>.</p>
+<p>Looking at just the stepping matrix, we can see the truncation error is:</p>
+<p><span class="math display">\[S = \begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix} \rightarrow R =  \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}\]</span></p>
+<p>Taking it back to the above example of <span class="math inline">\(y&#39;&#39; = x + y\)</span>, and the three transformation matrices it defines, we can apply the transformation matrices to the vector <span class="math inline">\(R\)</span> of the standard stepping matrix to get the truncation error for each of the approximations.</p>
+<p><span class="math display">\[T_1 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h^3)\\
+O(h^2)\\
+O(h^3)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
+0\\
+O(h)\\
+O(h^3)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
+0\\
+0\\
+O(h)\\
+O(h^2)\\
+O(h)\\
+\end{bmatrix}
+\]</span></p>
+<p>Now looking at the magnitude of these vectors:</p>
+<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} = O(h^2) \]</span>
+<span class="math display">\[ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2}  = O(h) \]</span>
+<span class="math display">\[ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} $ = O(h) \]</span></p>
+<p>This shows that <span class="math inline">\(|T_1 \cdot R |\)</span> shrinks as <span class="math inline">\(h\)</span> gets smaller faster than when you use <span class="math inline">\(T_2\)</span> or <span class="math inline">\(T_3\)</span>.
+More generally, you can say that <span class="math inline">\(T_1\)</span> will lead to the least error.</p>
+<p>Now these are the errors for each step, so now looking at the truncation error for the whole approximation, we can multiply the error by the number of steps.</p>
+<p>Say we want to find the value for for the curve at <span class="math inline">\(x=1\)</span>, we would need to take <span class="math inline">\(1/h\)</span> steps to find this value.</p>
+<p><span class="math display">\[ |T_1 \cdot R | \cdot \frac{1}{h} = O(h) \]</span>
+<span class="math display">\[ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) \]</span>
+<span class="math display">\[ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) \]</span></p>
+<p>We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the <span class="math inline">\(T_1\)</span> result follows the <span class="math inline">\(O(h)\)</span> curve while the <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> result follows the <span class="math inline">\(O(1)\)</span> curve.</p>
+<p><img src="/post/taylor-series/post-4_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<p>So now trying to generalise this beyond the example we’ve worked through, the reduction in error using the <span class="math inline">\(T_1\)</span> matrix was caused by redefining the term with the most truncation error, <span class="math inline">\(y&#39;&#39;\)</span> with terms with less truncation error, <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Both <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> failed to do this.</p>
+<p>So in general, to minimise error we should try to define the highest derivative in terms of the lower terms, as this will remove the <span class="math inline">\(O(h)\)</span> error from the truncation vector.</p>
+</div>
+</div>
+  </article>
+
+  <hr />
+
+  <div class="post-info">
+    
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/calculus/">Calculus</a></span>
+        <span class="tag"><a href="/tags/algebra/">Algebra</a></span>
+        
+    </p>
+ 
+
+    <p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-file-text"
+      >
+        <path
+          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+        ></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      932 Words
+    </p>
+  </div>
+
+  
+</main>
+
+            </div>
+
+            
+                <footer class="footer">
+  
+
+  <script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+    
+    <script src="/js/menu.js"></script>
+</footer>
+
+</body>
+</html>
+
+            
+        </div>
+
+           
+
+    </body>
+</html>

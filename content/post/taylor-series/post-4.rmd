@@ -115,7 +115,7 @@ T_3 = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-So does this matter? Since they are all equally valid ways of representing the ODE, surely they will all lead to the same conclusion. However, using each of these matrices the ODE we get very different solutions. $T1$ is the closet, $T3$ and $T2$ are both equally far off.
+So does this matter? Since they are all equally valid ways of representing the ODE, surely they will all lead to the same conclusion. However, using each of these matrices to represent the ODE we get very different solutions. $T_1$ is the closet, while  $T_3$ and $T_2$ are both equally far off.
 
 ```{python example, echo = FALSE}
 init_y = [1,0,1,1,1] #[1,x,y,y']
@@ -168,6 +168,7 @@ plt.plot(solution3.x, solution3.y_0, label='T3 Aproximated Solution', linestyle=
 plt.plot(solution1.x, -solution1.x -0.5*np.e**(-solution1.x) + 1.5*np.e**solution1.x, label='True Solution', linestyle='--')
 plt.xlabel('x') # Label for the x-axis
 plt.ylabel('y') # Label for the y-axis
+plt.title('Approximation using each of the matrices') # Label for the y-axis
 plt.grid(True) # Show a grid for better readability
 plt.legend()
 plt.show()
@@ -175,19 +176,19 @@ plt.show()
 
 ## Truncation Error
 
-Truncation error is the error that is introduced by approximating a infinite series, such as the Taylor series we use, with a finite number of terms. I'm suspecting in this case, that $T_1$ introduces the least amount of truncation error at each step and this is why it is the best aproximation of the ODE.
+Truncation error is the error that is introduced by approximating a infinite series, such as the Taylor series we use, with a finite number of terms. I'm suspecting in this case, that $T_1$ introduces the least amount of truncation error at each step and this is why it is the best approximation of the ODE.
 
-We can define our truncation error ($R$) as the difference be the true value ($Y^*$) and the predicted value ($Y$). In our aproximation, this is defined as:
+We can define our truncation error ($R$) as the difference be the true value ($Y^*$) and the predicted value ($Y$). In our approximation, this is defined as:
 
 $$R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot Y(x) $$
 
 Where $S$ is the stepping matrix and $T$ is the transformation matrix.
 
-Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren't used. When $k$ terms of the taylor series are used, the truncation error ($r$) is :
+Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren't used. When $k$ terms of the Taylor series are used, the truncation error ($r$) is :
 
 $$ r = \sum_{n = k+2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n$$
 
-Since $y^{n}$ be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when $k$ terms are used, $r$ is $O(h^{k+3})$.
+Since $y^{n}$ be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when $k$ terms are used, $r$ is $O(h^{k+1)$.
 
 Looking at just the stepping matrix, we can see the truncation error is:
 
@@ -205,8 +206,7 @@ O(h^2)\\
 O(h)\\
 \end{bmatrix}$$
 
-
-Taking it back to the above example of $y'' = x + y$, and the three transformation matrices it defines, we can apply the transformation matrices to the vector $R$ of the standard stepping matrix to get the truncation error for each of the approximations.
+Taking it back to the above example of $y'' = x + y$, and the three transformation matrices it defines, we can apply the transformation matrices to the vector $R$ to get the truncation error for each of the approximations.
 
 $$T_1 \cdot R  = \begin{bmatrix}
 0\\
@@ -243,10 +243,9 @@ $$ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2}  = O(h)
 $$ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} $ = O(h) $$
 
 
-This shows that $|T_1 \cdot R |$ shrinks as $h$ gets smaller faster than when you use $T_2$ or $T_3$. 
-More generally, you can say that $T_1$ will lead to the least error.
+This shows that $|T_1 \cdot R |$ shrinks as $h$ gets smaller faster than when you use $T_2$ or $T_3$. In layman's terms, you could say that $T_1$ will lead to the least error being accrued at each step, given h is sufficiently small.
 
-Now these are the errors for each step, so now looking at the truncation error for the whole approximation, we can multiply the error by the number of steps.
+It is important to remember that these are the errors for each step, but we are looking at the error across the whole approximation. To get the total error, we can just multiply this stepwise error by the number of steps.
 
 Say we want to find the value for for the curve at $x=1$, we would need to take $1/h$ steps to find this value.
 
@@ -255,8 +254,10 @@ $$ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) $$
 $$ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) $$
 
 
-We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the $T_1$ result follows the $O(h)$ curve while the $T_2$ and $T_3$ result follows the $O(1)$ curve.
+These values would indicate that the error for $T_2$ and $T_3$ would be constant, while for $T_1$ it will decrease linearly with with $h$.
 
+
+We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the $T_1$ result follows the $O(h)$ curve while the $T_2$ and $T_3$ result follows the $O(1)$ curve.
 
 ```{python, echo = FALSE}
 h_list = [1/1, 1/5, 1/10, 1/50, 1/100, 1/500]
