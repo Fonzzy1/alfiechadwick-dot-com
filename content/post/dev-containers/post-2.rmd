@@ -1,0 +1,135 @@
+---
+title: "Making my own note taking system"
+author: 'Alfie Chadwick'
+date: '2024-03-21'
+lastmod: "`r Sys.Date()`"
+Tags: ['Devops','AI']
+output:
+  blogdown::html_page
+---
+
+
+For a while now, I've been using gists to take notes and store them in the cloud. Overall its worked pretty well, but I think formalising it into something more robust with some more features would be really useful. 
+
+## The Goal
+
+My dream note taking platform would have:
+- Version Control
+- Cloud Sync
+- Easy Sharing and Collaboration
+- Query Based Retrieval (Instead of structured retrieval)
+- Good Integrations with VIM and CLI tools
+
+Gists already cover the first three points, so all I have to build is something that allows me to access these gists from the CLI, and also set up a system for querying them.
+
+##  Starting Point
+
+I think the most obvious place to start poking around in the gh cli. It gives us good access to all the gists without needing to play around to much with all the authentication issues that we normaly run into when dealing with the GitHub API. This does mean we're gonna be writing all of this in bash but it's easy enough to call other languages in when needed.
+
+The way i currently work with my gists is as follows:
+
+```{BASH gh-gist-list-example, eval = FALSE}
+root@ubuntu $ gh gist list
+ID               DESCRIPTION        FILES    VISIBILITY  UPDATED           
+example1         file1              1 file   secret      about 21 days ago
+example2         file2              1 file   secret      about 1 month ago
+example3         file3              1 file   public      about 1 month ago
+example4         file4              2 files  secret      about 13 hours ago
+example5         file5              1 file   secret      about 1 month ago
+example6         file6              1 file   secret      about 1 month ago
+
+root@ubuntu $ gh gist view example1 
+
+This is the contents of the file
+
+root@ubuntu $ gh gist edit example1 
+# Opens Editor to change the files
+
+```
+
+Which is pretty good, but could do with some improvement. I would much prefer the system to be interactive, with the ability to list, query and edit the gist coming from one command. My goal workflow would look something like this:
+
+```{BASH goal_example, eval = FALSE}
+root@ubuntu $ gistnotes
+Query: 
+NAME               FILES    VISIBILITY  UPDATED           
+file1              1 file   secret      about 21 days ago
+file2              1 file   secret      about 1 month ago
+file3              1 file   public      about 1 month ago
+file4              2 files  secret      about 13 hours ago
+file5              1 file   secret      about 1 month ago
+file6              1 file   secret      about 1 month ago
+
+
+root@ubuntu $ gistnotes
+Query: Query string that allows me to order the files to match
+NAME               FILES    VISIBILITY  UPDATED           
+file6              1 file   secret      about 1 month ago
+file3              1 file   public      about 1 month ago
+file5              1 file   secret      about 1 month ago
+
+
+# Using the arrow keys to select the file I want
+# Pressing enter to clone it into vim to be eddited and viewed
+root@ubuntu $ gistnotes
+Query: Query string that allows me to order the files to match
+    NAME               FILES    VISIBILITY  UPDATED           
+    file6              1 file   secret      about 1 month ago
+ *  file3              1 file   public      about 1 month ago
+    file5              1 file   secret      about 1 month ago
+
+```
+
+So I build a quick cli tool for the interface in python:
+
+```{python interface, eval = FALSE}
+from sentence_transformers import SentenceTransformer
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from files import gistnotes
+from InquirerPy import inquirer
+
+class EmbeddingFuzzyFinder:
+    def __init__(self, data):
+        self.data = data
+        self.model = SentenceTransformer("all-MiniLM-L6-v2")  # Use a light model for quick embedding
+        self.prepare_data()
+
+    def prepare_data(self):
+        self.files = [
+            f"{item['name']} | {item['files']} | {item['visibility']} | {item['updated']}"
+            for item in self.data
+        ]
+        self.embeddings = self.model.encode(self.files, convert_to_tensor=True)
+
+    def find(self, query):
+        query_embedding = self.model.encode([query], convert_to_tensor=True)
+        cos_similarities = cosine_similarity(
+            query_embedding.detach().numpy(), self.embeddings.detach().numpy()
+        ).flatten()
+        top_similar_indices = np.argsort(cos_similarities)[::-1]
+        return [self.files[i] for i in top_similar_indices]
+
+finder = EmbeddingFuzzyFinder(gistnotes)
+
+try:
+    while True:
+        result = inquirer.text(message="What are you looking for?").execute()
+        copies = finder.find(result)
+
+        while True:
+            question = inquirer.fuzzy(
+                message="Select a gist:",
+                choices=copies + ["? (Return to search)"],
+            )
+            result = question.execute()
+
+            if result == "? (Return to search)":
+                break
+
+            print(*result)
+except KeyboardInterrupt:
+    exit(1)
+
+```
+
