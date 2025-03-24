@@ -1,12 +1,18 @@
 project:
-  type: hugo
-      
-format: 
-  hugo:
-    code-fold: false
-    html-math-method: plain
-  
-execute: 
-  warning: false
-  freeze: auto 
+  type: website
+
+website:
+  title: "Alfie Chadwick"
+  navbar:
+    left:
+      - href: content/index.qmd
+        text: Home
+      - href: content/about.qmd
+        text: About
+
+format:
+  html:
+    theme: theme.scss
+    toc: true
+    highlight-style: code_block.css
 
