@@ -5,9 +5,9 @@ website:
   title: "Alfie Chadwick"
   navbar:
     left:
-      - href: content/index.qmd
+      - href: pages/index.qmd
         text: Home
-      - href: content/about.qmd
+      - href: pages/about.qmd
         text: About
       - href: pages/posts/postList.qmd
 
