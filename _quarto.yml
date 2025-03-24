@@ -12,7 +12,7 @@ website:
 
 format:
   html:
-    theme: theme.scss
+    theme: themes/theme.scss
     toc: true
-    highlight-style: code_block.css
+    highlight-style: themes/code_block.css
 
