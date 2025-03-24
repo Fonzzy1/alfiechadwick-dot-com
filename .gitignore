@@ -2,3 +2,5 @@
 **/*_plays.json
 *.swp
 blogdown/post
+
+/.quarto/
