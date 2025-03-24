@@ -58,9 +58,6 @@ The parameters $\pi_1$, $\pi_2$, and $\pi_3$ represent the 'infectiousness' of t
 
 We now look at some plots to see how this model behaves for various combinations of our parameters:
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 import numpy as np
 import pandas as pd
@@ -98,8 +95,6 @@ plt.tight_layout()  # Optional: this improves spacing between plots
 plt.show()
 ```
 
-</details>
-
 <img src="final_report_files/figure-markdown_strict/cell-2-output-1.png" width="950" height="950" />
 
 ## SUAR Model
@@ -120,9 +115,6 @@ $$\frac{dA}{dt} = \pi_3*U +\pi_5 *(A+U)*R - \pi_4*A $$
 $$\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R $$
 
 With parameters $\pi_1$, $\pi_2$, $\pi_3$, $\pi_4$, and $\pi_5$ being the 'effectiveness' of the drug for susceptible people, the rate that people stop trying the drug, the rate at which people become addicted, the recovery rate for addicted people respectively, and the 'effectiveness' for recovered people.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 # Create a new figure with a specified size
@@ -150,8 +142,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-</details>
-
 <img src="final_report_files/figure-markdown_strict/cell-3-output-1.png" width="1142" height="1142" />
 
 ## SAUR Model with age
@@ -174,9 +164,6 @@ $$\frac{dA_i}{dt} = aU_{i-1}\pi_{i-1,3} + aA_{i-1} + aR_{i-1}\pi_{i-1,5}N_{i-1} 
 $$\frac{dR_i}{dt} = aA_{i-1}\pi_{i-1,4}P_{i-1} + aR_{i-1} - aR_i -R_i\pi_{i,5}N_i + (1-a)A_i\pi_{i,4}P_i - d_{i,R}R_I $$
 
 With the parameters being sorted in matrices $\pi$, {d} and {i}, containing row-wise versions of the parameters for the SAUR model, the death rate for each compartment, and the influence that each age group has on the other, and scalars $a$ and $b$, which define the aging rate and the birth rate of the population.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 aging_rate = 0.05
@@ -210,8 +197,6 @@ P = 0.1*np.array([[0.0, 1.0, 0.5, 0.0, 1.0],
 SUAR_20(aging_rate,birth_rate,death_rate, I, P, X0,600)
 ```
 
-</details>
-
 ## Simplified SUAR Model with age
 
 After creating the SAUR model with age groups, we experimented with various combinations of parameters to see how the model reacted.
@@ -226,9 +211,6 @@ $$\frac{dS}{dt} = -S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R)  $$
 $$\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  $$
 $$\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA$$
 $$\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR $$
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 plt.figure(figsize=(12, 12))
@@ -255,8 +237,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-</details>
-
 <img src="final_report_files/figure-markdown_strict/cell-5-output-1.png" width="1142" height="1142" />
 
 Looking at this model, it is clear to see that we will only find stationary points when births and deaths are equal. However we also want to see long term trends in growing and shrinking populations. To do this, we look at this model through population portions, redefining the system as:
@@ -276,9 +256,6 @@ $$ \frac{ds}{dt} = (-s\pi_{1}(u+a)+u\pi_2(s+r)  -d_Ss + 1)-s(1 - d_Ss - d_Uu - d
 $$ \frac{du}{dt} = (s\pi_{1}(u+a)-u\pi_2(s+r) - u\pi_3 -d_Uu )-u(1 - d_Ss - d_Uu - d_Aa - d_Rr) $$
 $$ \frac{da}{dt} = (u\pi_3 -a\pi_4(s+r) + r\pi_5(u+a) -d_Aa )-a(1 - d_Ss - d_Uu - d_Aa - d_Rr)  $$
 $$ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa - d_Rr)$$
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 # Initialize a new plot with a specific figure size
@@ -308,8 +285,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-</details>
-
 <img src="final_report_files/figure-markdown_strict/cell-6-output-1.png" width="1142" height="1142" />
 
 # Results
@@ -320,9 +295,6 @@ However, for some combinations of parameters, secondary stationary points are fo
 Note that all the death parameters were set to one, meaning that these results are for drugs where the rate of death is independent of the compartment. To find results for other sets of death parameters, line 25 of appendix 4 should be altered.
 
 Using the table of non-trivial stationary points (appendix 10), we can now plot the number of combinations of parameters that lead to non-trivial stationary points pairwise by parameter.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 from mplcatppuccin.colormaps import get_colormap_from_list
@@ -363,16 +335,11 @@ fig.suptitle("Number of combinations that have Non-trivial stationary points \n 
 plt.show()
 ```
 
-</details>
-
 <img src="final_report_files/figure-markdown_strict/cell-7-output-1.png" width="690" height="477" />
 
 From this plot, one can see a big factor that influences the creation of these non-trivial stationary points is the magnitude of $\pi_1$, and to a lesser extent the ratio of $\pi_1$ and $\pi_2$. In this case, births will rapidly transition to the using category, meaning that they then have the potential to become addicted.
 
 Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in the plots below.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 fig, axs = plt.subplots(5, 5)
@@ -408,8 +375,6 @@ c = fig.colorbar(t, cax=cbar_ax)
 fig.suptitle("Average portion of people using or addicted at non-Trivial Stationary Points \n ds=1, du=1, da=1, dr=1 s0=0.6, u0=0.2, a0=0.1, r0=0.1, Total Sims = 216")
 plt.show()
 ```
-
-</details>
 
 <img src="final_report_files/figure-markdown_strict/cell-8-output-1.png" width="686" height="477" />
 
@@ -568,8 +533,6 @@ writematrix(double(ss), 'ss.csv')
     from inspect import getsource as gs
     print(gs(SIR))
 
-<div class="cell-output cell-output-stdout">
-
     def SIR(p1, p2, p3, S0, I0, R0, i):
         vect_initial = np.array([S0, I0, R0]).T
 
@@ -595,21 +558,14 @@ writematrix(double(ss), 'ss.csv')
         plt.title("p1=" + str(p1) + ", p2=" + str(p2) + ", p3=" + str(p3))
         plt.legend(["S", "I", "R"])
 
-</div>
-
 :::
 
 ## Appendix 6: Python code for simulating SUAR model
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 from inspect import getsource as gs
 print(gs(SUAR))
 ```
-
-</details>
 
     def SUAR(p1, p2, p3, p4, p5, S0, U0, A0, R0, i):
         vect_initial = np.array([S0, U0, A0, R0]).T
@@ -652,15 +608,10 @@ print(gs(SUAR))
 
 ## Appendix 7: Python code for simulating 20 compartment SUAR model
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 from inspect import getsource as gs
 print(gs(SUAR_20))
 ```
-
-</details>
 
     def SUAR_20(aging_rate, birth_rate, death_rate, I, P, X0, steps):
         C = pd.DataFrame(columns=["s", "t", "a", "r"], dtype="float128")
@@ -732,15 +683,10 @@ print(gs(SUAR_20))
 
 ## Appendix 8: Python code for simulating 5 compartment SUAR model
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 from inspect import getsource as gs
 print(gs(SUAR_5))
 ```
-
-</details>
 
     def SUAR_5(p1, p2, p3, p4, p5, b, d, S0, U0, A0, R0, i):
         vect_initial = np.array([S0, U0, A0, R0]).T
@@ -787,15 +733,10 @@ print(gs(SUAR_5))
 
 ## Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 from inspect import getsource as gs
 print(gs(SUAR_norm))
 ```
-
-</details>
 
     def SUAR_norm(p1, p2, p3, p4, p5, d, S0, U0, A0, R0, i, h, plot=True):
         vect_initial = np.array([S0, U0, A0, R0]).T

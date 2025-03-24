@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<meta
+  name="author"
+  content="Alfie Chadwick"
+/>
+<meta
+  name="description"
+  content="import re song_list = [ &amp;#34;Tim McGraw&amp;#34;, &amp;#34;Marys Song&amp;#34;, &amp;#34;Our Song&amp;#34;, &amp;#34;Im Only Me When Im With You&amp;#34;, &amp;#34;Invisible&amp;#34;, &amp;#34;A Perfectly Good Heart&amp;#34;, &amp;#34;Last Christmas&amp;#34;, &amp;#34;Christmases When You Were Mine&amp;#34;, &amp;#34;Santa Baby&amp;#34;, &amp;#34;Silent Night&amp;#34;, &amp;#34;Christmas Must Be Something More&amp;#34;, &amp;#34;White Christmas&amp;#34;, &amp;#34;Jump Then Fall&amp;#34;, &amp;#34;Untouchable&amp;#34;, &amp;#34;Forever Always&amp;#34;, &amp;#34;Come In With The Rain&amp;#34;, &amp;#34;Superstar&amp;#34;, &amp;#34;The Other Side Of The Door&amp;#34;, &amp;#34;Fearless&amp;#34;, &amp;#34;Fifteen&amp;#34;, &amp;#34;Love Story&amp;#34;, &amp;#34;Hey Stephen&amp;#34;, &amp;#34;White Horse&amp;#34;, &amp;#34;You Belong With Me&amp;#34;, &amp;#34;Breathe&amp;#34;, &amp;#34;Tell Me Why&amp;#34;, &amp;#34;Youre Not Sorry&amp;#34;, &amp;#34;The Way I Loved You&amp;#34;, &amp;#34;Forever and Always&amp;#34;, &amp;#34;The Best Day&amp;#34;, &amp;#34;Change&amp;#34;, &amp;#34;Mine&amp;#34;, &amp;#34;Sparks Fly&amp;#34;, &amp;#34;Back To December&amp;#34;, &amp;#34;Speak Now&amp;#34;, &amp;#34;Dear John&amp;#34;, &amp;#34;Mean&amp;#34;, &amp;#34;The Story Of Us&amp;#34;, &amp;#34;Never Grow Up&amp;#34;, &amp;#34;Enchanted&amp;#34;, &amp;#34;Better Than Revenge&amp;#34;, &amp;#34;Innocent&amp;#34;, &amp;#34;Haunted&amp;#34;, &amp;#34;Last Kiss&amp;#34;, &amp;#34;Long Live&amp;#34;, &amp;#34;Ours&amp;#34;, &amp;#34;If This Was A Movie&amp;#34;, &amp;#34;Superman&amp;#34;, &amp;#34;State Of Grace&amp;#34;, &amp;#34;Red&amp;#34;, &amp;#34;Treacherous&amp;#34;, &amp;#34;I Knew You Were Trouble&amp;#34;, &amp;#34;All Too Well&amp;#34;, &amp;#34;TwentyTwo&amp;#34;, &amp;#34;I Almost Do&amp;#34;, &amp;#34;We Are Never Ever Getting Back Together&amp;#34;, &amp;#34;Come Back Be Here&amp;#34;, &amp;#34;Girl At Home&amp;#34;, &amp;#34;Welcome To New York&amp;#34;, &amp;#34;Blank Space&amp;#34;, &amp;#34;Style&amp;#34;, &amp;#34;Out Of The Woods&amp;#34;, &amp;#34;All You Had To Do Was Stay&amp;#34;, &amp;#34;Shake It Off&amp;#34;, &amp;#34;I Wish You Would&amp;#34;, &amp;#34;Bad Blood&amp;#34;, &amp;#34;Wildest Dreams&amp;#34;, &amp;#34;How You Get The Girl&amp;#34;, &amp;#34;This Love&amp;#34;, &amp;#34;I Know Places&amp;#34;, &amp;#34;Clean&amp;#34;, &amp;#34;Wonderland&amp;#34;, &amp;#34;You Are In Love&amp;#34;, &amp;#34;New Romantics&amp;#34;, &amp;#34;Ready For It&amp;#34;, &amp;#34;End Game&amp;#34;, &amp;#34;I Did Something Bad&amp;#34;, &amp;#34;Dont Blame Me&amp;#34;, &amp;#34;Delicate&amp;#34;, &amp;#34;Look What You Made Me Do&amp;#34;, &amp;#34;So It Goe&amp;#34;, &amp;#34;Gorgeous&amp;#34;, &amp;#34;Getaway Car&amp;#34;, &amp;#34;King Of My Heart&amp;#34;, &amp;#34;Dancing With Our Hands Tied&amp;#34;, &amp;#34;Dress&amp;#34;, &amp;#34;This Is Why We Cant Have Nice Things&amp;#34;, &amp;#34;Call It What You Want&amp;#34;, &amp;#34;New Years Day&amp;#34;, &amp;#34;I Forgot That You Existed&amp;#34;, &amp;#34;Cruel Summer&amp;#34;, &amp;#34;Lover&amp;#34;, &amp;#34;The Man&amp;#34;, &amp;#34;The Archer&amp;#34;, &amp;#34;I Think He Knows&amp;#34;, &amp;#34;Miss Americana &amp;amp; The Heartbreak Prince&amp;#34;, &amp;#34;Paper Rings&amp;#34;, &amp;#34;Cornelia Street&amp;#34;, &amp;#34;Death By A Thousand Cuts&amp;#34;, &amp;#34;London Boy&amp;#34;, &amp;#34;Soon Youll Get Better&amp;#34;, &amp;#34;False God&amp;#34;, &amp;#34;You Need To Calm Down&amp;#34;, &amp;#34;Afterglow&amp;#34;, &amp;#34;ME&amp;#34;, &amp;#34;Its Nice To Have A Friend&amp;#34;, &amp;#34;Daylight&amp;#34;, &amp;#34;the one&amp;#34;, &amp;#34;cardigan&amp;#34;, &amp;#34;the last great american dynasty&amp;#34;, &amp;#34;exile&amp;#34;, &amp;#34;my tears ricochet&amp;#34;, &amp;#34;mirrorball&amp;#34;, &amp;#34;seven&amp;#34;, &amp;#34;august&amp;#34;, &amp;#34;this is me trying&amp;#34;, &amp;#34;illicit affairs&amp;#34;, &amp;#34;invisible string&amp;#34;, &amp;#34;mad woman&amp;#34;, &amp;#34;epiphany&amp;#34;, &amp;#34;betty&amp;#34;, &amp;#34;peace&amp;#34;, &amp;#34;hoax&amp;#34;, &amp;#34;the lakes&amp;#34;, &amp;#34;willow&amp;#34;, &amp;#34;champagne problems&amp;#34;, &amp;#34;gold rush&amp;#34;, &amp;#34;tis the damn season&amp;#34;, &amp;#34;tolerate it&amp;#34;, &amp;#34;no body no crime&amp;#34;, &amp;#34;happiness&amp;#34;, &amp;#34;dorothea&amp;#34;, &amp;#34;coney island&amp;#34;, &amp;#34;ivy&amp;#34;, &amp;#34;cowboy like me&amp;#34;, &amp;#34;long story short&amp;#34;, &amp;#34;marjorie&amp;#34;, &amp;#34;closure&amp;#34;, &amp;#34;evermore&amp;#34;, &amp;#34;right where you left me&amp;#34;, &amp;#34;its time to go&amp;#34;, &amp;#34;You All Over Me&amp;#34;, &amp;#34;Mr Perfectly Fine&amp;#34;, &amp;#34;We Were Happy&amp;#34;, &amp;#34;Thats When&amp;#34;, &amp;#34;Dont You&amp;#34;, &amp;#34;Bye Bye Baby&amp;#34;, &amp;#34;Message In A Bottle&amp;#34;, &amp;#34;I Bet You Think About Me&amp;#34;, &amp;#34;Forever Winter&amp;#34;, &amp;#34;Run&amp;#34;, &amp;#34;The Very First Night&amp;#34;, &amp;#34;All Too Well&amp;#34;, &amp;#34;Lavender Haze&amp;#34;, &amp;#34;Maroon&amp;#34;, &amp;#34;Anti-Hero&amp;#34;, &amp;#34;Snow On The Beach&amp;#34;, &amp;#34;Youre On Your Own Kid&amp;#34;, &amp;#34;Midnight Rain&amp;#34;, &amp;#34;Question&amp;#34;, &amp;#34;Vigilante Shit&amp;#34;, &amp;#34;Bejeweled&amp;#34;, &amp;#34;Labyrinth&amp;#34;, &amp;#34;Karma&amp;#34;, &amp;#34;Sweet Nothing&amp;#34;, &amp;#34;Mastermind&amp;#34;, &amp;#34;Hits Different&amp;#34;, &amp;#34;Bigger Than The Whole Sky&amp;#34;, &amp;#34;Paris&amp;#34;, &amp;#34;High Infidelity&amp;#34;, &amp;#34;Glitch&amp;#34;, &amp;#34;Wouldve Couldve Shouldve&amp;#34;, &amp;#34;Dear Reader&amp;#34;, &amp;#34;Electric Touch&amp;#34;, &amp;#34;When Emma Falls in Love&amp;#34;, &amp;#34;I Can See You&amp;#34;, &amp;#34;Castles Crumbling&amp;#34;, &amp;#34;Foolish One&amp;#34;, &amp;#34;Timeless&amp;#34;, &amp;#34;Slut&amp;#34;, &amp;#34;Say Dont Go&amp;#34;, &amp;#34;Now That We Dont Talk &amp;#34;, &amp;#34;Suburban Legends&amp;#34;, &amp;#34;Is It Over Now&amp;#34;, &amp;#34;Sweeter Than Fiction&amp;#34;, &amp;#34;Red&amp;#34;, &amp;#34;Fearless&amp;#34;, &amp;#34;Midnights&amp;#34;, &amp;#34;Reputation&amp;#34;, &amp;#34;Lover&amp;#34;, &amp;#34;Folklore&amp;#34;, &amp;#34;Evermore&amp;#34;, &amp;#34;Red&amp;#34;] bead_dict = { &amp;#39;a&amp;#39;: 5, &amp;#39;b&amp;#39;: 9, &amp;#39;c&amp;#39;: 12, &amp;#39;d&amp;#39;: 4, &amp;#39;e&amp;#39;: 5, &amp;#39;f&amp;#39;: 5, &amp;#39;g&amp;#39;: 10, &amp;#39;h&amp;#39;: 13, &amp;#39;i&amp;#39;: 14, &amp;#39;j&amp;#39;: 11, &amp;#39;k&amp;#39;: 6, &amp;#39;l&amp;#39;: 12, &amp;#39;m&amp;#39;: 15, &amp;#39;n&amp;#39;: 9, &amp;#39;o&amp;#39;:4, &amp;#39;p&amp;#39;: 12, &amp;#39;q&amp;#39;: 9, &amp;#39;r&amp;#39;: 4, &amp;#39;s&amp;#39;: 10, &amp;#39;t&amp;#39;: 6, &amp;#39;u&amp;#39;: 6, &amp;#39;v&amp;#39;: 11, &amp;#39;x&amp;#39;: 6, &amp;#39;y&amp;#39;: 11, &amp;#39;z&amp;#39;: 17 } With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert."
+/>
+<meta
+  name="keywords"
+  content=", Python"
+/>
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/1/01/01/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/" />
+
+<title>
+   Maximising the Number of Friendship Bracelets for the Taylor Swift Concert :: Alfie Chadwick  
+</title>
+
+
+ 
+<link
+  rel="stylesheet"
+  href="/main.a9ab624e85e095bcf95bb267aad409c118b491d4ab8297e6d81ced1812528418.css"
+  integrity="sha256-qatiToXglbz5W7JnqtQJwRi0kdSrgpfm2BztGBJShBg="
+/>
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+ <meta itemprop="name" content="Maximising the Number of Friendship Bracelets for the Taylor Swift Concert">
+<meta itemprop="description" content="import re song_list = [ &#34;Tim McGraw&#34;, &#34;Marys Song&#34;, &#34;Our Song&#34;, &#34;Im Only Me When Im With You&#34;, &#34;Invisible&#34;, &#34;A Perfectly Good Heart&#34;, &#34;Last Christmas&#34;, &#34;Christmases When You Were Mine&#34;, &#34;Santa Baby&#34;, &#34;Silent Night&#34;, &#34;Christmas Must Be Something More&#34;, &#34;White Christmas&#34;, &#34;Jump Then Fall&#34;, &#34;Untouchable&#34;, &#34;Forever Always&#34;, &#34;Come In With The Rain&#34;, &#34;Superstar&#34;, &#34;The Other Side Of The Door&#34;, &#34;Fearless&#34;, &#34;Fifteen&#34;, &#34;Love Story&#34;, &#34;Hey Stephen&#34;, &#34;White Horse&#34;, &#34;You Belong With Me&#34;, &#34;Breathe&#34;, &#34;Tell Me Why&#34;, &#34;Youre Not Sorry&#34;, &#34;The Way I Loved You&#34;, &#34;Forever and Always&#34;, &#34;The Best Day&#34;, &#34;Change&#34;, &#34;Mine&#34;, &#34;Sparks Fly&#34;, &#34;Back To December&#34;, &#34;Speak Now&#34;, &#34;Dear John&#34;, &#34;Mean&#34;, &#34;The Story Of Us&#34;, &#34;Never Grow Up&#34;, &#34;Enchanted&#34;, &#34;Better Than Revenge&#34;, &#34;Innocent&#34;, &#34;Haunted&#34;, &#34;Last Kiss&#34;, &#34;Long Live&#34;, &#34;Ours&#34;, &#34;If This Was A Movie&#34;, &#34;Superman&#34;, &#34;State Of Grace&#34;, &#34;Red&#34;, &#34;Treacherous&#34;, &#34;I Knew You Were Trouble&#34;, &#34;All Too Well&#34;, &#34;TwentyTwo&#34;, &#34;I Almost Do&#34;, &#34;We Are Never Ever Getting Back Together&#34;, &#34;Come Back Be Here&#34;, &#34;Girl At Home&#34;, &#34;Welcome To New York&#34;, &#34;Blank Space&#34;, &#34;Style&#34;, &#34;Out Of The Woods&#34;, &#34;All You Had To Do Was Stay&#34;, &#34;Shake It Off&#34;, &#34;I Wish You Would&#34;, &#34;Bad Blood&#34;, &#34;Wildest Dreams&#34;, &#34;How You Get The Girl&#34;, &#34;This Love&#34;, &#34;I Know Places&#34;, &#34;Clean&#34;, &#34;Wonderland&#34;, &#34;You Are In Love&#34;, &#34;New Romantics&#34;, &#34;Ready For It&#34;, &#34;End Game&#34;, &#34;I Did Something Bad&#34;, &#34;Dont Blame Me&#34;, &#34;Delicate&#34;, &#34;Look What You Made Me Do&#34;, &#34;So It Goe&#34;, &#34;Gorgeous&#34;, &#34;Getaway Car&#34;, &#34;King Of My Heart&#34;, &#34;Dancing With Our Hands Tied&#34;, &#34;Dress&#34;, &#34;This Is Why We Cant Have Nice Things&#34;, &#34;Call It What You Want&#34;, &#34;New Years Day&#34;, &#34;I Forgot That You Existed&#34;, &#34;Cruel Summer&#34;, &#34;Lover&#34;, &#34;The Man&#34;, &#34;The Archer&#34;, &#34;I Think He Knows&#34;, &#34;Miss Americana &amp; The Heartbreak Prince&#34;, &#34;Paper Rings&#34;, &#34;Cornelia Street&#34;, &#34;Death By A Thousand Cuts&#34;, &#34;London Boy&#34;, &#34;Soon Youll Get Better&#34;, &#34;False God&#34;, &#34;You Need To Calm Down&#34;, &#34;Afterglow&#34;, &#34;ME&#34;, &#34;Its Nice To Have A Friend&#34;, &#34;Daylight&#34;, &#34;the one&#34;, &#34;cardigan&#34;, &#34;the last great american dynasty&#34;, &#34;exile&#34;, &#34;my tears ricochet&#34;, &#34;mirrorball&#34;, &#34;seven&#34;, &#34;august&#34;, &#34;this is me trying&#34;, &#34;illicit affairs&#34;, &#34;invisible string&#34;, &#34;mad woman&#34;, &#34;epiphany&#34;, &#34;betty&#34;, &#34;peace&#34;, &#34;hoax&#34;, &#34;the lakes&#34;, &#34;willow&#34;, &#34;champagne problems&#34;, &#34;gold rush&#34;, &#34;tis the damn season&#34;, &#34;tolerate it&#34;, &#34;no body no crime&#34;, &#34;happiness&#34;, &#34;dorothea&#34;, &#34;coney island&#34;, &#34;ivy&#34;, &#34;cowboy like me&#34;, &#34;long story short&#34;, &#34;marjorie&#34;, &#34;closure&#34;, &#34;evermore&#34;, &#34;right where you left me&#34;, &#34;its time to go&#34;, &#34;You All Over Me&#34;, &#34;Mr Perfectly Fine&#34;, &#34;We Were Happy&#34;, &#34;Thats When&#34;, &#34;Dont You&#34;, &#34;Bye Bye Baby&#34;, &#34;Message In A Bottle&#34;, &#34;I Bet You Think About Me&#34;, &#34;Forever Winter&#34;, &#34;Run&#34;, &#34;The Very First Night&#34;, &#34;All Too Well&#34;, &#34;Lavender Haze&#34;, &#34;Maroon&#34;, &#34;Anti-Hero&#34;, &#34;Snow On The Beach&#34;, &#34;Youre On Your Own Kid&#34;, &#34;Midnight Rain&#34;, &#34;Question&#34;, &#34;Vigilante Shit&#34;, &#34;Bejeweled&#34;, &#34;Labyrinth&#34;, &#34;Karma&#34;, &#34;Sweet Nothing&#34;, &#34;Mastermind&#34;, &#34;Hits Different&#34;, &#34;Bigger Than The Whole Sky&#34;, &#34;Paris&#34;, &#34;High Infidelity&#34;, &#34;Glitch&#34;, &#34;Wouldve Couldve Shouldve&#34;, &#34;Dear Reader&#34;, &#34;Electric Touch&#34;, &#34;When Emma Falls in Love&#34;, &#34;I Can See You&#34;, &#34;Castles Crumbling&#34;, &#34;Foolish One&#34;, &#34;Timeless&#34;, &#34;Slut&#34;, &#34;Say Dont Go&#34;, &#34;Now That We Dont Talk &#34;, &#34;Suburban Legends&#34;, &#34;Is It Over Now&#34;, &#34;Sweeter Than Fiction&#34;, &#34;Red&#34;, &#34;Fearless&#34;, &#34;Midnights&#34;, &#34;Reputation&#34;, &#34;Lover&#34;, &#34;Folklore&#34;, &#34;Evermore&#34;, &#34;Red&#34;] bead_dict = { &#39;a&#39;: 5, &#39;b&#39;: 9, &#39;c&#39;: 12, &#39;d&#39;: 4, &#39;e&#39;: 5, &#39;f&#39;: 5, &#39;g&#39;: 10, &#39;h&#39;: 13, &#39;i&#39;: 14, &#39;j&#39;: 11, &#39;k&#39;: 6, &#39;l&#39;: 12, &#39;m&#39;: 15, &#39;n&#39;: 9, &#39;o&#39;:4, &#39;p&#39;: 12, &#39;q&#39;: 9, &#39;r&#39;: 4, &#39;s&#39;: 10, &#39;t&#39;: 6, &#39;u&#39;: 6, &#39;v&#39;: 11, &#39;x&#39;: 6, &#39;y&#39;: 11, &#39;z&#39;: 17 } With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert.">
+
+<meta itemprop="wordCount" content="1489">
+<meta itemprop="keywords" content="Python," /> <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Maximising the Number of Friendship Bracelets for the Taylor Swift Concert"/>
+<meta name="twitter:description" content="import re song_list = [ &#34;Tim McGraw&#34;, &#34;Marys Song&#34;, &#34;Our Song&#34;, &#34;Im Only Me When Im With You&#34;, &#34;Invisible&#34;, &#34;A Perfectly Good Heart&#34;, &#34;Last Christmas&#34;, &#34;Christmases When You Were Mine&#34;, &#34;Santa Baby&#34;, &#34;Silent Night&#34;, &#34;Christmas Must Be Something More&#34;, &#34;White Christmas&#34;, &#34;Jump Then Fall&#34;, &#34;Untouchable&#34;, &#34;Forever Always&#34;, &#34;Come In With The Rain&#34;, &#34;Superstar&#34;, &#34;The Other Side Of The Door&#34;, &#34;Fearless&#34;, &#34;Fifteen&#34;, &#34;Love Story&#34;, &#34;Hey Stephen&#34;, &#34;White Horse&#34;, &#34;You Belong With Me&#34;, &#34;Breathe&#34;, &#34;Tell Me Why&#34;, &#34;Youre Not Sorry&#34;, &#34;The Way I Loved You&#34;, &#34;Forever and Always&#34;, &#34;The Best Day&#34;, &#34;Change&#34;, &#34;Mine&#34;, &#34;Sparks Fly&#34;, &#34;Back To December&#34;, &#34;Speak Now&#34;, &#34;Dear John&#34;, &#34;Mean&#34;, &#34;The Story Of Us&#34;, &#34;Never Grow Up&#34;, &#34;Enchanted&#34;, &#34;Better Than Revenge&#34;, &#34;Innocent&#34;, &#34;Haunted&#34;, &#34;Last Kiss&#34;, &#34;Long Live&#34;, &#34;Ours&#34;, &#34;If This Was A Movie&#34;, &#34;Superman&#34;, &#34;State Of Grace&#34;, &#34;Red&#34;, &#34;Treacherous&#34;, &#34;I Knew You Were Trouble&#34;, &#34;All Too Well&#34;, &#34;TwentyTwo&#34;, &#34;I Almost Do&#34;, &#34;We Are Never Ever Getting Back Together&#34;, &#34;Come Back Be Here&#34;, &#34;Girl At Home&#34;, &#34;Welcome To New York&#34;, &#34;Blank Space&#34;, &#34;Style&#34;, &#34;Out Of The Woods&#34;, &#34;All You Had To Do Was Stay&#34;, &#34;Shake It Off&#34;, &#34;I Wish You Would&#34;, &#34;Bad Blood&#34;, &#34;Wildest Dreams&#34;, &#34;How You Get The Girl&#34;, &#34;This Love&#34;, &#34;I Know Places&#34;, &#34;Clean&#34;, &#34;Wonderland&#34;, &#34;You Are In Love&#34;, &#34;New Romantics&#34;, &#34;Ready For It&#34;, &#34;End Game&#34;, &#34;I Did Something Bad&#34;, &#34;Dont Blame Me&#34;, &#34;Delicate&#34;, &#34;Look What You Made Me Do&#34;, &#34;So It Goe&#34;, &#34;Gorgeous&#34;, &#34;Getaway Car&#34;, &#34;King Of My Heart&#34;, &#34;Dancing With Our Hands Tied&#34;, &#34;Dress&#34;, &#34;This Is Why We Cant Have Nice Things&#34;, &#34;Call It What You Want&#34;, &#34;New Years Day&#34;, &#34;I Forgot That You Existed&#34;, &#34;Cruel Summer&#34;, &#34;Lover&#34;, &#34;The Man&#34;, &#34;The Archer&#34;, &#34;I Think He Knows&#34;, &#34;Miss Americana &amp; The Heartbreak Prince&#34;, &#34;Paper Rings&#34;, &#34;Cornelia Street&#34;, &#34;Death By A Thousand Cuts&#34;, &#34;London Boy&#34;, &#34;Soon Youll Get Better&#34;, &#34;False God&#34;, &#34;You Need To Calm Down&#34;, &#34;Afterglow&#34;, &#34;ME&#34;, &#34;Its Nice To Have A Friend&#34;, &#34;Daylight&#34;, &#34;the one&#34;, &#34;cardigan&#34;, &#34;the last great american dynasty&#34;, &#34;exile&#34;, &#34;my tears ricochet&#34;, &#34;mirrorball&#34;, &#34;seven&#34;, &#34;august&#34;, &#34;this is me trying&#34;, &#34;illicit affairs&#34;, &#34;invisible string&#34;, &#34;mad woman&#34;, &#34;epiphany&#34;, &#34;betty&#34;, &#34;peace&#34;, &#34;hoax&#34;, &#34;the lakes&#34;, &#34;willow&#34;, &#34;champagne problems&#34;, &#34;gold rush&#34;, &#34;tis the damn season&#34;, &#34;tolerate it&#34;, &#34;no body no crime&#34;, &#34;happiness&#34;, &#34;dorothea&#34;, &#34;coney island&#34;, &#34;ivy&#34;, &#34;cowboy like me&#34;, &#34;long story short&#34;, &#34;marjorie&#34;, &#34;closure&#34;, &#34;evermore&#34;, &#34;right where you left me&#34;, &#34;its time to go&#34;, &#34;You All Over Me&#34;, &#34;Mr Perfectly Fine&#34;, &#34;We Were Happy&#34;, &#34;Thats When&#34;, &#34;Dont You&#34;, &#34;Bye Bye Baby&#34;, &#34;Message In A Bottle&#34;, &#34;I Bet You Think About Me&#34;, &#34;Forever Winter&#34;, &#34;Run&#34;, &#34;The Very First Night&#34;, &#34;All Too Well&#34;, &#34;Lavender Haze&#34;, &#34;Maroon&#34;, &#34;Anti-Hero&#34;, &#34;Snow On The Beach&#34;, &#34;Youre On Your Own Kid&#34;, &#34;Midnight Rain&#34;, &#34;Question&#34;, &#34;Vigilante Shit&#34;, &#34;Bejeweled&#34;, &#34;Labyrinth&#34;, &#34;Karma&#34;, &#34;Sweet Nothing&#34;, &#34;Mastermind&#34;, &#34;Hits Different&#34;, &#34;Bigger Than The Whole Sky&#34;, &#34;Paris&#34;, &#34;High Infidelity&#34;, &#34;Glitch&#34;, &#34;Wouldve Couldve Shouldve&#34;, &#34;Dear Reader&#34;, &#34;Electric Touch&#34;, &#34;When Emma Falls in Love&#34;, &#34;I Can See You&#34;, &#34;Castles Crumbling&#34;, &#34;Foolish One&#34;, &#34;Timeless&#34;, &#34;Slut&#34;, &#34;Say Dont Go&#34;, &#34;Now That We Dont Talk &#34;, &#34;Suburban Legends&#34;, &#34;Is It Over Now&#34;, &#34;Sweeter Than Fiction&#34;, &#34;Red&#34;, &#34;Fearless&#34;, &#34;Midnights&#34;, &#34;Reputation&#34;, &#34;Lover&#34;, &#34;Folklore&#34;, &#34;Evermore&#34;, &#34;Red&#34;] bead_dict = { &#39;a&#39;: 5, &#39;b&#39;: 9, &#39;c&#39;: 12, &#39;d&#39;: 4, &#39;e&#39;: 5, &#39;f&#39;: 5, &#39;g&#39;: 10, &#39;h&#39;: 13, &#39;i&#39;: 14, &#39;j&#39;: 11, &#39;k&#39;: 6, &#39;l&#39;: 12, &#39;m&#39;: 15, &#39;n&#39;: 9, &#39;o&#39;:4, &#39;p&#39;: 12, &#39;q&#39;: 9, &#39;r&#39;: 4, &#39;s&#39;: 10, &#39;t&#39;: 6, &#39;u&#39;: 6, &#39;v&#39;: 11, &#39;x&#39;: 6, &#39;y&#39;: 11, &#39;z&#39;: 17 } With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert."/>
+   
+
+
+
+
+
+
+
+
+
+<link  rel='stylesheet' type='text/css' href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-macchiato.css">
+<style>
+    pre code.hljs {
+        display: block;
+        overflow-x: auto;
+        padding: 1em;
+        background: #1e2030 ;
+    }
+
+    code.hljs {
+        padding: 3px 5px;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">&gt;</span>
+            <span class="logo__text ">
+                $ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#bb9af7;
+                   animation-duration:2s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+  <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/tags">Tags</a></li>
+  </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+<main class="post">
+  <div class="post-info">
+    <p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-clock"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      7 minutes 
+    </p>
+
+    <p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-calendar"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      
+       0001-01-01 
+
+      
+      
+    </p>
+  </div>
+
+  <article>
+    <h1 class="post-title">
+      <a href="/1/01/01/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/">Maximising the Number of Friendship Bracelets for the Taylor Swift Concert</a>
+    </h1>
+
+      
+
+    <div class="post-content"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> re 
+song_list <span style="color:#f92672">=</span> [
+<span style="color:#e6db74">&#34;Tim McGraw&#34;</span>,
+<span style="color:#e6db74">&#34;Marys Song&#34;</span>,
+<span style="color:#e6db74">&#34;Our Song&#34;</span>,
+<span style="color:#e6db74">&#34;Im Only Me When Im With You&#34;</span>,
+<span style="color:#e6db74">&#34;Invisible&#34;</span>,
+<span style="color:#e6db74">&#34;A Perfectly Good Heart&#34;</span>,
+<span style="color:#e6db74">&#34;Last Christmas&#34;</span>,
+<span style="color:#e6db74">&#34;Christmases When You Were Mine&#34;</span>,
+<span style="color:#e6db74">&#34;Santa Baby&#34;</span>,
+<span style="color:#e6db74">&#34;Silent Night&#34;</span>,
+<span style="color:#e6db74">&#34;Christmas Must Be Something More&#34;</span>,
+<span style="color:#e6db74">&#34;White Christmas&#34;</span>,
+<span style="color:#e6db74">&#34;Jump Then Fall&#34;</span>,
+<span style="color:#e6db74">&#34;Untouchable&#34;</span>,
+<span style="color:#e6db74">&#34;Forever  Always&#34;</span>,
+<span style="color:#e6db74">&#34;Come In With The Rain&#34;</span>,
+<span style="color:#e6db74">&#34;Superstar&#34;</span>,
+<span style="color:#e6db74">&#34;The Other Side Of The Door&#34;</span>,
+<span style="color:#e6db74">&#34;Fearless&#34;</span>,
+<span style="color:#e6db74">&#34;Fifteen&#34;</span>,
+<span style="color:#e6db74">&#34;Love Story&#34;</span>,
+<span style="color:#e6db74">&#34;Hey Stephen&#34;</span>,
+<span style="color:#e6db74">&#34;White Horse&#34;</span>,
+<span style="color:#e6db74">&#34;You Belong With Me&#34;</span>,
+<span style="color:#e6db74">&#34;Breathe&#34;</span>,
+<span style="color:#e6db74">&#34;Tell Me Why&#34;</span>,
+<span style="color:#e6db74">&#34;Youre Not Sorry&#34;</span>,
+<span style="color:#e6db74">&#34;The Way I Loved You&#34;</span>,
+<span style="color:#e6db74">&#34;Forever and Always&#34;</span>,
+<span style="color:#e6db74">&#34;The Best Day&#34;</span>,
+<span style="color:#e6db74">&#34;Change&#34;</span>,
+<span style="color:#e6db74">&#34;Mine&#34;</span>,
+<span style="color:#e6db74">&#34;Sparks Fly&#34;</span>,
+<span style="color:#e6db74">&#34;Back To December&#34;</span>,
+<span style="color:#e6db74">&#34;Speak Now&#34;</span>,
+<span style="color:#e6db74">&#34;Dear John&#34;</span>,
+<span style="color:#e6db74">&#34;Mean&#34;</span>,
+<span style="color:#e6db74">&#34;The Story Of Us&#34;</span>,
+<span style="color:#e6db74">&#34;Never Grow Up&#34;</span>,
+<span style="color:#e6db74">&#34;Enchanted&#34;</span>,
+<span style="color:#e6db74">&#34;Better Than Revenge&#34;</span>,
+<span style="color:#e6db74">&#34;Innocent&#34;</span>,
+<span style="color:#e6db74">&#34;Haunted&#34;</span>,
+<span style="color:#e6db74">&#34;Last Kiss&#34;</span>,
+<span style="color:#e6db74">&#34;Long Live&#34;</span>,
+<span style="color:#e6db74">&#34;Ours&#34;</span>,
+<span style="color:#e6db74">&#34;If This Was A Movie&#34;</span>,
+<span style="color:#e6db74">&#34;Superman&#34;</span>,
+<span style="color:#e6db74">&#34;State Of Grace&#34;</span>,
+<span style="color:#e6db74">&#34;Red&#34;</span>,
+<span style="color:#e6db74">&#34;Treacherous&#34;</span>,
+<span style="color:#e6db74">&#34;I Knew You Were Trouble&#34;</span>,
+<span style="color:#e6db74">&#34;All Too Well&#34;</span>,
+<span style="color:#e6db74">&#34;TwentyTwo&#34;</span>,
+<span style="color:#e6db74">&#34;I Almost Do&#34;</span>,
+<span style="color:#e6db74">&#34;We Are Never Ever Getting Back Together&#34;</span>,
+<span style="color:#e6db74">&#34;Come Back Be Here&#34;</span>,
+<span style="color:#e6db74">&#34;Girl At Home&#34;</span>,
+<span style="color:#e6db74">&#34;Welcome To New York&#34;</span>,
+<span style="color:#e6db74">&#34;Blank Space&#34;</span>,
+<span style="color:#e6db74">&#34;Style&#34;</span>,
+<span style="color:#e6db74">&#34;Out Of The Woods&#34;</span>,
+<span style="color:#e6db74">&#34;All You Had To Do Was Stay&#34;</span>,
+<span style="color:#e6db74">&#34;Shake It Off&#34;</span>,
+<span style="color:#e6db74">&#34;I Wish You Would&#34;</span>,
+<span style="color:#e6db74">&#34;Bad Blood&#34;</span>,
+<span style="color:#e6db74">&#34;Wildest Dreams&#34;</span>,
+<span style="color:#e6db74">&#34;How You Get The Girl&#34;</span>,
+<span style="color:#e6db74">&#34;This Love&#34;</span>,
+<span style="color:#e6db74">&#34;I Know Places&#34;</span>,
+<span style="color:#e6db74">&#34;Clean&#34;</span>,
+<span style="color:#e6db74">&#34;Wonderland&#34;</span>,
+<span style="color:#e6db74">&#34;You Are In Love&#34;</span>,
+<span style="color:#e6db74">&#34;New Romantics&#34;</span>,
+<span style="color:#e6db74">&#34;Ready For It&#34;</span>,
+<span style="color:#e6db74">&#34;End Game&#34;</span>,
+<span style="color:#e6db74">&#34;I Did Something Bad&#34;</span>,
+<span style="color:#e6db74">&#34;Dont Blame Me&#34;</span>,
+<span style="color:#e6db74">&#34;Delicate&#34;</span>,
+<span style="color:#e6db74">&#34;Look What You Made Me Do&#34;</span>,
+<span style="color:#e6db74">&#34;So It Goe&#34;</span>,
+<span style="color:#e6db74">&#34;Gorgeous&#34;</span>,
+<span style="color:#e6db74">&#34;Getaway Car&#34;</span>,
+<span style="color:#e6db74">&#34;King Of My Heart&#34;</span>,
+<span style="color:#e6db74">&#34;Dancing With Our Hands Tied&#34;</span>,
+<span style="color:#e6db74">&#34;Dress&#34;</span>,
+<span style="color:#e6db74">&#34;This Is Why We Cant Have Nice Things&#34;</span>,
+<span style="color:#e6db74">&#34;Call It What You Want&#34;</span>,
+<span style="color:#e6db74">&#34;New Years Day&#34;</span>,
+<span style="color:#e6db74">&#34;I Forgot That You Existed&#34;</span>,
+<span style="color:#e6db74">&#34;Cruel Summer&#34;</span>,
+<span style="color:#e6db74">&#34;Lover&#34;</span>,
+<span style="color:#e6db74">&#34;The Man&#34;</span>,
+<span style="color:#e6db74">&#34;The Archer&#34;</span>,
+<span style="color:#e6db74">&#34;I Think He Knows&#34;</span>,
+<span style="color:#e6db74">&#34;Miss Americana &amp; The Heartbreak Prince&#34;</span>,
+<span style="color:#e6db74">&#34;Paper Rings&#34;</span>,
+<span style="color:#e6db74">&#34;Cornelia Street&#34;</span>,
+<span style="color:#e6db74">&#34;Death By A Thousand Cuts&#34;</span>,
+<span style="color:#e6db74">&#34;London Boy&#34;</span>,
+<span style="color:#e6db74">&#34;Soon Youll Get Better&#34;</span>,
+<span style="color:#e6db74">&#34;False God&#34;</span>,
+<span style="color:#e6db74">&#34;You Need To Calm Down&#34;</span>,
+<span style="color:#e6db74">&#34;Afterglow&#34;</span>,
+<span style="color:#e6db74">&#34;ME&#34;</span>,
+<span style="color:#e6db74">&#34;Its Nice To Have A Friend&#34;</span>,
+<span style="color:#e6db74">&#34;Daylight&#34;</span>,
+<span style="color:#e6db74">&#34;the one&#34;</span>,
+<span style="color:#e6db74">&#34;cardigan&#34;</span>,
+<span style="color:#e6db74">&#34;the last great american dynasty&#34;</span>,
+<span style="color:#e6db74">&#34;exile&#34;</span>,
+<span style="color:#e6db74">&#34;my tears ricochet&#34;</span>,
+<span style="color:#e6db74">&#34;mirrorball&#34;</span>,
+<span style="color:#e6db74">&#34;seven&#34;</span>,
+<span style="color:#e6db74">&#34;august&#34;</span>,
+<span style="color:#e6db74">&#34;this is me trying&#34;</span>,
+<span style="color:#e6db74">&#34;illicit affairs&#34;</span>,
+<span style="color:#e6db74">&#34;invisible string&#34;</span>,
+<span style="color:#e6db74">&#34;mad woman&#34;</span>,
+<span style="color:#e6db74">&#34;epiphany&#34;</span>,
+<span style="color:#e6db74">&#34;betty&#34;</span>,
+<span style="color:#e6db74">&#34;peace&#34;</span>,
+<span style="color:#e6db74">&#34;hoax&#34;</span>,
+<span style="color:#e6db74">&#34;the lakes&#34;</span>,
+<span style="color:#e6db74">&#34;willow&#34;</span>,
+<span style="color:#e6db74">&#34;champagne problems&#34;</span>,
+<span style="color:#e6db74">&#34;gold rush&#34;</span>,
+<span style="color:#e6db74">&#34;tis the damn season&#34;</span>,
+<span style="color:#e6db74">&#34;tolerate it&#34;</span>,
+<span style="color:#e6db74">&#34;no body no crime&#34;</span>,
+<span style="color:#e6db74">&#34;happiness&#34;</span>,
+<span style="color:#e6db74">&#34;dorothea&#34;</span>,
+<span style="color:#e6db74">&#34;coney island&#34;</span>,
+<span style="color:#e6db74">&#34;ivy&#34;</span>,
+<span style="color:#e6db74">&#34;cowboy like me&#34;</span>,
+<span style="color:#e6db74">&#34;long story short&#34;</span>,
+<span style="color:#e6db74">&#34;marjorie&#34;</span>,
+<span style="color:#e6db74">&#34;closure&#34;</span>,
+<span style="color:#e6db74">&#34;evermore&#34;</span>,
+<span style="color:#e6db74">&#34;right where you left me&#34;</span>,
+<span style="color:#e6db74">&#34;its time to go&#34;</span>,
+<span style="color:#e6db74">&#34;You All Over Me&#34;</span>,
+<span style="color:#e6db74">&#34;Mr Perfectly Fine&#34;</span>,
+<span style="color:#e6db74">&#34;We Were Happy&#34;</span>,
+<span style="color:#e6db74">&#34;Thats When&#34;</span>,
+<span style="color:#e6db74">&#34;Dont You&#34;</span>,
+<span style="color:#e6db74">&#34;Bye Bye Baby&#34;</span>,
+<span style="color:#e6db74">&#34;Message In A Bottle&#34;</span>,
+<span style="color:#e6db74">&#34;I Bet You Think About Me&#34;</span>,
+<span style="color:#e6db74">&#34;Forever Winter&#34;</span>,
+<span style="color:#e6db74">&#34;Run&#34;</span>,
+<span style="color:#e6db74">&#34;The Very First Night&#34;</span>,
+<span style="color:#e6db74">&#34;All Too Well&#34;</span>,
+<span style="color:#e6db74">&#34;Lavender Haze&#34;</span>,
+<span style="color:#e6db74">&#34;Maroon&#34;</span>,
+<span style="color:#e6db74">&#34;Anti-Hero&#34;</span>,
+<span style="color:#e6db74">&#34;Snow On The Beach&#34;</span>,
+<span style="color:#e6db74">&#34;Youre On Your Own Kid&#34;</span>,
+<span style="color:#e6db74">&#34;Midnight Rain&#34;</span>,
+<span style="color:#e6db74">&#34;Question&#34;</span>,
+<span style="color:#e6db74">&#34;Vigilante Shit&#34;</span>,
+<span style="color:#e6db74">&#34;Bejeweled&#34;</span>,
+<span style="color:#e6db74">&#34;Labyrinth&#34;</span>,
+<span style="color:#e6db74">&#34;Karma&#34;</span>,
+<span style="color:#e6db74">&#34;Sweet Nothing&#34;</span>,
+<span style="color:#e6db74">&#34;Mastermind&#34;</span>,
+<span style="color:#e6db74">&#34;Hits Different&#34;</span>,
+<span style="color:#e6db74">&#34;Bigger Than The Whole Sky&#34;</span>,
+<span style="color:#e6db74">&#34;Paris&#34;</span>,
+<span style="color:#e6db74">&#34;High Infidelity&#34;</span>,
+<span style="color:#e6db74">&#34;Glitch&#34;</span>,
+<span style="color:#e6db74">&#34;Wouldve Couldve Shouldve&#34;</span>,
+<span style="color:#e6db74">&#34;Dear Reader&#34;</span>,
+<span style="color:#e6db74">&#34;Electric Touch&#34;</span>,
+<span style="color:#e6db74">&#34;When Emma Falls in Love&#34;</span>,
+<span style="color:#e6db74">&#34;I Can See You&#34;</span>,
+<span style="color:#e6db74">&#34;Castles Crumbling&#34;</span>,
+<span style="color:#e6db74">&#34;Foolish One&#34;</span>,
+<span style="color:#e6db74">&#34;Timeless&#34;</span>,
+<span style="color:#e6db74">&#34;Slut&#34;</span>,
+<span style="color:#e6db74">&#34;Say Dont Go&#34;</span>,
+<span style="color:#e6db74">&#34;Now That We Dont Talk &#34;</span>,
+<span style="color:#e6db74">&#34;Suburban Legends&#34;</span>,
+<span style="color:#e6db74">&#34;Is It Over Now&#34;</span>,
+<span style="color:#e6db74">&#34;Sweeter Than Fiction&#34;</span>,
+<span style="color:#e6db74">&#34;Red&#34;</span>,
+<span style="color:#e6db74">&#34;Fearless&#34;</span>,
+<span style="color:#e6db74">&#34;Midnights&#34;</span>,
+<span style="color:#e6db74">&#34;Reputation&#34;</span>,
+<span style="color:#e6db74">&#34;Lover&#34;</span>,
+<span style="color:#e6db74">&#34;Folklore&#34;</span>,
+<span style="color:#e6db74">&#34;Evermore&#34;</span>,
+<span style="color:#e6db74">&#34;Red&#34;</span>]
+
+bead_dict <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#ae81ff">5</span>,
+    <span style="color:#e6db74">&#39;b&#39;</span>: <span style="color:#ae81ff">9</span>,
+    <span style="color:#e6db74">&#39;c&#39;</span>: <span style="color:#ae81ff">12</span>,
+    <span style="color:#e6db74">&#39;d&#39;</span>: <span style="color:#ae81ff">4</span>,
+    <span style="color:#e6db74">&#39;e&#39;</span>: <span style="color:#ae81ff">5</span>,
+    <span style="color:#e6db74">&#39;f&#39;</span>: <span style="color:#ae81ff">5</span>,
+    <span style="color:#e6db74">&#39;g&#39;</span>: <span style="color:#ae81ff">10</span>,
+    <span style="color:#e6db74">&#39;h&#39;</span>: <span style="color:#ae81ff">13</span>,
+    <span style="color:#e6db74">&#39;i&#39;</span>: <span style="color:#ae81ff">14</span>,
+    <span style="color:#e6db74">&#39;j&#39;</span>: <span style="color:#ae81ff">11</span>,
+    <span style="color:#e6db74">&#39;k&#39;</span>: <span style="color:#ae81ff">6</span>,
+    <span style="color:#e6db74">&#39;l&#39;</span>: <span style="color:#ae81ff">12</span>,
+    <span style="color:#e6db74">&#39;m&#39;</span>: <span style="color:#ae81ff">15</span>,
+    <span style="color:#e6db74">&#39;n&#39;</span>: <span style="color:#ae81ff">9</span>,
+    <span style="color:#e6db74">&#39;o&#39;</span>:<span style="color:#ae81ff">4</span>,
+    <span style="color:#e6db74">&#39;p&#39;</span>: <span style="color:#ae81ff">12</span>,
+    <span style="color:#e6db74">&#39;q&#39;</span>: <span style="color:#ae81ff">9</span>,
+    <span style="color:#e6db74">&#39;r&#39;</span>: <span style="color:#ae81ff">4</span>,
+    <span style="color:#e6db74">&#39;s&#39;</span>: <span style="color:#ae81ff">10</span>,
+    <span style="color:#e6db74">&#39;t&#39;</span>: <span style="color:#ae81ff">6</span>,
+    <span style="color:#e6db74">&#39;u&#39;</span>: <span style="color:#ae81ff">6</span>,
+    <span style="color:#e6db74">&#39;v&#39;</span>: <span style="color:#ae81ff">11</span>,
+    <span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">6</span>,
+    <span style="color:#e6db74">&#39;y&#39;</span>: <span style="color:#ae81ff">11</span>,
+    <span style="color:#e6db74">&#39;z&#39;</span>: <span style="color:#ae81ff">17</span> }
+</code></pre></div><p>With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels. Instead of driving back to Spotlight, I decided to see if I could make enough friendship bracelets from the letters we already had, while also being a bit clever about which songs we were going to make friendship bracelets for.</p>
+<figure>
+<img src="../../../post/tswift-beads/pic.jpg" alt="The beads after I spent 15 minutes organinsing them" />
+<figcaption aria-hidden="true">The beads after I spent 15 minutes organinsing them</figcaption>
+</figure>
+<h2 id="first-try">First Try</h2>
+<p>I set out to make an algorithm to determine the best set of song titles we could use. I want to assign each song title a cost, and then make the song with the lowest cost the bracelets. I can keep doing this until I can&rsquo;t make any more bracelets. To determine the cost of a song title, I just summed the costs of its letters. The cost of the letters was the number of occurrences it had in the list of songs divided by the number of beads I had remaining for that letter.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> defaultdict
+<span style="color:#f92672">import</span> re
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count_chars_in_list</span>(list_of_strings):
+    char_counts <span style="color:#f92672">=</span> defaultdict(int)
+    
+    <span style="color:#66d9ef">for</span> string <span style="color:#f92672">in</span> list_of_strings:
+        <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> string:
+            char_counts[char] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    
+    <span style="color:#66d9ef">return</span> dict(char_counts)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bracelets</span>(song_list, bead_dict):
+
+    <span style="color:#75715e"># W and M is interchangeable</span>
+    cleaned_dict <span style="color:#f92672">=</span> {
+        re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\W+&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, i<span style="color:#f92672">.</span>lower())<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;w&#34;</span>,<span style="color:#e6db74">&#34;m&#34;</span>): i 
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> song_list
+    }
+
+    <span style="color:#75715e"># dict of letter usage totals</span>
+    letter_popularity <span style="color:#f92672">=</span> count_chars_in_list(cleaned_dict<span style="color:#f92672">.</span>keys())
+
+    <span style="color:#75715e"># will run until a break is called</span>
+    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+        cost_dict <span style="color:#f92672">=</span> {}
+        <span style="color:#75715e"># Determine the cost of all the songs</span>
+        <span style="color:#66d9ef">for</span> song <span style="color:#f92672">in</span> cleaned_dict<span style="color:#f92672">.</span>keys():
+            song_cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+            <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> song: 
+                <span style="color:#75715e"># Assign the cost by adding up beads value</span>
+                <span style="color:#66d9ef">if</span> char <span style="color:#f92672">in</span> bead_dict:
+                    <span style="color:#75715e"># If no beads for that letter are left then that word cant be formed</span>
+                    <span style="color:#66d9ef">if</span> bead_dict[char] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                        flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+                        <span style="color:#66d9ef">break</span>
+                    <span style="color:#66d9ef">else</span>:
+                        song_cost <span style="color:#f92672">+=</span> letter_popularity[char]<span style="color:#f92672">/</span>bead_dict[char]
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> flag:
+                cost_dict[song] <span style="color:#f92672">=</span> song_cost
+
+        <span style="color:#75715e"># Finish loop if no more songs can be made</span>
+        <span style="color:#66d9ef">if</span> len(cost_dict) <span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">break</span>
+        <span style="color:#75715e"># Find the cheapest song</span>
+        cost_dict_sorted <span style="color:#f92672">=</span> list(dict(sorted(cost_dict<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> item: item[<span style="color:#ae81ff">1</span>]))<span style="color:#f92672">.</span>keys())
+        cheapeast_song <span style="color:#f92672">=</span> cost_dict_sorted[<span style="color:#ae81ff">0</span>]
+        print(cleaned_dict[cheapeast_song])
+        <span style="color:#75715e"># Remove the cheapest songs beads from the bead counts</span>
+        <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> cheapeast_song:
+            bead_dict[char] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+bracelets(song_list<span style="color:#f92672">.</span>copy(), bead_dict<span style="color:#f92672">.</span>copy())
+</code></pre></div><pre><code>ivy
+ivy
+ivy
+ivy
+ivy
+ivy
+ivy
+ivy
+ivy
+Run
+Slut
+ME
+Slut
+ivy
+ME
+Run
+hoax
+Slut
+ME
+hoax
+Glitch
+Run
+ivy
+ME
+hoax
+Glitch
+hoax
+ME
+Glitch
+Karma
+</code></pre>
+<p>This was pretty good, but let&rsquo;s remove the repeated songs because I don&rsquo;t want to have 10 bracelets with Ivy on them. We can do this by adding <code>del cleaned_dict[cheapest_song]</code> to the end of the loop.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bracelets</span>(song_list, bead_dict):
+    cleaned_dict <span style="color:#f92672">=</span> {re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\W+&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, i<span style="color:#f92672">.</span>lower())<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;w&#34;</span>,<span style="color:#e6db74">&#34;m&#34;</span>): i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> song_list}
+    letter_popularity <span style="color:#f92672">=</span> count_chars_in_list(cleaned_dict<span style="color:#f92672">.</span>keys())
+
+    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+        cost_dict <span style="color:#f92672">=</span> {}
+        <span style="color:#66d9ef">for</span> song <span style="color:#f92672">in</span> cleaned_dict<span style="color:#f92672">.</span>keys():
+            song_cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+            <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> song: 
+                <span style="color:#75715e"># Assign the cost by adding up beads value</span>
+                <span style="color:#66d9ef">if</span> char <span style="color:#f92672">in</span> bead_dict:
+                    <span style="color:#66d9ef">if</span> bead_dict[char] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                        flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+                        <span style="color:#66d9ef">break</span>
+                    <span style="color:#66d9ef">else</span>:
+                        song_cost <span style="color:#f92672">+=</span> letter_popularity[char]<span style="color:#f92672">/</span>bead_dict[char]
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> flag:
+                cost_dict[song] <span style="color:#f92672">=</span> song_cost
+        <span style="color:#66d9ef">if</span> len(cost_dict) <span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">break</span>
+        cost_dict_sorted <span style="color:#f92672">=</span> list(dict(sorted(cost_dict<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> item: item[<span style="color:#ae81ff">1</span>]))<span style="color:#f92672">.</span>keys())
+        cheapeast_song <span style="color:#f92672">=</span> cost_dict_sorted[<span style="color:#ae81ff">0</span>]
+        print(cleaned_dict[cheapeast_song])
+        <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> cheapeast_song:
+            bead_dict[char] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">del</span> cleaned_dict[cheapeast_song]
+
+
+bracelets(song_list<span style="color:#f92672">.</span>copy(), bead_dict<span style="color:#f92672">.</span>copy())
+</code></pre></div><pre><code>ivy
+Run
+Slut
+ME
+Glitch
+hoax
+Mine
+willow
+Paris
+august
+Midnights
+Red
+Mean
+Ours
+Daylight
+Invisible
+London Boy
+</code></pre>
+<h2 id="getting-picky">Getting Picky</h2>
+<p>I presented this list to my housemates only to get the response, &lsquo;I hate ME!&rsquo; So, I did some cleaning to remove some of the so-called &lsquo;banned songs&rsquo;. It also turns out that I&rsquo;m not allowed to listen to &ldquo;London Boy&rdquo; anymore since the guy it is about is canceled or something? Not sure, but now we have a new list that doesn&rsquo;t include the songs we don&rsquo;t want.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">bannded_songs <span style="color:#f92672">=</span> [
+<span style="color:#e6db74">&#34;Invisible&#34;</span>,
+<span style="color:#e6db74">&#34;London Boy&#34;</span>,
+<span style="color:#e6db74">&#34;ME&#34;</span>,
+<span style="color:#e6db74">&#39;hoax&#39;</span>,
+<span style="color:#e6db74">&#39;run&#39;</span>
+]
+
+bracelets([song <span style="color:#66d9ef">for</span> song <span style="color:#f92672">in</span> song_list <span style="color:#66d9ef">if</span> song <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> bannded_songs], bead_dict<span style="color:#f92672">.</span>copy())
+</code></pre></div><pre><code>ivy
+Run
+Slut
+Glitch
+willow
+Mine
+Paris
+august
+Mean
+Ours
+Midnights
+Clean
+Style
+gold rush
+Daylight
+Long Live
+</code></pre>
+<h2 id="a-final-go">A Final Go</h2>
+<p>I tried showing this list, which received a better reception, but there were still a couple of non-negotiable songs that needed to be included. We also decided that the Qs and the Os look close enough to be interchangeable, so I changed the way we generate the cleaned dict to reflect that.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bracelets</span>(song_list, bead_dict):
+    cleaned_dict <span style="color:#f92672">=</span> {re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\W+&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, i<span style="color:#f92672">.</span>lower())<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;w&#34;</span>,<span style="color:#e6db74">&#34;m&#34;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;q&#34;</span>,<span style="color:#e6db74">&#39;o&#39;</span>): i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> song_list}
+    letter_popularity <span style="color:#f92672">=</span> count_chars_in_list(cleaned_dict<span style="color:#f92672">.</span>keys())
+
+    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+        cost_dict <span style="color:#f92672">=</span> {}
+        <span style="color:#66d9ef">for</span> song <span style="color:#f92672">in</span> cleaned_dict<span style="color:#f92672">.</span>keys():
+            song_cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+            <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> song: 
+                <span style="color:#75715e"># Assign the cost by adding up beads value</span>
+                <span style="color:#66d9ef">if</span> char <span style="color:#f92672">in</span> bead_dict:
+                    <span style="color:#66d9ef">if</span> bead_dict[char] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                        flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+                        <span style="color:#66d9ef">break</span>
+                    <span style="color:#66d9ef">else</span>:
+                        song_cost <span style="color:#f92672">+=</span> letter_popularity[char]<span style="color:#f92672">/</span>bead_dict[char]
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> flag:
+                cost_dict[song] <span style="color:#f92672">=</span> song_cost
+        <span style="color:#66d9ef">if</span> len(cost_dict) <span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">break</span>
+        cost_dict_sorted <span style="color:#f92672">=</span> list(dict(sorted(cost_dict<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> item: item[<span style="color:#ae81ff">1</span>]))<span style="color:#f92672">.</span>keys())
+        cheapeast_song <span style="color:#f92672">=</span> cost_dict_sorted[<span style="color:#ae81ff">0</span>]
+        print(cleaned_dict[cheapeast_song])
+        <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> cheapeast_song:
+            bead_dict[char] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">del</span> cleaned_dict[cheapeast_song]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Move all the Q beads to O</span>
+bead_dict[<span style="color:#e6db74">&#39;o&#39;</span>] <span style="color:#f92672">+=</span> bead_dict[<span style="color:#e6db74">&#39;q&#39;</span>]
+<span style="color:#66d9ef">del</span> bead_dict[<span style="color:#e6db74">&#39;q&#39;</span>]
+
+required_songs <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Delicate&#39;</span>, <span style="color:#e6db74">&#39;Lover&#39;</span>]
+    
+<span style="color:#66d9ef">for</span> song <span style="color:#f92672">in</span> required_songs:
+    print(song)
+    <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\W+&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, song<span style="color:#f92672">.</span>lower())<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;w&#34;</span>,<span style="color:#e6db74">&#34;m&#34;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;q&#34;</span>,<span style="color:#e6db74">&#39;o&#39;</span>):
+        bead_dict[char] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+
+bracelets([song <span style="color:#66d9ef">for</span> song <span style="color:#f92672">in</span> song_list <span style="color:#66d9ef">if</span> song <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> bannded_songs <span style="color:#f92672">and</span> song <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> required_songs], bead_dict<span style="color:#f92672">.</span>copy())
+</code></pre></div><pre><code>Delicate
+Lover
+ivy
+willow
+Run
+Slut
+Glitch
+Ours
+Bad Blood
+august
+Mine
+Paris
+Midnights
+Long Live
+Last Kiss
+</code></pre>
+<p>And there&rsquo;s a final list of 14 bracelets we can make with our current beads. Would it have been faster to drive back to Spotlight to buy more beads? Probably, but this was more fun.</p>
+</div>
+  </article>
+
+  <hr />
+
+  <div class="post-info">
+    
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/python/">Python</a></span>
+        
+    </p>
+ 
+
+    <p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-file-text"
+      >
+        <path
+          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+        ></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      1489 Words
+    </p>
+  </div>
+
+  
+</main>
+
+            </div>
+
+            
+                <footer class="footer">
+  
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/matlab.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  <script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']
+    },
+    loader:{
+      load: ['ui/safe']
+    },
+  };
+</script>
+
+
+
+
+
+    
+    <script src="/js/menu.js"></script>
+</footer>
+
+</body>
+</html>
+
+            
+        </div>
+
+        
+    </body>
+</html>

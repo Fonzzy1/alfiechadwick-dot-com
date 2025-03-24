@@ -48,9 +48,10 @@ My only gripe with the theme is that it uses a default list for all types of con
  <meta itemprop="name" content="A new way to look at Categories in Hugo Blogs">
 <meta itemprop="description" content="This site is built through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.
 My only gripe with the theme is that it uses a default list for all types of content."><meta itemprop="datePublished" content="2023-12-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2024-01-27T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-12-28T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1408">
-<meta itemprop="keywords" content="JavaScript,Visualizations," /> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="A new way to look at Categories in Hugo Blogs"/>
+<meta itemprop="keywords" content="JavaScript,Visualizations," /> <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A new way to look at Categories in Hugo Blogs"/>
 <meta name="twitter:description" content="This site is built through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.
 My only gripe with the theme is that it uses a default list for all types of content."/>
    
@@ -178,7 +179,6 @@ My only gripe with the theme is that it uses a default list for all types of con
        2023-12-28 
 
       
-        (Last updated: 2024-01-27) 
       
     </p>
   </div>
@@ -190,30 +190,24 @@ My only gripe with the theme is that it uses a default list for all types of con
 
       
 
-    <div class="post-content">
-
-
-<p>This site is built through <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the <a href="https://github.com/rhazdon/hugo-theme-hello-friend-ng">hello-friend-ng</a> theme, using <a href="https://github.com/catppuccin">catppuccin</a> for the colors.</p>
+    <div class="post-content"><p>This site is built through <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the <a href="https://github.com/rhazdon/hugo-theme-hello-friend-ng">hello-friend-ng</a> theme, using <a href="https://github.com/catppuccin">catppuccin</a> for the colors.</p>
 <p>My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you see a list of posts; for tags, similarly, you get a list of tags.</p>
-<div class="figure">
-<img src="/post/tag-graph/1.png" alt="" />
-<p class="caption">How the list of tags looks by default</p>
-</div>
-<div id="looking-at-the-edges" class="section level1">
-<h1>Looking at the edges</h1>
-<p>A software that I’ve always been meaning to use is <a href="https://obsidian.md/">obsidian</a> which is a note taking and organising software which uses plaintext. One of its features has always really intrigued me, is the graph view which organises all of the notes based on their connections.</p>
-<div class="figure">
-<img src="https://i.redd.it/49l0t8v09yr91.png" alt="" />
-<p class="caption">An example of an obsidian graph (Sourced from u/jannesjy on reddit)</p>
-</div>
+<figure>
+<img src="../../../post/tag-graph/1.png" alt="How the list of tags looks by default" />
+<figcaption aria-hidden="true">How the list of tags looks by default</figcaption>
+</figure>
+<h1 id="looking-at-the-edges">Looking at the edges</h1>
+<p>A software that I&rsquo;ve always been meaning to use is <a href="https://obsidian.md/">obsidian</a> which is a note taking and organising software which uses plaintext. One of its features has always really intrigued me, is the graph view which organises all of the notes based on their connections.</p>
+<figure>
+<img src="https://i.redd.it/49l0t8v09yr91.png" alt="An example of an obsidian graph (Sourced from u/jannesjy on reddit)" />
+<figcaption aria-hidden="true">An example of an obsidian graph (Sourced from u/jannesjy on reddit)</figcaption>
+</figure>
 <p>I thought it would be cool to implement something like this in my Hugo site. Something that lets you not only look at all the tags, but see how they are connected.</p>
-</div>
-<div id="starting-small" class="section level1">
-<h1>Starting small</h1>
+<h1 id="starting-small">Starting small</h1>
 <p>Before making the graph view, I wanted to make something that allows you to see all the posts with two of the tags. That way, when you click on a node or an edge in the graph you can be taken through to see all the posts with the relevant tags.</p>
-<p>Unfortunately the scripting language used by Hugo doesn’t have this kind of filtering built in. So I have to do it rather un-elegantly in JavaScript.</p>
+<p>Unfortunately the scripting language used by Hugo doesn&rsquo;t have this kind of filtering built in. So I have to do it rather un-elegantly in JavaScript.</p>
 <p>To make the linking easier, I added the second tag using the query string so that it can be reached just using a href link.</p>
-<pre class="html"><code>{{ define &quot;main&quot; }}
+<pre tabindex="0"><code class="language-{html}" data-lang="{html}">{{ define &quot;main&quot; }}
 &lt;main class=&quot;posts&quot;&gt;
   &lt;h1&gt;{{ .Title }}&lt;/h1&gt;
 
@@ -270,7 +264,7 @@ My only gripe with the theme is that it uses a default list for all types of con
 
         console.log(tags);
 
-        // If the additional tag is not in the post&#39;s tags, hide the post.
+        // If the additional tag is not in the post's tags, hide the post.
         if (!tags.includes(additionalTag)) {
           post.style.display = &quot;none&quot;;
         }
@@ -278,20 +272,17 @@ My only gripe with the theme is that it uses a default list for all types of con
     }
   });
 &lt;/script&gt;
-{{ end }}</code></pre>
-</div>
-<div id="building-the-graph" class="section level1">
-<h1>Building the graph</h1>
+{{ end }}
+</code></pre><h1 id="building-the-graph">Building the graph</h1>
 <p>Similar to the issue with creating the post listing page, constructing the graph requires some rather unwieldy JavaScript to make it work.</p>
-<div id="fetching-all-the-posts" class="section level2">
-<h2>Fetching All the Posts</h2>
+<h2 id="fetching-all-the-posts">Fetching All the Posts</h2>
 <p>The first thing to do is to fetch all the posts from across the site with their tags.</p>
-<pre class="javascript"><code>// Create an array to hold all posts and their details
+<pre tabindex="0"><code class="language-{JavaScript}" data-lang="{JavaScript}">// Create an array to hold all posts and their details
 var postsData = [];
 
 // Iterate through each page to collect its title, permalink, and tags
 {{ range .Site.RegularPages }}
-  // Use &#39;jsonify&#39; to convert tags to a JSON array, if tags are not present, default to an empty array
+  // Use 'jsonify' to convert tags to a JSON array, if tags are not present, default to an empty array
   var tags = {{ if .Params.tags }}{{ .Params.tags }}{{ else }}[]{{ end }};
   postsData.push({
     title: {{ .Title }},
@@ -309,7 +300,7 @@ var tagsToPosts = {};
 postsData.forEach(function(post) {
   // Loop through each tag in the current post
   post.tags.forEach(function(tag) {
-    // If the tag hasn&#39;t been added to tagsToPosts, initialize it with an empty array
+    // If the tag hasn't been added to tagsToPosts, initialize it with an empty array
     if (!tagsToPosts.hasOwnProperty(tag)) {
       tagsToPosts[tag] = [];
     }
@@ -319,18 +310,16 @@ postsData.forEach(function(post) {
       permalink: post.permalink
     });
   });
-});</code></pre>
-</div>
-<div id="invert-the-keys-of-the-list" class="section level2">
-<h2>Invert the keys of the list</h2>
+});
+</code></pre><h2 id="invert-the-keys-of-the-list">Invert the keys of the list</h2>
 <p>Now that there is a list of posts with there tags, we can now invert the list so that we have all the tags with their posts.</p>
-<pre class="javascript"><code>var tagsToPosts = {};
+<pre tabindex="0"><code class="language-{JavaScript}" data-lang="{JavaScript}">var tagsToPosts = {};
 
 // Loop through each post
 postsData.forEach(function(post) {
   // Loop through each tag in the current post
   post.tags.forEach(function(tag) {
-    // If the tag hasn&#39;t been added to tagsToPosts, initialize it with an empty array
+    // If the tag hasn't been added to tagsToPosts, initialize it with an empty array
     if (!tagsToPosts.hasOwnProperty(tag)) {
       tagsToPosts[tag] = [];
     }
@@ -342,12 +331,10 @@ postsData.forEach(function(post) {
   });
 });
 // Log the new tags to posts dictionary
-console.log(tagsToPosts);</code></pre>
-</div>
-<div id="make-a-matrix-of-connections" class="section level2">
-<h2>Make a matrix of connections</h2>
-<p>With the list of tags, we can now make a matrix showing all of the connections between the tags. This is really inefficient but it works well enough that I don’t think it requires too much optimisation.</p>
-<pre class="javascript"><code>// Get all unique tags
+console.log(tagsToPosts);
+</code></pre><h2 id="make-a-matrix-of-connections">Make a matrix of connections</h2>
+<p>With the list of tags, we can now make a matrix showing all of the connections between the tags. This is really inefficient but it works well enough that I don&rsquo;t think it requires too much optimisation.</p>
+<pre tabindex="0"><code class="language-{JavaScript}" data-lang="{JavaScript}">// Get all unique tags
 var uniqueTags = Object.keys(tagsToPosts);
 
 // Initialize the matrix with zeros
@@ -372,13 +359,11 @@ for (let i = 0; i &lt; uniqueTags.length; i++) {
 }
 
 // Log the matrix
-console.log(tagMatrix);</code></pre>
-</div>
-<div id="build-the-graph" class="section level2">
-<h2>Build the graph</h2>
+console.log(tagMatrix);
+</code></pre><h2 id="build-the-graph">Build the graph</h2>
 <p>Building the graph was honestly one of the easiest parts of this project. The <a href="https://d3js.org/">d3js</a> library has an object called a force directed graph, has most of the features I would want baked in.</p>
-<p>The only interesting thing I’ve done here is add in on-click links to the nodes and the edges that allow you to click through to see the relevant posts.</p>
-<pre class="javascript"><code>var width = window.innerWidth;
+<p>The only interesting thing I&rsquo;ve done here is add in on-click links to the nodes and the edges that allow you to click through to see the relevant posts.</p>
+<pre tabindex="0"><code class="language-{JavaScript}" data-lang="{JavaScript}">var width = window.innerWidth;
 var height = window.innerHeight;
 
 // Setup the window
@@ -431,22 +416,22 @@ var link = svg.append(&quot;g&quot;)
   .attr(&quot;stroke&quot;, &quot;#cad3f5&quot;)
   .on(&quot;click&quot;, function(d) {
     console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
-    let tagName1 = d.source.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
-    let tagName2 = d.target.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    let tagName1 = d.source.id.replace(/\s+/g, '-').toLowerCase();
+    let tagName2 = d.target.id.replace(/\s+/g, '-').toLowerCase();
     window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
   });
 
 var colors = [
-  &#39;#f4dbd6&#39;,
-  &#39;#b7bdf8&#39;,
-  &#39;#ed8796&#39;,
-  &#39;#f5a97f&#39;,
-  &#39;#eed49f&#39;,
-  &#39;#a6da95&#39;,
-  &#39;#8bd5ca&#39;,
-  &#39;#8aadf4&#39;,
-  &#39;#c6a0f6&#39;,
-  &#39;#f0c6c6&#39;
+  '#f4dbd6',
+  '#b7bdf8',
+  '#ed8796',
+  '#f5a97f',
+  '#eed49f',
+  '#a6da95',
+  '#8bd5ca',
+  '#8aadf4',
+  '#c6a0f6',
+  '#f0c6c6'
 ];
 
 function getRandomColor() {
@@ -462,7 +447,7 @@ var node = svg.append(&quot;g&quot;)
   .data(nodes)
   .enter().append(&quot;circle&quot;)
   .on(&quot;click&quot;, function(d) {
-    let tagName = d.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
     window.location.href = `/tags/${tagName}`;
   })
   .attr(&quot;r&quot;, nodeRadius)
@@ -491,7 +476,7 @@ var labels = svg.append(&quot;g&quot;)
   .style(&quot;text-anchor&quot;, &quot;middle&quot;)
   .style(&quot;dominant-baseline&quot;, &quot;central&quot;)
   .on(&quot;click&quot;, function(d) {
-    let tagName = d.id.replace(/\s+/g, &#39;-&#39;).toLowerCase();
+    let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
     window.location.href = `/tags/${tagName}`;
   });
 
@@ -510,10 +495,8 @@ function ticked() {
   labels
     .attr(&quot;x&quot;, d =&gt; d.x)
     .attr(&quot;y&quot;, d =&gt; d.y);
-}</code></pre>
-<p>If you want to check out the code for this in full, you can get the <a href="https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.html">post page</a> and the <a href="https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.terms.html">graph page</a> from github, or checkout the graph in its current state <a href="/tags/">here</a>.</p>
-</div>
-</div>
+}
+</code></pre><p>If you want to check out the code for this in full, you can get the <a href="https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.html">post page</a> and the <a href="https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.terms.html">graph page</a> from github, or checkout the graph in its current state <a href="../../../tags/">here</a>.</p>
 </div>
   </article>
 
@@ -582,6 +565,21 @@ function ticked() {
   <script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']
+    },
+    loader:{
+      load: ['ui/safe']
+    },
+  };
+</script>
+
+
+
 
 
     
@@ -594,7 +592,6 @@ function ticked() {
             
         </div>
 
-           
-
+        
     </body>
 </html>

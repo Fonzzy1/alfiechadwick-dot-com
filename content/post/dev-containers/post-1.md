@@ -221,13 +221,9 @@ echo "Setup complete!"
 
 
 
-
-
     # Wrapping it up
 
     My so now I have my dev containers running, my only gripe is the stupidly long docker commands that I need to type out to get it running, such as:
-
-
 
 
 
@@ -246,9 +242,6 @@ echo "Setup complete!"
       /bin/bash -c "gh auth setup-git; git config --global --add safe.directory /$dir_name; vim"
 
 So I decided to make this into a little Python script that allows me to quickly run these commands. I also added an integration with `gh` that lets me clone repos in order to edit them on the fly.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 #!/bin/python3
@@ -373,5 +366,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.func(args)
 ```
-
-</details>

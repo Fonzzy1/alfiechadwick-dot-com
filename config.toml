@@ -102,3 +102,4 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+

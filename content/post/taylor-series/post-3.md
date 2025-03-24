@@ -56,9 +56,6 @@ This means that an ODE can be defined by a plane that contains all the points wh
 
 For example, for the equation $y' = 2x$ this plane looks like:
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 import matplotlib.pyplot as plt
 import numpy as np
@@ -91,14 +88,9 @@ ax.set_ylabel("Y'")
 plt.show()
 ```
 
-</details>
-
 <img src="post-3_files/figure-markdown_strict/cell-2-output-1.png" width="410" height="396" />
 
 Then a specific solution to the ODE exists as a curve that sits on this plane. For example, for the IVP that starts at (0,0), the solution follows this curve:
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 Lx = np.linspace(0, 10, 100)
@@ -130,8 +122,6 @@ ax.set_ylabel("Y'")
 # Show the plot
 plt.show()
 ```
-
-</details>
 
 <img src="post-3_files/figure-markdown_strict/cell-3-output-1.png" width="410" height="396" />
 
@@ -236,9 +226,6 @@ When making this step, the error in the approximation will move the point away f
 
 Implementing this method in our python library:
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 def expanded_euler(dims, h):
     step_matrix = np.zeros((dims, dims))
@@ -275,12 +262,7 @@ def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
         i += 1
 ```
 
-</details>
-
 Bind this machinery together, and you get a tool capable of tackling the initial example of $y' = 2x$ passing through the point (0,0):
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 import numpy as np
@@ -339,10 +321,6 @@ def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
     return Solution(output_list)
 ```
 
-</details>
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 init_y = [1,0,0,0] #[1,x,y,y']
 transformation_matrix = np.array([
@@ -358,10 +336,6 @@ solution = linear(
     steps=100, h=0.01)
 ```
 
-</details>
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 plt.plot(solution.x, solution.y_0, label='Approximated Solution')
 plt.plot(solution.x, solution.x**2, label='True Solution', linestyle='--')
@@ -371,8 +345,6 @@ plt.grid(True) # Show a grid for better readability
 plt.legend()
 plt.show()
 ```
-
-</details>
 
 <img src="post-3_files/figure-markdown_strict/cell-7-output-1.png" width="663" height="429" />
 

@@ -2,10 +2,9 @@ project:
   type: hugo
       
 format: 
-  hugo-md:
+  hugo:
     code-fold: false
-    html-math-method: 
-       method: webtex
+    html-math-method: plain
   
 execute: 
   warning: false

@@ -42,7 +42,7 @@ I gathered the data for all plays on Triple J for the last 8 years from their [A
 
 To me, the most obvious indicator of a song's popularity is the number of plays it receives. So, we can start by examining that.
 
-\`\`\`rrxppwppv e option I use for blogs as I want to make sure to avoid re-rendering old posts unless I explicitly do so.
+\`\`\`ggehsgmvb e option I use for blogs as I want to make sure to avoid re-rendering old posts unless I explicitly do so.
 
 freeze: auto - Re-render only when
 

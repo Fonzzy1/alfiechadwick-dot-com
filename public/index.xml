@@ -6,98 +6,116 @@
     <description>Recent content on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 15 Mar 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Optimising the settings for the ODE solver</title>
-      <link>/2024/03/15/optimising-the-settings-for-the-ode-solver/</link>
-      <pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>/2024/03/15/optimising-the-settings-for-the-ode-solver/</guid>
-      <description>In the last post in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.&#xA;This is best exemplified by the ODE \(y&amp;#39;&amp;#39; = x + y\) which goes through the point \(y(0) = 1\) and \(y&amp;#39;(x) = 1\). Converting it into a matrix, we would define \(T\) as:&#xA;\[ T_1 = \begin{bmatrix} 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0\\ 0 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 0\\ \end{bmatrix} \]</description>
-    </item>
-    <item>
-      <title>Maximising the Number of Friendship Bracelets for the Taylor Swift Concert</title>
-      <link>/2024/02/09/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</link>
-      <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>/2024/02/09/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</guid>
-      <description>With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels.</description>
-    </item>
+    <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Follow Up on my Hottest 100 Predictions</title>
       <link>/2024/02/03/a-follow-up-on-my-hottest-100-predictions/</link>
       <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
+      
       <guid>/2024/02/03/a-follow-up-on-my-hottest-100-predictions/</guid>
-      <description>In my last post I ended by planting my flag and making my predictions for the Hottest 100 for 2023. And on first glance, I’m pretty happy with myself, picking not only the top song, but a good chunk of the top 20. So today I just want to do a quick follow up on how I did.&#xA;Top 20 ## Song Artist Predicted ## 1 paint the town red doja cat 1 ## 2 the worst person alive g flip 55 ## 3 saving up dom dolla NA ## 4 rhyme dust mk 72 ## 5 prada cass 90 ## 6 adore u fred again 40 ## 7 what was i made for?</description>
+      <description>In my last post I ended by planting my flag and making my predictions for the Hottest 100 for 2023. And on first glance, I&amp;rsquo;m pretty happy with myself, picking not only the top song, but a good chunk of the top 20. So today I just want to do a quick follow up on how I did.
+Top 20  Song Artist Predicted 1 paint the town red doja cat 1 2 the worst person alive g flip 55 3 saving up dom dolla NA 4 rhyme dust mk 72 5 prada cass 90 6 adore u fred again 40 7 what was i made for?</description>
     </item>
+    
     <item>
       <title>Predicting the 2023 Hottest 100</title>
       <link>/2024/01/26/predicting-the-2023-hottest-100/</link>
       <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      
       <guid>/2024/01/26/predicting-the-2023-hottest-100/</guid>
-      <description>Like many Australians, I spent my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the past few years, there has been a project run by 100 Warm Tunas that has been remarkably accurate at predicting the results of the countdown.&#xA;Warm Tunas makes predictions by scraping social media posts for people’s votes and then collating them as a sample of all votes. While this method is highly effective, I feel that it misses the point a bit when it comes to understanding why a song is popular.</description>
+      <description>Like many Australians, I spent my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the past few years, there has been a project run by 100 Warm Tunas that has been remarkably accurate at predicting the results of the countdown.
+Warm Tunas makes predictions by scraping social media posts for people&amp;rsquo;s votes and then collating them as a sample of all votes. While this method is highly effective, I feel that it misses the point a bit when it comes to understanding why a song is popular.</description>
     </item>
+    
     <item>
       <title>Making my ODE solver solve ODEs</title>
       <link>/2024/01/12/making-my-ode-solver-solve-odes/</link>
       <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
+      
       <guid>/2024/01/12/making-my-ode-solver-solve-odes/</guid>
-      <description>After writing out the last post where I wrote out a python library for using an improved version of Euler’s method to solve ODEs. But so far, we haven’t been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</description>
+      <description>After writing out the last post where I wrote out a python library for using an improved version of Euler&amp;rsquo;s method to solve ODEs. But so far, we haven&amp;rsquo;t been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.</description>
     </item>
+    
     <item>
       <title>DIY Dev-Containers</title>
       <link>/2024/01/07/diy-dev-containers/</link>
       <pubDate>Sun, 07 Jan 2024 00:00:00 +0000</pubDate>
+      
       <guid>/2024/01/07/diy-dev-containers/</guid>
-      <description>Why we use Dev-Containers What I want The Beginnings Docker In Docker Secrets Management Portability Wrapping it up Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short.</description>
+      <description>Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short.
+Why we use Dev-Containers A common solution to these issues is the use of &amp;lsquo;dev-containers&amp;rsquo;, which have mostly been popularized by VS Code as a way to have your dependencies exist exclusively inside a Docker container, and then attach an editor to it to make your changes.</description>
     </item>
+    
     <item>
       <title>Making a Python Library to solve differential Equations</title>
       <link>/2023/12/29/making-a-python-library-to-solve-differential-equations/</link>
       <pubDate>Fri, 29 Dec 2023 00:00:00 +0000</pubDate>
+      
       <guid>/2023/12/29/making-a-python-library-to-solve-differential-equations/</guid>
-      <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.&#xA;It also gives me a chance to see numerically how well the new method works compared to the Euler method.&#xA;First Steps So in the last post I set out the method such that: \[ \begin{bmatrix} y(x+h)\\ y&amp;#39;(x+h)\\ y&amp;#39;&amp;#39;(x+h)\\ .</description>
+      <description>After having the initial idea I wrote up in a previous post, I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
+It also gives me a chance to see numerically how well the new method works compared to the Euler method.
+First Steps So in the last post I set out the method such that:</description>
     </item>
+    
     <item>
       <title>A new way to look at Categories in Hugo Blogs</title>
       <link>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</link>
       <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
+      
       <guid>/2023/12/28/a-new-way-to-look-at-categories-in-hugo-blogs/</guid>
-      <description>This site is built through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.&#xA;My only gripe with the theme is that it uses a default list for all types of content.</description>
+      <description>This site is built through blogdown, which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the hello-friend-ng theme, using catppuccin for the colors.
+My only gripe with the theme is that it uses a default list for all types of content.</description>
     </item>
+    
     <item>
       <title>Using Taylor Series to Improve the Euler Method</title>
       <link>/2023/12/18/using-taylor-series-to-improve-the-euler-method/</link>
       <pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate>
+      
       <guid>/2023/12/18/using-taylor-series-to-improve-the-euler-method/</guid>
-      <description>Euler’s Method Higher Order ODEs Taylor Series Putting it together Euler’s Method Euler’s method is a classic way of approximating first-order differential equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.&#xA;This is commonly written as:&#xA;\[ \frac{dy}{dx} = f(x, y) \] \[ y(x+h) = y(x) + hf(x, y(x)) + \epsilon \] \[ \lim_{h \to 0} |\epsilon| = 0 \]</description>
+      <description>Euler&amp;rsquo;s Method Euler&amp;rsquo;s method is a classic way of approximating first-order differential equations. In short, it uses the derivative of a function and starting condition to estimate the value of the function a short distance from the starting point.
+This is commonly written as:
+Where is the error created by the approximation.
+Higher Order ODEs Generalizing Euler&amp;rsquo;s method to higher order ODEs is pretty easy. All you have to do is think of the ODE as a vector with each entry being the next derivative of the function.</description>
     </item>
-    <item>
-      <title>Taylor Series approximations of ODEs: The Algorithm</title>
-      <link>/ideas/3-ode-solver-implementation/ode-solve/</link>
-      <pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate>
-      <guid>/ideas/3-ode-solver-implementation/ode-solve/</guid>
-      <description>import math import numpy as np import pandas as pd import matplotlib.pyplot as plt def c(a, cond, n): if n == 0: return cond; if n == 1: return a * math.sin(cond) return cond int_x = 0 int_y = 2 # 2 depth = 2 step = 0.001 d_min = -3 d_max = 3 # 2.1 Set up output space d_min_scale = int(round(d_min / step)) d_max_scale = int(round(d_max / step)) ls_points = list(range(d_min_scale, d_max_scale)) ls_points = list(map(lambda x: x * step, ls_points)) df = pd.</description>
-    </item>
+    
     <item>
       <title>Modeling Drug Use in Communities</title>
       <link>/2023/10/22/modeling-drug-use-in-communities/</link>
       <pubDate>Sun, 22 Oct 2023 00:00:00 +0000</pubDate>
+      
       <guid>/2023/10/22/modeling-drug-use-in-communities/</guid>
-      <description>Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface This was written as a University project but I’m pretty happy with how it turned out.</description>
+      <description>Preface This was written as a University project but I&amp;rsquo;m pretty happy with how it turned out.
+Big thanks to Kevin Dai and Chrysovalantis Thomopoulos who worked with me on this throughout the semester.
+Introduction Drugs are chemical substances with physiological effects. Some drugs like opioids, cannabis, alcohol, nicotine, cocaine, methamphetamine, or heroin are of concern to policymakers. Widespread drug abuse in a community can be a burden to society and the economy.</description>
     </item>
-    <item>
-      <title>Taylor Series approximations of ODEs: The Algorithm</title>
-      <link>/ideas/ode-solver/ode-solve/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      <guid>/ideas/ode-solver/ode-solve/</guid>
-      <description>Euler’s Method How to expand the Euler method? Taylor Series How to make the approximation fit the ODE The Final Algorithm If you ever start doing university level maths, physics, chemistry or even economics, you will most likely start running into differential equations. These are equations that describe functions in terms of their derivatives. Normally in these classes, at least at the start, all the problems are solvable by hand with some fairly rudimentary algebra and calculus.</description>
-    </item>
+    
     <item>
       <title>About</title>
       <link>/about/</link>
       <pubDate>Fri, 23 Apr 2021 21:48:51 -0700</pubDate>
+      
       <guid>/about/</guid>
       <description>Hiya, I&amp;rsquo;m Alfie a techie working in Melbourne, Australia. I often find myself writing up little projects in my spare time so I may as well put them out there.</description>
     </item>
+    
+    <item>
+      <title>Maximising the Number of Friendship Bracelets for the Taylor Swift Concert</title>
+      <link>/1/01/01/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/maximising-the-number-of-friendship-bracelets-for-the-taylor-swift-concert/</guid>
+      <description>import re song_list = [ &amp;#34;Tim McGraw&amp;#34;, &amp;#34;Marys Song&amp;#34;, &amp;#34;Our Song&amp;#34;, &amp;#34;Im Only Me When Im With You&amp;#34;, &amp;#34;Invisible&amp;#34;, &amp;#34;A Perfectly Good Heart&amp;#34;, &amp;#34;Last Christmas&amp;#34;, &amp;#34;Christmases When You Were Mine&amp;#34;, &amp;#34;Santa Baby&amp;#34;, &amp;#34;Silent Night&amp;#34;, &amp;#34;Christmas Must Be Something More&amp;#34;, &amp;#34;White Christmas&amp;#34;, &amp;#34;Jump Then Fall&amp;#34;, &amp;#34;Untouchable&amp;#34;, &amp;#34;Forever Always&amp;#34;, &amp;#34;Come In With The Rain&amp;#34;, &amp;#34;Superstar&amp;#34;, &amp;#34;The Other Side Of The Door&amp;#34;, &amp;#34;Fearless&amp;#34;, &amp;#34;Fifteen&amp;#34;, &amp;#34;Love Story&amp;#34;, &amp;#34;Hey Stephen&amp;#34;, &amp;#34;White Horse&amp;#34;, &amp;#34;You Belong With Me&amp;#34;, &amp;#34;Breathe&amp;#34;, &amp;#34;Tell Me Why&amp;#34;, &amp;#34;Youre Not Sorry&amp;#34;, &amp;#34;The Way I Loved You&amp;#34;, &amp;#34;Forever and Always&amp;#34;, &amp;#34;The Best Day&amp;#34;, &amp;#34;Change&amp;#34;, &amp;#34;Mine&amp;#34;, &amp;#34;Sparks Fly&amp;#34;, &amp;#34;Back To December&amp;#34;, &amp;#34;Speak Now&amp;#34;, &amp;#34;Dear John&amp;#34;, &amp;#34;Mean&amp;#34;, &amp;#34;The Story Of Us&amp;#34;, &amp;#34;Never Grow Up&amp;#34;, &amp;#34;Enchanted&amp;#34;, &amp;#34;Better Than Revenge&amp;#34;, &amp;#34;Innocent&amp;#34;, &amp;#34;Haunted&amp;#34;, &amp;#34;Last Kiss&amp;#34;, &amp;#34;Long Live&amp;#34;, &amp;#34;Ours&amp;#34;, &amp;#34;If This Was A Movie&amp;#34;, &amp;#34;Superman&amp;#34;, &amp;#34;State Of Grace&amp;#34;, &amp;#34;Red&amp;#34;, &amp;#34;Treacherous&amp;#34;, &amp;#34;I Knew You Were Trouble&amp;#34;, &amp;#34;All Too Well&amp;#34;, &amp;#34;TwentyTwo&amp;#34;, &amp;#34;I Almost Do&amp;#34;, &amp;#34;We Are Never Ever Getting Back Together&amp;#34;, &amp;#34;Come Back Be Here&amp;#34;, &amp;#34;Girl At Home&amp;#34;, &amp;#34;Welcome To New York&amp;#34;, &amp;#34;Blank Space&amp;#34;, &amp;#34;Style&amp;#34;, &amp;#34;Out Of The Woods&amp;#34;, &amp;#34;All You Had To Do Was Stay&amp;#34;, &amp;#34;Shake It Off&amp;#34;, &amp;#34;I Wish You Would&amp;#34;, &amp;#34;Bad Blood&amp;#34;, &amp;#34;Wildest Dreams&amp;#34;, &amp;#34;How You Get The Girl&amp;#34;, &amp;#34;This Love&amp;#34;, &amp;#34;I Know Places&amp;#34;, &amp;#34;Clean&amp;#34;, &amp;#34;Wonderland&amp;#34;, &amp;#34;You Are In Love&amp;#34;, &amp;#34;New Romantics&amp;#34;, &amp;#34;Ready For It&amp;#34;, &amp;#34;End Game&amp;#34;, &amp;#34;I Did Something Bad&amp;#34;, &amp;#34;Dont Blame Me&amp;#34;, &amp;#34;Delicate&amp;#34;, &amp;#34;Look What You Made Me Do&amp;#34;, &amp;#34;So It Goe&amp;#34;, &amp;#34;Gorgeous&amp;#34;, &amp;#34;Getaway Car&amp;#34;, &amp;#34;King Of My Heart&amp;#34;, &amp;#34;Dancing With Our Hands Tied&amp;#34;, &amp;#34;Dress&amp;#34;, &amp;#34;This Is Why We Cant Have Nice Things&amp;#34;, &amp;#34;Call It What You Want&amp;#34;, &amp;#34;New Years Day&amp;#34;, &amp;#34;I Forgot That You Existed&amp;#34;, &amp;#34;Cruel Summer&amp;#34;, &amp;#34;Lover&amp;#34;, &amp;#34;The Man&amp;#34;, &amp;#34;The Archer&amp;#34;, &amp;#34;I Think He Knows&amp;#34;, &amp;#34;Miss Americana &amp;amp; The Heartbreak Prince&amp;#34;, &amp;#34;Paper Rings&amp;#34;, &amp;#34;Cornelia Street&amp;#34;, &amp;#34;Death By A Thousand Cuts&amp;#34;, &amp;#34;London Boy&amp;#34;, &amp;#34;Soon Youll Get Better&amp;#34;, &amp;#34;False God&amp;#34;, &amp;#34;You Need To Calm Down&amp;#34;, &amp;#34;Afterglow&amp;#34;, &amp;#34;ME&amp;#34;, &amp;#34;Its Nice To Have A Friend&amp;#34;, &amp;#34;Daylight&amp;#34;, &amp;#34;the one&amp;#34;, &amp;#34;cardigan&amp;#34;, &amp;#34;the last great american dynasty&amp;#34;, &amp;#34;exile&amp;#34;, &amp;#34;my tears ricochet&amp;#34;, &amp;#34;mirrorball&amp;#34;, &amp;#34;seven&amp;#34;, &amp;#34;august&amp;#34;, &amp;#34;this is me trying&amp;#34;, &amp;#34;illicit affairs&amp;#34;, &amp;#34;invisible string&amp;#34;, &amp;#34;mad woman&amp;#34;, &amp;#34;epiphany&amp;#34;, &amp;#34;betty&amp;#34;, &amp;#34;peace&amp;#34;, &amp;#34;hoax&amp;#34;, &amp;#34;the lakes&amp;#34;, &amp;#34;willow&amp;#34;, &amp;#34;champagne problems&amp;#34;, &amp;#34;gold rush&amp;#34;, &amp;#34;tis the damn season&amp;#34;, &amp;#34;tolerate it&amp;#34;, &amp;#34;no body no crime&amp;#34;, &amp;#34;happiness&amp;#34;, &amp;#34;dorothea&amp;#34;, &amp;#34;coney island&amp;#34;, &amp;#34;ivy&amp;#34;, &amp;#34;cowboy like me&amp;#34;, &amp;#34;long story short&amp;#34;, &amp;#34;marjorie&amp;#34;, &amp;#34;closure&amp;#34;, &amp;#34;evermore&amp;#34;, &amp;#34;right where you left me&amp;#34;, &amp;#34;its time to go&amp;#34;, &amp;#34;You All Over Me&amp;#34;, &amp;#34;Mr Perfectly Fine&amp;#34;, &amp;#34;We Were Happy&amp;#34;, &amp;#34;Thats When&amp;#34;, &amp;#34;Dont You&amp;#34;, &amp;#34;Bye Bye Baby&amp;#34;, &amp;#34;Message In A Bottle&amp;#34;, &amp;#34;I Bet You Think About Me&amp;#34;, &amp;#34;Forever Winter&amp;#34;, &amp;#34;Run&amp;#34;, &amp;#34;The Very First Night&amp;#34;, &amp;#34;All Too Well&amp;#34;, &amp;#34;Lavender Haze&amp;#34;, &amp;#34;Maroon&amp;#34;, &amp;#34;Anti-Hero&amp;#34;, &amp;#34;Snow On The Beach&amp;#34;, &amp;#34;Youre On Your Own Kid&amp;#34;, &amp;#34;Midnight Rain&amp;#34;, &amp;#34;Question&amp;#34;, &amp;#34;Vigilante Shit&amp;#34;, &amp;#34;Bejeweled&amp;#34;, &amp;#34;Labyrinth&amp;#34;, &amp;#34;Karma&amp;#34;, &amp;#34;Sweet Nothing&amp;#34;, &amp;#34;Mastermind&amp;#34;, &amp;#34;Hits Different&amp;#34;, &amp;#34;Bigger Than The Whole Sky&amp;#34;, &amp;#34;Paris&amp;#34;, &amp;#34;High Infidelity&amp;#34;, &amp;#34;Glitch&amp;#34;, &amp;#34;Wouldve Couldve Shouldve&amp;#34;, &amp;#34;Dear Reader&amp;#34;, &amp;#34;Electric Touch&amp;#34;, &amp;#34;When Emma Falls in Love&amp;#34;, &amp;#34;I Can See You&amp;#34;, &amp;#34;Castles Crumbling&amp;#34;, &amp;#34;Foolish One&amp;#34;, &amp;#34;Timeless&amp;#34;, &amp;#34;Slut&amp;#34;, &amp;#34;Say Dont Go&amp;#34;, &amp;#34;Now That We Dont Talk &amp;#34;, &amp;#34;Suburban Legends&amp;#34;, &amp;#34;Is It Over Now&amp;#34;, &amp;#34;Sweeter Than Fiction&amp;#34;, &amp;#34;Red&amp;#34;, &amp;#34;Fearless&amp;#34;, &amp;#34;Midnights&amp;#34;, &amp;#34;Reputation&amp;#34;, &amp;#34;Lover&amp;#34;, &amp;#34;Folklore&amp;#34;, &amp;#34;Evermore&amp;#34;, &amp;#34;Red&amp;#34;] bead_dict = { &amp;#39;a&amp;#39;: 5, &amp;#39;b&amp;#39;: 9, &amp;#39;c&amp;#39;: 12, &amp;#39;d&amp;#39;: 4, &amp;#39;e&amp;#39;: 5, &amp;#39;f&amp;#39;: 5, &amp;#39;g&amp;#39;: 10, &amp;#39;h&amp;#39;: 13, &amp;#39;i&amp;#39;: 14, &amp;#39;j&amp;#39;: 11, &amp;#39;k&amp;#39;: 6, &amp;#39;l&amp;#39;: 12, &amp;#39;m&amp;#39;: 15, &amp;#39;n&amp;#39;: 9, &amp;#39;o&amp;#39;:4, &amp;#39;p&amp;#39;: 12, &amp;#39;q&amp;#39;: 9, &amp;#39;r&amp;#39;: 4, &amp;#39;s&amp;#39;: 10, &amp;#39;t&amp;#39;: 6, &amp;#39;u&amp;#39;: 6, &amp;#39;v&amp;#39;: 11, &amp;#39;x&amp;#39;: 6, &amp;#39;y&amp;#39;: 11, &amp;#39;z&amp;#39;: 17 } With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert.</description>
+    </item>
+    
+    <item>
+      <title>Optimising the settings for the ODE solver</title>
+      <link>/1/01/01/optimising-the-settings-for-the-ode-solver/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/optimising-the-settings-for-the-ode-solver/</guid>
+      <description>import numpy as np import math import matplotlib.pyplot as plt import numpy as np import mplcatppuccin import matplotlib as mpl import matplotlib.pyplot as plt from mpl_toolkits.mplot3d import Axes3D mpl.style.use(&amp;#34;macchiato&amp;#34;) def expanded_euler(dims, h): step_matrix = np.zeros((dims, dims)) for i in range(dims): for j in range(i, dims): # Is 1, and h at j-i =0, 1 respectively step_matrix[i, j] = h ** (j - i) / math.factorial(j - i) expanded_matrix = add_x_and_1(step_matrix, h) return expanded_matrix def add_x_and_1(original_matrix, h): new_size = len(original_matrix) + 2 new_matrix = np.</description>
+    </item>
+    
   </channel>
 </rss>

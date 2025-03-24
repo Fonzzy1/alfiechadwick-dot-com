@@ -6,14 +6,17 @@
     <description>Recent content in Modeling on Alfie Chadwick</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Dec 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/modeling/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/modeling/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Modeling Drug Use in Communities</title>
       <link>/2023/10/22/modeling-drug-use-in-communities/</link>
       <pubDate>Sun, 22 Oct 2023 00:00:00 +0000</pubDate>
+      
       <guid>/2023/10/22/modeling-drug-use-in-communities/</guid>
-      <description>Preface Introduction Aim Method Initial Model: SIR SUAR Model SAUR Model with age Simplified SUAR Model with age Results Discussion Conclusion References Appendix Appendix 1 : Stationary points of SIR model Appendix 2 : Stationary points of SUAR Appendix 3: Critical Points of Simplified SUAR model Appendix 4: Matlab code for generating conditional Stationary Points Appendix 5: Python code for simulating SIR model Appendix 6: Python code for simulating SUAR model Appendix 7: Python code for simulating 20 compartment SUAR model Appendix 8: Python code for simulating 5 compartment SUAR model Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model Preface This was written as a University project but I’m pretty happy with how it turned out.</description>
+      <description>Preface This was written as a University project but I&amp;rsquo;m pretty happy with how it turned out.
+Big thanks to Kevin Dai and Chrysovalantis Thomopoulos who worked with me on this throughout the semester.
+Introduction Drugs are chemical substances with physiological effects. Some drugs like opioids, cannabis, alcohol, nicotine, cocaine, methamphetamine, or heroin are of concern to policymakers. Widespread drug abuse in a community can be a burden to society and the economy.</description>
     </item>
+    
   </channel>
 </rss>

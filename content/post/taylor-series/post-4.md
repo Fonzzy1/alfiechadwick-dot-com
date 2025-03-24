@@ -9,9 +9,6 @@ Tags:
 ---
 
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 import numpy as np
 import math
@@ -84,8 +81,6 @@ def linear(y, step_matrix_generator, transformation_matrix, steps=10, h=0.1):
     return Solution(output_list)
 ```
 
-</details>
-
 In the [last post](../../../2024/01/12/making-my-ode-solver-solve-odes/) in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.
 
 This is best exemplified by the ODE $y'' = x + y$ which goes through the point $y(0) = 1$ and $y'(x) = 1$. Converting it into a matrix, we would define $T$ as:
@@ -122,9 +117,6 @@ T_3 = \begin{bmatrix}
 $$
 
 So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. $T1$ is the closet, $T3$ and $T2$ are both equally far off.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 init_y = [1,0,1,1,1] #[1,x,y,y']
@@ -181,8 +173,6 @@ plt.grid(True) # Show a grid for better readability
 plt.legend()
 plt.show()
 ```
-
-</details>
 
 <img src="post-4_files/figure-markdown_strict/cell-3-output-1.png" width="663" height="430" />
 
@@ -266,9 +256,6 @@ $$ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) $$
 
 We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the $T_1$ result follows the $O(h)$ curve while the $T_2$ and $T_3$ result follows the $O(1)$ curve.
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 h_list = [1/1, 1/5, 1/10, 1/50, 1/100, 1/500]
 t1_list = [] 
@@ -298,8 +285,6 @@ plt.legend()
 plt.grid(True)
 plt.show()
 ```
-
-</details>
 
 <img src="post-4_files/figure-markdown_strict/cell-4-output-1.png" width="673" height="431" />
 

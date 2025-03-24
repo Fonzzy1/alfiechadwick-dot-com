@@ -45,8 +45,9 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="msapplication-TileColor" content="">
  <meta itemprop="name" content="404 Page not found">
-<meta itemprop="description" content="A website built through Hugo and blogdown."> <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="404 Page not found"/>
-<meta name="twitter:description" content="A website built through Hugo and blogdown."/>
+<meta itemprop="description" content="A website built through Hugo and Quarto."> <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="404 Page not found"/>
+<meta name="twitter:description" content="A website built through Hugo and Quarto."/>
    
 
 
@@ -133,6 +134,21 @@
   <script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']
+    },
+    loader:{
+      load: ['ui/safe']
+    },
+  };
+</script>
+
+
+
 
 
     
@@ -145,7 +161,6 @@
             
         </div>
 
-           
-
+        
     </body>
 </html>

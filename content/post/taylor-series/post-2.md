@@ -51,9 +51,6 @@ $$ \begin{bmatrix}
 
 Converting these matrices into python is fairly easy.
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 import numpy as np
 import math
@@ -77,14 +74,9 @@ def expanded_euler(dims, h):
     return step_matrix
 ```
 
-</details>
-
 # Making a step simulation
 
 Now that we have the stepping matrices, we can use them to iterate from an initial value. All we have to do is generate the stepping matrix for the given problem, and then for each step, we just multiple the previous step by the stepping matrix.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 def IVP(x, y, step_matrix_generator, steps=10, h=0.1):
@@ -104,15 +96,10 @@ def IVP(x, y, step_matrix_generator, steps=10, h=0.1):
     return output_dict
 ```
 
-</details>
-
 # Testing and Comparing the methods
 
 Now we can run the simulations, let's see how good they are.
 Say you throw a ball up in the air and track its vertical position. The path of the ball is described by the equation $y'' = -9.8$. We can know for a fact that the solution to this equation is $\frac{-9.8}{2}x^2+V_0x+P_0$, where $V_0$ is the initial velocity and $P_0$ is the initial position. So now lets compare the real solutions to the simulations.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 # Time starts at 0
@@ -128,10 +115,6 @@ true_result = {x: np.array([
                     -9.8
                 ]) for x in np.arange(0, 1.1, 0.1)}
 ```
-
-</details>
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 import numpy as np
@@ -165,14 +148,9 @@ plt.grid(True)
 plt.show()
 ```
 
-</details>
-
 <img src="post-2_files/figure-markdown_strict/cell-5-output-1.png" width="651" height="449" />
 
 So from here, we're looking pretty good. The new method is much closer to the true solution than the Euler method in in this scenario. However, when working with numerical methods, it generally isn't too hard to improve the accuracy of the model, but there will be a trade off in computation time. So lets see how much longer it takes to compute the approximation with the expanded method comparing it to the original.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 import timeit
@@ -192,10 +170,6 @@ for steps in steps_list:
     euler_times.append(euler_time)
     expanded_euler_times.append(expanded_euler_time)
 ```
-
-</details>
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 # Now we plot the results
@@ -219,8 +193,6 @@ plt.legend()
 plt.grid(True)
 plt.show()
 ```
-
-</details>
 
 <img src="post-2_files/figure-markdown_strict/cell-7-output-1.png" width="822" height="451" />
 

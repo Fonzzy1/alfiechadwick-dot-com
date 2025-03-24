@@ -8,9 +8,6 @@ tags:
 ---
 
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 import re 
 song_list = [
@@ -236,8 +233,6 @@ bead_dict = {
     'z': 17 }
 ```
 
-</details>
-
 With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels. Instead of driving back to Spotlight, I decided to see if I could make enough friendship bracelets from the letters we already had, while also being a bit clever about which songs we were going to make friendship bracelets for.
 
 <figure>
@@ -248,9 +243,6 @@ With Taylor Swift coming to Melbourne next week, my house has started its prep f
 ## First Try
 
 I set out to make an algorithm to determine the best set of song titles we could use. I want to assign each song title a cost, and then make the song with the lowest cost the bracelets. I can keep doing this until I can't make any more bracelets. To determine the cost of a song title, I just summed the costs of its letters. The cost of the letters was the number of occurrences it had in the list of songs divided by the number of beads I had remaining for that letter.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 from collections import defaultdict
@@ -309,8 +301,6 @@ def bracelets(song_list, bead_dict):
 bracelets(song_list.copy(), bead_dict.copy())
 ```
 
-</details>
-
     ivy
     ivy
     ivy
@@ -343,9 +333,6 @@ bracelets(song_list.copy(), bead_dict.copy())
     Karma
 
 This was pretty good, but let's remove the repeated songs because I don't want to have 10 bracelets with Ivy on them. We can do this by adding `del cleaned_dict[cheapest_song]` to the end of the loop.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 def bracelets(song_list, bead_dict):
@@ -380,8 +367,6 @@ def bracelets(song_list, bead_dict):
 bracelets(song_list.copy(), bead_dict.copy())
 ```
 
-</details>
-
     ivy
     Run
     Slut
@@ -404,9 +389,6 @@ bracelets(song_list.copy(), bead_dict.copy())
 
 I presented this list to my housemates only to get the response, 'I hate ME!' So, I did some cleaning to remove some of the so-called 'banned songs'. It also turns out that I'm not allowed to listen to "London Boy" anymore since the guy it is about is canceled or something? Not sure, but now we have a new list that doesn't include the songs we don't want.
 
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 bannded_songs = [
 "Invisible",
@@ -418,8 +400,6 @@ bannded_songs = [
 
 bracelets([song for song in song_list if song not in bannded_songs], bead_dict.copy())
 ```
-
-</details>
 
     ivy
     Run
@@ -441,9 +421,6 @@ bracelets([song for song in song_list if song not in bannded_songs], bead_dict.c
 ## A Final Go
 
 I tried showing this list, which received a better reception, but there were still a couple of non-negotiable songs that needed to be included. We also decided that the Qs and the Os look close enough to be interchangeable, so I changed the way we generate the cleaned dict to reflect that.
-
-<details class="code-fold">
-<summary>Code</summary>
 
 ``` python
 def bracelets(song_list, bead_dict):
@@ -475,10 +452,6 @@ def bracelets(song_list, bead_dict):
         del cleaned_dict[cheapeast_song]
 ```
 
-</details>
-<details class="code-fold">
-<summary>Code</summary>
-
 ``` python
 # Move all the Q beads to O
 bead_dict['o'] += bead_dict['q']
@@ -493,8 +466,6 @@ for song in required_songs:
 
 bracelets([song for song in song_list if song not in bannded_songs and song not in required_songs], bead_dict.copy())
 ```
-
-</details>
 
     Delicate
     Lover
