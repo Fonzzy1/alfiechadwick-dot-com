@@ -13,6 +13,7 @@ ignoreFiles = [
   "\\.utf8\\.md$", 
   "\\.py$", 
   "_data$", 
+  "\\.qmd$", 
 ]
 
 [permalinks]
@@ -29,7 +30,7 @@ ignoreFiles = [
     url = "/tags"
 
 [params]
-    description = "A website built through Hugo and blogdown."
+    description = "A website built through Hugo and Quarto."
     dateform = "Jan 2, 2006"
     dateformNum = "2006-01-02"
     dateformNumTime = "2006-01-02"
@@ -45,17 +46,15 @@ ignoreFiles = [
     highlightjsLang = ["r", "yaml", 'python', 'matlab','dockerfile']
     highlightjsTheme = "macchiato"
 
-
     MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
     MathJaxVersion = "2.7.9"
-
 
     customCSS = []
     customJS  = []
     justifyContent = false
 
     [params.footer]
-    trademark = 2023
+    trademark = 2025
     rss = true
     copyright = true
     author = true

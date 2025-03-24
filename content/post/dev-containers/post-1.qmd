@@ -1,0 +1,362 @@
+---
+title: "DIY Dev-Containers"
+author: 'Alfie Chadwick'
+date: '2024-01-07'
+lastmod: "`r Sys.Date()`"
+Tags: ['Devops','Docker','Vim']
+
+---
+
+Like most developers, I spend an inordinate amount of time dealing with my local installations and dependencies. When working on multiple projects, it is not uncommon to encounter conflicting versions of dependencies, and while virtual environments and package managers like Node Package Manager help to mitigate this issue, they often fall short.
+
+# Why we use Dev-Containers
+
+A common solution to these issues is the use of 'dev-containers', which have mostly been popularized by VS Code as a way to have your dependencies exist exclusively inside a Docker container, and then attach an editor to it to make your changes. Sounds great, but unfortunately for me, I have years of using Vim keybindings built into my muscle memory, so there's little chance of me changing my editor. So instead, I thought, why not just rebuild the dev containers for Vim?
+
+# What I want
+
+So let's quickly scope out this project. In my development containers, I want:
+
+ - Isolated environments
+ - Vim with my configuration built-in
+ - Integration with common CLI tools
+ - The ability to use Docker from inside the container
+ - Secrets management (not having to re-authenticate all my tools every time I open up a container)
+ - Transportability between various Unix machines
+ 
+# The Beginnings
+
+So after taking a quick look around my system, I have come up with this initial Dockerfile for my development container:
+
+```dockerfile
+FROM ubuntu as setter_upper
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Australia/Melbourne
+# Enviroment Installs
+RUN apt-get update && apt-get install -y \
+   curl git python3 python3-pip apt-transport-https \
+   ca-certificates software-properties-common  libpq-dev \
+   build-essential autoconf automake libtool
+
+#Install Docker
+RUN curl -fsSL https://get.docker.com -o install-docker.sh
+RUN sh install-docker.sh
+
+
+# Install GH CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& apt update \
+&& apt install gh -y
+
+# git
+#RUN gh auth setup-git
+run git config --global user.name "Fonzzy1"
+run git config --global user.email "alfiechadwick@hotmail.com"
+
+# Set the base work dir
+WORKDIR /src
+
+# Set the mount point as the safe dir
+RUN git config --global --add safe.directory /src
+
+# Vim Setup
+FROM setter_upper as vim
+
+# Enviroment Installs
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository ppa:jonathonf/vim
+RUN apt-get update
+
+# Install the rest of the dependencies
+RUN apt-get install -y \
+    tig \
+    fzf \
+    pkg-config \
+    texlive \
+    r-base \
+    pandoc \
+    texlive-latex-extra \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libfontconfig1-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
+    r-cran-tidyverse \
+    vim-gtk3
+
+#Install Ctags
+RUN curl -L https://github.com/thombashi/universal-ctags-installer/raw/master/universal_ctags_installer.sh | bash
+
+# Install node
+RUN set -uex
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" |  tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install nodejs -y;
+
+
+# Install the python packages
+RUN pip install black pipreqs pgcli awscli socli
+
+# Install npm packages
+RUN npm install --save-dev --global prettier
+
+# Download and Install Vim-Plug
+RUN curl -fLo /root/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Install ACT extention
+RUN mkdir -p /root/.local/share/gh/extensions/gh-act
+RUN curl -L -o /root/.local/share/gh/extensions/gh-act/gh-act \
+    "https://github.com/nektos/gh-act/releases/download/v0.2.57/linux-amd64"
+RUN chmod +x /root/.local/share/gh/extensions/gh-act/gh-act
+
+
+# Install R packages, tidyvverse is installed with apt
+RUN R -e  "install.packages('rmarkdown',  Ncpus = 6)"
+RUN R -e  "install.packages('reticulate',  Ncpus = 6)"
+RUN R -e  "install.packages('blogdown',  Ncpus = 6)"
+RUN R -e  "blogdown::install_hugo()"
+RUN R -e  "install.packages('readxl',  Ncpus = 6)"
+RUN R -e  "install.packages('knitr',  Ncpus = 6)"
+RUN R -e  "install.packages('tinytex',  Ncpus = 6)"
+RUN R -e  "install.packages('languageserver',  Ncpus = 6)"
+
+# Bring in the vim config
+COPY vim /root/.vim
+#Copy in the dotfiles
+COPY dotfiles /root
+
+# Install Vim Plugins
+RUN vim +PlugInstall +qall
+
+# Install COC plugins
+RUN mkdir -p /root/.config/coc/extensions && \
+    echo '{"dependencies":{}}' > /root/.config/coc/extensions/package.json && \
+    grep 'let g:coc_global_extensions' /root/.vim/config/coc.vim | \
+    sed "s/.*\[//; s/\].*//; s/'//g; s/, /\n/g" | \
+    while read -r extension; do \
+        echo "Installing coc extension: $extension" && \
+        cd /root/.config/coc/extensions && \
+        npm install "$extension" --install-strategy=shallow --save; \
+    done
+
+CMD vim
+```
+
+I won't bother explaining most of it since it's really just a heap of install statements, but here are some of the interesting parts:
+
+ - I needed to add the WORKDIR to the list of safe directories for git since if I mount the file, the ownership will be wrong.
+ - I needed to manually install the gh act extension as you can't do it normally without authenticating with a gh token, something I don't want to do in a public container.
+ - Coc Extensions needed to be manually installed to prevent them from installing every time I started the container. Just calling `Vim +CocInstall` didn't work because it's an async process.
+
+So at this point, I have the first three of my requirements done. Because I'm using Docker, I have an isolated environment every time I boot up the container. By copying over my Vim config files, I have my Vim config baked in, and with some of the commands in the Dockerfile, I am able to have it set up. Finally, by installing a heap of CLI tools, I am able to do most of my work from inside the Vim terminal.
+
+# Docker In Docker
+
+The next thing to tick off the list is being able to run Docker commands from within the container. Although I have installed Docker, running any Docker command inside the container will say the daemon isn't running.
+
+I could put in a lot of work to give the container the ability to create its own containers, but that would be a real pain. Instead, I can simply mount the Docker daemon onto the container, so that running Docker commands inside the container will invoke the system Docker.
+
+To accomplish this, I can execute the container using the following command:
+
+```bash
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock fonzzy1/vim
+```
+
+# Secrets Management
+
+The next thing to implement is secrets management. I currently have all of these stored in config files in my home directory, which isn't best practice in a Docker container that I want to make public. Instead, I can put all my secrets in a .env file and reference them in the Docker container. This can be done using the --env-file flag when running my Docker container.
+
+# Portability
+
+The final goal on my list is to make the container portable between my multiple machines. This is achieved through the use of Docker Hub, which will allow me to download the image from Docker Hub. The only other thing I need is to ensure that Docker is set up on the other machine. For this, I have written a quick script to handle the setup process.
+
+```{bash, eval=FALSE}
+#!/bin/bash
+set -e
+
+# Dot Progress Indicator
+progress() {
+    local pid=$2 # PID of the process we're waiting for
+    local text=$1
+    local delay=2 # 2-second delay between dots
+    local dot="."
+
+    printf "%s:" "$text"
+    while [ "$(ps a | awk '{print $1}' | grep -w $pid)" ]; do
+        printf "%s" "$dot"
+        sleep $delay
+    done
+    printf " Done!\n"
+}
+
+progress "Updating package list" $(sudo apt-get update > /dev/null 2>&1 & echo $!)
+
+progress "Installing Useful Packages" $(sudo apt-get install -y curl > /dev/null 2>&1 & echo $!)
+
+progress "Fetching Docker Install Script" $(curl -fsSL https://get.docker.com -o install-docker.sh > /dev/null 2>&1 & echo $!)
+
+progress "Installing Docker" $(sudo sh install-docker.sh > /dev/null 2>&1 & echo $!)
+
+progress "Adding the current user to the Docker group" $(sudo usermod -aG docker $USER > /dev/null 2>&1 & echo $!)
+
+progress "Pulling Image" docker pull fonzzy1/vim
+
+echo "Setup complete!"
+```
+
+# Wrapping it up
+
+My so now I have my dev containers running, my only gripe is the stupidly long docker commands that I need to type out to get it running, such as:
+
+```{bash, eval=FALSE}
+current_dir="$(pwd)"
+dir_name="$(basename "$current_dir")"
+
+docker run -it \
+  --env-file ~/.env \
+  --net=host \
+  --rm \
+  -v "$current_dir:/$(dir_name)" \
+  -w "/$dir_name" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  fonzzy1/vim \
+  /bin/bash -c "gh auth setup-git; git config --global --add safe.directory /$dir_name; vim"
+```
+
+So I decided to make this into a little Python script that allows me to quickly run these commands. I also added an integration with `gh` that lets me clone repos in order to edit them on the fly.
+
+```{python}
+#| eval: false
+
+#!/bin/python3
+import subprocess
+import argparse
+import os
+
+
+def run_local(args):
+    """
+    Runs a command in a Docker container with the current directory mounted.
+
+    Args:
+        args (argparse.Namespace): The command-line arguments.
+
+    Returns:
+        None
+    """
+    current_dir = subprocess.run(["pwd"], capture_output=True, text=True).stdout.strip()
+    dir_name = current_dir.split("/")[-1]  # Get the name of the current directory
+
+    subprocess.run(
+        [
+            "docker",
+            "run",
+            "-it",
+            "--env-file",
+            os.path.expanduser("~/.env"),
+            "--net=host",
+            "--rm",
+            "-v",
+            f"{current_dir}:/{dir_name}",  # Mount to a directory with the same name
+            "-w",
+            f"/{dir_name}",  # Set the working directory
+            "-v",
+            "/var/run/docker.sock:/var/run/docker.sock",
+            "fonzzy1/vim",
+            "/bin/bash",
+            "-c",
+            f"gh auth setup-git; git config --global --add safe.directory /{dir_name}; vim",
+        ]
+    )
+
+
+def run_gh(args):
+    """
+    Runs a command for cloning a GitHub repository in a Docker container.
+
+    Args:
+        args (argparse.Namespace): The command-line arguments.
+
+    Returns:
+        None
+    """
+    name = args.repo.replace("/", "-")
+    repo = args.repo.split("/")[-1] if "/" in args.repo else args.repo
+    command = f"gh auth setup-git; gh repo clone {args.repo} /{repo}; "
+
+    # Additional git command based on input parameters
+    if args.branch:
+        command += f"git switch {args.branch}; "
+    elif args.pullrequest:
+        command += f"gh pr checkout {args.pullrequest}; "
+    elif args.checkout:
+        command += f"git checkout -b {args.checkout}; git push --set-upstream origin {args.checkout}; "
+
+    # Update submodules if any
+    command += "git submodule update --init; vim; "
+
+    # Check for unpushed or uncommitted changes before exiting Vim
+    check_changes_command = ' \
+        CHANGES=$(git status --porcelain); \
+        UPSTREAM_CHANGES=$(git cherry -v); \
+        if [ -n "$CHANGES" ] || [ -n "$UPSTREAM_CHANGES" ]; then \
+            vim -c \':G | only\'; \
+        fi'
+
+    # Final combined command
+    final_command = command + check_changes_command
+
+    subprocess.run(
+        [
+            "docker",
+            "run",
+            "-it",
+            "--env-file",
+            os.path.expanduser("~/.env"),
+            "--name",
+            name,
+            "--net=host",
+            "--rm",
+            "-w",
+            f"/{repo}",
+            "-v",
+            "/var/run/docker.sock:/var/run/docker.sock",
+            "fonzzy1/vim",
+            "/bin/bash",
+            "-c",
+            final_command,
+        ]
+    )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(title="commands", dest="command")
+
+    local_parser = subparsers.add_parser(
+        "local", help="Run command for a container with local directory"
+    )
+    local_parser.set_defaults(func=run_local)
+
+    gh_parser = subparsers.add_parser("gh", help="Run command for cloning a repo")
+    gh_parser.add_argument("repo", help="Specify the repository for cloning")
+    gh_parser.set_defaults(func=run_gh)
+    gh_parser.add_argument("-b", "--branch", help="The branch to checkout")
+    gh_parser.add_argument(
+        "-p", "--pullrequest", help="The pull request number to checkout"
+    )
+    gh_parser.add_argument("-c", "--checkout", help="Checkout a new branch from main")
+
+    args = parser.parse_args()
+    args.func(args)
+```
