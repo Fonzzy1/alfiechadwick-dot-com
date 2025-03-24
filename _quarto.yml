@@ -9,6 +9,7 @@ website:
         text: Home
       - href: content/about.qmd
         text: About
+      - href: pages/posts/postList.qmd
 
 format:
   html:

@@ -1,0 +1,7 @@
+---
+title: Posts
+listing:
+  contents: ../../content/post/*/*.qmd
+  template: postList.ejs
+---
+
