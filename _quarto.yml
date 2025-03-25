@@ -4,11 +4,10 @@ project:
 website:
   title: "Alfie Chadwick"
   navbar:
-    left:
-      - href: pages/index.qmd
-        text: Home
+    right:
       - href: pages/posts/postList.qmd
       - href: pages/tags/tagList.qmd
+        text: Tags
 
 format:
   html:

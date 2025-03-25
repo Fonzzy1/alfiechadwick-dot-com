@@ -3,7 +3,7 @@ title: "Optimising the settings for the ODE solver"
 author: 'Alfie Chadwick'
 date: '2024-3-15'
 lastmod: "`r Sys.Date()`"
-Tags: ['Calculus', 'Algebra']
+tags: ['Calculus', 'Algebra']
 ---
 
 ```{python example-setup, echo = FALSE}

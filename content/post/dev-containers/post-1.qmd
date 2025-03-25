@@ -3,7 +3,7 @@ title: "DIY Dev-Containers"
 author: 'Alfie Chadwick'
 date: '2024-01-07'
 lastmod: "`r Sys.Date()`"
-Tags: ['Devops','Docker','Vim']
+tags: ['Devops','Docker','Vim']
 
 ---
 
@@ -28,7 +28,7 @@ So let's quickly scope out this project. In my development containers, I want:
 
 So after taking a quick look around my system, I have come up with this initial Dockerfile for my development container:
 
-```dockerfile
+```Dockerfile
 FROM ubuntu as setter_upper
 
 ARG DEBIAN_FRONTEND=noninteractive

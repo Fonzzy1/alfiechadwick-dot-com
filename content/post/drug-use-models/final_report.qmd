@@ -3,7 +3,7 @@ title: 'Modeling Drug Use in Communities'
 author: 'Alfie Chadwick, Kevin Dai, Chrysovalantis Thomopoulos'
 date: '2023-10-22'
 lastmod: "`r Sys.Date()`"
-Tags: ['Calculus', 'Modeling']
+tags: ['Calculus', 'Modeling']
 ---
 
 # Preface
