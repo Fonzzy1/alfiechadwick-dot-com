@@ -112,7 +112,7 @@ $cyan:    $sky !default;
 
 // Body
 
-$body-bg:                   $gray-900 !default;
+$body-bg:                   $base !default;
 $body-color:                $white !default;
 @function body-mix($weight) {
     @return mix($body-bg, $body-color, $weight);
@@ -121,7 +121,7 @@ $body-color:                $white !default;
 $primary:       $purple !default;
 $secondary:     body-mix(85%) !default;
 $success:       $green !default;
-$info:          $blue !default;
+$info:          $sapphire !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 // This is inconsistent with Bootstrap semantics. That is, $dark

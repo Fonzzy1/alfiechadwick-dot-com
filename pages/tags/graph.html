@@ -151,9 +151,9 @@
         .attr("stroke", "#cad3f5")
         .on("click", function(d) {
           console.log(`Link clicked between ${d.source.id} and ${d.target.id}`);
-          let tagName1 = d.source.id.replace(/\s+/g, '-').toLowerCase();
-          let tagName2 = d.target.id.replace(/\s+/g, '-').toLowerCase();
-          window.location.href = `/tags/${tagName1}?tag=${tagName2}`;
+          let tagName1 = d.source.id
+          let tagName2 = d.target.id
+          window.top.location.href = `/pages/posts/postList.html?tags=${tagName1},${tagName2}`;
         });
 
       var colors = [
@@ -182,8 +182,8 @@
         .data(nodes)
         .enter().append("circle")
         .on("click", function(d) {
-          let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
-          window.location.href = `/tags/${tagName}`;
+          let tagName = d.id;
+          window.top.location.href = `/pages/posts/postList.html?tags=${tagName}`;
         })
         .attr("r", nodeRadius)
         .attr("fill", function(d) { return getRandomColor(); });
@@ -211,8 +211,8 @@
         .style("text-anchor", "middle")
         .style("dominant-baseline", "central")
         .on("click", function(d) {
-          let tagName = d.id.replace(/\s+/g, '-').toLowerCase();
-          window.location.href = `/tags/${tagName}`;
+          let tagName = d.id;
+          window.top.location.href = `/pages/posts/postList.html?tags=${tagName}`;
         });
 
       // Update function

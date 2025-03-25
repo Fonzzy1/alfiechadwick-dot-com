@@ -10,7 +10,7 @@
       <time datetime="<%= post.date %>" style="float: right;">
         <%= new Date(post.date).toISOString().split('T')[0] %>
       </time>
-      <a href="<%- post.href %>" class="listing-name" style="font-size: large;">
+      <a href="<%- post.path %>" class="listing-name" style="font-size: large;">
         <%= post.title %>
       </a>
     </li>

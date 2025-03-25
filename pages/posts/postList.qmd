@@ -2,6 +2,7 @@
 title: Posts
 listing:
   contents: ../../content/post/*/*.qmd
+  sort: "date desc"
   template: postList.ejs
 ---
 
