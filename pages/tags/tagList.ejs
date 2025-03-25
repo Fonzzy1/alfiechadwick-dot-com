@@ -1,12 +1,10 @@
-<% let tagMap = new Map(); %>
-<% items.forEach(item => { %>
-  <% let tags = item.Tags || []; %>
-  <% tags.forEach(tag => { %>
-    <% if (tag && !tagMap.has(tag)) { %>
-      <% tagMap.set(tag, []); %>
-    <% }
-    tagMap.get(tag).push(item.title);
-    %>
-  <% }); %>
-<% }); %>
-<%- JSON.stringify(Array.from(tagMap.entries())) %>
+<% var postsData = items.map(function(item) { 
+  return {
+    title: item.title,
+    permalink: item.path,
+    tags: item.tags
+  };
+  }); %>
+<div id="tag-map-data" style="display: block;">
+  <%- JSON.stringify(postsData) %>
+</div>
