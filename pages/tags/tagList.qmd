@@ -1,8 +1,14 @@
 ---
-title: Tags
 listing:
   contents: ../../content/post/*/*.qmd
   template: tagList.ejs
+format: 
+  html:
+    page-layout: custom
 ---
 
-<iframe src="graph.html" width="800" height="600" frameborder="0"></iframe>
+
+```{=html}
+<iframe src="graph.html" width="99%" height="950px" style="overflow: hidden;" ></iframe>
+
+```
