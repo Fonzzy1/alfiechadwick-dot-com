@@ -1,5 +1,42 @@
 <ul>
-<% for (const item of items) { %>
-  <li><a href="<%- item.path %>"><%= item.title %></a></li>
+<%
+  const groupedItems = items.reduce((acc, item) => {
+      const year = new Date(item.date).getFullYear();
+      const month = new Date(item.date).toLocaleString('default', { month:
+      'long' });
+      if (!acc[year]) acc[year] = {};
+      if (!acc[year][month]) acc[year][month] = [];
+      acc[year][month].push(item);
+      return acc;
+    }, {});
+
+  const sortedYears = Object.keys(groupedItems).sort((a, b) => b - a);
+%>
+<% for (const year of sortedYears) { %>
+  <h2><%= year %></h2>
+  <ul>
+    <%
+      const sortedMonths = Object.keys(groupedItems[year]).sort((a, b) =>
+        new Date(`${b} 1, 2023`) - new Date(`${a} 1, 2023`)
+      );
+    %>
+    <% for (const month of sortedMonths) { %>
+      <h3><%= month %></h3>
+      <ul>
+        <% for (const item of groupedItems[year][month]) { %>
+          <li>
+            <a href="<%- item.path %>"><%= item.title %></a>
+            <span style="float: right;">
+              <%= new Date(item.date).getDate().toLocaleString('en-US', { 
+                minimumIntegerDigits: 1,
+                useGrouping: false
+              }) %><%= ['st', 'nd', 'rd'][(((new Date(item.date).getDate() + 90) % 
+                100) - 10) % 10 - 1] || 'th' %>
+            </span>
+          </li>
+        <% } %>
+      </ul>
+    <% } %>
+  </ul>
 <% } %>
 </ul>

@@ -7,9 +7,8 @@ website:
     left:
       - href: pages/index.qmd
         text: Home
-      - href: pages/about.qmd
-        text: About
       - href: pages/posts/postList.qmd
+      - href: pages/tags/tagList.qmd
 
 format:
   html:

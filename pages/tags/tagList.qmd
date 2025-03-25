@@ -1,0 +1,8 @@
+---
+title: Tags
+listing:
+  contents: ../../content/post/*/*.qmd
+  template: tagList.ejs
+---
+
+

@@ -1,0 +1,12 @@
+<% let tagMap = new Map(); %>
+<% items.forEach(item => { %>
+  <% let tags = item.Tags || []; %>
+  <% tags.forEach(tag => { %>
+    <% if (tag && !tagMap.has(tag)) { %>
+      <% tagMap.set(tag, []); %>
+    <% }
+    tagMap.get(tag).push(item.title);
+    %>
+  <% }); %>
+<% }); %>
+<%- JSON.stringify(Array.from(tagMap.entries())) %>
