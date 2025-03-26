@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alfie Chadwick">
+<meta name="dcterms.date" content="2024-01-26">
+
+<title>Predicting the 2023 Hottest 100 – Alfie Chadwick</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8b630c74e9d61d74c9cc1963132cb4a3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-c466080e74199f7e5684a91bcf2645e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Alfie Chadwick</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/posts/postList.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/tags/tagList.html"> 
+<span class="menu-text">Tags</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#my-hypotheses" id="toc-my-hypotheses" class="nav-link active" data-scroll-target="#my-hypotheses">My Hypotheses</a>
+  <ul class="collapse">
+  <li><a href="#plays-on-triple-j" id="toc-plays-on-triple-j" class="nav-link" data-scroll-target="#plays-on-triple-j">Plays on Triple J</a></li>
+  <li><a href="#chart-success" id="toc-chart-success" class="nav-link" data-scroll-target="#chart-success">Chart Success</a></li>
+  <li><a href="#time-of-release-and-peak" id="toc-time-of-release-and-peak" class="nav-link" data-scroll-target="#time-of-release-and-peak">Time of Release and Peak</a></li>
+  </ul></li>
+  <li><a href="#play-data" id="toc-play-data" class="nav-link" data-scroll-target="#play-data">Play Data</a>
+  <ul class="collapse">
+  <li><a href="#number-of-plays" id="toc-number-of-plays" class="nav-link" data-scroll-target="#number-of-plays">Number of Plays</a></li>
+  <li><a href="#how-total-plays-impact-success" id="toc-how-total-plays-impact-success" class="nav-link" data-scroll-target="#how-total-plays-impact-success">How Total Plays Impact Success</a></li>
+  <li><a href="#accounting-for-time" id="toc-accounting-for-time" class="nav-link" data-scroll-target="#accounting-for-time">Accounting for Time</a></li>
+  </ul></li>
+  <li><a href="#chart-success-1" id="toc-chart-success-1" class="nav-link" data-scroll-target="#chart-success-1">Chart Success</a></li>
+  <li><a href="#timing" id="toc-timing" class="nav-link" data-scroll-target="#timing">Timing</a></li>
+  <li><a href="#where-we-are-going-wrong" id="toc-where-we-are-going-wrong" class="nav-link" data-scroll-target="#where-we-are-going-wrong">Where we are going wrong</a></li>
+  <li><a href="#screw-it-xgboost" id="toc-screw-it-xgboost" class="nav-link" data-scroll-target="#screw-it-xgboost">Screw it XGBoost</a>
+  <ul class="collapse">
+  <li><a href="#predicted-countdown" id="toc-predicted-countdown" class="nav-link" data-scroll-target="#predicted-countdown">2022 Predicted Countdown</a></li>
+  <li><a href="#real-countdown" id="toc-real-countdown" class="nav-link" data-scroll-target="#real-countdown">2022 Real Countdown</a></li>
+  </ul></li>
+  <li><a href="#my-final-predictions" id="toc-my-final-predictions" class="nav-link" data-scroll-target="#my-final-predictions">My Final Predictions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Predicting the 2023 Hottest 100</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alfie Chadwick </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 26, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Like many Australians, I spent my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the past few years, there has been a project run by <a href="https://100warmtunas.com/">100 Warm Tunas</a> that has been remarkably accurate at predicting the results of the countdown.</p>
+<p>Warm Tunas makes predictions by scraping social media posts for people’s votes and then collating them as a sample of all votes. While this method is highly effective, I feel that it misses the point a bit when it comes to understanding why a song is popular.</p>
+<p>Therefore, this year, I have set out to determine the top songs in the 2023 countdown without relying on anything related to the voting itself.</p>
+<section id="my-hypotheses" class="level2">
+<h2 class="anchored" data-anchor-id="my-hypotheses">My Hypotheses</h2>
+<p>Heading into this, I have a few ideas as to factors that will make a song perform well in the countdown:</p>
+<section id="plays-on-triple-j" class="level3">
+<h3 class="anchored" data-anchor-id="plays-on-triple-j">Plays on Triple J</h3>
+<p>I feel this factor is pretty self-explanatory. If a song is being played a lot on Triple J, it’s most likely popular with the listener base and will get more votes in the Hottest 100.</p>
+</section>
+<section id="chart-success" class="level3">
+<h3 class="anchored" data-anchor-id="chart-success">Chart Success</h3>
+<p>This one is a bit weirder, as I don’t think that just getting to number one in the ARIA charts will make you a top pick for Triple J listeners. Otherwise, the countdown would be topped by the year’s biggest pop hits. If a song is too popular in the mainstream, it seems to fall out of favor with Triple J listeners. However, there are some notable exceptions to this, such as “Bad Guy” by Billie Eilish and “Thrift Shop” by Macklemore, which both took out the top spot in their respective years.</p>
+</section>
+<section id="time-of-release-and-peak" class="level3">
+<h3 class="anchored" data-anchor-id="time-of-release-and-peak">Time of Release and Peak</h3>
+<p>This idea is commonly thrown around when talking about the Oscars, so I feel that it’s probably going to be applicable to the Hottest 100 as well. Being at peak popularity when people are voting is probably going to be useful. Similarly, a song that hung around for a long time will probably be voted for more than a song that only hung around for a week.</p>
+</section>
+</section>
+<section id="play-data" class="level1">
+<h1>Play Data</h1>
+<p>I gathered the data for all plays on Triple J for the last 8 years from their <a href="https://music.abcradio.net.au/api/v1/plays/search.json?limit=100&amp;offset=0&amp;page=0&amp;station=triplej">API</a>, which left me with a dataset that looks like this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/dataset-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="number-of-plays" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-plays">Number of Plays</h2>
+<p>To me, the most obvious indicator of a song’s popularity is the number of plays it receives. So, we can start by examining that.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/plays-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These plots give us a good insight into the trends in how Triple J selects songs. We have a lot of songs with almost no plays, which are mostly songs that are being presented to the audience to gauge their reaction. If they become popular, the songs will be played frequently, indicated by the absence of songs with 40-60 plays. However, very few songs receive excessive playtime, with only a handful surpassing 200 plays.</p>
+<p>We can also observe the impact of being released early in the year, as these songs have more opportunities to be played throughout the year, resulting in a downward slope for each year.</p>
+</section>
+<section id="how-total-plays-impact-success" class="level2">
+<h2 class="anchored" data-anchor-id="how-total-plays-impact-success">How Total Plays Impact Success</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/plays-vs-success-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the rankings, we can see that the total number of plays doesn’t have a massive impact on performance. A song can have five plays or a hundred, and it seems to have a similar outcome in the rankings.</p>
+<p>There is a slight downward trend for songs getting over 120 plays, as these are the absolute most played songs for the year. However, this status still doesn’t guarantee a top spot.</p>
+</section>
+<section id="accounting-for-time" class="level2">
+<h2 class="anchored" data-anchor-id="accounting-for-time">Accounting for Time</h2>
+<p>A thought I had while looking at the absolute play data is that it disproportionately rewards songs that were released earlier in the year.</p>
+<p>To address this, I have compiled some statistics that consider the peak of the songs, which should eliminate any advantage for being released at the beginning of the year.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/plays-vs-success-accounting-for-time-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/plays-vs-success-accounting-for-time-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/plays-vs-success-accounting-for-time-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, we can see that there is some useful information, with the peak plays per week showing that songs which have a big peak generally perform well in the final rankings. However, as with the absolute count of plays, there doesn’t seem to be a hard and fast rule.</p>
+</section>
+</section>
+<section id="chart-success-1" class="level1">
+<h1>Chart Success</h1>
+<p>The ARIA charts collate music sales and streaming data within Australia and produce a weekly list of the top 50 most popular songs. A GitHub user has been kind enough to <a href="https://raw.githubusercontent.com/caseybriggs/ARIA-charts/main/single_charts.csv">compile all of these lists</a>, so we can simply load them and compare the chart results to a song’s position in the Hottest 100.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/Chart-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/Chart-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/Chart-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first thing to note is that these plots are much sparser than the rest. This is because many songs played on Triple J don’t make it into the top 50 at all, even though they make it into the Hottest 100.</p>
+<p>For the songs that did make it into the ARIA charts and hung around, they consistently performed well in the countdown. Examples include “Bad Guy” by Billie Eilish and “Dance Monkey” by Tones and I, which claimed the 1st and 4th spots in their respective years.</p>
+<p>However, the predictive power of this statistic is again quite limited. Many songs that performed well in the Hottest 100 had poor chart success. For instance, “Redbone” by Childish Gambino took the 5th spot in 2015 despite only spending a single week in the charts at rank 42.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/chart-did-it-make-it-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From this chart, we can see that songs that make the charts are outperforming songs that don’t. But more importantly, it shows us that making the charts is not a deal-breaker on whether or not a song will perform well in the Hottest 100.</p>
+</section>
+<section id="timing" class="level1">
+<h1>Timing</h1>
+<p>Another thing I wanted to look at was when and how the songs peaked in the play data. Maybe being the popular song would help the song perform around the time that voting is open, which may help with its performance in the final rankings.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/week-of-peak-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/week-of-peak-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the above plots, we can see that the week of release or peak really doesn’t matter when looking at the final results.</p>
+<p>I went on to see if the shape of the peaks looks different for well-performing songs versus poorly performing songs, and again, nothing seems particularly interesting or different between the two.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/multiline-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="where-we-are-going-wrong" class="level1">
+<h1>Where we are going wrong</h1>
+<p>So it seems that all of my hypotheses are incorrect, and I believe the reason for this is that there is too much variation among the top 100. This is because these songs are already considered the best of the year from a pool of nearly 4000.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/overall-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at this plot, we can see right away that a song that made the Hottest 100 got more plays than those that didn’t, but also that plenty of songs that didn’t make the 100 got a comparable number of plays.</p>
+</section>
+<section id="screw-it-xgboost" class="level1">
+<h1>Screw it XGBoost</h1>
+<p>I think the direction to go here is to see if we can use ML to find any trends that aren’t showing up in the plots.</p>
+<p>To do this, we are going to use XGBoost to train a model to predict the rank of the song using all the stats I wrote out above. The only thing I changed was taking the first play data and setting it to be the month rather than the day to reduce overfitting. For any song that didn’t make it into the 100, I set the rank to be 101, as it could be the 101st most popular song that year.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="post_files/figure-html/boost-train-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A nice thing about XGBoost is that it can provide insight into the most important factors it uses to predict the results. From the above plots, we can see that the peak of the song on triple J and its total plays contribute significantly to the predictive power.</p>
+<p>Interestingly, the chart scores seem to have little effect. However, this can be justified by considering the fact that many songs that make the top 100 never make the charts.</p>
+<p>Now that we have the model, we can evaluate its performance in predicting the Hottest 100 by applying it to the play data from 2022.</p>
+<section id="predicted-countdown" class="level3">
+<h3 class="anchored" data-anchor-id="predicted-countdown">2022 Predicted Countdown</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Song</th>
+<th style="text-align: left;">Artist</th>
+<th style="text-align: right;">Actual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">b.o.t.a.</td>
+<td style="text-align: left;">eliza rose</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">say nothing</td>
+<td style="text-align: left;">flume</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">glimpse of us</td>
+<td style="text-align: left;">joji</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bad habit</td>
+<td style="text-align: left;">steve lacy</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">first class</td>
+<td style="text-align: left;">jack harlow</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">about damn time</td>
+<td style="text-align: left;">lizzo</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sitting up</td>
+<td style="text-align: left;">spacey jane</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">get inspired</td>
+<td style="text-align: left;">genesis owusu</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">in the wake of your leave</td>
+<td style="text-align: left;">gang of youths</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">shirt</td>
+<td style="text-align: left;">sza</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hardlight</td>
+<td style="text-align: left;">spacey jane</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stars in my eyes</td>
+<td style="text-align: left;">ball park music</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stranger days</td>
+<td style="text-align: left;">skegss</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">god is a freak</td>
+<td style="text-align: left;">peach prc</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">it’s been a long day</td>
+<td style="text-align: left;">spacey jane</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">thousand miles</td>
+<td style="text-align: left;">the kid laroi</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">backseat of my mind</td>
+<td style="text-align: left;">thelma plum</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2 be loved</td>
+<td style="text-align: left;">lizzo</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">facts of life</td>
+<td style="text-align: left;">lime cordiale</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">doja</td>
+<td style="text-align: left;">central cee</td>
+<td style="text-align: right;">39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="real-countdown" class="level3">
+<h3 class="anchored" data-anchor-id="real-countdown">2022 Real Countdown</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Song</th>
+<th style="text-align: left;">Artist</th>
+<th style="text-align: right;">Predicted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">say nothing</td>
+<td style="text-align: left;">flume</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b.o.t.a.</td>
+<td style="text-align: left;">eliza rose</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hardlight</td>
+<td style="text-align: left;">spacey jane</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bad habit</td>
+<td style="text-align: left;">steve lacy</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">it’s been a long day</td>
+<td style="text-align: left;">spacey jane</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sitting up</td>
+<td style="text-align: left;">spacey jane</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">about damn time</td>
+<td style="text-align: left;">lizzo</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stars in my eyes</td>
+<td style="text-align: left;">ball park music</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">in the wake of your leave</td>
+<td style="text-align: left;">gang of youths</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">glimpse of us</td>
+<td style="text-align: left;">joji</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gay 4 me</td>
+<td style="text-align: left;">g flip</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">first class</td>
+<td style="text-align: left;">jack harlow</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">new gold</td>
+<td style="text-align: left;">gorillaz</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">delilah</td>
+<td style="text-align: left;">fred again</td>
+<td style="text-align: right;">27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">facts of life</td>
+<td style="text-align: left;">lime cordiale</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">god is a freak</td>
+<td style="text-align: left;">peach prc</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">get inspired</td>
+<td style="text-align: left;">genesis owusu</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stranger days</td>
+<td style="text-align: left;">skegss</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">shirt</td>
+<td style="text-align: left;">sza</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">backseat of my mind</td>
+<td style="text-align: left;">thelma plum</td>
+<td style="text-align: right;">17</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>From this, I reckon the model is doing pretty well, so lets have a look at my final predictions for the hottest 100 of 2023.</p>
+</section>
+</section>
+<section id="my-final-predictions" class="level1">
+<h1>My Final Predictions</h1>
+<p>The list below seems pretty reasonable, with Doja Cat taking the top spot and my pick for number one, Rush, sitting in 10th. There seems to be a big lean towards pop and a lack of your classic Triple J-style indie rockers, but that might just be the turnout for this year.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Song</th>
+<th style="text-align: left;">Artist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">paint the town red</td>
+<td style="text-align: left;">doja cat</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vampire</td>
+<td style="text-align: left;">olivia rodrigo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">what was i made for?</td>
+<td style="text-align: left;">billie eilish</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sprinter</td>
+<td style="text-align: left;">dave</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nanana</td>
+<td style="text-align: left;">peggy gou</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">love type</td>
+<td style="text-align: left;">poolclvb</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">green honda</td>
+<td style="text-align: left;">benee</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">super ego</td>
+<td style="text-align: left;">babe rainbow</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kill bill</td>
+<td style="text-align: left;">sza</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rush</td>
+<td style="text-align: left;">troye sivan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">greedy</td>
+<td style="text-align: left;">tate mcrae</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">strangers</td>
+<td style="text-align: left;">kenya grace</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sweat you out my system</td>
+<td style="text-align: left;">maya</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chemical</td>
+<td style="text-align: left;">post malone</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">adored</td>
+<td style="text-align: left;">royel otis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bad idea right?</td>
+<td style="text-align: left;">olivia rodrigo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lovin on me</td>
+<td style="text-align: left;">jack harlow</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">houdini</td>
+<td style="text-align: left;">dua lipa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">got me started</td>
+<td style="text-align: left;">troye sivan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">barbie world</td>
+<td style="text-align: left;">nicki minaj</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lost without you</td>
+<td style="text-align: left;">san cisco</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">super-vision</td>
+<td style="text-align: left;">dice</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">agora hills</td>
+<td style="text-align: left;">doja cat</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">blak britney</td>
+<td style="text-align: left;">miss kaninna</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">glue song</td>
+<td style="text-align: left;">beabadoobee</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ruthless</td>
+<td style="text-align: left;">hooligan hefs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">attention</td>
+<td style="text-align: left;">doja cat</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">james dean</td>
+<td style="text-align: left;">tash sultana</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">never felt so alone</td>
+<td style="text-align: left;">labrinth</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">my love mine all mine</td>
+<td style="text-align: left;">mitski</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">water</td>
+<td style="text-align: left;">tyla</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">still have room</td>
+<td style="text-align: left;">hockey dad</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">do it again</td>
+<td style="text-align: left;">benee</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trippin up</td>
+<td style="text-align: left;">the jungle giants</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">i wish you roses</td>
+<td style="text-align: left;">kali uchis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dash of speed</td>
+<td style="text-align: left;">rum jungle</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">too much</td>
+<td style="text-align: left;">the kid laroi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eyes ahead</td>
+<td style="text-align: left;">dice</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">spin me like your records</td>
+<td style="text-align: left;">pacific avenue</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">adore u</td>
+<td style="text-align: left;">fred again</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dogtooth</td>
+<td style="text-align: left;">tyler</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pets and drugs</td>
+<td style="text-align: left;">the rubens</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">imposter syndrome</td>
+<td style="text-align: left;">lime cordiale</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">into your room</td>
+<td style="text-align: left;">holly humberstone</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">love again</td>
+<td style="text-align: left;">the kid laroi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">up</td>
+<td style="text-align: left;">lee</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pegasus</td>
+<td style="text-align: left;">arlo parks</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">exploding</td>
+<td style="text-align: left;">angie mcmahon</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stockholm</td>
+<td style="text-align: left;">dice</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">calling</td>
+<td style="text-align: left;">metro boomin</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">must be nice</td>
+<td style="text-align: left;">ruel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">better love</td>
+<td style="text-align: left;">eliza rose</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">your funeral</td>
+<td style="text-align: left;">maya</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">don’t let me down</td>
+<td style="text-align: left;">gus dapperton</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">the worst person alive</td>
+<td style="text-align: left;">g flip</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">conceited</td>
+<td style="text-align: left;">lola young</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">messed up</td>
+<td style="text-align: left;">holy holy</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lost in the rush</td>
+<td style="text-align: left;">telenova</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">candle flame</td>
+<td style="text-align: left;">jungle</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">one of your girls</td>
+<td style="text-align: left;">troye sivan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">minivan</td>
+<td style="text-align: left;">the rions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">perfect for you</td>
+<td style="text-align: left;">peach prc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">prescription</td>
+<td style="text-align: left;">remi wolf</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">change</td>
+<td style="text-align: left;">laurel</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">angel</td>
+<td style="text-align: left;">pinkpantheress</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sinner</td>
+<td style="text-align: left;">the last dinner party</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">midwest</td>
+<td style="text-align: left;">vacations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pretty girl</td>
+<td style="text-align: left;">ice spice</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">good enough</td>
+<td style="text-align: left;">g flip</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">take what you want</td>
+<td style="text-align: left;">the rions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">i wanna dance</td>
+<td style="text-align: left;">royel otis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rhyme dust</td>
+<td style="text-align: left;">mk</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">boys light up</td>
+<td style="text-align: left;">chillinit</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">make up your mind</td>
+<td style="text-align: left;">cordae</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">viper room</td>
+<td style="text-align: left;">thornhill</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">weightless</td>
+<td style="text-align: left;">arlo parks</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">letting go</td>
+<td style="text-align: left;">angie mcmahon</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">can’t play myself</td>
+<td style="text-align: left;">skepta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">black mascara.</td>
+<td style="text-align: left;">raye</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">feel alive</td>
+<td style="text-align: left;">cat</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tied up!</td>
+<td style="text-align: left;">genesis owusu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fine day anthem</td>
+<td style="text-align: left;">skrillex</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">we don’t talk about it</td>
+<td style="text-align: left;">thelma plum</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mrs. hollywood</td>
+<td style="text-align: left;">gojo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">am i dreaming</td>
+<td style="text-align: left;">metro boomin</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">comma’s</td>
+<td style="text-align: left;">onefour</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lola</td>
+<td style="text-align: left;">maya</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">it’s cool to be in love</td>
+<td style="text-align: left;">greta stanley</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">since i have a lover</td>
+<td style="text-align: left;">6lack</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">prada</td>
+<td style="text-align: left;">cass</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lil boo thang</td>
+<td style="text-align: left;">paul russell</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nothing matters</td>
+<td style="text-align: left;">the last dinner party</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">going kokomo</td>
+<td style="text-align: left;">royel otis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">all my life</td>
+<td style="text-align: left;">lil durk</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">brain freeze</td>
+<td style="text-align: left;">northeast party house</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">healing</td>
+<td style="text-align: left;">molly millington</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sticky</td>
+<td style="text-align: left;">kito</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rakata</td>
+<td style="text-align: left;">the jungle giants</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lost the breakup</td>
+<td style="text-align: left;">maisie peters</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f u goodbye</td>
+<td style="text-align: left;">peach prc</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
