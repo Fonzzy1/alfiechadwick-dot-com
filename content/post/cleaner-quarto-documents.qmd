@@ -1,9 +1,0 @@
----
-title: Quick tip for using Get Def in python Code chunks
-author: Alfie Chadwick
-date: "2025-03-26"
-tags: ['Quarto']
-
----
-
-

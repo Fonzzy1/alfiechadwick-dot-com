@@ -1,0 +1,92 @@
+---
+title: The Urgent Need for Data Access in the Age of AI
+author: Alfie Chadwick
+date: "14 October, 2024"
+tags: ['Opinion', 'Data-Mining', 'Misinformation']
+toc: false
+---
+
+Climate misinformation is one of the great challenges of our age, with its
+propagators ranging from distant strangers on Facebook or Twitter to the
+[President of the United
+States](https://www.lse.ac.uk/granthaminstitute/news/president-trump-fake-news-climate-change/).
+It misleads the public, undermines scientific consensus, and delays necessary
+actions to address climate change, exacerbating its impacts. However, there
+appears little we can do to combat it. With the current legal landscape, the
+tools and systems we need to fight the spread of misinformation aren't at our
+disposal; conversely, the perpetrators of misinformation are able to expand
+their efforts with AI technologies and social media networks, leaving the
+fact-checkers of the world on an uneven playing field.
+
+In response to misinformation,
+[fact-checkers](https://www.cjr.org/special_report/rise-and-fall-of-fact-checking.php)
+have attempted to inform readers how they have been misled, publishing their
+work countering the misleading statements. This work continues today, with [ABC
+RMIT Fact
+Check](https://www.rmit.edu.au/about/schools-colleges/media-and-communication/research/public-communication-research-and-advisory-services/projects/fact-check)
+and the [Australian Associated Press](https://www.aap.com.au/factcheck/) being
+notable examples. But increasingly, these organisations are struggling to make
+an impact due to [lack of
+trust](https://theconversation.com/is-australias-golden-age-of-third-party-fact-checking-over-224502),
+especially amongst people who identify as right-leaning -- the group that
+believes the most in climate misinformation. Fact-checkers also have to deal
+with a media landscape where anyone can say something and publish it online,
+greatly expanding the scale of what they need to cover.
+
+One of the most promising new methods of protecting the general public against
+climate change misinformation has been the concept of pre-bunking, [where
+readers see the misinformation being debunked before they ever see the
+misinformation](https://www.uts.edu.au/news/social-justice-sustainability/how-inoculate-against-climate-misinformation-prebunk-it).
+However, to pre-bunk misinformation you need to quickly know what misleading
+claims exist and where they are, and in our current legal system, that job is
+challenging.
+
+With AI slowly creeping into our everyday lives, you might think that it could
+be part of the solution to this problem. But you asked your favourite large
+language model, such as ChatGPT, to grab the top stories from [ABC News
+Australia](https://www.abc.net.au/news), you might get a response similar to
+this:
+
+>"It seems I'm unable to access ABC Australia's website directly at the moment.
+>However, you can check the latest top stories by visiting their ABC News page,
+>which features the most recent and important updates from Australia and the
+>world."
+
+Now, this response isn't because the model is incapable of accessing the page,
+but because the ABC doesn't allow it. The ABC, like every other news
+organisation, explicitly denies scraping of their website for data in their
+terms and conditions. This blanket ban isn't completely unfounded, since AI
+companies have been [known to use copyrighted material in their
+training](https://harvardlawreview.org/blog/2024/04/nyt-v-openai-the-timess-about-face/),
+and news organisations have every right to protect their copyrighted material.
+However, this kind of heavy-handed blocking of scraping means that fact-checkers
+aren't able to legally collect information about what is being published in the
+Australian media landscape.
+
+But let's say we're not so interested in the spread of misinformation by our
+news organisations, but rather only through social media. Here again, we face
+the same issue. If you start scraping data off Facebook, Instagram, Reddit or X
+without the express permission of the companies in question, it won't be long
+until the [lawyers start
+knocking](https://www.theregister.com/2023/07/14/twitter_scraping_lawsuit/).
+Fortunately, these companies have been generally cooperative, offering
+researchers, businesses, and individuals access to data through authorised
+channels. However, these methods are quickly becoming more restrictive, with
+both
+[Reddit](https://www.socialmediatoday.com/news/reddit-parameters-third-party-data-usage/715740/)
+and [Instagram recently deciding to remove most of their accessible
+routes](https://memorykpr.com/blog/instagram-api-deprecation-manual-import-ending-dec-4-2024/)
+in the name of protecting their data and income. If this trend continues,
+fact-checkers will quickly lose the ability to see what misinformation exists on
+social media.
+
+Unfortunately, fact-checkers rely on this data, and therefore some choose to
+collect it from these sources, even if it constitutes a legal grey area. They
+hope that so long as they don't do anything to provoke these large media or tech
+companies, they should be able to fly under the radar and continue operating.
+But for many, the risk of litigation is too great. Under current laws, media
+companies decide who can access their data. This means these platforms can
+spread misinformation without any fact-checkers holding them accountable. If we
+truly want to stop climate misinformation, we need to give fact-checkers the
+tools to combat it: the data.
+
