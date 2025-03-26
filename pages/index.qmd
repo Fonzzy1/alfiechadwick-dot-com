@@ -35,6 +35,13 @@ This blog is just a place to put my projects into one place and practice writing
 about things that seem cool to me.
 
 
+<style>
+
+ul {
+  padding: 0;
+}
+
+</style>
 ### Latest Posts:
 
 

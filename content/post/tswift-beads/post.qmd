@@ -7,6 +7,7 @@ tags: ['Python']
 ---
 
 ```{python setup, echo = FALSE}
+#| echo: false
 import re 
 song_list = [
 "Tim McGraw",
@@ -234,7 +235,7 @@ bead_dict = {
 
 With Taylor Swift coming to Melbourne next week, my house has started its prep for the concert. An important part of that preparation is making friendship bracelets to trade at the concert. So we headed down to Spotlight and grabbed ourselves a couple of bags of beads to make the bracelets. However, when we opened them up, we found that the distribution of letters was all over the place. We had a heap of useless Zs while also having almost no vowels. Instead of driving back to Spotlight, I decided to see if I could make enough friendship bracelets from the letters we already had, while also being a bit clever about which songs we were going to make friendship bracelets for.
 
-![The beads after I spent 15 minutes organinsing them](/post/tswift-beads/pic.jpg)
+![The beads after I spent 15 minutes organinsing them](pic.jpg)
 
 ## First Try
 

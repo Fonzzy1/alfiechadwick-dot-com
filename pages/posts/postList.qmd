@@ -8,6 +8,10 @@ listing:
 
 <style>
 
+ul {
+  padding: 0;
+}
+
 h2.year {
   font-size: 1.5rem;
   font-weight: bold;
