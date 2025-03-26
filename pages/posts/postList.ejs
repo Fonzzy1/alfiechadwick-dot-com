@@ -1,0 +1,93 @@
+<ul>
+<%
+  const groupedItems = items.reduce((acc, item) => {
+      const year = new Date(item.date).getFullYear();
+      const month = new Date(item.date).toLocaleString('default', { month: 'long' });
+      const tags = item.tags || [];
+
+      if (!acc[year]) acc[year] = {};
+      if (!acc[year][month]) acc[year][month] = [];
+      acc[year][month].push({ ...item, tags });
+
+      return acc;
+    }, {});
+
+  const sortedYears = Object.keys(groupedItems).sort((a, b) => b - a);
+%>
+
+<% for (const year of sortedYears) { %>
+  <h2 class="year" data-year="<%= year %>"><%= year %></h2>
+  <ul>
+    <%
+      const sortedMonths = Object.keys(groupedItems[year]).sort((a, b) =>
+        new Date(`${b} 1, 2023`) - new Date(`${a} 1, 2023`)
+      );
+    %>
+    <% for (const month of sortedMonths) { %>
+      <h3 class="month" data-year="<%= year %>" data-month="<%= month %>"><%= month %></h3>
+      <ul>
+        <% for (const item of groupedItems[year][month]) { %>
+          <li class="list-item" data-year="<%= year %>" data-month="<%= month %>" data-tags="<%= item.tags.join(',') %>">
+            <a href="<%- item.path %>"><%= item.title %></a>
+            <span style="float: right;">
+              <%= new Date(item.date).getDate().toLocaleString('en-US', { 
+                minimumIntegerDigits: 1,
+                useGrouping: false
+              }) %><%= ['st', 'nd', 'rd'][(((new Date(item.date).getDate() + 90) % 
+                100) - 10) % 10 - 1] || 'th' %>
+            </span>
+          </li>
+        <% } %>
+      </ul>
+    <% } %>
+  </ul>
+<% } %>
+</ul>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the tag filter(s) from the query string
+    const params = new URLSearchParams(window.location.search);
+    const filterTags = params.get('tags') ? params.get('tags').split(',') : [];
+
+    if (filterTags.length > 0) {
+      document.getElementsByClassName('title')[0].innerText = filterTags.join(', ')
+      
+      document.querySelectorAll('.list-item').forEach(item => {
+        const itemTags = item.getAttribute('data-tags').split(',');
+
+        // Hide items that do not contain ALL the filter tags (AND logic)
+        if (!filterTags.every(tag => itemTags.includes(tag))) {
+          item.style.display = 'none';
+        }
+      });
+
+      // Hide empty months
+      document.querySelectorAll('.month').forEach(monthHeader => {
+        const year = monthHeader.getAttribute('data-year');
+        const month = monthHeader.getAttribute('data-month');
+
+        const hasVisibleItems = [...document.querySelectorAll('.list-item')]
+          .some(item => item.style.display !== 'none' &&
+            item.getAttribute('data-year') === year &&
+            item.getAttribute('data-month') === month);
+
+        if (!hasVisibleItems) {
+          monthHeader.style.display = 'none';
+        }
+      });
+
+      // Hide empty years
+      document.querySelectorAll('.year').forEach(yearHeader => {
+        const year = yearHeader.getAttribute('data-year');
+
+        const hasVisibleMonths = [...document.querySelectorAll('.month')]
+          .some(month => month.style.display !== 'none' && month.getAttribute('data-year') === year);
+
+        if (!hasVisibleMonths) {
+          yearHeader.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>

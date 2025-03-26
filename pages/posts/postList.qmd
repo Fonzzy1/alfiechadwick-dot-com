@@ -1,0 +1,27 @@
+---
+title: Posts
+listing:
+  contents: ../../content/post/*/*.qmd
+  sort: "date desc"
+  template: postList.ejs
+---
+
+<style>
+
+ul {
+  padding: 0;
+}
+
+h2.year {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+h3.month {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
+</style>

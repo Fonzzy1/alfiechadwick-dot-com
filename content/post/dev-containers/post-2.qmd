@@ -1,0 +1,28 @@
+---
+title: Quick Tip for Displaying Imported Definitions in Quarto
+author: Alfie Chadwick
+date: "2025-03-26"
+tags: ['Quarto']
+---
+
+This is a very niche issue that I run into surprisingly often. When I am
+prototyping something in Python, I end up with my definitions spread across
+various files that I import into a master file. However, once I go to write it
+up, I end up needing to copy and paste the content into my Quarto file so I can
+show the definition. I hate doing this because it means that I have something
+defined twice, and the definitions might go out of sync, etc.
+
+So when recently tidying up some files, I found a cool trick for pasting
+definitions into Quarto files without have to copy and paste it. 
+
+```python
+#| echo: false
+#| warnings: false
+#| output: asis
+from inspect import getsource as gs
+from main import function_to_display
+print(f'\n```python\n{gs(function_to_display)}\n```\n')
+```
+
+Just put that inside a python code chunk and it will show the definition for the
+imported function.

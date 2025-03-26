@@ -1,0 +1,10 @@
+<% var postsData = items.map(function(item) { 
+  return {
+    title: item.title,
+    permalink: item.path,
+    tags: item.tags || []
+  };
+  }); %>
+<div id="tag-map-data" style="display: none;">
+  <%- JSON.stringify(postsData) %>
+</div>

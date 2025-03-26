@@ -1,0 +1,14 @@
+---
+listing:
+  contents: ../../content/post/*/*.qmd
+  template: tagList.ejs
+format: 
+  html:
+    page-layout: custom
+---
+
+
+```{=html}
+<iframe src="graph.html" width="99%" height="950px" style="overflow: hidden;" ></iframe>
+
+```
