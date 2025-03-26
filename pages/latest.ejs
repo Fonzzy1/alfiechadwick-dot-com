@@ -6,13 +6,13 @@
     const topItems = sortedItems.slice(0, 3);
     for (const post of topItems) { 
   %>
-    <li>
-      <time datetime="<%= post.date %>" style="float: right;">
-        <%= new Date(post.date).toISOString().split('T')[0] %>
-      </time>
+    <li class="list-item">
       <a href="<%- post.path %>" class="listing-name" style="font-size: large;">
         <%= post.title %>
       </a>
+      <time datetime="<%= post.date %>" style="float: right;">
+        <%= new Date(post.date).toISOString().split('T')[0] %>
+      </time>
     </li>
   <% } %>
 </ul>
