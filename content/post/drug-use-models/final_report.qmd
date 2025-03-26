@@ -43,7 +43,7 @@ Thirdly, the idea that addiction is caused by interactions between individuals s
 
 One divergence we made from the most basic SIR model is allowing for relapse from the recovered group back into the infected group. This represents how recovering addicts will become addicted again at a different rate than people who have never used the drug before. However, an important fact is that people cannot move back into the susceptible group as addiction is said to last a lifetime.
 
-![SIR Diagram](/post/drug-use-models/pics/1.png)
+![SIR Diagram](pics/1.png)
 
 Our SIR model is defined by the following equations:
 $$\frac{dS}{dt} = -\pi_1 * S * I $$
@@ -54,7 +54,10 @@ The parameters $\pi_1$, $\pi_2$, and $\pi_3$ represent the 'infectiousness' of t
 
 We now look at some plots to see how this model behaves for various combinations of our parameters:
 
-```{python, echo=FALSE, SIRsims}
+```{python SIRsims}
+#| echo: false
+#| warnings: false
+
 import numpy as np
 import pandas as pd
 import mplcatppuccin
@@ -96,7 +99,7 @@ plt.show()
 The SIR model fails to distinguish between different severities of addiction. By grouping the individuals who are trying/testing the drug with people who are addicted, we fail to capture the behavior of people trying the drug without becoming reliant on it.
 Because of this, we adapted the SIR model, relabeled the infected group to addicted, and added in a new compartment model for users of the drug who are not addicted, the 'using' group. Susceptible people will now move into the using group before moving into the Addicted group. Since there are now two groups who are using the drug and interacting with the community, the $I$ terms of the ODEs in the SIR model have to be replaced with $U+A$.
 
-![SUAR Diagram](/post/drug-use-models/pics/2.png)
+![SUAR Diagram](pics/2.png)
 
 The new model can now be described by the following equations:
 
@@ -107,7 +110,10 @@ $$\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R $$
 
 With parameters $\pi_1$, $\pi_2$, $\pi_3$, $\pi_4$, and $\pi_5$ being the 'effectiveness' of the drug for susceptible people, the rate that people stop trying the drug, the rate at which people become addicted, the recovery rate for addicted people respectively, and the 'effectiveness' for recovered people.
 
-```{python, echo = FALSE, SUARsims}
+```{python SUARsims}
+
+#| echo: false
+#| warnings: false
 
 # Create a new figure with a specified size
 plt.figure(figsize=(12, 12))
@@ -158,6 +164,8 @@ $$\frac{dR_i}{dt} = aA_{i-1}\pi_{i-1,4}P_{i-1} + aR_{i-1} - aR_i -R_i\pi_{i,5}N_
 With the parameters being sorted in matrices $\pi$, {d} and {i}, containing row-wise versions of the parameters for the SAUR model, the death rate for each compartment, and the influence that each age group has on the other, and scalars $a$ and $b$, which define the aging rate and the birth rate of the population.
 
 ```{python suar20, echo = FALSE}
+#| echo: false
+#| warnings: false
 aging_rate = 0.05
 birth_rate = 0.07
 death_rate = 0.1*np.array([[0.2, 0.2, 0.2, 0.2],
@@ -195,7 +203,7 @@ SUAR_20(aging_rate,birth_rate,death_rate, I, P, X0,600)
 After creating the SAUR model with age groups, we experimented with various combinations of parameters to see how the model reacted. 
 However, we found that with 20 compartments and 73 parameters, it is really hard to go through all the combinations to find meaningful results from the model. We could see that there were stationary points for the population portions, but finding them analytically was near impossible. Because of this, we sought to find a way to simplify the model to produce results that are easier to understand. We did this by removing the different age groups altogether, while keeping the equations describing the model the same. By removing the age groups, the equations dramatically simplify into this form;
 
-![SUAR Diagram with ageing](/post/drug-use-models/pics/3.png)
+![SUAR Diagram with ageing](pics/3.png)
 
 
 $$\frac{dS}{dt} = -S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R)  $$
@@ -204,6 +212,8 @@ $$\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA$$
 $$\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR $$
 
 ```{python, echo = FALSE, SUAR_5Sims }
+#| echo: false
+#| warnings: false
 
 plt.figure(figsize=(12, 12))
 
@@ -252,6 +262,8 @@ $$ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa -
 
 
 ```{python, echo = FALSE, SUARnormsims }
+#| echo: false
+#| warnings: false
 
 # Initialize a new plot with a specific figure size
 plt.figure(figsize=(12, 12))
@@ -293,6 +305,8 @@ Using the table of non-trivial stationary points (appendix 10), we can now plot 
 
 
 ```{python, simforallparams, echo = FALSE}
+#| echo: false
+#| warnings: false
 from mplcatppuccin.colormaps import get_colormap_from_list
 cmap = get_colormap_from_list("mocha", ["red", "peach", "yellow", "green"])
 
@@ -338,6 +352,8 @@ Another result one can take from the data is the number of people who are using 
 
 ```{python pssp, echo = FALSE}
 
+#| echo: false
+#| warnings: false
 fig, axs = plt.subplots(5, 5)
 for i , a in enumerate( p):
     for j , b in enumerate(p):
@@ -493,7 +509,7 @@ $$ \frac{dr}{dt} = (-d_Rr )-r(1 - d_Ss - d_Rr) = (s - 1)*(1 + d_r*s - d_s*s)$$
 
 ## Appendix 4: Matlab code for generating conditional Stationary Points
 
-```{octave, eval = FALSE}
+```octave
 syms s u a r p1 p2 p3 p4 p5 ds du da dr
 
 
@@ -535,33 +551,44 @@ writematrix(double(ss), 'ss.csv')
 
 ```{python, echo = FALSE}
 
+#| echo: false
+#| warnings: false
+#| output: asis
 from inspect import getsource as gs
-print(gs(SIR))
+print(f'\n```python\n{gs(SIR)}\n```\n')
  
 ```
 
 ## Appendix 6: Python code for simulating SUAR model
 
 ```{python, echo = FALSE}
-
+#| echo: false
+#| warnings: false
+#| output: asis
 from inspect import getsource as gs
-print(gs(SUAR))
+print(f'\n```python\n{gs(SUAR)}\n```\n')
  
 ```
 ## Appendix 7: Python code for simulating 20 compartment SUAR model
 
 ```{python, echo = FALSE}
 
+#| echo: false
+#| warnings: false
+#| output: asis
 from inspect import getsource as gs
-print(gs(SUAR_20))
+print(f'\n```python\n{gs(SUAR_20)}\n```\n')
  
 ```
 ## Appendix 8: Python code for simulating 5 compartment SUAR model
 
 ```{python, echo = FALSE}
 
+#| echo: false
+#| warnings: false
+#| output: asis
 from inspect import getsource as gs
-print(gs(SUAR_5))
+print(f'\n```python\n{gs(SUAR_5)}\n```\n')
  
 ```
 
@@ -569,8 +596,11 @@ print(gs(SUAR_5))
 
 ```{python, echo = FALSE}
 
+#| echo: false
+#| warnings: false
+#| output: asis
 from inspect import getsource as gs
-print(gs(SUAR_norm))
+print(f'\n```python\n{gs(SUAR_norm)}\n```\n')
  
 ```
 
