@@ -1,0 +1,19 @@
+---
+title: Interview on Community Radio
+author: Alfie Chadwick
+date: "2025-03-10"
+tags: ['Misinformation', 'Media']
+toc: false
+---
+
+I had the pleasure of talking to Hélène from 3CR about climate misinformation,
+my work, and the work we do at the MCCCRH.
+
+<div style="display: flex; justify-content: center;">
+  <iframe
+    src="https://www.linkedin.com/embed/feed/update/urn:li:share:7305383117425360897" 
+    height="530" width="504" frameborder="0" allowfullscreen="" 
+    title="Embedded post"></iframe>
+</div>
+
+
