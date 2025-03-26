@@ -6,11 +6,13 @@ lastmod: "`r Sys.Date()`"
 tags: ['JavaScript', 'Visualizations']
 ---
 
+> Update: This site is now built around Quarto, but the basis of this idea still holds.
+
 This site is built through [blogdown](https://bookdown.org/yihui/blogdown/), which is a marvellous little R package that integrates Hugo sites into a R workflow. A nice thing about Hugo sites are the large number of themes available to quickly integrate with your site to change the vibe. My theme is mostly just a recolored version of the [hello-friend-ng](https://github.com/rhazdon/hugo-theme-hello-friend-ng) theme, using [catppuccin](https://github.com/catppuccin) for the colors.
 
 My only gripe with the theme is that it uses a default list for all types of content. If you want to look at all the posts, you see a list of posts; for tags, similarly, you get a list of tags.
 
-![How the list of tags looks by default](/post/tag-graph/1.png)
+![How the list of tags looks by default](1.png)
 
 # Looking at the edges
 
@@ -28,7 +30,7 @@ Unfortunately the scripting language used by Hugo doesn't have this kind of filt
 
 To make the linking easier, I added the second tag using the query string so that it can be reached just using a href link.
 
-```{html}
+```html
 {{ define "main" }}
 <main class="posts">
   <h1>{{ .Title }}</h1>
@@ -105,7 +107,7 @@ Similar to the issue with creating the post listing page, constructing the graph
 
 The first thing to do is to fetch all the posts from across the site with their tags.
 
-```{JavaScript}
+```js
 // Create an array to hold all posts and their details
 var postsData = [];
 
@@ -146,7 +148,7 @@ postsData.forEach(function(post) {
 
 Now that there is a list of posts with there tags, we can now invert the list so that we have all the tags with their posts.
 
-```{JavaScript}
+```js
 var tagsToPosts = {};
 
 // Loop through each post
@@ -172,7 +174,7 @@ console.log(tagsToPosts);
 
 With the list of tags, we can now make a matrix showing all of the connections between the tags. This is really inefficient but it works well enough that I don't think it requires too much optimisation.
 
-```{JavaScript}
+```js
 // Get all unique tags
 var uniqueTags = Object.keys(tagsToPosts);
 
@@ -207,7 +209,7 @@ Building the graph was honestly one of the easiest parts of this project. The [d
 
 The only interesting thing I've done here is add in on-click links to the nodes and the edges that allow you to click through to see the relevant posts.
 
-```{JavaScript}
+```js
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -344,5 +346,4 @@ function ticked() {
 ```
 
 
-If you want to check out the code for this in full, you can get the [post page](https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.html) and the [graph page](https://github.com/Fonzzy1/alfiechadwick-dot-com/blob/main/themes/hello-friend-ng/layouts/taxonomy/tag.terms.html) from github, or checkout the graph in its current state [here](/tags/).
 

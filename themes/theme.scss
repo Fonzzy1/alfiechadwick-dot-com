@@ -121,7 +121,7 @@ $body-color:                $white !default;
 $primary:       $purple !default;
 $secondary:     body-mix(85%) !default;
 $success:       $green !default;
-$info:          $sapphire !default;
+$info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 // This is inconsistent with Bootstrap semantics. That is, $dark
@@ -134,7 +134,7 @@ $min-contrast-ratio:   1.9 !default;
 
 // Links
 
-$link-color:                $info !default;
+$link-color:                $sapphire !default;
 
 // Fonts
 
