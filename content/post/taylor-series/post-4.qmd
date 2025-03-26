@@ -6,7 +6,9 @@ lastmod: "`r Sys.Date()`"
 tags: ['Calculus', 'Algebra']
 ---
 
-```{python example-setup, echo = FALSE}
+```{python example-setup}
+#| echo: false
+#| warning: false
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -116,6 +118,8 @@ $$
 So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. $T1$ is the closet, $T3$ and $T2$ are both equally far off.
 
 ```{python example, echo = FALSE}
+#| echo: false
+#| warning: false
 init_y = [1,0,1,1,1] #[1,x,y,y']
 T1 = np.array([
     [1, 0, 0, 0, 0],
@@ -257,6 +261,9 @@ We can now test this by running some approximations with various values of h and
 
 
 ```{python, echo = FALSE}
+
+#| echo: false
+#| warning: false
 h_list = [1/1, 1/5, 1/10, 1/50, 1/100, 1/500]
 t1_list = [] 
 t3_list = []

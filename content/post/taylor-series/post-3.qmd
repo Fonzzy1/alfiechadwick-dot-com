@@ -6,32 +6,32 @@ lastmod: "`r Sys.Date()`"
 tags: ['Calculus', 'Algebra','Python']
 ---
 
-After writing out the [last post](/2023/12/29/making-a-python-library-to-solve-differential-equations/) where I wrote out a python library for using an improved version of Euler's method to solve ODEs. But so far, we haven't been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.
+After writing out the [last post](post-2.html) where I wrote out a python library for using an improved version of Euler's method to solve ODEs. But so far, we haven't been solving ODES, instead we have just been taking an initial value and iterating it over the length of a domain. To To make the ODE estimator work, we need to ensure that the conditions of the ODE are met at each step.
 
 # Simplifying ODEs: Constant-Linear ODEs
 
 ODEs are often categorized as linear or non-linear. Linear ODEs take the form $a_0(x)y + a_1(x)y' + ... + a_n(x)y^{n} = b(x)$, with both $a$ and $b$ representing functions of $x$, while  Non-linear equations are all the others. In our solver's context, we'll concentrate on a subset I've termed "constant-linear" ODEs, characterized by constant coefficients for $y$ terms and a linear function of $x$ for $b$. Specifically, a constant-linear ODE looks like $a_0y + a_1y' + ... + a_ny^{n} = bx + c$.
-\
+
 This may seem like a very restrictive requirement, but there are many famous examples of this kind of equation including:
 
 
 1. Simple Harmonic Motion:
-   \[ y'' + \omega^2 y = 0 \]
+   $$ y'' + \omega^2 y = 0 $$
 
 2. Radioactive Decay:
-   \[ \frac{dy}{dt} = -\lambda y \]
+   $$ \frac{dy}{dt} = -\lambda y $$
 
 3. RC Circuit Equation:
-   \[ y' + \frac{1}{RC} y = 0 \]
+   $$ y' + \frac{1}{RC} y = 0 $$
 
 4. Damped Harmonic Oscillator:
-   \[ y'' + 2\gamma y' + \omega_0^2 y = 0 \]
+   $$ y'' + 2\gamma y' + \omega_0^2 y = 0 $$
 
 5. Heat Equation (One-Dimensional):
-   \[ u'' - \frac{1}{\alpha} u'= 0 \]
+   $$ u'' - \frac{1}{\alpha} u'= 0 $$
 
 6. Exponential Growth or Decay:
-   \[ y' = ky \]
+   $$ y' = ky $$
 
 # A Quick Diversion: ODEs in Vector Space
 

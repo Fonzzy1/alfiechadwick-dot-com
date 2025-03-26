@@ -7,7 +7,7 @@ tags: ['Music', 'Visualizations', 'ML']
 ---
 
 
-```{R setup,  include=FALSE}
+```{r setup,  include=FALSE}
 library(tidyverse)
 library(catppuccin)
 library(jsonlite)
@@ -60,7 +60,7 @@ theme_set(theme_dark_catppuccino())
 
 ```
 
-```{R dataset}
+```{r dataset }
 
 results_files <- c('2016_results.csv', '2017_results.csv', '2018_results.csv', '2019_results.csv', '2020_results.csv', '2021_results.csv', '2022_results.csv')
 plays_files <- c('2016_filtered.json', '2017_filtered.json', '2018_filtered.json', '2019_filtered.json', '2020_filtered.json', '2021_filtered.json', '2022_filtered.json', '2023_filtered.json')
@@ -174,7 +174,9 @@ combined_data_full <- combined_results %>%
   right_join(combined_plays, by = c("Song" = "Song", "Artist" = "Artist", "Year" = "Year")) %>%
   filter(Year == year(ymd_hms(timestamp)))
  
+
 ```
+
 Like many Australians, I spent my last Saturday in January getting hyped for the Triple J Hottest 100 countdown. And for the past few years, there has been a project run by [100 Warm Tunas](https://100warmtunas.com/) that has been remarkably accurate at predicting the results of the countdown.
 
 Warm Tunas makes predictions by scraping social media posts for people's votes and then collating them as a sample of all votes. While this method is highly effective, I feel that it misses the point a bit when it comes to understanding why a song is popular.
@@ -235,9 +237,8 @@ p1 / p2
 
 To me, the most obvious indicator of a song's popularity is the number of plays it receives. So, we can start by examining that.
 
-```{R plays}    e option I use for blogs as I want to make sure to avoid re-rendering old posts unless I explicitly do so.
+```{r plays}
 
-freeze: auto - Re-render only when 
 
 p1 <-combined_plays %>%
   filter(release_year >= 2016 & release_year <= 2023) %>%
@@ -687,7 +688,7 @@ test_data %>%
   arrange(predicted_rank) %>%  # Sort by predicted_rank
   select(Song, Artist, Actual = rank) %>%
   slice_head(n = 20) %>%       # Take the first 20 rows after sorting
-  print(na.print = '')         # Replace NA values with an empty string for printing
+  knitr::kable()
 ```
 
 ### 2022 Real Countdown
@@ -700,7 +701,7 @@ test_data %>%
   arrange(rank) %>%  # Sort by predicted_rank
   select(Song, Artist,Predicted =  predicted_rank) %>%
   slice_head(n = 20) %>%       # Take the first 20 rows after sorting
-  print(na.print = '')         # Replace NA values with an empty string for printing
+  knitr::kable()
 
 ```
 
@@ -724,6 +725,6 @@ inferance %>%
   arrange(predicted_rank) %>%  # Sort by predicted_rank
   select(Song, Artist) %>%
   slice_head(n = 100) %>%       # Take the first 20 rows after sorting
-  print(na.print = '')         # Replace NA values with an empty string for printing
+  knitr::kable()
 
 ```

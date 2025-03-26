@@ -133,7 +133,7 @@ my_100 <- inferance  %>%
   filter(predicted_rank < 101)
 ```
 
-In my [last post](/2024/01/26/predicting-the-2023-hottest-100/) I ended by planting my flag and making my predictions for the Hottest 100 for 2023. And on first glance, I'm pretty happy with myself, picking not only the top song, but a good chunk of the top 20. So today I just want to do a quick follow up on how I did.
+In my [last post](post.html) I ended by planting my flag and making my predictions for the Hottest 100 for 2023. And on first glance, I'm pretty happy with myself, picking not only the top song, but a good chunk of the top 20. So today I just want to do a quick follow up on how I did.
 
 # Top 20
 
@@ -145,7 +145,7 @@ results %>%
   arrange(rank) %>%  # Sort by rank
   select(Song, Artist,Predicted =  predicted_rank) %>%
   slice_head(n = 20) %>%       # Take the first 20 rows after sorting
-  print(na.print = 'Not Ranked')         # Replace NA values with an empty string for printing
+  knitr::kable()
 ```
 
 The top 10 seems okay, but i did miss a lot of the top 20 completely. I seemed to be undervaluing Australian artists such as Dom Dolla, Spacey Jane, and G Flip, as well as EDM as a genre, which made up a much greater portion of the top 20 than I predicted.
@@ -161,7 +161,7 @@ my_100 %>%
   select(Song, Artist, rank, predicted_rank) %>%
   arrange(predicted_rank) %>%  # Sort by rank
   select(Song, Artist,Predicted =  predicted_rank) %>%
-  print(na.print = '')         # Replace NA values with an empty string for printing
+  knitr::kable()
 ```
 
 So there were 55 songs in my predictions that didn't make it into the countdown, including 3 of my top 20. Funily enough though, a lot of my predictions seemed to line up with peoples opions online with [Love Type](https://www.reddit.com/r/triplej/comments/1adh146/comment/kk1b24c/?utm_source=share&utm_medium=web2x&context=3), [Super Ego](https://www.reddit.com/r/triplej/comments/1adh146/comment/kk16o08/?utm_source=share&utm_medium=web2x&context=3) and [Adored](https://www.reddit.com/r/triplej/comments/1adh146/comment/kk1hqcl/?utm_source=share&utm_medium=web2x&context=3) all being mentioned as snubs from the hottest 100.
@@ -179,7 +179,7 @@ my_100 %>%
   arrange(rank) %>%  # Sort by rank
   select(Song, Artist, rank) %>%
   mutate(Song = if_else(nchar(Song) > 20, paste0(substr(Song, 1, 17), "..."), Song)) %>%
-  print(na.print = '')
+  knitr::kable()
 ```
 
 With 55 snubs, we are going to have 55 surprise songs. There doesn't seem to be  a massive trend here. G flip only made it into my countdown twice, so 5 of their songs are in this list. Its also interesting seeing which conventionally popular songs are part of this list.  Boy's a liar pt. 2  by Pinkpantheress and All American-Bitch which peaked at 2 and 10 on the aria charts were left out in my predictions, even though it predicted similar chart toppers in the top 10.
@@ -229,7 +229,7 @@ results %>%
   left_join(my_100) %>%
   select(Song, Artist, rank, warm_tuna, my_rankning = predicted_rank) %>%
   slice_head(n = 20) %>%       # Take the first 20 rows after sorting
-  print(na.print = 'Not Ranked')         # Replace NA values with an empty string for printing
+  knitr::kable()
 
 ```
 
