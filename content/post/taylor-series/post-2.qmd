@@ -6,7 +6,7 @@ lastmod: "`r Sys.Date()`"
 tags: ['Calculus', 'Algebra','Python']
 ---
 
-After having the initial idea I wrote up in a [previous post](/2023/12/18/using-taylor-series-to-improve-the-euler-method/), I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
+After having the initial idea I wrote up in a [previous post](post-1.html), I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
 
 It also gives me a chance to see numerically how well the new method works compared to the Euler method.
 
@@ -116,6 +116,7 @@ true_result = {x: np.array([
 ```
 
 ```{python gravity-sim-plot, echo = FALSE}
+#| echo: false
 import numpy as np
 import pandas as pd
 import mplcatppuccin
@@ -170,8 +171,9 @@ for steps in steps_list:
 
 ```
 
-```{python time-plot, echo = FALSE}
+```{python time-plot}
 
+#| echo: false
 
 # Now we plot the results
 plt.figure(figsize=(10, 5))

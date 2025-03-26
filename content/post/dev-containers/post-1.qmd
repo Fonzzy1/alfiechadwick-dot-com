@@ -4,6 +4,12 @@ author: 'Alfie Chadwick'
 date: '2024-01-07'
 lastmod: "`r Sys.Date()`"
 tags: ['Devops','Docker','Vim']
+code-links:
+    - text: GitHub
+      icon: github
+      href: https://github.com/Fonzzy1/dev-containers
+ 
+
 
 ---
 
@@ -17,12 +23,12 @@ A common solution to these issues is the use of 'dev-containers', which have mos
 
 So let's quickly scope out this project. In my development containers, I want:
 
- - Isolated environments
- - Vim with my configuration built-in
- - Integration with common CLI tools
- - The ability to use Docker from inside the container
- - Secrets management (not having to re-authenticate all my tools every time I open up a container)
- - Transportability between various Unix machines
+ 1. Isolated environments
+ 2. Vim with my configuration built-in
+ 3. Integration with common CLI tools
+ 4. The ability to use Docker from inside the container
+ 5. Secrets management (not having to re-authenticate all my tools every time I open up a container)
+ 6. Transportability between various Unix machines
  
 # The Beginnings
 
@@ -154,9 +160,9 @@ CMD vim
 
 I won't bother explaining most of it since it's really just a heap of install statements, but here are some of the interesting parts:
 
- - I needed to add the WORKDIR to the list of safe directories for git since if I mount the file, the ownership will be wrong.
- - I needed to manually install the gh act extension as you can't do it normally without authenticating with a gh token, something I don't want to do in a public container.
- - Coc Extensions needed to be manually installed to prevent them from installing every time I started the container. Just calling `Vim +CocInstall` didn't work because it's an async process.
+ 1. I needed to add the WORKDIR to the list of safe directories for git since if I mount the file, the ownership will be wrong.
+ 2. I needed to manually install the gh act extension as you can't do it normally without authenticating with a gh token, something I don't want to do in a public container.
+ 3. Coc Extensions needed to be manually installed to prevent them from installing every time I started the container. Just calling `Vim +CocInstall` didn't work because it's an async process.
 
 So at this point, I have the first three of my requirements done. Because I'm using Docker, I have an isolated environment every time I boot up the container. By copying over my Vim config files, I have my Vim config baked in, and with some of the commands in the Dockerfile, I am able to have it set up. Finally, by installing a heap of CLI tools, I am able to do most of my work from inside the Vim terminal.
 
@@ -180,7 +186,7 @@ The next thing to implement is secrets management. I currently have all of these
 
 The final goal on my list is to make the container portable between my multiple machines. This is achieved through the use of Docker Hub, which will allow me to download the image from Docker Hub. The only other thing I need is to ensure that Docker is set up on the other machine. For this, I have written a quick script to handle the setup process.
 
-```{bash, eval=FALSE}
+```bash
 #!/bin/bash
 set -e
 
@@ -218,7 +224,7 @@ echo "Setup complete!"
 
 My so now I have my dev containers running, my only gripe is the stupidly long docker commands that I need to type out to get it running, such as:
 
-```{bash, eval=FALSE}
+```sh
 current_dir="$(pwd)"
 dir_name="$(basename "$current_dir")"
 
