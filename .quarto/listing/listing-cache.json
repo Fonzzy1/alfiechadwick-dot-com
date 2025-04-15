@@ -1,13 +1,14 @@
 {
   "listingMap": {
+    "pages/posts/postList.qmd": [
+      "../../content/reviews/*/*.qmd",
+      "../../content/post/*/*.qmd"
+    ],
+    "pages/reviews/reviews.qmd": [
+      "../../content/reviews/*.qmd"
+    ],
     "pages/index.qmd": [
       "../content/post/*/*.qmd"
-    ],
-    "pages/tags/tagList.qmd": [
-      "../../content/post/*/*.qmd"
-    ],
-    "pages/posts/postList.qmd": [
-      "../../content/post/*/*.qmd"
     ]
   }
 }

@@ -221,7 +221,7 @@
     "href": "pages/index.html",
     "title": "Alfie Chadwick",
     "section": "",
-    "text": "Hiya, I’m Alfie, a PhD student from Melbourne, Australia. My research focuses on automated methods for detecting climate change misinformation, but I also have an interest in a range of fields where technology has the ability to solve problems in the humanities. This blog is just a place to put my projects into one place and practice writing about things that seem cool to me.\n\n\nLatest Posts:\n\n\n\n\n\n\n\n\n\n Quick Tip for Displaying Imported Definitions in Quarto   2025-03-25 \n\n\n Interview on Community Radio   2025-03-09 \n\n\n The Urgent Need for Data Access in the Age of AI   2024-10-13 \n\n\n\nNo matching items"
+    "text": "Hiya, I’m Alfie, a PhD student from Melbourne, Australia. My research focuses on automated methods for detecting climate change misinformation, but I also have an interest in a range of fields where technology has the ability to solve problems in the humanities. This blog is just a place to put my projects into one place and practice writing about things that seem cool to me.\n\n\nLatest Posts:\n\n\n\n\n\n\n\n\n\n Fixing My Relationship with Spotify   2025-04-14 \n\n\n Quick Tip for Displaying Imported Definitions in Quarto   2025-03-25 \n\n\n Interview on Community Radio   2025-03-09 \n\n\n\nNo matching items"
   },
   {
     "objectID": "pages/posts/postList.html",
@@ -376,5 +376,19 @@
     "title": "Fixing My Relationship with Spotify",
     "section": "How to Make Spotify More Curatable",
     "text": "How to Make Spotify More Curatable\n\nTurn of Auto Play\nThis is a pretty simple one, but it does make a big difference. When I have nothing left in the queue, by default, Spotify will continue playing with recommendations. Turning this off will force me to at least choose what is being listened to.\n\n\nGet Rid of Liked Songs\nI think one of the main culprits of passive curation and consumption is Spotify’s implementation of the liked songs feature. Any time a song is playing, I can click on the + button and it will be added to the ‘liked songs’ playlist. This playlist becomes a dumping ground for all the songs that I like, but if I ever throw it on shuffle, it becomes unlistenable, similar to some of Spotify’s generated playlists.\nInstead, there are two things I will do. The first is liking albums instead of songs. Artists put together albums to be a cohesive piece of work. Picking out songs (or playing them on shuffle) is akin to reading a book and skipping half the chapters and reading them out of order.\nIf I still want playlists, I will make a few instead of dumping songs into liked songs. This makes the act of liking a song more active and will hopefully result in more cohesive playlists.\n\n\nGet Rid of Recommendations\nOn my phone, this is almost impossible; however, defaulting to looking at the library tab instead of home should present me with only things I have decided to add to my library.\nOn the computer, this is best fixed with the help of Spiceify. With it, I can download extensions that will remove recommendations from the client completely.\nA couple I like are:\n\nLibrary\nLuckyLP\nDisable Homepage Recommendations\n\n\n\n\nMy Spotify client\n\n\n\n\nFind New Places for My Recommendations\nThis is me trying to fix the problem of relying on personalised recommendations, so I think that anything that is personalised or ‘AI’ is out of the question. Instead, I’ve really enjoyed looking at reviews on Pitchfork or Album of the Year. Also, shfl has been good tool for random recommendations. This will find me stuff that other people like, but not necessarily specific to me.\nAlso, just asking my friends about what they are listening to has been fun, plus Shazam has been really useful in finding the IDs of the tracks that I hear when I am out and about.\n\nI’m going to try implementing these over the next couple of weeks and see how my relationship changes. I’m hoping to see myself build a better relationship with Spotify and a stronger sense of ownership and control over my music library and habits."
+  },
+  {
+    "objectID": "content/reviews/test.html",
+    "href": "content/reviews/test.html",
+    "title": "test",
+    "section": "",
+    "text": "I really like this song ths"
+  },
+  {
+    "objectID": "pages/reviews/reviews.html",
+    "href": "pages/reviews/reviews.html",
+    "title": "Reviews",
+    "section": "",
+    "text": "test\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]

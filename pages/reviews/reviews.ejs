@@ -1,0 +1,51 @@
+<ul class="item-list">
+    <% items.forEach(item => { %>
+        <li class="list-item">
+            <div class="item-header">
+                <p class="item-title"><%= item.title %></p>
+            </div>
+        </li>
+    <% }); %>
+</ul>
+
+<style>
+.item-list {
+  list-style: none;
+  padding: 0;
+}
+.list-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.item-header {
+  display: flex;
+  align-items: center;
+}
+.item-cover {
+  height: 150px;
+  margin-right: 10px;
+}
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.item-title {
+  margin: 0;
+}
+.item-rating {
+  margin: 5px 0;
+}
+.item-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  font-style: italic;
+}
+.item-review {
+  text-align: justify;
+}
+</style>

@@ -1,0 +1,14 @@
+---
+author: Alfie Chadwick
+date: "2025-05-15"
+title: test
+artist: test
+rating: 4
+cover: https://www.designscene.net/wp-content/uploads/2025/01/bad-bunny-Debi-Tirar-Mas-Fotos.webp
+while: Driving
+on: Car Speakers
+review: this is some test data
+  that i liek
+  sldkfj
+---
+
