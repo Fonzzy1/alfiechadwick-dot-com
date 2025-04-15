@@ -1,0 +1,13 @@
+{
+  "listingMap": {
+    "pages/index.qmd": [
+      "../content/post/*/*.qmd"
+    ],
+    "pages/tags/tagList.qmd": [
+      "../../content/post/*/*.qmd"
+    ],
+    "pages/posts/postList.qmd": [
+      "../../content/post/*/*.qmd"
+    ]
+  }
+}
