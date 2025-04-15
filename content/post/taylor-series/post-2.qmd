@@ -1,10 +1,11 @@
 ---
 title: "Making a Python Library to solve differential Equations"
-author: 'Alfie Chadwick'
-date: '2023-12-29'
+author: "Alfie Chadwick"
+date: "2023-12-29"
 lastmod: "`r Sys.Date()`"
-tags: ['Calculus', 'Algebra','Python']
+tags: ["Calculus", "Algebra", "Python"]
 ---
+
 
 After having the initial idea I wrote up in a [previous post](post-1.html), I thought it was a good idea to turn it into a python library so that I can use it as part of my other projects.
 
@@ -13,7 +14,9 @@ It also gives me a chance to see numerically how well the new method works compa
 # First Steps
 
 So in the last post I set out the method such that:
-$$ \begin{bmatrix}
+
+$$
+\begin{bmatrix}
 y(x+h)\\
 y'(x+h)\\
 y''(x+h)\\
@@ -25,25 +28,32 @@ y'(x)\\
 y''(x)\\
 ...\\
 y^{n}(x)\\
-\end{bmatrix} + \epsilon $$ 
+\end{bmatrix} + \epsilon
+$$
 
 In the Euler method, $S$ is:
-$$\begin{bmatrix}
+
+$$
+\begin{bmatrix}
 1 & h & 0 &  ... & 0\\
 0 & 1 & h &  ... & 0\\
 0 & 0 & 1 &  ... & 0\\
 ... & ... & ... &  ... & ...\\
 0 & 0 & 0 &  ... & 1\\
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 And in the new method I proposed, $S$ is now:
-$$ \begin{bmatrix}
+
+$$
+\begin{bmatrix}
 1 & \frac{h}{1!} & \frac{h^2}{2!} &  ... & \frac{h^n}{n!}\\
 0 & 1 & \frac{h}{1!} &  ... & \frac{h^{n-1}}{(n-1)!}\\
 0 & 0 & 1 &  ... & \frac{h^{n-2}}{(n-2)!}\\
 ... & ... & ... &  ... & ...\\
 0 & 0 & 0 &  ... & 1\\
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
 Converting these matrices into python is fairly easy.
 
@@ -94,7 +104,6 @@ def IVP(x, y, step_matrix_generator, steps=10, h=0.1):
 ```
 
 # Testing and Comparing the methods
-
 
 Now we can run the simulations, let's see how good they are.
 Say you throw a ball up in the air and track its vertical position. The path of the ball is described by the equation $y'' = -9.8$. We can know for a fact that the solution to this equation is $\frac{-9.8}{2}x^2+V_0x+P_0$, where $V_0$ is the initial velocity and $P_0$ is the initial position. So now lets compare the real solutions to the simulations.
@@ -165,7 +174,7 @@ expanded_euler_times = []
 for steps in steps_list:
     euler_time = timeit.timeit(lambda: IVP(x, y, euler, steps), number=1)
     expanded_euler_time = timeit.timeit(lambda: IVP(x, y, expanded_euler, steps), number=1)
-    
+
     euler_times.append(euler_time)
     expanded_euler_times.append(expanded_euler_time)
 

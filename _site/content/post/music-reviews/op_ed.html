@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alfie Chadwick">
-<meta name="dcterms.date" content="2024-03-15">
+<meta name="dcterms.date" content="2025-04-15">
 
-<title>Optimising the settings for the ODE solver – Alfie Chadwick</title>
+<title>Fixing My Relationship with Spotify – Alfie Chadwick</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -142,7 +113,15 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#truncation-error" id="toc-truncation-error" class="nav-link active" data-scroll-target="#truncation-error">Truncation Error</a></li>
+  <li><a href="#the-passive-vs-the-active-consumer" id="toc-the-passive-vs-the-active-consumer" class="nav-link active" data-scroll-target="#the-passive-vs-the-active-consumer">The Passive vs The Active Consumer</a></li>
+  <li><a href="#curation-as-a-shared-culture" id="toc-curation-as-a-shared-culture" class="nav-link" data-scroll-target="#curation-as-a-shared-culture">Curation as a shared culture</a></li>
+  <li><a href="#how-to-make-spotify-more-curatable" id="toc-how-to-make-spotify-more-curatable" class="nav-link" data-scroll-target="#how-to-make-spotify-more-curatable">How to Make Spotify More Curatable</a>
+  <ul class="collapse">
+  <li><a href="#turn-of-auto-play" id="toc-turn-of-auto-play" class="nav-link" data-scroll-target="#turn-of-auto-play">Turn of Auto Play</a></li>
+  <li><a href="#get-rid-of-liked-songs" id="toc-get-rid-of-liked-songs" class="nav-link" data-scroll-target="#get-rid-of-liked-songs">Get Rid of Liked Songs</a></li>
+  <li><a href="#get-rid-of-recommendations" id="toc-get-rid-of-recommendations" class="nav-link" data-scroll-target="#get-rid-of-recommendations">Get Rid of Recommendations</a></li>
+  <li><a href="#find-new-places-for-my-recommendations" id="toc-find-new-places-for-my-recommendations" class="nav-link" data-scroll-target="#find-new-places-for-my-recommendations">Find New Places for My Recommendations</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -151,7 +130,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Optimising the settings for the ODE solver</h1>
+<h1 class="title">Fixing My Relationship with Spotify</h1>
 </div>
 
 
@@ -168,7 +147,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 15, 2024</p>
+      <p class="date">April 15, 2025</p>
     </div>
   </div>
   
@@ -180,113 +159,93 @@ window.Quarto = {
 </header>
 
 
-<p>In the <a href="../../../2024/01/12/making-my-ode-solver-solve-odes/">last post</a> in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.</p>
-<p>This is best exemplified by the ODE <span class="math inline">\(y'' = x + y\)</span> which goes through the point <span class="math inline">\(y(0) = 1\)</span> and <span class="math inline">\(y'(x) = 1\)</span>. Converting it into a matrix, we would define <span class="math inline">\(T\)</span> as:</p>
-<p><span class="math display">\[
-T_1 = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
-0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
-\end{bmatrix}
-\]</span></p>
-<p>However, rearranging this ODE into <span class="math inline">\(x = y'' - y\)</span> or <span class="math inline">\(y = y'' - x\)</span>, it would be just as reasonable to define T as:</p>
-<p><span class="math display">\[
-T_2 = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; -1 &amp; 0 &amp; 1\\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
-\end{bmatrix}
-\]</span> <span class="math display">\[
-T_3 = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
-\end{bmatrix}
-\]</span></p>
-<p>So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
-<div id="b9822467" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
+<p>I grew up in a weird time for music and media in general. I am old enough to<br>
+remember going to JB Hi-Fi to buy CDs and having piles of DVDs next to the TV,<br>
+but I am also young enough to consider myself a part of the streaming-native<br>
+generation. I first got Spotify at age 14, and I remember watching YouTube a few<br>
+years before that.</p>
+<p>Looking back at what my consumption habits were like when I was<br>
+younger, I can only think that they have changed for the worse. Instead of<br>
+watching movies or listening to albums, I now have playlists and the endless<br>
+recommended videos from YouTube to fill my desires for media.</p>
+<p>I’m scared that this is only going to get worse in the future. TikTok and the UX<br>
+changes made by Spotify to put playlists front and centre in the experience have<br>
+turned media into something disposable. The library of things to watch or listen<br>
+to is transient, recommended by an algorithm only interested in making you<br>
+consume more. In short, the enshitification of media and curation has come and<br>
+is here to stay.</p>
+<p>And call me a Luddite, but I do have this nostalgic dream of personal curation,<br>
+where my library of media is mine to consume as I see fit, rather than curated<br>
+by an algorithm. The growth of records and physical media in the last few years<br>
+shows that this is not a unique want.</p>
+<p>And as much as I would love to be the person who has all their films on DVD and<br>
+only listens to records, the cost, both monetarily and time-wise, makes it out<br>
+of reach for me right now. So instead, I want to work out how to make these<br>
+systems, most importantly Spotify, work for me in my anti-algorithmic curation<br>
+mindset.</p>
+<section id="the-passive-vs-the-active-consumer" class="level2">
+<h2 class="anchored" data-anchor-id="the-passive-vs-the-active-consumer">The Passive vs The Active Consumer</h2>
+<p>The first step in this process is to work out what I’m not happy with on Spotify. It’s definitely not the ease of access and the value proposition of 15 dollars a month for pretty much all the music I can consume; it’s great. No, instead I think the issue is best exemplified by looking at my Spotify home screen.</p>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="post-4_files/figure-html/cell-3-output-1.png" width="589" height="430" class="figure-img"></p>
+<p><img src="home-phone.png" class="img-fluid figure-img"></p>
+<figcaption>My Spotify Home Screen</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<section id="truncation-error" class="level2">
-<h2 class="anchored" data-anchor-id="truncation-error">Truncation Error</h2>
-<p>Truncation error is the error that is introduced by approximating a infinite series, such as the Taylor series we use, with a finite number of terms. I’m suspecting in this case, that <span class="math inline">\(T_1\)</span> introduces the least amount of truncation error at each step and this is why it is the best aproximation of the ODE.</p>
-<p>We can define our truncation error (<span class="math inline">\(R\)</span>) as the difference be the true value (<span class="math inline">\(Y^*\)</span>) and the predicted value (<span class="math inline">\(Y\)</span>). In our aproximation, this is defined as:</p>
-<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot Y(x) \]</span></p>
-<p>Where <span class="math inline">\(S\)</span> is the stepping matrix and <span class="math inline">\(T\)</span> is the transformation matrix.</p>
-<p>Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren’t used. When <span class="math inline">\(k\)</span> terms of the taylor series are used, the truncation error (<span class="math inline">\(r\)</span>) is :</p>
-<p><span class="math display">\[ r = \sum_{n = k+2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
-<p>Since <span class="math inline">\(y^{n}\)</span> be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when <span class="math inline">\(k\)</span> terms are used, <span class="math inline">\(r\)</span> is <span class="math inline">\(O(h^{k+3})\)</span>.</p>
-<p>Looking at just the stepping matrix, we can see the truncation error is:</p>
-<p><span class="math display">\[S = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
-\end{bmatrix} \rightarrow R =  \begin{bmatrix}
-0\\
-0\\
-O(h^3)\\
-O(h^2)\\
-O(h)\\
-\end{bmatrix}\]</span></p>
-<p>Taking it back to the above example of <span class="math inline">\(y'' = x + y\)</span>, and the three transformation matrices it defines, we can apply the transformation matrices to the vector <span class="math inline">\(R\)</span> of the standard stepping matrix to get the truncation error for each of the approximations.</p>
-<p><span class="math display">\[T_1 \cdot R  = \begin{bmatrix}
-0\\
-0\\
-O(h^3)\\
-O(h^2)\\
-O(h^3)\\
-\end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
-0\\
-O(h)\\
-O(h^3)\\
-O(h^2)\\
-O(h)\\
-\end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
-0\\
-0\\
-O(h)\\
-O(h^2)\\
-O(h)\\
-\end{bmatrix}
-\]</span></p>
-<p>Now looking at the magnitude of these vectors:</p>
-<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} = O(h^2) \]</span> <span class="math display">\[ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2}  = O(h) \]</span> <span class="math display">\[ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} $ = O(h) \]</span></p>
-<p>This shows that <span class="math inline">\(|T_1 \cdot R |\)</span> shrinks as <span class="math inline">\(h\)</span> gets smaller faster than when you use <span class="math inline">\(T_2\)</span> or <span class="math inline">\(T_3\)</span>. More generally, you can say that <span class="math inline">\(T_1\)</span> will lead to the least error.</p>
-<p>Now these are the errors for each step, so now looking at the truncation error for the whole approximation, we can multiply the error by the number of steps.</p>
-<p>Say we want to find the value for for the curve at <span class="math inline">\(x=1\)</span>, we would need to take <span class="math inline">\(1/h\)</span> steps to find this value.</p>
-<p><span class="math display">\[ |T_1 \cdot R | \cdot \frac{1}{h} = O(h) \]</span> <span class="math display">\[ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) \]</span> <span class="math display">\[ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) \]</span></p>
-<p>We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the <span class="math inline">\(T_1\)</span> result follows the <span class="math inline">\(O(h)\)</span> curve while the <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> result follows the <span class="math inline">\(O(1)\)</span> curve.</p>
-<div id="a981416b" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
+<p>On it, we have nothing that I have selected myself. Instead, it is all curated playlists that resemble something that I might want to listen to. And on these playlists, as with most of the curated playlists made on Spotify, it’s a hodgepodge of songs that I definitely like, songs that resemble songs that I like, and then some songs that I don’t care for at all but Spotify thinks that I should like. All of these are present in an order that just doesn’t work.</p>
+<p>However, because these are front and centre to my experience in Spotify, these are what I listen to. I do get some joy out of them, but it’s a very passive experience. At no point along the way am I deciding what I should be consuming; instead, I just take in what is given.</p>
+<p>This behaviour is almost antithetical to my experience using iTunes and MP3 players. Here, my curation was active, with the closest thing to a recommendation system being my most played albums section. Everything that I heard was something that I chose because I wanted to listen to it.</p>
+<p>The divide between active and passive curation is what makes me dislike my<br>
+Spotify experience and nostalgise my time with my MP3 players. I think<br>
+removing this passive curation process could go a long way to fixing my<br>
+relationship with Spotify.</p>
+</section>
+<section id="curation-as-a-shared-culture" class="level2">
+<h2 class="anchored" data-anchor-id="curation-as-a-shared-culture">Curation as a shared culture</h2>
+<p>Say I remove my ‘passivley’ created playlists. This presents me with a new issue, how do I find new stuff?</p>
+<p>I have been reliant on Spotify recommending me new songs for the last ten years to flesh out my library. I’m a regular user of my Discover Weekly playlist, and I found some of my favourite artists through their recommendations.</p>
+<p>But I don’t think that this system is particularly good for embedding me into a shared culture, because it will only recommend things that I will probably like based on my previous listening. That means that when a great album comes out that doesn’t fit into my ‘taste’, it won’t be recommended. When Bad Bunny’s Debí Tirar Más Fotos came out, which is one of my favourite albums of the year so far, it took one of my friends playing it for me to find it. And it’s not like it’s a niche album; it’s currently number one for the albums of the year 2025 on <a href="https://www.albumoftheyear.org/">Album of the Year</a>. It’s just that Spotify decided that I wouldn’t like it.</p>
+<p>I really dislike this approach to recommendations taken by Spotify. Let me decide if I don’t like something; let me try something new and out of the box rather than playing it safe. When I want to listen to something safe, I can choose to throw on the Wombats for the hundredth time, but at least that’s my decision.</p>
+<p>This was something that I really liked about Letterboxd (when it had its five minutes in the spotlight); it exposed me to films that I wouldn’t have had in my Netflix recommendations. The experience of trying something that is recommended by another person rather than a machine contributes to a feeling of sonder, of the shared experience that the media we consume is not unique to ourselves but is part of a wider ecosystem, while the machine-based recommendations further entrench this individualism that is all too prevalent in our hyper-personalised reality.</p>
+</section>
+<section id="how-to-make-spotify-more-curatable" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-make-spotify-more-curatable">How to Make Spotify More Curatable</h2>
+<section id="turn-of-auto-play" class="level3">
+<h3 class="anchored" data-anchor-id="turn-of-auto-play">Turn of Auto Play</h3>
+<p>This is a pretty simple one, but it does make a big difference. When I have nothing left in the queue, by default, Spotify will continue playing with recommendations. Turning this off will force me to at least choose what is being listened to.</p>
+</section>
+<section id="get-rid-of-liked-songs" class="level3">
+<h3 class="anchored" data-anchor-id="get-rid-of-liked-songs">Get Rid of Liked Songs</h3>
+<p>I think one of the main culprits of passive curation and consumption is Spotify’s implementation of the liked songs feature. Any time a song is playing, I can click on the + button and it will be added to the ‘liked songs’ playlist. This playlist becomes a dumping ground for all the songs that I like, but if I ever throw it on shuffle, it becomes unlistenable, similar to some of Spotify’s generated playlists.</p>
+<p>Instead, there are two things I will do. The first is liking albums instead of songs. Artists put together albums to be a cohesive piece of work. Picking out songs (or playing them on shuffle) is akin to reading a book and skipping half the chapters and reading them out of order.</p>
+<p>If I still want playlists, I will make a few instead of dumping songs into liked songs. This makes the act of liking a song more active and will hopefully result in more cohesive playlists.</p>
+</section>
+<section id="get-rid-of-recommendations" class="level3">
+<h3 class="anchored" data-anchor-id="get-rid-of-recommendations">Get Rid of Recommendations</h3>
+<p>On my phone, this is almost impossible; however, defaulting to looking at the library tab instead of home should present me with only things I have decided to add to my library.</p>
+<p>On the computer, this is best fixed with the help of Spiceify. With it, I can download extensions that will remove recommendations from the client completely.</p>
+<p>A couple I like are:</p>
+<ul>
+<li><a href="https://github.com/harbassan/spicetify-apps/blob/main/library">Library</a></li>
+<li><a href="https://github.com/Akasiek/spicetify-lucky-lp">LuckyLP</a></li>
+<li>Disable Homepage Recommendations</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="post-4_files/figure-html/cell-4-output-1.png" width="599" height="431" class="figure-img"></p>
+<p><img src="client.png" class="img-fluid figure-img"></p>
+<figcaption>My Spotify client</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<p>So now trying to generalise this beyond the example we’ve worked through, the reduction in error using the <span class="math inline">\(T_1\)</span> matrix was caused by redefining the term with the most truncation error, <span class="math inline">\(y''\)</span> with terms with less truncation error, <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Both <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> failed to do this.</p>
-<p>So in general, to minimise error we should try to define the highest derivative in terms of the lower terms, as this will remove the <span class="math inline">\(O(h)\)</span> error from the truncation vector.</p>
+</section>
+<section id="find-new-places-for-my-recommendations" class="level3">
+<h3 class="anchored" data-anchor-id="find-new-places-for-my-recommendations">Find New Places for My Recommendations</h3>
+<p>This is me trying to fix the problem of relying on personalised recommendations, so I think that anything that is personalised or ‘AI’ is out of the question. Instead, I’ve really enjoyed looking at reviews on <a href="https://pitchfork.com/">Pitchfork</a> or <a href="https://www.albumoftheyear.org/">Album of the Year</a>. Also, <a href="https://theshfl.com/">shfl</a> has been good tool for random recommendations. This will find me stuff that other people like, but not necessarily specific to me.</p>
+<p>Also, just asking my friends about what they are listening to has been fun, plus Shazam has been really useful in finding the IDs of the tracks that I hear when I am out and about.</p>
+<hr>
+<p>I’m going to try implementing these over the next couple of weeks and see how my relationship changes. I’m hoping to see myself build a better relationship with Spotify and a stronger sense of ownership and control over my music library and habits.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

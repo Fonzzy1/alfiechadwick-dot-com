@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8b630c74e9d61d74c9cc1963132cb4a3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7cf04a3b623d4438a22436c885baf8e8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../site_libs/bootstrap/bootstrap-c466080e74199f7e5684a91bcf2645e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
@@ -220,7 +220,9 @@ window.Quarto = {
 <p>It also gives me a chance to see numerically how well the new method works compared to the Euler method.</p>
 <section id="first-steps" class="level1">
 <h1>First Steps</h1>
-<p>So in the last post I set out the method such that: <span class="math display">\[ \begin{bmatrix}
+<p>So in the last post I set out the method such that:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
 y(x+h)\\
 y'(x+h)\\
 y''(x+h)\\
@@ -232,23 +234,30 @@ y'(x)\\
 y''(x)\\
 ...\\
 y^{n}(x)\\
-\end{bmatrix} + \epsilon \]</span></p>
-<p>In the Euler method, <span class="math inline">\(S\)</span> is: <span class="math display">\[\begin{bmatrix}
+\end{bmatrix} + \epsilon
+\]</span></p>
+<p>In the Euler method, <span class="math inline">\(S\)</span> is:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
 1 &amp; h &amp; 0 &amp;  ... &amp; 0\\
 0 &amp; 1 &amp; h &amp;  ... &amp; 0\\
 0 &amp; 0 &amp; 1 &amp;  ... &amp; 0\\
 ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
-\end{bmatrix}\]</span></p>
-<p>And in the new method I proposed, <span class="math inline">\(S\)</span> is now: <span class="math display">\[ \begin{bmatrix}
+\end{bmatrix}
+\]</span></p>
+<p>And in the new method I proposed, <span class="math inline">\(S\)</span> is now:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
 1 &amp; \frac{h}{1!} &amp; \frac{h^2}{2!} &amp;  ... &amp; \frac{h^n}{n!}\\
 0 &amp; 1 &amp; \frac{h}{1!} &amp;  ... &amp; \frac{h^{n-1}}{(n-1)!}\\
 0 &amp; 0 &amp; 1 &amp;  ... &amp; \frac{h^{n-2}}{(n-2)!}\\
 ... &amp; ... &amp; ... &amp;  ... &amp; ...\\
 0 &amp; 0 &amp; 0 &amp;  ... &amp; 1\\
-\end{bmatrix}\]</span></p>
+\end{bmatrix}
+\]</span></p>
 <p>Converting these matrices into python is fairly easy.</p>
-<div id="07fb00a2" class="cell" data-execution_count="1">
+<div id="bb020694" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -274,7 +283,7 @@ y^{n}(x)\\
 <section id="making-a-step-simulation" class="level1">
 <h1>Making a step simulation</h1>
 <p>Now that we have the stepping matrices, we can use them to iterate from an initial value. All we have to do is generate the stepping matrix for the given problem, and then for each step, we just multiple the previous step by the stepping matrix.</p>
-<div id="47393723" class="cell" data-execution_count="2">
+<div id="94ae7f50" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> IVP(x, y, step_matrix_generator, steps<span class="op">=</span><span class="dv">10</span>, h<span class="op">=</span><span class="fl">0.1</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    dims <span class="op">=</span> <span class="bu">len</span>(y)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    step_matrix <span class="op">=</span> step_matrix_generator(dims, h)</span>
@@ -295,7 +304,7 @@ y^{n}(x)\\
 <section id="testing-and-comparing-the-methods" class="level1">
 <h1>Testing and Comparing the methods</h1>
 <p>Now we can run the simulations, let’s see how good they are. Say you throw a ball up in the air and track its vertical position. The path of the ball is described by the equation <span class="math inline">\(y'' = -9.8\)</span>. We can know for a fact that the solution to this equation is <span class="math inline">\(\frac{-9.8}{2}x^2+V_0x+P_0\)</span>, where <span class="math inline">\(V_0\)</span> is the initial velocity and <span class="math inline">\(P_0\)</span> is the initial position. So now lets compare the real solutions to the simulations.</p>
-<div id="bac413b0" class="cell" data-execution_count="3">
+<div id="19084634" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time starts at 0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start the object moving upwards with a velocity of 10</span></span>
@@ -309,9 +318,9 @@ y^{n}(x)\\
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                    <span class="op">-</span><span class="fl">9.8</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                ]) <span class="cf">for</span> x <span class="kw">in</span> np.arange(<span class="dv">0</span>, <span class="fl">1.1</span>, <span class="fl">0.1</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bd9610c7" class="cell" data-execution_count="4">
+<div id="0de1275a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_6852/1645241578.py:3: DeprecationWarning: The catppuccin-matplotlib package is deprecated, please upgrade to https://github.com/catppuccin/python (pip install catppuccin)
+<pre><code>/tmp/ipykernel_6189/1645241578.py:3: DeprecationWarning: The catppuccin-matplotlib package is deprecated, please upgrade to https://github.com/catppuccin/python (pip install catppuccin)
 
 
   import mplcatppuccin</code></pre>
@@ -325,7 +334,7 @@ y^{n}(x)\\
 </div>
 </div>
 <p>So from here, we’re looking pretty good. The new method is much closer to the true solution than the Euler method in in this scenario. However, when working with numerical methods, it generally isn’t too hard to improve the accuracy of the model, but there will be a trade off in computation time. So lets see how much longer it takes to compute the approximation with the expanded method comparing it to the original.</p>
-<div id="6df2329b" class="cell" data-execution_count="5">
+<div id="bf2355c5" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timeit</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the step counts to test</span></span>
@@ -339,11 +348,11 @@ y^{n}(x)\\
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> steps <span class="kw">in</span> steps_list:</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    euler_time <span class="op">=</span> timeit.timeit(<span class="kw">lambda</span>: IVP(x, y, euler, steps), number<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    expanded_euler_time <span class="op">=</span> timeit.timeit(<span class="kw">lambda</span>: IVP(x, y, expanded_euler, steps), number<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    euler_times.append(euler_time)</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    expanded_euler_times.append(expanded_euler_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="eeb2278e" class="cell" data-execution_count="6">
+<div id="3fad5851" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
