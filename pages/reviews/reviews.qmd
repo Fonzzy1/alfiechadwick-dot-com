@@ -6,6 +6,3 @@ listing:
   template: reviews.ejs
 ---
 
-
-
-

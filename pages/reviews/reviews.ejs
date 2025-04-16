@@ -1,14 +1,15 @@
 <ul class="item-list">
-    <% items.forEach(item => { %>
-        <li class="list-item">
-            <div class="item-header">
-                <p class="item-title"><%= item.title %></p>
-            </div>
-        </li>
-    <% }); %>
+    <% for (const item of items) { %>
+    <li <%= metadataAttrs(item) %> class="list-item">
+        <div class="item-header"><%= item.title %> by <%= item.artist %></div>
+        <div class="item-details"> Date: <%- item.date %><br> Rating: <%- item.rating %>/5<br> Best listened while: <%- item.while %> on <%- item.on %> </div> <img src="<%- item.cover %>" alt="Cover image">
+        <div class="item-review"><%- item.review %></div>
+    </li>
+    <% } %>
 </ul>
 
 <style>
+
 .item-list {
   list-style: none;
   padding: 0;
