@@ -8,6 +8,8 @@ website:
       - href: pages/posts/postList.qmd
       - href: pages/tags/tagList.qmd
         text: Tags
+      - href: pages/reviews/reviews.qmd
+        text: Reviews
 
 format:
   html:

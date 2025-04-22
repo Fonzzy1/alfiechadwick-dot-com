@@ -1,59 +1,14 @@
 {
-  "content/post/music-reviews/op_ed.qmd": {
-    "op_ed.html": "3c538a7e"
-  },
-  "pages/index.qmd": {
-    "index.html": "27896434"
-  },
-  "pages/tags/tagList.qmd": {
-    "tagList.html": "7678c174"
+  "pages/reviews/reviews.qmd": {
+    "reviews.html": "4f9ccb6f"
   },
   "pages/posts/postList.qmd": {
-    "postList.html": "ccdb2912"
+    "postList.html": "7fdd72b4"
   },
-  "content/drafts/ODE-Solver/ODE-solve.rmd": {
-    "ODE-solve.html": "5adca229"
+  "content/reviews/test.qmd": {
+    "test.html": "dc6b1775"
   },
-  "content/drafts/3-ODE-solver-implementation/ODE-solve.rmd": {
-    "ODE-solve.html": "19c82d30"
-  },
-  "content/post/cross-posts/3cr-interview.qmd": {
-    "3cr-interview.html": "d2f48f56"
-  },
-  "content/post/tswift-beads/post.qmd": {
-    "post.html": "256d1074"
-  },
-  "content/post/dev-containers/post-2.qmd": {
-    "post-2.html": "5bb8d714"
-  },
-  "content/post/dev-containers/post-1.qmd": {
-    "post-1.html": "8c71cefa"
-  },
-  "content/post/data-mining/post-1.qmd": {
-    "post-1.html": "06733e71"
-  },
-  "content/post/taylor-series/post-2.qmd": {
-    "post-2.html": "32da844e"
-  },
-  "content/post/taylor-series/post-1.qmd": {
-    "post-1.html": "f6c8f133"
-  },
-  "content/post/taylor-series/post-3.qmd": {
-    "post-3.html": "ae4178e3"
-  },
-  "content/post/taylor-series/post-4.qmd": {
-    "post-4.html": "981d80ae"
-  },
-  "content/post/hottest-100/post-2.qmd": {
-    "post-2.html": "6d17e333"
-  },
-  "content/post/hottest-100/post.qmd": {
-    "post.html": "045aea57"
-  },
-  "content/post/tag-graph/post.qmd": {
-    "post.html": "d801289c"
-  },
-  "content/post/drug-use-models/final_report.qmd": {
-    "final_report.html": "f45b0e3e"
+  "pages/index.qmd": {
+    "index.html": "f9c2059c"
   }
 }

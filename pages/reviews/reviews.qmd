@@ -1,0 +1,11 @@
+---
+title: Reviews
+format: 
+  html:
+    page-layout: full
+listing:
+  contents: ../../content/reviews/*.qmd
+  sort: "date desc"
+  template: reviews.ejs
+---
+

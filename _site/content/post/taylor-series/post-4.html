@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7cf04a3b623d4438a22436c885baf8e8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-c466080e74199f7e5684a91bcf2645e7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-f4121a583bd226ebfc9de9ab57369267.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -126,6 +126,10 @@ window.Quarto = {
     <a class="nav-link" href="../../../pages/tags/tagList.html"> 
 <span class="menu-text">Tags</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/reviews/reviews.html"> 
+<span class="menu-text">Reviews</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -210,7 +214,7 @@ T_3 = \begin{bmatrix}
 \end{bmatrix}
 \]</span></p>
 <p>So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
-<div id="b9822467" class="cell" data-execution_count="2">
+<div id="dc742842" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -274,7 +278,7 @@ O(h)\\
 <p>Say we want to find the value for for the curve at <span class="math inline">\(x=1\)</span>, we would need to take <span class="math inline">\(1/h\)</span> steps to find this value.</p>
 <p><span class="math display">\[ |T_1 \cdot R | \cdot \frac{1}{h} = O(h) \]</span> <span class="math display">\[ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) \]</span> <span class="math display">\[ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) \]</span></p>
 <p>We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the <span class="math inline">\(T_1\)</span> result follows the <span class="math inline">\(O(h)\)</span> curve while the <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> result follows the <span class="math inline">\(O(1)\)</span> curve.</p>
-<div id="a981416b" class="cell" data-execution_count="3">
+<div id="f9add3c8" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

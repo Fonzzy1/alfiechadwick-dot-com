@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Alfie Chadwick">
-<meta name="dcterms.date" content="2025-03-10">
 
-<title>Interview on Community Radio – Alfie Chadwick</title>
+<title>Reviews – Alfie Chadwick</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,22 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7cf04a3b623d4438a22436c885baf8e8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-f4121a583bd226ebfc9de9ab57369267.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-listing/list.min.js"></script>
+<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-7cf04a3b623d4438a22436c885baf8e8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f4121a583bd226ebfc9de9ab57369267.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,18 +68,76 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-project','listing-website','listing-format','listing-language','listing-author','listing-date','listing-title','listing-artist','listing-rating','listing-cover','listing-while','listing-on','listing-review','listing-path','listing-outputHref','listing-date-modified','listing-description','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      
+      searchColumns: ["listing-project","listing-website","listing-format","listing-language","listing-author","listing-date","listing-title","listing-artist","listing-rating","listing-cover","listing-while","listing-on","listing-review","listing-path","listing-outputHref","listing-date-modified","listing-description","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Alfie Chadwick</span>
     </a>
   </div>
@@ -90,15 +148,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../pages/posts/postList.html"> 
+    <a class="nav-link" href="../../pages/posts/postList.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../pages/tags/tagList.html"> 
+    <a class="nav-link" href="../../pages/tags/tagList.html"> 
 <span class="menu-text">Tags</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../pages/reviews/reviews.html"> 
+    <a class="nav-link active" href="../../pages/reviews/reviews.html" aria-current="page"> 
 <span class="menu-text">Reviews</span></a>
   </li>  
 </ul>
@@ -109,35 +167,25 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Interview on Community Radio</h1>
+<h1 class="title">Reviews</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Alfie Chadwick </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 10, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -147,14 +195,63 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>I had the pleasure of talking to Hélène from 3CR about climate misinformation, my work, and the work we do at the MCCCRH.</p>
-<div style="display: flex; justify-content: center;">
-<p><iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7305383117425360897" height="530" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe></p>
+
+
+
+
+<div class="quarto-listing quarto-listing-container-custom" id="listing-listing">
+<div class="research project-list">
+  <ul style="list-style: none; padding: 0;">
+    
+      <li data-index="0" data-listing-date-sort="1747836000000" data-listing-file-modified-sort="1745300277115" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #5b6078; padding-bottom: 20px;">
+        
+        <!-- Album cover with fixed size -->
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/PartyNextDoor_and_Drake_-_Some_Sexy_Songs_4_U.png/250px-PartyNextDoor_and_Drake_-_Some_Sexy_Songs_4_U.png" alt="Cover image" style="width: 200px ; object-fit: cover; margin-right: 15px;">
+
+        <!-- Main content area -->
+        <div style="flex-grow: 1;">
+
+          <!-- Title -->
+          <h2 style="margin: 0; color: #5b6078;" class="anchored">Some Sexy Songs 4 U</h2>
+
+          <!-- Artist -->
+          <h3 style="margin: 0; font-weight: normal; color: #494d64;" class="anchored">PartyNextDoor and Drake</h3>
+
+          <!-- Metadata (all on the same line) -->
+          <div style="margin-top: 5px; font-size: 0.8em; color: #363a4f; display: flex; flex-wrap: wrap;">
+            <span style="margin-right: 10px;"><strong>Date:</strong> May 22, 2025</span>
+            <span style="margin-right: 10px;"><strong>While:</strong> Driving to Warburton for Easter Break</span>
+            <span><strong>On:</strong> A 2006 Ford Fiesta</span>
+          </div>
+
+          <!-- Review -->
+          <div style="margin-top: 10px; white-space: pre-wrap; font-family: inherit; font-size: 0.9em; color: #cad3f5; padding: 0; margin: 0;">Like any Zillenial, I have fond memories of Drake. I remember "Hotline Bling" and "One Dance" being the soundtracks to my high school parties. To me, Drake was always associated with dancefloor bangers. Unfortunately, "Some Sexy Songs 4 U" doesn't fit that mold. The first half of the album was unmemorable, with the first 10 songs blending into some forgettable RnB, emphasized by Drake's signature "It's hard when every woman wants me" autotuned singing. The only reprise was the stint of "Meet Your Padre," "Nokia," and "Die Trying," all of which made for some memorable moments and the only chance to turn up the music in the 75-minute album.
 </div>
+        </div>
 
+        <!-- Star rating -->
+        <div style="margin-top: 60px; margin-left: 15px; text-align: center; min-width: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          
+            <span style="color: #b7bdf8;">★</span>
+          
+            <span style="color: #b7bdf8;">★</span>
+          
+            <span style="color: #6e738d;">★</span>
+          
+            <span style="color: #6e738d;">★</span>
+          
+            <span style="color: #6e738d;">★</span>
+          
+        </div>
 
-
-</main> <!-- /main -->
+      </li>
+    
+  </ul>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
