@@ -3,7 +3,7 @@ toc: false
 listing:
   id: latest
   contents: ../content/post/*/*.qmd
-  template: latest.ejs
+  template: ./pages/latest.ejs
 
 ---
 
