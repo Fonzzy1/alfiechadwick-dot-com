@@ -1,52 +1,41 @@
-<ul class="item-list">
+```{=html}
+<div class="research project-list">
+  <ul style="list-style: none; padding: 0;">
     <% for (const item of items) { %>
-    <li <%= metadataAttrs(item) %> class="list-item">
-        <div class="item-header"><%= item.title %> by <%= item.artist %></div>
-        <div class="item-details"> Date: <%- item.date %><br> Rating: <%- item.rating %>/5<br> Best listened while: <%- item.while %> on <%- item.on %> </div> <img src="<%- item.cover %>" alt="Cover image">
-        <div class="item-review"><%- item.review %></div>
-    </li>
+      <li <%= metadataAttrs(item) %> style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #5b6078; padding-bottom: 20px;">
+        
+        <!-- Album cover with fixed size -->
+        <img src="<%- item.cover %>" alt="Cover image" style="width: 200px ; object-fit: cover; margin-right: 15px;">
+
+        <!-- Main content area -->
+        <div style="flex-grow: 1;">
+
+          <!-- Title -->
+          <h2 style="margin: 0; color: #5b6078;"><%= item.title %></h2>
+
+          <!-- Artist -->
+          <h3 style="margin: 0; font-weight: normal; color: #494d64;"><%= item.artist %></h3>
+
+          <!-- Metadata (all on the same line) -->
+          <div style="margin-top: 5px; font-size: 0.9em; color: #363a4f; display: flex; flex-wrap: wrap;">
+            <span style="margin-right: 10px;"><strong>Date:</strong> <%= item.date %></span>
+            <span style="margin-right: 10px;"><strong>While:</strong> <%= item.while %></span>
+            <span><strong>On:</strong> <%= item.on %></span>
+          </div>
+
+          <!-- Review -->
+          <div style="margin-top: 10px; white-space: pre-wrap; font-family: inherit; font-size: 1em; color: #cad3f5; padding: 0; margin: 0;"><%= item.review %></div>
+        </div>
+
+        <!-- Star rating -->
+        <div style="margin-left: 15px; text-align: center; min-width: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <% for (let i = 1; i <= 5; i++) { %>
+            <span style="color: <%= i <= item.rating ? '#b7bdf8' : '#6e738d' %>;">&#9733;</span>
+          <% } %>
+        </div>
+
+      </li>
     <% } %>
-</ul>
-
-<style>
-
-.item-list {
-  list-style: none;
-  padding: 0;
-}
-.list-item {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.item-header {
-  display: flex;
-  align-items: center;
-}
-.item-cover {
-  height: 150px;
-  margin-right: 10px;
-}
-.item-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.item-title {
-  margin: 0;
-}
-.item-rating {
-  margin: 5px 0;
-}
-.item-details {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  font-style: italic;
-}
-.item-review {
-  text-align: justify;
-}
-</style>
+  </ul>
+</div>
+```
