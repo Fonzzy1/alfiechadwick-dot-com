@@ -3,8 +3,7 @@ toc: false
 listing:
   id: latest
   contents: ../content/post/*/*.qmd
-  template: latest.ejs
-
+  template: ./pages/latest.ejs
 ---
 
 <center>
@@ -34,7 +33,6 @@ technology has the ability to solve problems in the humanities.
 This blog is just a place to put my projects into one place and practice writing
 about things that seem cool to me.
 
-
 <style>
 
 ul {
@@ -42,6 +40,6 @@ ul {
 }
 
 </style>
-### Latest Posts:
 
+### Latest Posts:
 
