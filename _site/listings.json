@@ -1,21 +1,8 @@
 [
   {
-    "listing": "/pages/index.html",
+    "listing": "/pages/reviews/reviews.html",
     "items": [
-      "/content/post/hottest-100/post-2.html",
-      "/content/post/tag-graph/post.html",
-      "/content/post/dev-containers/post-1.html",
-      "/content/post/music-reviews/op_ed.html",
-      "/content/post/cross-posts/3cr-interview.html",
-      "/content/post/taylor-series/post-2.html",
-      "/content/post/taylor-series/post-3.html",
-      "/content/post/tswift-beads/post.html",
-      "/content/post/drug-use-models/final_report.html",
-      "/content/post/taylor-series/post-4.html",
-      "/content/post/hottest-100/post.html",
-      "/content/post/dev-containers/post-2.html",
-      "/content/post/data-mining/post-1.html",
-      "/content/post/taylor-series/post-1.html"
+      "/content/reviews/some_sexy_songs_4_u.html"
     ]
   },
   {
@@ -57,9 +44,22 @@
     ]
   },
   {
-    "listing": "/pages/reviews/reviews.html",
+    "listing": "/index.html",
     "items": [
-      "/content/reviews/some_sexy_songs_4_u.html"
+      "/content/post/hottest-100/post-2.html",
+      "/content/post/tag-graph/post.html",
+      "/content/post/dev-containers/post-1.html",
+      "/content/post/music-reviews/op_ed.html",
+      "/content/post/cross-posts/3cr-interview.html",
+      "/content/post/taylor-series/post-2.html",
+      "/content/post/taylor-series/post-3.html",
+      "/content/post/tswift-beads/post.html",
+      "/content/post/drug-use-models/final_report.html",
+      "/content/post/taylor-series/post-4.html",
+      "/content/post/hottest-100/post.html",
+      "/content/post/dev-containers/post-2.html",
+      "/content/post/data-mining/post-1.html",
+      "/content/post/taylor-series/post-1.html"
     ]
   }
 ]
