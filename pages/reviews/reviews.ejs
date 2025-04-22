@@ -17,18 +17,18 @@
           <h3 style="margin: 0; font-weight: normal; color: #494d64;"><%= item.artist %></h3>
 
           <!-- Metadata (all on the same line) -->
-          <div style="margin-top: 5px; font-size: 0.9em; color: #363a4f; display: flex; flex-wrap: wrap;">
+          <div style="margin-top: 5px; font-size: 0.8em; color: #363a4f; display: flex; flex-wrap: wrap;">
             <span style="margin-right: 10px;"><strong>Date:</strong> <%= item.date %></span>
             <span style="margin-right: 10px;"><strong>While:</strong> <%= item.while %></span>
             <span><strong>On:</strong> <%= item.on %></span>
           </div>
 
           <!-- Review -->
-          <div style="margin-top: 10px; white-space: pre-wrap; font-family: inherit; font-size: O.9em; color: #cad3f5; padding: 0; margin: 0;"><%= item.review %></div>
+          <div style="margin-top: 10px; white-space: pre-wrap; font-family: inherit; font-size: 0.9em; color: #cad3f5; padding: 0; margin: 0;"><%= item.review %></div>
         </div>
 
         <!-- Star rating -->
-        <div style="margin-left: 15px; text-align: center; min-width: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="margin-top: 60px; margin-left: 15px; text-align: center; min-width: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
           <% for (let i = 1; i <= 5; i++) { %>
             <span style="color: <%= i <= item.rating ? '#b7bdf8' : '#6e738d' %>;">&#9733;</span>
           <% } %>
