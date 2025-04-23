@@ -275,9 +275,9 @@ window.Quarto = {
 <p>Our SIR model is defined by the following equations: <span class="math display">\[\frac{dS}{dt} = -\pi_1 * S * I \]</span> <span class="math display">\[\frac{dI}{dt} = \pi_1 * S * I + \pi_2 * R * I - \pi_3 *  I \]</span> <span class="math display">\[\frac{dR}{dt} = -\pi_2 * R * I + \pi_3 * I \]</span></p>
 <p>The parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, and <span class="math inline">\(\pi_3\)</span> represent the ‘infectiousness’ of the drug for susceptible and recovering individuals and the rate of recovery from the drug, respectively.</p>
 <p>We now look at some plots to see how this model behaves for various combinations of our parameters:</p>
-<div id="1d7e670b" class="cell" data-warnings="false" data-execution_count="1">
+<div id="34aa97f7" class="cell" data-warnings="false" data-execution_count="1">
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_3974/1601081733.py:3: DeprecationWarning: The catppuccin-matplotlib package is deprecated, please upgrade to https://github.com/catppuccin/python (pip install catppuccin)
+<pre><code>/tmp/ipykernel_6202/1601081733.py:3: DeprecationWarning: The catppuccin-matplotlib package is deprecated, please upgrade to https://github.com/catppuccin/python (pip install catppuccin)
 
 
   import mplcatppuccin</code></pre>
@@ -303,7 +303,7 @@ window.Quarto = {
 <p>The new model can now be described by the following equations:</p>
 <p><span class="math display">\[\frac{dS}{dt} = - \pi_1*S*(A+U) + \pi_2*U   \]</span> <span class="math display">\[\frac{dU}{dt} =  \pi_1*S*(A+U) - \pi_2*U  - \pi_3*U \]</span> <span class="math display">\[\frac{dA}{dt} = \pi_3*U +\pi_5 *(A+U)*R - \pi_4*A \]</span> <span class="math display">\[\frac{dR}{dt} =  \pi_4*A - \pi_5 *(A+U)*R \]</span></p>
 <p>With parameters <span class="math inline">\(\pi_1\)</span>, <span class="math inline">\(\pi_2\)</span>, <span class="math inline">\(\pi_3\)</span>, <span class="math inline">\(\pi_4\)</span>, and <span class="math inline">\(\pi_5\)</span> being the ‘effectiveness’ of the drug for susceptible people, the rate that people stop trying the drug, the rate at which people become addicted, the recovery rate for addicted people respectively, and the ‘effectiveness’ for recovered people.</p>
-<div id="7c87673e" class="cell" data-warnings="false" data-execution_count="2">
+<div id="29034e0c" class="cell" data-warnings="false" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -333,7 +333,7 @@ window.Quarto = {
 </figure>
 </div>
 <p><span class="math display">\[\frac{dS}{dt} = -S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R)  \]</span> <span class="math display">\[\frac{dU}{dt} = S\pi_1N -U\pi_2P - U\pi_3 - d_UU  \]</span> <span class="math display">\[\frac{dA}{dt} = U\pi_3 - A\pi_4P + R\pi_5N - d_AA\]</span> <span class="math display">\[\frac{dR}{dt} = A\pi_4P - R\pi_5N - d_RR \]</span></p>
-<div id="6e2d8de5" class="cell" data-warnings="false" data-execution_count="4">
+<div id="74f15929" class="cell" data-warnings="false" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -347,7 +347,7 @@ window.Quarto = {
 <p><span class="math display">\[ \frac{d\frac{S}{N}}{dt} = \frac{(-S\pi_{1}N +U\pi_2P  -d_SS + b(S+U+A+R))T-T'S}{T^2} \]</span> <span class="math display">\[ \frac{d\frac{U}{N}}{dt} = \frac{(S\pi_1N -U\pi_2P - U\pi_3 - d_UU )T-T'U}{T^2} \]</span> <span class="math display">\[ \frac{d\frac{A}{N}}{dt} = \frac{(U\pi_3 - A\pi_4P + R\pi_5N - d_AA)T-T'A}{T^2}  \]</span> <span class="math display">\[ \frac{d\frac{R}{N}}{dt} = \frac{(A\pi_4P - R\pi_5N - d_RR )T-T'R}{T^2} \]</span></p>
 <p>Denoting these fractions as s,u,a,r and reformatting the equation using T as a characteristic for population and <span class="math inline">\(\frac{1}{b}\)</span> as a characteristic for time;</p>
 <p><span class="math display">\[ s+u+a+r = 1\]</span> <span class="math display">\[ \frac{ds}{dt} = (-s\pi_{1}(u+a)+u\pi_2(s+r)  -d_Ss + 1)-s(1 - d_Ss - d_Uu - d_Aa - d_Rr) \]</span> <span class="math display">\[ \frac{du}{dt} = (s\pi_{1}(u+a)-u\pi_2(s+r) - u\pi_3 -d_Uu )-u(1 - d_Ss - d_Uu - d_Aa - d_Rr) \]</span> <span class="math display">\[ \frac{da}{dt} = (u\pi_3 -a\pi_4(s+r) + r\pi_5(u+a) -d_Aa )-a(1 - d_Ss - d_Uu - d_Aa - d_Rr)  \]</span> <span class="math display">\[ \frac{dr}{dt} = (a\pi_4(s+r) - r\pi_5(u+a) -d_Rr )-r(1 - d_Ss - d_Uu - d_Aa - d_Rr)\]</span></p>
-<div id="cda866ea" class="cell" data-warnings="false" data-execution_count="5">
+<div id="872e91f6" class="cell" data-warnings="false" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -363,7 +363,7 @@ window.Quarto = {
 <p>We can think of deaths as a movement from all compartments to the susceptible compartments. This makes it clear that a stationary point exists when all the people are in the susceptible compartment, meaning the drug is ‘extinct’. Similarly, the drug is also extinct when everyone is either in the recovered or susceptible group, as one just has to wait for the recovered people to die for the portion of S to reach 1. These two facts can be seen in appendix 3. Let the stationary point at <span class="math inline">\(s=1\)</span> be the trivial stationary point.</p>
 <p>However, for some combinations of parameters, secondary stationary points are found. These non-trivial stationary points could not be found analytically using MATLAB 2021b, therefore their existence must be verified on a case-by-case basis, using the code in appendix 4. Note that all the death parameters were set to one, meaning that these results are for drugs where the rate of death is independent of the compartment. To find results for other sets of death parameters, line 25 of appendix 4 should be altered.</p>
 <p>Using the table of non-trivial stationary points (appendix 10), we can now plot the number of combinations of parameters that lead to non-trivial stationary points pairwise by parameter.</p>
-<div id="ce7c7d5a" class="cell" data-warnings="false" data-execution_count="6">
+<div id="0e1c7e2d" class="cell" data-warnings="false" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -374,9 +374,9 @@ window.Quarto = {
 </div>
 <p>From this plot, one can see a big factor that influences the creation of these non-trivial stationary points is the magnitude of <span class="math inline">\(\pi_1\)</span>, and to a lesser extent the ratio of <span class="math inline">\(\pi_1\)</span> and <span class="math inline">\(\pi_2\)</span>. In this case, births will rapidly transition to the using category, meaning that they then have the potential to become addicted.</p>
 <p>Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in the plots below.</p>
-<div id="c4dd56f8" class="cell" data-warnings="false" data-execution_count="7">
+<div id="f708cff2" class="cell" data-warnings="false" data-execution_count="7">
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+<pre><code>/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -387,9 +387,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -400,9 +400,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -413,9 +413,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -426,9 +426,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -439,9 +439,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -452,9 +452,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -465,9 +465,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -478,9 +478,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -491,9 +491,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -504,9 +504,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -517,9 +517,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -530,9 +530,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -543,9 +543,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -556,9 +556,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -569,9 +569,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -582,9 +582,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -595,9 +595,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -608,9 +608,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -621,9 +621,9 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: ChainedAssignmentError: behaviour will change in pandas 3.0!
 You are setting values through chained assignment. Currently this works in certain cases, but when using Copy-on-Write (which will become the default behaviour in pandas 3.0) this will never work to update the original DataFrame or Series, because the intermediate object on which we are setting values will behave as a copy.
 A typical example is when you are setting values in a column of a DataFrame, like:
 
@@ -634,7 +634,7 @@ Use `df.loc[row_indexer, "col"] = values` instead, to perform the assignment in 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
   dk[m][l] = w.loc[(int(l), int(m))]
-/tmp/ipykernel_3974/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+/tmp/ipykernel_6202/3000350362.py:10: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   dk[m][l] = w.loc[(int(l), int(m))]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -748,7 +748,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="appendix-5-python-code-for-simulating-sir-model" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-5-python-code-for-simulating-sir-model">Appendix 5: Python code for simulating SIR model</h2>
-<div id="96739529" class="cell" data-warnings="false" data-execution_count="8">
+<div id="5beb029e" class="cell" data-warnings="false" data-execution_count="8">
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SIR(p1, p2, p3, S0, I0, R0, i):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    vect_initial <span class="op">=</span> np.array([S0, I0, R0]).T</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -777,7 +777,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="appendix-6-python-code-for-simulating-suar-model" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-6-python-code-for-simulating-suar-model">Appendix 6: Python code for simulating SUAR model</h2>
-<div id="27aad738" class="cell" data-warnings="false" data-execution_count="9">
+<div id="c10abed3" class="cell" data-warnings="false" data-execution_count="9">
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SUAR(p1, p2, p3, p4, p5, S0, U0, A0, R0, i):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    vect_initial <span class="op">=</span> np.array([S0, U0, A0, R0]).T</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -820,7 +820,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="appendix-7-python-code-for-simulating-20-compartment-suar-model" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-7-python-code-for-simulating-20-compartment-suar-model">Appendix 7: Python code for simulating 20 compartment SUAR model</h2>
-<div id="4d1641ac" class="cell" data-warnings="false" data-execution_count="10">
+<div id="64fc9229" class="cell" data-warnings="false" data-execution_count="10">
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SUAR_20(aging_rate, birth_rate, death_rate, I, P, X0, steps):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"s"</span>, <span class="st">"t"</span>, <span class="st">"a"</span>, <span class="st">"r"</span>], dtype<span class="op">=</span><span class="st">"float128"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"s"</span>, <span class="st">"t"</span>, <span class="st">"a"</span>, <span class="st">"r"</span>], dtype<span class="op">=</span><span class="st">"float128"</span>)</span>
@@ -892,7 +892,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="appendix-8-python-code-for-simulating-5-compartment-suar-model" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-8-python-code-for-simulating-5-compartment-suar-model">Appendix 8: Python code for simulating 5 compartment SUAR model</h2>
-<div id="46a64f20" class="cell" data-warnings="false" data-execution_count="11">
+<div id="4f77f886" class="cell" data-warnings="false" data-execution_count="11">
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SUAR_5(p1, p2, p3, p4, p5, b, d, S0, U0, A0, R0, i):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    vect_initial <span class="op">=</span> np.array([S0, U0, A0, R0]).T</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -939,7 +939,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="appendix-9-python-code-for-simulating-5-compartment-dimensionless-suar-model" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-9-python-code-for-simulating-5-compartment-dimensionless-suar-model">Appendix 9: Python code for simulating 5 compartment dimensionless SUAR model</h2>
-<div id="ec9664bd" class="cell" data-warnings="false" data-execution_count="12">
+<div id="881acccc" class="cell" data-warnings="false" data-execution_count="12">
 <div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SUAR_norm(p1, p2, p3, p4, p5, d, S0, U0, A0, R0, i, h, plot<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    vect_initial <span class="op">=</span> np.array([S0, U0, A0, R0]).T</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>

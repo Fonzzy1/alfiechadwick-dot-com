@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Alfie Chadwick">
-<meta name="dcterms.date" content="2024-03-15">
+<meta name="author" content="Alfie Chadwick and Libby Lester, Monash University">
+<meta name="dcterms.date" content="2025-05-23">
 
-<title>Optimising the settings for the ODE solver – Alfie Chadwick</title>
+<title>In the Conversation: These 3 climate misinformation campaigns are operating during the election run-up. Here’s how to spot them – Alfie Chadwick</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -138,41 +109,35 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#truncation-error" id="toc-truncation-error" class="nav-link active" data-scroll-target="#truncation-error">Truncation Error</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Optimising the settings for the ODE solver</h1>
+<h1 class="title">In the Conversation: These 3 climate misinformation campaigns are operating during the election run-up. Here’s how to spot them</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Alfie Chadwick </p>
+             <p><span><a href="https://theconversation.com/profiles/alfie-chadwick-2359192">Alfie Chadwick</a> and <a href="https://theconversation.com/profiles/libby-lester-16399">Libby Lester</a>, <em><a href="https://theconversation.com/institutions/monash-university-1065">Monash University</a></em></span> </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 15, 2024</p>
+      <p class="date">May 23, 2025</p>
     </div>
   </div>
   
@@ -184,114 +149,151 @@ window.Quarto = {
 </header>
 
 
-<p>In the <a href="../../../2024/01/12/making-my-ode-solver-solve-odes/">last post</a> in this series, I introduced my method for approximating ODEs. But after re-rereading it, I found myself questioning the step where I convert the ODE into a matrix.</p>
-<p>This is best exemplified by the ODE <span class="math inline">\(y'' = x + y\)</span> which goes through the point <span class="math inline">\(y(0) = 1\)</span> and <span class="math inline">\(y'(x) = 1\)</span>. Converting it into a matrix, we would define <span class="math inline">\(T\)</span> as:</p>
-<p><span class="math display">\[
-T_1 = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
-0 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
-\end{bmatrix}
-\]</span></p>
-<p>However, rearranging this ODE into <span class="math inline">\(x = y'' - y\)</span> or <span class="math inline">\(y = y'' - x\)</span>, it would be just as reasonable to define T as:</p>
-<p><span class="math display">\[
-T_2 = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; -1 &amp; 0 &amp; 1\\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
-\end{bmatrix}
-\]</span> <span class="math display">\[
-T_3 = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; -1 &amp; 0 &amp; 0 &amp; 1\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
-\end{bmatrix}
-\]</span></p>
-<p>So does this matter? Since they are all equaly valid ways of representing the ODE, surley they will all lead to the same conclusion. However Using each of these matrices the ODE we get very different solutions. <span class="math inline">\(T1\)</span> is the closet, <span class="math inline">\(T3\)</span> and <span class="math inline">\(T2\)</span> are both equally far off.</p>
-<div id="b527a1f8" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
+<div class="theconversation-article-body">
+<p>
+Australia’s climate and energy wars are at the forefront of the federal election campaign as the major parties outline vastly different plans to reduce greenhouse gas emissions and tackle soaring power prices.
+</p>
+<p>
+Meanwhile, misinformation about climate change has permeated public debate during the campaign, feeding false and misleading claims about renewable energy, gas and global warming.
+</p>
+<p>
+This is a dangerous situation. In Australia and globally, rampant misinformation has for decades slowed climate action – creating doubt, hindering decision-making and undermining public support for solutions.
+</p>
+<p>
+Here, we explain the history of climate misinformation in Australia and identify three prominent campaigns operating now. We also outline how Australians can protect themselves from misinformation as they head to the polls.
+</p>
+<h2 class="anchored">
+Misinformation vs disinformation
+</h2>
+<p>
+Misinformation is defined as false information spread unintentionally. It is distinct from disinformation, which is deliberately created to mislead.
+</p>
+<p>
+However, proving intent to mislead can be challenging. So, the term misinformation is often used as a general term to describe misleading content, while the term disinformation is reserved for cases where intent is proven.
+</p>
+<p>
+Disinformation is typically part of a <a href="https://www.theguardian.com/environment/2025/jan/22/us-thinktank-climate-science-deniers-working-with-rightwingers-in-eu-parliament-heartland-institute">coordinated campaign</a> to influence public opinion. Such campaigns can be run by corporate interests, political groups, lobbying organisations or individuals.
+</p>
+<p>
+Once released, these false narratives may be picked up by others, who pass them on and create misinformation.
+</p>
+<h2 class="anchored">
+Climate change misinformation in Australia
+</h2>
+<p>
+In the <a href="https://www.researchgate.net/publication/229780553_Fair_Weather_Friend_Ethics_and_Australia%27s_Approach_to_Global_Climate_Change">1980s and 1990s</a>, Australia’s emissions-reduction targets were among the most ambitious in the world.
+</p>
+<p>
+At the time, about 60 companies were responsible for <a href="https://smharchives.smedia.com.au/Olive/APA/smharchive/SharedView.Article.aspx?href=SMH%2F1990%2F10%2F09&amp;id=Ar01500&amp;sk=AC1ED010&amp;viewMode=image">one-third of Australia’s greenhouse gas emissions</a>. The government’s plan <a href="https://www.afr.com/politics/greenhouse-gas-emission-reduction-targeted-at-20pc-19901012-k44js">included measures</a> to ensure these companies remained competitive while reducing their climate impact.
+</p>
+<p>
+Despite this, Australia’s resource industry began a <a href="https://www.sciencedirect.com/science/article/pii/S2214629621001870#b0040">concerted media campaign</a> to oppose any binding emissions-reduction actions, claiming it would ruin the economy by making Australian businesses uncompetitive.
+</p>
+<p>
+This narrative persisted even when <a href="https://www.sciencedirect.com/science/article/pii/S0959378000000649">modelling repeatedly showed</a> climate policies would have minimal economic impacts. The industry arguments eventually <a href="https://allouryesterdays.info/2023/08/13/august-14-2002-australian-economists-urge-kyoto-protocol-ratification/">found their way</a> into <a href="https://www.aph.gov.au/Parliamentary_Business/Committees/Senate/Environment_and_Communications/Completed_inquiries/2002-04/kyoto/report/c04">government policy</a>.
+</p>
+<p>
+Momentum against climate action was also fuelled by a vocal group of <a href="https://www.desmog.com/climate-disinformation-database/#">climate change-denying</a> individuals and organisations, often <a href="https://academic.oup.com/edited-volume/28186/chapter-abstract/213096821?redirectedFrom=fulltext">backed by multinational fossil fuel companies</a>. These deniers <a href="https://www.nature.com/articles/s41598-021-01714-4">variously claimed</a> climate change wasn’t happening, it was caused by natural cycles, or wasn’t that a serious threat.
+</p>
+<p>
+These narratives were further exacerbated by <a href="https://press-files.anu.edu.au/downloads/press/p303951/html/Chapt05.xhtml?referer=&amp;page=10#toc_marker-11">false balance</a> in media coverage, whereby news outlets, in an effort to appear neutral, often placed climate scientists alongside contrarians, giving the impression that the science was still unclear.
+</p>
+<p>
+Together, this created an environment in Australia where climate action was seen as either too economically damaging or simply unnecessary.
+</p>
+<h2 class="anchored">
+What’s happening in the federal election campaign?
+</h2>
+<p>
+Climate misinformation has been circulating in the following forms during this federal election campaign.
+</p>
+<p>
+<strong>1. Trumpet of Patriots</strong>
+</p>
+<p>
+Clive Palmer’s Trumpet of Patriots party ran an <a href="https://www.unitedaustraliaparty.org.au/video/truth-about-climate-change/">advertisement</a> that claimed to expose “ the truth about climate change”. It featured a clip from a 2004 documentary, in which a scientist discusses data suggesting temperatures in Greenland were not rising. The scientist in the clip has <a href="https://www.abc.net.au/news/2025-04-02/clive-palmer-trumpets-of-patriot-misleading-election-ad/105123094">since said</a> his comments are now outdated.
+</p>
+<p>
+The type of misinformation is cherry-picking – presenting one scientific measurement at odds with the overwhelming scientific consensus.
+</p>
+<p>
+<a href="https://www.smh.com.au/business/companies/trumpet-of-patriots-ad-shown-10-million-times-before-google-removal-20250404-p5lp8s.html">Google removed the ad</a> after it was flagged as misleading, but only after it received 1.9 million views.
+</p>
+<p>
+<strong>2. Responsible Future Illawarra</strong>
+</p>
+<p>
+The <a href="https://responsiblefuture.com.au/">Responsible Future</a> campaign opposes wind turbines on <a href="https://www.abc.net.au/news/2025-03-30/illawarra-offshore-wind-farm-misinformation-in-federal-election/105097852">various grounds</a>, including cost, foreign ownership, power prices, effects on views and fishing, and potential ecological damage.
+</p>
+<p>
+Scientific <a href="https://doi.org/10.1121/10.0002453">evidence</a> indicates offshore wind farms are relatively safe for marine life and <a href="https://e360.yale.edu/features/humpback-whale-strandings-u.s.-east-coast">cause less harm than boats and fishing gear</a>. Some studies also suggest the infrastructure can <a href="https://tos.org/oceanography/article/offshore-wind-farm-artificial-reefs-affect-ecosystem-structure-and-functioning-a-synthesis">create new habitat</a> for marine life.
+</p>
+<p>
+However, a general <a href="https://www.abc.net.au/news/2025-03-16/offshore-wind-what-we-do-and-dont-know/103686234">lack of research</a> into offshore wind and marine life has created uncertainty that groups such as Responsible Future Illawarra can exploit.
+</p>
+<p>
+It has cited statements by Sea Shepherd Australia to argue offshore wind farms damage marine life – however Sea Shepherd said its comments <a href="https://www.abc.net.au/news/2025-03-30/illawarra-offshore-wind-farm-misinformation-in-federal-election/105097852">were misrepresented</a>.
+</p>
 <figure class="figure">
-<p><img src="post-4_files/figure-html/cell-3-output-1.png" width="589" height="430" class="figure-img"></p>
+<iframe width="440" height="260" src="https://www.youtube.com/embed/8qxmn4BX1N4?wmode=transparent&amp;start=0" frameborder="0" allowfullscreen="">
+</iframe>
 </figure>
+<p>
+<strong>3. Australians for Natural Gas</strong>
+</p>
+<p>
+<a href="https://www.australiansfornaturalgas.com/">Australians for Natural Gas</a> is a pro-gas group set up by the head of a gas company, which presents itself as a grassroots organisation. Its <a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=political_and_issue_ads&amp;country=AU&amp;is_targeted_country=false&amp;media_type=all&amp;search_type=page&amp;view_all_page_id=446419001898079%7E">advertising campaign</a> promotes natural gas as a necessary part of Australia’s fuel mix, and stresses its contribution to jobs and the economy.
+</p>
+<p>
+The ad campaign implicitly suggests climate action – in this case, a shift to renewable energy – is harmful to the economy, livelihoods and energy security. According to <a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=political_and_issue_ads&amp;country=AU&amp;is_targeted_country=false&amp;media_type=all&amp;search_type=page&amp;view_all_page_id=446419001898079">Meta’s Ad Library</a>, these adds have already been seen more than 1.1 million times.
+</p>
+<p>
+Gas <em>is</em> needed in Australia’s current energy mix. But analysis shows it could be phased out almost entirely if renewable energy and storage was <a href="https://www.sciencedirect.com/science/article/pii/S2352152X24022874?utm_source=chatgpt.com">sufficiently increased</a> and business and home electrification <a href="https://grattan.edu.au/report/getting-off-gas/">continues to rise</a>.
+</p>
+<p>
+And of course, failing to tackle climate change will <a href="https://www.climatecouncil.org.au/wp-content/uploads/2019/05/Costs-of-climate-change-report.pdf">cause substantial harm</a> across Australia’s economy.
+</p>
+<h2 class="anchored">
+How to identify misinformation
+</h2>
+<p>
+As the federal election approaches, climate misinformation and disinformation is likely to proliferate further. So how do we distinguish fact from fiction?
+</p>
+<p>
+One way is through “<a href="https://www.uts.edu.au/news/2024/02/how-inoculate-against-climate-misinformation-prebunk-it">pre-bunking</a>” – familiarising yourself with common claims made by climate change deniers to <a href="https://research-information.bris.ac.uk/ws/portalfiles/portal/263813879/FINAL_Revision_ERSP_inoc_paper_4SvdL.pdf">fortify yourself against misinformation</a>
+</p>
+<p>
+Sources such as <a href="https://skepticalscience.com/">Skeptical Science</a> offer in-depth analyses of specific claims.
+</p>
+<p>
+The <a href="https://guides.lib.uchicago.edu/c.php?g=1241077&amp;p=9082322">SIFT method</a> is another valuable tool. It comprises four steps:
+</p>
+<ul>
+<li>
+<strong>S</strong>top
+</li>
+<li>
+<strong>I</strong>nvestigate the source
+</li>
+<li>
+<strong>F</strong>ind better coverage
+</li>
+<li>
+<strong>T</strong>race claims, quotes and media to their original sources.
+</li>
+</ul>
+<p>
+As the threat of climate change grows, a flow of accurate information is vital to garnering public and political support for vital policy change.<!-- Below is The Conversation's page counter tag. Please DO NOT REMOVE. --><img src="https://counter.theconversation.com/content/253441/count.gif?distributor=republish-lightbox-basic" alt="The Conversation" width="1" height="1" style="border: none !important; box-shadow: none !important; margin: 0 !important; max-height: 1px !important; max-width: 1px !important; min-height: 1px !important; min-width: 1px !important; opacity: 0 !important; outline: none !important; padding: 0 !important" referrerpolicy="no-referrer-when-downgrade"><!-- End of code. If you don't see any code above, please get new code from the Advanced tab after you click the republish button. The page counter does not collect any personal data. More info: https://theconversation.com/republishing-guidelines -->
+</p>
+<p>
+<span><a href="https://theconversation.com/profiles/alfie-chadwick-2359192">Alfie Chadwick</a>, PhD Candidate, Monash Climate Change Communication Research Hub, <em><a href="https://theconversation.com/institutions/monash-university-1065">Monash University</a></em> and <a href="https://theconversation.com/profiles/libby-lester-16399">Libby Lester</a>, Professor (Research) and Director, Monash Climate Change Communication Hub, <em><a href="https://theconversation.com/institutions/monash-university-1065">Monash University</a></em></span>
+</p>
+<p>
+This article is republished from <a href="https://theconversation.com">The Conversation</a> under a Creative Commons license. Read the <a href="https://theconversation.com/these-3-climate-misinformation-campaigns-are-operating-during-the-election-run-up-heres-how-to-spot-them-253441">original article</a>.
+</p>
 </div>
-</div>
-</div>
-<section id="truncation-error" class="level2">
-<h2 class="anchored" data-anchor-id="truncation-error">Truncation Error</h2>
-<p>Truncation error is the error that is introduced by approximating a infinite series, such as the Taylor series we use, with a finite number of terms. I’m suspecting in this case, that <span class="math inline">\(T_1\)</span> introduces the least amount of truncation error at each step and this is why it is the best aproximation of the ODE.</p>
-<p>We can define our truncation error (<span class="math inline">\(R\)</span>) as the difference be the true value (<span class="math inline">\(Y^*\)</span>) and the predicted value (<span class="math inline">\(Y\)</span>). In our aproximation, this is defined as:</p>
-<p><span class="math display">\[R = Y^*(x+h) - Y(x+h) = Y^*(x+h) - T \cdot S \cdot Y(x) \]</span></p>
-<p>Where <span class="math inline">\(S\)</span> is the stepping matrix and <span class="math inline">\(T\)</span> is the transformation matrix.</p>
-<p>Since our approximation is based on the Taylor series, the truncation error is the remaining terms in the series that aren’t used. When <span class="math inline">\(k\)</span> terms of the taylor series are used, the truncation error (<span class="math inline">\(r\)</span>) is :</p>
-<p><span class="math display">\[ r = \sum_{n = k+2}^{\infty}  \frac{\mathbb y^{n}(x)}{n!}\cdot(h)^n\]</span></p>
-<p>Since <span class="math inline">\(y^{n}\)</span> be pulled out as a constant for a given step, the limit of the magnitude of this error can be defined using big-O notation, such that when <span class="math inline">\(k\)</span> terms are used, <span class="math inline">\(r\)</span> is <span class="math inline">\(O(h^{k+3})\)</span>.</p>
-<p>Looking at just the stepping matrix, we can see the truncation error is:</p>
-<p><span class="math display">\[S = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
-1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
-0 &amp; 0 &amp; 1 &amp; h &amp; \frac{h^2}{2}\\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; h\\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
-\end{bmatrix} \rightarrow R =  \begin{bmatrix}
-0\\
-0\\
-O(h^3)\\
-O(h^2)\\
-O(h)\\
-\end{bmatrix}\]</span></p>
-<p>Taking it back to the above example of <span class="math inline">\(y'' = x + y\)</span>, and the three transformation matrices it defines, we can apply the transformation matrices to the vector <span class="math inline">\(R\)</span> of the standard stepping matrix to get the truncation error for each of the approximations.</p>
-<p><span class="math display">\[T_1 \cdot R  = \begin{bmatrix}
-0\\
-0\\
-O(h^3)\\
-O(h^2)\\
-O(h^3)\\
-\end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[T_2 \cdot R = \begin{bmatrix}
-0\\
-O(h)\\
-O(h^3)\\
-O(h^2)\\
-O(h)\\
-\end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[T_3 \cdot R  = \begin{bmatrix}
-0\\
-0\\
-O(h)\\
-O(h^2)\\
-O(h)\\
-\end{bmatrix}
-\]</span></p>
-<p>Now looking at the magnitude of these vectors:</p>
-<p><span class="math display">\[ |T_1 \cdot R | = \sqrt{(O(h^3))^2 + (O(h^2))^2 + (O(h^3))^2} = O(h^2) \]</span> <span class="math display">\[ |T_2 \cdot R | = \sqrt{(O(h))^2 + (O(h^3))^2 + (O(h^2))^2 + (O(h))^2}  = O(h) \]</span> <span class="math display">\[ |T_3 \cdot R | = \sqrt{(O(h))^2 + (O(h^2))^2 + (O(h))^2} $ = O(h) \]</span></p>
-<p>This shows that <span class="math inline">\(|T_1 \cdot R |\)</span> shrinks as <span class="math inline">\(h\)</span> gets smaller faster than when you use <span class="math inline">\(T_2\)</span> or <span class="math inline">\(T_3\)</span>. More generally, you can say that <span class="math inline">\(T_1\)</span> will lead to the least error.</p>
-<p>Now these are the errors for each step, so now looking at the truncation error for the whole approximation, we can multiply the error by the number of steps.</p>
-<p>Say we want to find the value for for the curve at <span class="math inline">\(x=1\)</span>, we would need to take <span class="math inline">\(1/h\)</span> steps to find this value.</p>
-<p><span class="math display">\[ |T_1 \cdot R | \cdot \frac{1}{h} = O(h) \]</span> <span class="math display">\[ |T_2 \cdot R | \cdot \frac{1}{h} = O(1) \]</span> <span class="math display">\[ |T_3 \cdot R | \cdot \frac{1}{h} = O(1) \]</span></p>
-<p>We can now test this by running some approximations with various values of h and the different matrices, the results for which are below. We can see that the <span class="math inline">\(T_1\)</span> result follows the <span class="math inline">\(O(h)\)</span> curve while the <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> result follows the <span class="math inline">\(O(1)\)</span> curve.</p>
-<div id="36997cbc" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="post-4_files/figure-html/cell-4-output-1.png" width="599" height="431" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>So now trying to generalise this beyond the example we’ve worked through, the reduction in error using the <span class="math inline">\(T_1\)</span> matrix was caused by redefining the term with the most truncation error, <span class="math inline">\(y''\)</span> with terms with less truncation error, <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Both <span class="math inline">\(T_2\)</span> and <span class="math inline">\(T_3\)</span> failed to do this.</p>
-<p>So in general, to minimise error we should try to define the highest derivative in terms of the lower terms, as this will remove the <span class="math inline">\(O(h)\)</span> error from the truncation vector.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
