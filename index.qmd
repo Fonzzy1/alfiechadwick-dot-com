@@ -29,10 +29,11 @@ listing:
 
 Hiya, I'm Alfie, a PhD student from Melbourne, Australia.
 My research focuses on automated methods for detecting climate change
-misinformation, but I also have an interest in a range of fields where
-technology has the ability to solve problems in the humanities.
-This blog is just a place to put my projects into one place and practice writing
-about things that seem cool to me.
+contrarianism, but I also have an interest in a range of fields where
+technology interacts with the humanities and society. This blog is just a place
+to put my projects into one place and practice writing about things that seem
+cool to me. I also write up little reviews on the media I consume, because I
+think its nicer than having multiple little review accounts.
 
 
 <style>
