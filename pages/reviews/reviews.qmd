@@ -1,11 +1,21 @@
 ---
 title: Reviews
-format: 
+format:
   html:
     page-layout: full
+    toc: false
 listing:
   contents: ../../content/reviews/*.qmd
   sort: "date desc"
   template: reviews.ejs
 ---
 
+| Rating    | What it means |
+| --------- | ------------------------------------------------ |
+| ★         | I couldn't finish it.                            |
+| ★ ★       | Generally unenjoyable, a couple of good moments. |
+| ★ ★ ★     | Had a good time but won't bother with it again.  |
+| ★ ★ ★ ★   | Deserves a spot on the library shelf.            |
+| ★ ★ ★ ★ ★ | One of my favourites, going into heavy rotation. |
+
+### Latest
