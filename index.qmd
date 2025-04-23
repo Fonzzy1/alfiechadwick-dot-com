@@ -4,7 +4,6 @@ listing:
   id: latest
   contents: ../content/post/*/*.qmd
   template: ./pages/latest.ejs
-
 ---
 
 <center>
@@ -33,8 +32,7 @@ contrarianism, but I also have an interest in a range of fields where
 technology interacts with the humanities and society. This blog is just a place
 to put my projects into one place and practice writing about things that seem
 cool to me. I also write up little reviews on the media I consume, because I
-think its nicer than having multiple little review accounts.
-
+think it's nicer than having multiple little review accounts.
 
 <style>
 
@@ -43,6 +41,6 @@ ul {
 }
 
 </style>
-### Latest Posts:
 
+### Latest Posts:
 
