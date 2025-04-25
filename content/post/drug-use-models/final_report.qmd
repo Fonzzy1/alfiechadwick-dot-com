@@ -60,11 +60,10 @@ We now look at some plots to see how this model behaves for various combinations
 
 import numpy as np
 import pandas as pd
-import mplcatppuccin
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-
-mpl.style.use("macchiato")
+import catppuccin
+mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
 
 from euler_methods import *
 
@@ -307,7 +306,7 @@ Using the table of non-trivial stationary points (appendix 10), we can now plot 
 ```{python, simforallparams, echo = FALSE}
 #| echo: false
 #| warnings: false
-from mplcatppuccin.colormaps import get_colormap_from_list
+from catppuccin.extras.matplotlib  import get_colormap_from_list
 cmap = get_colormap_from_list("mocha", ["red", "peach", "yellow", "green"])
 
 res = pd.read_csv('ss.csv')
@@ -351,7 +350,6 @@ From this plot, one can see a big factor that influences the creation of these n
 Another result one can take from the data is the number of people who are using or addicted to the drug at the pseudo-stationary points, as shown in the plots below.
 
 ```{python pssp, echo = FALSE}
-
 #| echo: false
 #| warnings: false
 fig, axs = plt.subplots(5, 5)
@@ -363,7 +361,7 @@ for i , a in enumerate( p):
             for l in xlabels:
                 for m in xlabels:
                     try:
-                        dk[m][l] = w.loc[(int(l), int(m))]
+                        dk.loc[l, m] = w.loc[(int(l), int(m))]
                     except:
                         pass
 

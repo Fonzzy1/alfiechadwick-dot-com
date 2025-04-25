@@ -58,12 +58,11 @@ For example, for the equation $y' = 2x$ this plane looks like:
 
 import matplotlib.pyplot as plt
 import numpy as np
-import mplcatppuccin
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-
-mpl.style.use("macchiato")
+import catppuccin
+mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
 
 # Create a grid of values for x and y
 x = np.linspace(0, 10, 100)

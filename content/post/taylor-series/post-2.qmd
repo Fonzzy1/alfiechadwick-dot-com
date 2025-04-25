@@ -128,11 +128,10 @@ true_result = {x: np.array([
 #| echo: false
 import numpy as np
 import pandas as pd
-import mplcatppuccin
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-
-mpl.style.use("macchiato")
+import catppuccin
+mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
 
 # Extracting data for plotting
 euler_xs = list(euler_result.keys())
@@ -160,32 +159,44 @@ plt.show()
 
 So from here, we're looking pretty good. The new method is much closer to the true solution than the Euler method in in this scenario. However, when working with numerical methods, it generally isn't too hard to improve the accuracy of the model, but there will be a trade off in computation time. So lets see how much longer it takes to compute the approximation with the expanded method comparing it to the original.
 
-```{python time}
-import timeit
-
-# Define the step counts to test
-steps_list = [10, 100, 1000, 10000, 100000]
-
-# Lists to store execution times for each method
-euler_times = []
-expanded_euler_times = []
-
-# Testing the functions with the different step counts and store the execution times
-for steps in steps_list:
-    euler_time = timeit.timeit(lambda: IVP(x, y, euler, steps), number=1)
-    expanded_euler_time = timeit.timeit(lambda: IVP(x, y, expanded_euler, steps), number=1)
-
-    euler_times.append(euler_time)
-    expanded_euler_times.append(expanded_euler_time)
-
-```
-
 ```{python time-plot}
 
 #| echo: false
 
+import os
+import pickle
+import timeit
+
+# Define the cache file name
+cache_file = "euler_timings.pkl"
+
+# Define the step counts to test
+steps_list = [10, 100, 1000, 10000, 100000]
+
+# Check if the cache exists
+if os.path.isfile(cache_file):
+    # Load the cached data
+    with open(cache_file, "rb") as f:
+        euler_times, expanded_euler_times = pickle.load(f)
+else:
+    # Lists to store execution times for each method
+    euler_times = []
+    expanded_euler_times = []
+
+    # Compute execution times and store them
+    for steps in steps_list:
+        euler_time = timeit.timeit(lambda: IVP(x, y, euler, steps), number=1)
+        expanded_euler_time = timeit.timeit(lambda: IVP(x, y, expanded_euler,
+        steps), number=1)
+
+        euler_times.append(euler_time)
+        expanded_euler_times.append(expanded_euler_time)
+
+    # Save the results to the cache file
+    with open(cache_file, "wb") as f:
+        pickle.dump((euler_times, expanded_euler_times), f)
+
 # Now we plot the results
-plt.figure(figsize=(10, 5))
 
 # Plot Euler times
 plt.plot(steps_list, euler_times, label='Euler Method', marker='o')

@@ -13,11 +13,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import mplcatppuccin
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-mpl.style.use("macchiato")
+import catppuccin
+mpl.style.use(catppuccin.PALETTE.macchiato.identifier)
 
 def expanded_euler(dims, h):
     step_matrix = np.zeros((dims, dims))
