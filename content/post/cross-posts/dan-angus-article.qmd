@@ -1,0 +1,98 @@
+---
+title: "In the Conversation: What political ads are Australians seeing online? Astroturfing, fake grassroots groups, and outright falsehoods"
+author: 
+  <span><a href="https://theconversation.com/profiles/daniel-angus-12403">Daniel Angus</a>, <em><a href="https://theconversation.com/institutions/queensland-university-of-technology-847">Queensland University of Technology</a></em>; <a href="https://theconversation.com/profiles/christine-parker-13238">Christine Parker</a>, <em><a href="https://theconversation.com/institutions/the-university-of-melbourne-722">The University of Melbourne</a></em>; <a href="https://theconversation.com/profiles/giselle-newton-1346697">Giselle Newton</a>, <em><a href="https://theconversation.com/institutions/the-university-of-queensland-805">The University of Queensland</a></em>; <a href="https://theconversation.com/profiles/kate-clark-2378830">Kate Clark</a>, <em><a href="https://theconversation.com/institutions/monash-university-1065">Monash University</a></em>, and <a href="https://theconversation.com/profiles/mark-andrejevic-567958">Mark Andrejevic</a>, <em><a href="https://theconversation.com/institutions/monash-university-1065">Monash University</a></em></span>
+date: "2025-04-28"
+filters:
+    - /scripts/callouts.lua
+format:
+  html:
+    page-layout: full
+---
+
+> [!NOTE] 
+> This is the write-up for some work that I was a part of with the Australian ad
+> Observatory looking at political adds in the election.
+
+<div class="theconversation-article-body">
+
+<p>In the lead-up to the 2025 Australian federal election, political advertising is seemingly everywhere.</p>
+
+<p>We’ve been mapping the often invisible world of digital political advertising across Facebook, Instagram and TikTok.</p>
+
+<p>We’ve done this thanks to a panel of ordinary Australians who agreed to download an ad tracking app developed through the <a href="https://www.admscentre.org.au/australian-ad-observatory-investigating-mobile-and-dynamic-advertising-via-computational-and-participatory-approaches/">Australian Internet Observatory</a>.</p>
+
+<p>We’re also tracking larger trends in political ad spending, message type and tone, and reach via the <a href="https://app.polidashboard.org/facebook_ads_v2?country=au">PoliDashboard</a> tool. This open source tool aggregates transparency data from Meta (including Facebook and Instagram) which we use to identify patterns and items of concern.</p>
+
+<p>While the major parties are spending heavily and are highly visible in the feeds of our participants, it is the prevalence of third-party political advertising that is most striking. We’ve observed a notable trend: for every ad from a registered political party, there is roughly one ad from a third-party entity. </p>
+
+<h2>Astroturfing and the illusion of grassroots support</h2>
+
+<p>One of the most concerning trends we’re seeing is a rise in <a href="https://journals.sagepub.com/doi/10.1177/01914537221108467">astroturfing</a>. This refers to masking the sponsors of a message to make it appear as though it originates from ordinary citizens or grassroots organisations. </p>
+
+<p>Astroturfing ads do often adhere to the formal disclosure requirements set out by the Australian Electoral Commission. However, these disclosures don’t meaningfully inform the public on who is behind these misleading ads.</p>
+
+<p>Authorisation typically only includes the name and address of an intermediary. This may be a deliberately opaque shell entity set up just in time for an election. </p>
+
+<p>A key example seen by participants in our study involves the pro-gas advocacy group <a href="https://app.polidashboard.org/meta_ads?country=au&amp;startDay=03-13-2025&amp;endDay=04-20-2025&amp;advertiser=Australians+for+Natural+Gas">Australians for Natural Gas</a>.</p>
+
+<p>It presents itself as a grassroots movement, but an <a href="https://www.abc.net.au/news/2025-04-04/coalition-pollster-working-with-australians-for-natural-gas/105129478">ABC investigation</a> revealed this group is working with Freshwater Strategy – the Coalition’s internal pollster. Emails obtained by the ABC show Freshwater Strategy is “helping orchestrate a campaign to boost public support for the gas industry ahead of the federal election”. </p>
+
+<p>Other examples we’ve encountered in our monitoring include groups with benign-sounding names like <a href="https://app.polidashboard.org/meta_ads?country=au&amp;startDay=03-11-2025&amp;endDay=04-20-2025&amp;advertiser=Mums+for+Nuclear">Mums for Nuclear</a> and <a href="https://app.polidashboard.org/meta_ads?country=au&amp;startDay=03-11-2025&amp;endDay=04-26-2025&amp;advertiser=Australians+for+Prosperity">Australians for Prosperity</a>. These labels and the ads they are running suggest grassroots concern, but they obscure the deeper agendas behind them. </p>
+
+<p>In the case of Australians for Prosperity, an <a href="https://www.abc.net.au/news/2025-04-11/australians-for-prosperity-removes-posts-after-aec-intervention/105156612">ABC analysis</a> revealed backing from wealthy donors, former conservative MPs and coal interests.</p>
+
+<p></p>
+
+<h2>The battle over energy</h2>
+
+<p>Nowhere is this more evident than in messaging around energy policy, especially <a href="https://theconversation.com/more-coal-and-gas-less-renewables-what-a-nuclear-power-plan-for-australia-would-really-mean-245948">nuclear power</a> and gas.</p>
+
+<p>In recent months, both major parties and a swathe of third-party advertisers have run targeted online campaigns focused on the costs and benefits of different energy futures. These ads play to deeply felt concerns about cost of living, action on <a href="https://theconversation.com/these-3-climate-misinformation-campaigns-are-operating-during-the-election-run-up-heres-how-to-spot-them-253441">climate change</a>, and national sovereignty.</p>
+
+<p>Yet many of these messages, particularly those that promote gas and nuclear, come from organisations with opaque funding and undeclared political affiliations or connections. Voters may see a slick Facebook ad or a sponsored TikTok explainer without any idea who paid for it, or why.</p>
+
+<p>And with no obligation to be truthful, much of this content may be deeply misleading. It muddies public understanding at a critical moment for climate action.</p>
+
+<p></p>
+
+<h2>Truth not required</h2>
+
+<p>Truth in political advertising <a href="https://theconversation.com/misleading-and-false-election-ads-are-legal-in-australia-we-need-national-truth-in-political-advertising-laws-249279">isn’t legally required</a> in all of Australia. While businesses can’t mislead consumers under consumer law, political parties and third-party campaigners are exempt from those same standards.</p>
+
+<p>This means misleading or outright false claims – about opponents, policies or the state of the economy – can be repeated and amplified without consequence, provided they’re framed as political opinion.</p>
+
+<p>Despite calls for reform from <a href="https://www.zalisteggall.com.au/media_release_zali_steggall_mp_launches_ethical_political_advertising_code">politicians</a>, <a href="https://www.theguardian.com/australia-news/2019/may/27/designed-to-deceive-how-do-we-ensure-truth-in-political-advertising">experts</a> and <a href="https://australiainstitute.org.au/initiative/truth-in-political-advertising/">civil society groups</a>, federal legislation continues to lag behind community expectations.</p>
+
+<p>South Australia and the Australian Capital Territory do have truth in political advertising laws, but there is still no national standard.</p>
+
+<p>In the digital advertising environment, where ads are fast, fleeting, and often tailored to individuals, the absence of such independent scrutiny allows <a href="https://theconversation.com/this-election-disinformation-is-swirling-on-chinese-social-media-heres-how-it-spreads-253849">misinformation to flourish</a> unchecked.</p>
+
+<h2>Most people are seeing very little – or so it seems</h2>
+
+<p>Paradoxically, our data shows the majority of participants are seeing very few political ads. Of the total ads seen, less than 2% pertained to political topics or the election specifically.</p>
+
+<p>This is partly a result of how the advertising products offered by platforms like Meta and TikTok allow ads to be targeted to specific demographics, locations or interests. This means even two people in the same household may have entirely different ad experiences.</p>
+
+<p>But it’s also a reminder social media ads are just the tip of the iceberg. Much political persuasion online happens outside paid ad campaigns – via influencer content, YouTube recommendations, algorithmic amplification, mainstream media coverage and more.</p>
+
+<p>Because platforms and publishers aren’t required to share this broader content with researchers or the public, we can’t easily track it – although we are trying.</p>
+
+<h2>We need meaningful observability</h2>
+
+<p>If democracy is to thrive in a digital age, we need to be able to independently observe online political communication, including advertising.</p>
+
+<p>Existing measures like campaign finance disclosures and transparency tools provided by platforms will never be enough. They don’t include user experiences or track patterns across populations and over time. This inevitably means some advertising activity flies under the radar.</p>
+
+<p>We <a href="https://www.theguardian.com/commentisfree/2025/apr/27/fibs-and-exaggeration-have-always-been-part-of-politics-but-who-knows-what-lies-are-now-being-pushed-online">lack robust tools</a> to understand and analyse our current fragmented information landscape.</p>
+
+<p>Where platforms don’t provide meaningful data access to researchers and the public, tools like the Ad Observatory and PoliDashboard offer valuable glimpses into a fragmented information landscape, while remaining incomplete.</p>
+
+<p>However, tools on their own are not enough. We also need to be willing to call out and act when politicians mislead the public.</p>
+
+<hr>
+
+<p><em>Acknowlegement: The Australian Ad Observatory is a team effort. The authors wish to acknowledge the contribution of Jean Burgess, Nicholas Carah, Alfie Chadwick, Kyle Herbertson, Tina Kang, Khanh Luong, Abdul Karim Obeid, Lina Przhedetsky, and Dan Tran.</em><!-- Below is The Conversation's page counter tag. Please DO NOT REMOVE. --><img src="https://counter.theconversation.com/content/255225/count.gif?distributor=republish-lightbox-basic" alt="The Conversation" width="1" height="1" style="border: none !important; box-shadow: none !important; margin: 0 !important; max-height: 1px !important; max-width: 1px !important; min-height: 1px !important; min-width: 1px !important; opacity: 0 !important; outline: none !important; padding: 0 !important" referrerpolicy="no-referrer-when-downgrade" /><!-- End of code. If you don't see any code above, please get new code from the Advanced tab after you click the republish button. The page counter does not collect any personal data. More info: https://theconversation.com/republishing-guidelines --></p>
+
+  <p>This article is republished from <a href="https://theconversation.com">The Conversation</a> under a Creative Commons license. Read the <a href="https://theconversation.com/what-political-ads-are-australians-seeing-online-astroturfing-fake-grassroots-groups-and-outright-falsehoods-255225">original article</a>.</p>
+</div>

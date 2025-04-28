@@ -1,7 +1,7 @@
 ---
 title: "In the Conversation: These 3 climate misinformation campaigns are operating during the election run-up. Here’s how to spot them"
 author: <span><a href="https://theconversation.com/profiles/alfie-chadwick-2359192">Alfie Chadwick</a> and <a href="https://theconversation.com/profiles/libby-lester-16399">Libby Lester</a>, <em><a href="https://theconversation.com/institutions/monash-university-1065">Monash University</a></em></span>
-date: "2025-05-23"
+date: "2025-04-23"
 format:
   html:
     page-layout: full
