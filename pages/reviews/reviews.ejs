@@ -2,35 +2,44 @@
 <div class="research project-list">
   <ul style="list-style: none; padding: 0;">
     <% for (const item of items) { %>
-      <li <%= metadataAttrs(item) %> style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #5b6078; padding-bottom: 20px;">
+      <li <%= metadataAttrs(item) %> style="display: flex; margin-bottom: 20px;
+border-bottom: 1px solid #5b6078; padding-bottom: 20px;">
         
         <!-- Album cover with fixed size -->
-        <img src="<%- item.cover %>" alt="Cover image" style="width: 200px ; object-fit: cover; margin-right: 15px;">
+        <img src="<%- item.cover %>" alt="Cover image" style="width: 200px;
+object-fit: contain; margin-right: 15px;">
 
         <!-- Main content area -->
         <div style="flex-grow: 1;">
 
-          <!-- Title -->
-          <h2 style="margin: 0; color: #5b6078;"><%= item.title %></h2>
-
-          <!-- Artist -->
-          <h3 style="margin: 0; font-weight: normal; color: #494d64;"><%= item.artist %></h3>
+          <!-- Title and Artist side by side -->
+          <div style="display: flex; align-items: baseline; gap: 10px;">
+            <h3 style="margin: 0; color: #b8c0e0;"><%= item.title %> - <%= item.artist %></h3>
+          </div>
 
           <!-- Metadata (all on the same line) -->
-          <div style="margin-top: 5px; font-size: 0.8em; color: #363a4f; display: flex; flex-wrap: wrap;">
-            <span style="margin-right: 10px;"><strong>Date:</strong> <%= item.date %></span>
-            <span style="margin-right: 10px;"><strong>While:</strong> <%= item.while %></span>
+          <div style="margin-top: 5px; font-size: 0.8em; color: #5b6078;
+display: flex; flex-wrap: wrap;">
+            <span style="margin-right: 10px;"><strong>Date:</strong> <%=
+item.date %></span>
+            <span style="margin-right: 10px;"><strong>While:</strong> <%=
+item.while %></span>
             <span><strong>On:</strong> <%= item.on %></span>
           </div>
 
           <!-- Review -->
-          <div style="margin-top: 10px; white-space: pre-wrap; font-family: inherit; font-size: 0.9em; color: #cad3f5; padding: 0; margin: 0;"><%= item.review %></div>
+          <div style="margin-top: 10px; white-space: pre-wrap; font-family:
+inherit; font-size: 0.9em; color: #cad3f5; padding: 0; margin: 0;"><%=
+item.review %></div>
         </div>
 
         <!-- Star rating -->
-        <div style="margin-top: 60px; margin-left: 15px; text-align: center; min-width: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="margin-top: 60px; margin-left: 15px; text-align: center;
+min-width: 60px; display: flex; flex-direction: column; justify-content: center;
+align-items: center;">
           <% for (let i = 1; i <= 5; i++) { %>
-            <span style="color: <%= i <= item.rating ? '#b7bdf8' : '#6e738d' %>;">&#9733;</span>
+            <span style="color: <%= i <= item.rating ? '#b7bdf8' : '#6e738d'
+%>;">&#9733;</span>
           <% } %>
         </div>
 
